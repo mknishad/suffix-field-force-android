@@ -1,0 +1,23 @@
+<resources>
+	<dimen name="layout_margin_52">156dp</dimen>
+	<dimen name="layout_margin_40">120dp</dimen>
+	<dimen name="layout_margin_10">30dp</dimen>
+	<dimen name="layout_margin_42">126dp</dimen>
+	<dimen name="layout_height_30">90dp</dimen>
+	<dimen name="layout_height_20">60dp</dimen>
+	<dimen name="layout_height_100">300dp</dimen>
+	<dimen name="layout_margin_50">150dp</dimen>
+	<dimen name="layout_height_10">30dp</dimen>
+	<dimen name="layout_height_110">330dp</dimen>
+	<dimen name="padding_1">3dp</dimen>
+	<dimen name="layout_height_90">270dp</dimen>
+	<dimen name="layout_height_80">240dp</dimen>
+	<dimen name="padding_3">9dp</dimen>
+	<dimen name="padding_2">6dp</dimen>
+	<dimen name="layout_head">180dp</dimen>
+	<dimen name="padding_5">15dp</dimen>
+	<dimen name="padding_4">12dp</dimen>
+	<dimen name="layout_height_40">120dp</dimen>
+	<dimen name="layout_margin_5">15dp</dimen>
+	<dimen name="profile_margin">120dp</dimen>
+</resources>
