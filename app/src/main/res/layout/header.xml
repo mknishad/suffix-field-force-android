@@ -22,7 +22,7 @@
         />
 
     <com.budiyev.android.circularprogressbar.CircularProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progressBar"
         android:layout_width="@dimen/layout_margin_42"
         android:layout_height="@dimen/layout_margin_42"
         app:animateProgress="true"

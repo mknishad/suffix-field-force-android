@@ -1,275 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashboardMenu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Home">
+    tools:context=".HomeFragment">
 
-    <ScrollView
-        android:id="@+id/dashboardMenu"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginBottom="1dp"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorAqua"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAqua"
-                    android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_archary"
+                    android:tint="@color/colorWhite" />
 
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_archary"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorAquaDark"
-                        android:text="Archary"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorFlower"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_bowling"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorFlowerDark"
-                        android:text="Bowling"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorAquaDark"
+                    android:gravity="center"
+                    android:text="Archary"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorFlower"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorGrass"
-                    android:orientation="vertical">
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_bowling"
+                    android:tint="@color/colorWhite" />
 
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_boxing"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorGrassDark"
-                        android:text="Boxing"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorBlueJeans"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_football"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorBlueJeansDark"
-                        android:text="Football"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorLavander"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_lontenis"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorLavanderDark"
-                        android:text="Long Tennis"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorMint"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_tenis"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorMintDark"
-                        android:text="Tennis"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorAqua"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_volleyball"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorAquaDark"
-                        android:text="Volleyball"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/layout_height_40"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/colorPinkRose"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/layout_height_10"
-                        android:layout_height="@dimen/layout_height_10"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:src="@drawable/ic_icon_weight_lefting"
-                        android:tint="@color/colorWhite" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/layout_margin_10"
-                        android:background="@color/colorPinkRoseDark"
-                        android:text="Weight Lifting"
-                        android:gravity="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorFlowerDark"
+                    android:gravity="center"
+                    android:text="Bowling"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorGrass"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_boxing"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorGrassDark"
+                    android:gravity="center"
+                    android:text="Boxing"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorBlueJeans"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_football"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorBlueJeansDark"
+                    android:gravity="center"
+                    android:text="Football"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorLavander"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_lontenis"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorLavanderDark"
+                    android:gravity="center"
+                    android:text="Long Tennis"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_tenis"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorMintDark"
+                    android:gravity="center"
+                    android:text="Tennis"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorAqua"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_volleyball"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorAquaDark"
+                    android:gravity="center"
+                    android:text="Volleyball"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/layout_height_40"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorPinkRose"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/layout_height_10"
+                    android:layout_height="@dimen/layout_height_10"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:src="@drawable/ic_icon_weight_lefting"
+                    android:tint="@color/colorWhite" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/layout_margin_10"
+                    android:background="@color/colorPinkRoseDark"
+                    android:gravity="center"
+                    android:text="Weight Lifting"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
