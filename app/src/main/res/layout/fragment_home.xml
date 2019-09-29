@@ -20,7 +20,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorAqua"
@@ -41,6 +41,7 @@
                     android:background="@color/colorAquaDark"
                     android:gravity="center"
                     android:text="Archary"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -48,7 +49,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorFlower"
@@ -69,6 +70,7 @@
                     android:background="@color/colorFlowerDark"
                     android:gravity="center"
                     android:text="Bowling"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -85,7 +87,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorGrass"
@@ -106,6 +108,7 @@
                     android:background="@color/colorGrassDark"
                     android:gravity="center"
                     android:text="Boxing"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -113,7 +116,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorBlueJeans"
@@ -134,6 +137,7 @@
                     android:background="@color/colorBlueJeansDark"
                     android:gravity="center"
                     android:text="Football"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -141,7 +145,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorLavander"
@@ -162,6 +166,7 @@
                     android:background="@color/colorLavanderDark"
                     android:gravity="center"
                     android:text="Long Tennis"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -178,7 +183,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorMint"
@@ -199,6 +204,7 @@
                     android:background="@color/colorMintDark"
                     android:gravity="center"
                     android:text="Tennis"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -206,7 +212,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorAqua"
@@ -227,6 +233,7 @@
                     android:background="@color/colorAquaDark"
                     android:gravity="center"
                     android:text="Volleyball"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
 
@@ -234,7 +241,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/layout_height_40"
+                android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:layout_weight="1"
                 android:background="@color/colorPinkRose"
@@ -250,11 +257,12 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorPinkRoseDark"
                     android:gravity="center"
                     android:text="Weight Lifting"
+                    android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
             </LinearLayout>

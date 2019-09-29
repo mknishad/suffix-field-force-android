@@ -37,7 +37,6 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="2dp"
-                    android:layout_marginBottom="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorGrapeFruit"
                     android:orientation="vertical">
@@ -75,7 +74,8 @@
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/frameholder_nav"
+                android:id="@+id/fragment_holder"
+                android:layout_margin="@dimen/fragment_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

@@ -3,7 +3,6 @@ package com.suffix.fieldforce
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
@@ -11,17 +10,34 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var online: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
 
         supportFragmentManager.beginTransaction().replace(
-            R.id.frameholder_nav,
+            R.id.fragment_holder,
             HomeFragment()
         ).commit()
 
-        progressBar.setOnClickListener { progressBar.progress = 100f }
+        progressBar.setOnClickListener {
+            if (!online) {
+                progressBar.foregroundStrokeColor = resources.getColor(android.R.color.holo_green_dark)
+                progressBar.progressAnimationDuration = 1000
+                progressBar.progress = 0f
+                progressBar.progressAnimationDuration = 1000
+                progressBar.progress = 100f
+                online = true
+            } else {
+                progressBar.progressAnimationDuration = 1000
+                progressBar.progress = 0f
+                progressBar.foregroundStrokeColor = resources.getColor(android.R.color.holo_red_light)
+                progressBar.progressAnimationDuration = 1000
+                progressBar.progress = 100f
+                online = false
+            }
+        }
 
         val colors = resources.getStringArray(R.array.default_preview)
 

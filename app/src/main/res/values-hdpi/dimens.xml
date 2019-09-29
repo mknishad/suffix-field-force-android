@@ -20,4 +20,5 @@
 	<dimen name="layout_height_40">48dp</dimen>
 	<dimen name="layout_margin_5">6dp</dimen>
 	<dimen name="profile_margin">48dp</dimen>
+	<dimen name="fragment_margin">1dp</dimen>
 </resources>
