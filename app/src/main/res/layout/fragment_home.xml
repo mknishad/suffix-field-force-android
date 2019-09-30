@@ -31,7 +31,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_archary"
+                    android:src="@drawable/ic_playlist_add_check_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -40,7 +40,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorAquaDark"
                     android:gravity="center"
-                    android:text="Archary"
+                    android:text="@string/task"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -60,7 +60,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_bowling"
+                    android:src="@drawable/ic_tools_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -69,7 +69,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorFlowerDark"
                     android:gravity="center"
-                    android:text="Bowling"
+                    android:text="@string/inventory"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -98,7 +98,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_boxing"
+                    android:src="@drawable/ic_log_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorGrassDark"
                     android:gravity="center"
-                    android:text="Boxing"
+                    android:text="@string/activity_log"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -127,7 +127,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_football"
+                    android:src="@drawable/ic_history_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -136,7 +136,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorBlueJeansDark"
                     android:gravity="center"
-                    android:text="Football"
+                    android:text="@string/history"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -156,7 +156,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_lontenis"
+                    android:src="@drawable/ic_chat_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -165,7 +165,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorLavanderDark"
                     android:gravity="center"
-                    android:text="Long Tennis"
+                    android:text="@string/chat"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -194,7 +194,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_tenis"
+                    android:src="@drawable/ic_map_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -203,7 +203,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorMintDark"
                     android:gravity="center"
-                    android:text="Tennis"
+                    android:text="@string/site_map"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -223,7 +223,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_volleyball"
+                    android:src="@drawable/ic_show_chart_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -232,7 +232,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorAquaDark"
                     android:gravity="center"
-                    android:text="Volleyball"
+                    android:text="@string/statistics"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
@@ -252,7 +252,7 @@
                     android:layout_height="@dimen/layout_height_10"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/layout_margin_10"
-                    android:src="@drawable/ic_icon_weight_lefting"
+                    android:src="@drawable/ic_issue_white_24dp"
                     android:tint="@color/colorWhite" />
 
                 <TextView
@@ -261,7 +261,7 @@
                     android:layout_marginTop="@dimen/layout_margin_10"
                     android:background="@color/colorPinkRoseDark"
                     android:gravity="center"
-                    android:text="Weight Lifting"
+                    android:text="@string/issue"
                     android:padding="2dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp" />
