@@ -1,8 +1,10 @@
-package com.suffix.fieldforce
+package com.suffix.fieldforce.activity
 
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.suffix.fieldforce.R
+import com.suffix.fieldforce.fragment.HomeFragment
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
