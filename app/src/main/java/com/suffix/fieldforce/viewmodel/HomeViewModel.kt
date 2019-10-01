@@ -10,11 +10,23 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val eventNavigateToTask: LiveData<Boolean>
         get() = _eventNavigateToTask
 
+    private val _eventNavigateToInventory = MutableLiveData<Boolean>()
+    val eventNavigateToInventory: LiveData<Boolean>
+        get() = _eventNavigateToInventory
+
     fun showTask() {
         _eventNavigateToTask.value = true
     }
 
     fun taskShown() {
         _eventNavigateToTask.value = false
+    }
+
+    fun showInventory() {
+        _eventNavigateToInventory.value = true
+    }
+
+    fun inventoryShown() {
+        _eventNavigateToInventory.value = false
     }
 }

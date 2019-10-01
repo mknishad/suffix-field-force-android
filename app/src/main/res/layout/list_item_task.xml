@@ -49,7 +49,7 @@
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
                 android:textColor="@color/colorWhite"
-                android:background="@drawable/bg_status"
+                tools:background="@drawable/bg_status"
                 app:backgroundTint="@{task}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.InventoryActivity
 import com.suffix.fieldforce.activity.TaskListActivity
 import com.suffix.fieldforce.databinding.FragmentHomeBinding
 import com.suffix.fieldforce.viewmodel.HomeViewModel
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         observeShowTaskEvent()
+        observeShowInventoryEvent()
     }
 
     private fun observeShowTaskEvent() {
@@ -42,6 +44,16 @@ class HomeFragment : Fragment() {
                 val taskListIntent = Intent(context, TaskListActivity::class.java)
                 startActivity(taskListIntent)
                 viewModel.taskShown()
+            }
+        })
+    }
+
+    private fun observeShowInventoryEvent() {
+        viewModel.eventNavigateToInventory.observe(this, Observer {
+            if (it) {
+                val inventoryIntent = Intent(context, InventoryActivity::class.java)
+                startActivity(inventoryIntent)
+                viewModel.inventoryShown()
             }
         })
     }
