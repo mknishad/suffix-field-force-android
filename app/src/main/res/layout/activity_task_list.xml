@@ -46,6 +46,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:visibility="@{viewModel.progress ? View.VISIBLE : View.GONE}"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
