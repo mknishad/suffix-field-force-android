@@ -64,16 +64,16 @@ class TaskListActivity : AppCompatActivity() {
 
         val taskList = listOf(
             Task(";alskf;ls", "Task 1", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 2", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 3", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 4", "Open", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 2", "In Progress", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 3", "Resolved", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 4", "Closed", "Jul 1, 2020", "Project 1"),
             Task(";alskf;ls", "Task 5", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 6", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 7", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 8", "Open", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 6", "In Progress", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 7", "Resolved", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 8", "Closed", "Jul 1, 2020", "Project 1"),
             Task(";alskf;ls", "Task 9", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 10", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 11", "Open", "Jul 1, 2020", "Project 1"))
+            Task(";alskf;ls", "Task 10", "In Progress", "Jul 1, 2020", "Project 1"),
+            Task(";alskf;ls", "Task 11", "Resolved", "Jul 1, 2020", "Project 1"))
 
         adapter.callSubmitList(taskList)
     }

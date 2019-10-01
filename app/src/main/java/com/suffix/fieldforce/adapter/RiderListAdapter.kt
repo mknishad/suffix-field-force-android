@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TaskAdapter(val clickListener: TaskListener) :
+class TaskAdapter(private val clickListener: TaskListener) :
     ListAdapter<Task, RecyclerView.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -29,10 +29,6 @@ class TaskAdapter(val clickListener: TaskListener) :
         return ViewHolder.from(parent)
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
-
     fun callSubmitList(list: List<Task>?) {
         val adapterScope = CoroutineScope(Dispatchers.Default)
         adapterScope.launch {
@@ -43,7 +39,7 @@ class TaskAdapter(val clickListener: TaskListener) :
     }
 }
 
-class ViewHolder private constructor(val binding: ListItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+class ViewHolder private constructor(private val binding: ListItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Task, clickListener: TaskListener) {
         binding.task = item
         binding.clickListener = clickListener
