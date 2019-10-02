@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +15,7 @@ import com.suffix.fieldforce.adapter.TaskListener
 import com.suffix.fieldforce.databinding.ActivityTaskListBinding
 import com.suffix.fieldforce.model.Task
 import com.suffix.fieldforce.viewmodel.TaskListViewModel
+import org.jetbrains.anko.toast
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -58,7 +58,7 @@ class TaskListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val adapter = TaskAdapter(TaskListener { task ->
-            Toast.makeText(this, task.name, Toast.LENGTH_SHORT).show()
+            toast(task.name.toString())
         })
         binding.recyclerView.adapter = adapter
 

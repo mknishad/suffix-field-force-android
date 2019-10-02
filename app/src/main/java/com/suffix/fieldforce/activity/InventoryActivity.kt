@@ -46,5 +46,4 @@ class InventoryActivity : AppCompatActivity() {
             binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
         }
     }
-
 }

@@ -14,6 +14,7 @@ import com.suffix.fieldforce.activity.InventoryActivity
 import com.suffix.fieldforce.activity.TaskListActivity
 import com.suffix.fieldforce.databinding.FragmentHomeBinding
 import com.suffix.fieldforce.viewmodel.HomeViewModel
+import org.jetbrains.anko.startActivity
 
 class HomeFragment : Fragment() {
 
@@ -41,8 +42,7 @@ class HomeFragment : Fragment() {
     private fun observeShowTaskEvent() {
         viewModel.eventNavigateToTask.observe(this, Observer {
             if (it) {
-                val taskListIntent = Intent(context, TaskListActivity::class.java)
-                startActivity(taskListIntent)
+                activity?.startActivity<TaskListActivity>()
                 viewModel.taskShown()
             }
         })
@@ -51,8 +51,7 @@ class HomeFragment : Fragment() {
     private fun observeShowInventoryEvent() {
         viewModel.eventNavigateToInventory.observe(this, Observer {
             if (it) {
-                val inventoryIntent = Intent(context, InventoryActivity::class.java)
-                startActivity(inventoryIntent)
+                activity?.startActivity<InventoryActivity>()
                 viewModel.inventoryShown()
             }
         })
