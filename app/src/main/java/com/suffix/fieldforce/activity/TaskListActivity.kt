@@ -28,6 +28,7 @@ class TaskListActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_task_list)
         viewModel = ViewModelProviders.of(this).get(TaskListViewModel::class.java)
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         init()
     }

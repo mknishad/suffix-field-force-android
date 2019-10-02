@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.InventoryActivity">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.suffix.fieldforce.viewmodel.InventoryViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,6 +39,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/Ripple"
                 android:padding="8dp"
+                android:onClick="@{() -> viewModel.showPC()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -54,16 +61,15 @@
                     android:id="@+id/availablePCTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:text="10"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pcTextView"
-                    android:text="10" />
+                    app:layout_constraintTop_toBottomOf="@id/pcTextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -85,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
+                android:onClick="@{() -> viewModel.showMonitor()}"
                 android:orientation="vertical">
 
                 <TextView
@@ -104,16 +111,15 @@
                     android:id="@+id/availableMonitorTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:text="10"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/monitorTextView"
-                    android:text="10" />
+                    app:layout_constraintTop_toBottomOf="@id/monitorTextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -134,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
+                android:onClick="@{() -> viewModel.showRouter()}"
                 android:orientation="vertical">
 
                 <TextView
@@ -153,16 +160,15 @@
                     android:id="@+id/availableRouterTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:text="10"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/routerTextView"
-                    android:text="10" />
+                    app:layout_constraintTop_toBottomOf="@id/routerTextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -183,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
+                android:onClick="@{() -> viewModel.showSpeaker()}"
                 android:orientation="vertical">
 
                 <TextView
@@ -202,16 +209,15 @@
                     android:id="@+id/availableSpeakerTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:text="10"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/speakerTextView"
-                    android:text="10" />
+                    app:layout_constraintTop_toBottomOf="@id/speakerTextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
