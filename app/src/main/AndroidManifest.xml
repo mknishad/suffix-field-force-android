@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.InventoryActivity"></activity>
+        <activity android:name=".activity.TaskDetailsActivity"></activity>
+        <activity android:name=".activity.InventoryActivity" />
         <activity android:name=".activity.TaskListActivity" />
         <activity
             android:name=".activity.MainActivity"
