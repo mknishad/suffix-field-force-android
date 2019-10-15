@@ -8,24 +8,27 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.fragment.HomeFragment
+import com.suffix.fieldforce.viewmodel.MainViewModel
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
+import org.jetbrains.anko.info
 import java.util.*
 
 const val REQUEST_CHECK_SETTINGS = 1000
 const val REQUEST_LOCATION_PERMISSION = 1001
-const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private var online: Boolean = false
     private var locationUpdateActive: Boolean = false
@@ -34,8 +37,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mLocationCallback: LocationCallback
 
-    private val INTERVAL = (1000).toLong()
-    private val FASTEST_INTERVAL = (1000).toLong()
+    private val INTERVAL = (60 * 1000).toLong()
+    private val FASTEST_INTERVAL = (60 * 1000).toLong()
+
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,14 +137,14 @@ class MainActivity : AppCompatActivity() {
 
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
-                Log.i(TAG, "onLocationResult")
+                info { "onLocationResult" }
                 if (locationResult == null) {
                     return
                 }
                 for (location in locationResult.locations) {
                     //Update user location
                     try {
-                        Log.i(TAG, location.latitude.toString() + " " + location.longitude)
+                        info { "${location.latitude} ${location.longitude}" }
                         /*BuddyUtil.showSnackbar(rootView, location.getLatitude() + " "
                                 + location.getLongitude());*/
                         /*mSocket.emit(
@@ -149,8 +156,14 @@ class MainActivity : AppCompatActivity() {
                                 )
                             )
                         )*/
+                        viewModel.sendGeoLocation(
+                            "8nISwP/XyofOfhAyenjYZjWW1B92H0Yrg9LSvhPvGKo=|yc515zEKZEfMXIKyTuEMYg==",
+                            "BLA0010",
+                            location.latitude.toString(),
+                            location.longitude.toString()
+                        )
                     } catch (e: Exception) {
-                        Log.e(TAG, e.message!!)
+                        error { e.message }
                     }
                 }
             }
