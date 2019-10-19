@@ -71,4 +71,7 @@ dependencies {
 
     // Anko Commons
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+    // Location
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }

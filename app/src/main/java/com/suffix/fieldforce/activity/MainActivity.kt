@@ -1,8 +1,19 @@
 package com.suffix.fieldforce.activity
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.fragment.HomeFragment
 import devlight.io.library.ntb.NavigationTabBar
@@ -10,9 +21,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
 import java.util.*
 
+const val REQUEST_CHECK_SETTINGS = 1000
+const val REQUEST_LOCATION_PERMISSION = 1001
+const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
 
     private var online: Boolean = false
+    private var locationUpdateActive: Boolean = false
+
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var mLocationRequest: LocationRequest
+    private lateinit var mLocationCallback: LocationCallback
+
+    private val INTERVAL = (1000).toLong()
+    private val FASTEST_INTERVAL = (1000).toLong()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,24 +46,23 @@ class MainActivity : AppCompatActivity() {
             HomeFragment()
         ).commit()
 
-        progressBar.setOnClickListener {
-            if (!online) {
-                progressBar.foregroundStrokeColor = resources.getColor(android.R.color.holo_green_dark)
-                progressBar.progressAnimationDuration = 1000
-                progressBar.progress = 0f
-                progressBar.progressAnimationDuration = 1000
-                progressBar.progress = 100f
-                online = true
-            } else {
-                progressBar.progressAnimationDuration = 1000
-                progressBar.progress = 0f
-                progressBar.foregroundStrokeColor = resources.getColor(android.R.color.holo_red_light)
-                progressBar.progressAnimationDuration = 1000
-                progressBar.progress = 100f
-                online = false
-            }
-        }
+        init()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (locationUpdateActive) {
+            stopLocationUpdate()
+        }
+    }
+
+    private fun init() {
+        initBottomNav()
+        initLocationProvider()
+        initProgressBar()
+    }
+
+    private fun initBottomNav() {
         val colors = resources.getStringArray(R.array.default_preview)
 
         val models = ArrayList<NavigationTabBar.Model>()
@@ -98,4 +120,156 @@ class MainActivity : AppCompatActivity() {
         ntb!!.models = models
     }
 
+    private fun initLocationProvider() {
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        mLocationRequest = LocationRequest()
+        mLocationRequest.interval = INTERVAL
+        mLocationRequest.fastestInterval = FASTEST_INTERVAL
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                Log.i(TAG, "onLocationResult")
+                if (locationResult == null) {
+                    return
+                }
+                for (location in locationResult.locations) {
+                    //Update user location
+                    try {
+                        Log.i(TAG, location.latitude.toString() + " " + location.longitude)
+                        /*BuddyUtil.showSnackbar(rootView, location.getLatitude() + " "
+                                + location.getLongitude());*/
+                        /*mSocket.emit(
+                            Constants.EVENT_MOVE, JSONObject(
+                                GsonBuilder().create().toJson(
+                                    bd.buddy.passenger.model.ridehistorydetail.Location(
+                                        location.latitude, location.longitude
+                                    )
+                                )
+                            )
+                        )*/
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.message!!)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initProgressBar() {
+        goOffline()
+        progressBar.setOnClickListener {
+            if (!online) {
+                initLocationSettings()
+            } else {
+                goOffline()
+            }
+        }
+    }
+
+    private fun initLocationSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getLocationPermission()
+        } else {
+            createLocationRequest()
+        }
+    }
+
+    private fun getLocationPermission() {
+        val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            createLocationRequest()
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_LOCATION_PERMISSION)
+        }
+    }
+
+    private fun createLocationRequest() {
+        val locationRequest = LocationRequest()
+        locationRequest.interval = 10 * 60 * 1000
+        locationRequest.fastestInterval = 5 * 60 * 1000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+        val client = LocationServices.getSettingsClient(this)
+        val task = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener {
+            goOnline()
+        }
+
+        task.addOnFailureListener(this) { e ->
+            if (e is ResolvableApiException) {
+                try {
+                    e.startResolutionForResult(this, REQUEST_CHECK_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    private fun goOnline() {
+        progressBar.foregroundStrokeColor =
+            resources.getColor(android.R.color.holo_green_dark)
+        progressBar.progressAnimationDuration = 1000
+        progressBar.progress = 0f
+        progressBar.progressAnimationDuration = 1000
+        progressBar.progress = 100f
+        online = true
+        startLocationUpdate()
+    }
+
+    private fun goOffline() {
+        progressBar.progressAnimationDuration = 1000
+        progressBar.progress = 0f
+        progressBar.foregroundStrokeColor =
+            resources.getColor(android.R.color.holo_red_light)
+        progressBar.progressAnimationDuration = 1000
+        progressBar.progress = 100f
+        online = false
+        stopLocationUpdate()
+    }
+
+    private fun startLocationUpdate() {
+        mFusedLocationProviderClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            null
+        )
+        locationUpdateActive = true
+    }
+
+    private fun stopLocationUpdate() {
+        mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback)
+        locationUpdateActive = false
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_LOCATION_PERMISSION ->
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    createLocationRequest()
+                }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (resultCode) {
+            Activity.RESULT_OK -> goOnline()
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }
