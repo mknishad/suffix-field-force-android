@@ -5,8 +5,8 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LocationResponse(
+data class BillTypeResponse(
     @Json(name = "ResponseCode") var responseCode: String,
-    @Json(name = "ResponseData") var responseData: List<String>,
+    @Json(name = "ResponseData") var responseData: List<BillType>,
     @Json(name = "ResponseText") var responseText: String
 ) : Parcelable

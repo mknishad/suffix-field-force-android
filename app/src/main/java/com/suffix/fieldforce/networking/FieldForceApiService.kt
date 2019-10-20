@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.suffix.fieldforce.BuildConfig
+import com.suffix.fieldforce.model.BillTypeResponse
 import com.suffix.fieldforce.model.LocationResponse
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -34,14 +35,22 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface FieldForceApiService {
+
     @POST("FFMS/api//geoLocationEntry.jsp")
     fun sendGeoLocationAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
         @Query("lat") lat: String,
         @Query("lng") lng: String
-    ):
-            Deferred<LocationResponse>
+    ): Deferred<LocationResponse>
+
+    @POST("FFMS/api//getBillType.jsp")
+    fun getBillTypeAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String
+    ): Deferred<BillTypeResponse>
 }
 
 object FieldForceApi {

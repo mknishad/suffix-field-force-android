@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.fragment.HomeFragment
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.MainViewModel
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -157,7 +158,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                             )
                         )*/
                         viewModel.sendGeoLocation(
-                            "8nISwP/XyofOfhAyenjYZjWW1B92H0Yrg9LSvhPvGKo=|yc515zEKZEfMXIKyTuEMYg==",
+                            Constants.KEY,
                             "BLA0010",
                             location.latitude.toString(),
                             location.longitude.toString()
