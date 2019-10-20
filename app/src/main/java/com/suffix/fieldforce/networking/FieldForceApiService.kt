@@ -15,6 +15,8 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
+enum class FieldForceApiStatus { LOADING, ERROR, DONE }
+
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()

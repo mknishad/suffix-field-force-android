@@ -22,4 +22,6 @@
     <string name="statistics">Statistics</string>
     <string name="issue">Issue</string>
     <string name="bills">Bills</string>
+    <string name="add_bill">Add Bill</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -6,12 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.model.LocationResponse
 import com.suffix.fieldforce.networking.FieldForceApi
+import com.suffix.fieldforce.networking.FieldForceApiStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
-enum class FieldForceApiStatus { LOADING, ERROR, DONE }
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _locationResponse = MutableLiveData<LocationResponse>()
