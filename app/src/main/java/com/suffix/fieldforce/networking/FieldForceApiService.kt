@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.suffix.fieldforce.BuildConfig
+import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillTypeResponse
 import com.suffix.fieldforce.model.LocationResponse
 import kotlinx.coroutines.Deferred
@@ -61,7 +62,7 @@ interface FieldForceApiService {
         @Query("lat") lat: String,
         @Query("lng") lng: String,
         @Query("billData") billData: String
-    ): Deferred<BillTypeResponse>
+    ): Deferred<AddBillResponse>
 }
 
 object FieldForceApi {
