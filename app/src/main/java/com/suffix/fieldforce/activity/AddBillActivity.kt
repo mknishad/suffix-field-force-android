@@ -24,6 +24,8 @@ class AddBillActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBillBinding
     private lateinit var viewModel: AddBillViewModel
 
+    private lateinit var textInputLayouts: MutableList<TextInputLayout>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_bill)
@@ -35,6 +37,8 @@ class AddBillActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        textInputLayouts = mutableListOf()
+
         setupToolbar()
         observeBillTypes()
     }
@@ -69,25 +73,31 @@ class AddBillActivity : AppCompatActivity() {
                     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
                     layout.hint = billType.billShortName
                     linearLayout.addView(view)
+                    textInputLayouts.add(layout)
                 }
-
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                params.setMargins(20, 20, 20, 20)
-
-                val button = Button(this)
-                button.text = getString(R.string.submit)
-                button.textSize = 20f
-                button.setTextColor(Color.parseColor("#FFFFFF"))
-                button.background = getDrawable(R.drawable.bg_button)
-                button.layoutParams = params
-
-                linearLayout.addView(button)
-
+                addButton(linearLayout)
                 binding.scrollView.addView(linearLayout)
             }
         })
+    }
+
+    private fun addButton(linearLayout: LinearLayout) {
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(20, 20, 20, 20)
+
+        val button = Button(this)
+        button.text = getString(R.string.submit)
+        button.textSize = 20f
+        button.setTextColor(Color.parseColor("#FFFFFF"))
+        button.background = getDrawable(R.drawable.bg_button)
+        button.layoutParams = params
+        button.setOnClickListener {
+            viewModel.submitBill()
+        }
+
+        linearLayout.addView(button)
     }
 }

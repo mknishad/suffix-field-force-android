@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.suffix.fieldforce.model.AddBillResponse
+import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.util.Constants
@@ -20,6 +22,14 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
         get() = _progress
+
+    private val _addBillResponse = MutableLiveData<AddBillResponse>()
+    val addBillResponse: LiveData<AddBillResponse>
+    get() = _addBillResponse
+
+    private val _eventAddBill = MutableLiveData<Boolean>()
+    val eventAddBill: LiveData<Boolean>
+    get() = _eventAddBill
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -46,5 +56,9 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
                 _progress.value = false
             }
         }
+    }
+
+    fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData) {
+
     }
 }
