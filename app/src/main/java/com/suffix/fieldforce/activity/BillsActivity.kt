@@ -16,9 +16,11 @@ import com.suffix.fieldforce.adapter.TaskListener
 import com.suffix.fieldforce.databinding.ActivityBillsBinding
 import com.suffix.fieldforce.model.Task
 import com.suffix.fieldforce.viewmodel.BillsViewModel
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
-class BillsActivity : AppCompatActivity() {
+class BillsActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var binding: ActivityBillsBinding
     private lateinit var viewModel: BillsViewModel
@@ -84,6 +86,7 @@ class BillsActivity : AppCompatActivity() {
     private fun observeShowAddBills() {
         viewModel.eventShowAddBills.observe(this, Observer {
             if (it) {
+                startActivity<AddBillActivity>()
                 viewModel.addBillsShown()
             }
         })

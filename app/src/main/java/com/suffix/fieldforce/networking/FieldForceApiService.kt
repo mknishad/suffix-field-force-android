@@ -51,6 +51,15 @@ interface FieldForceApiService {
         @Query("lat") lat: String,
         @Query("lng") lng: String
     ): Deferred<BillTypeResponse>
+
+    @POST("FFMS/api//billEntry.jsp")
+    fun addBillAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("billData") billData: String
+    ): Deferred<BillTypeResponse>
 }
 
 object FieldForceApi {
