@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.nio.charset.StandardCharsets
 
 class AddBillViewModel(application: Application) : AndroidViewModel(application) {
     private val _billTypes = MutableLiveData<List<BillType>>()
@@ -63,7 +64,9 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
     fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData) {
         val billDataString = Gson().toJson(billData)
         val billDataByteArray = billDataString.toByteArray()
-        val billDataBase64 = Base64.encodeToString(billDataByteArray, Base64.URL_SAFE)
+        val billDataBase64 = Base64.encodeToString(billDataByteArray, Base64.DEFAULT)
+        val decodedByte = Base64.decode(billDataBase64, Base64.DEFAULT)
+        val decodedString = String(decodedByte, StandardCharsets.UTF_8)
 
         coroutineScope.launch {
             val addBillDeferred = FieldForceApi.retrofitService.addBillAsync(
