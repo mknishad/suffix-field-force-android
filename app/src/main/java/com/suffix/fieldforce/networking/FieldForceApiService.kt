@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.suffix.fieldforce.BuildConfig
 import com.suffix.fieldforce.model.AddBillResponse
+import com.suffix.fieldforce.model.BillDashboardResponse
 import com.suffix.fieldforce.model.BillTypeResponse
 import com.suffix.fieldforce.model.LocationResponse
 import kotlinx.coroutines.Deferred
@@ -63,6 +64,14 @@ interface FieldForceApiService {
         @Query("lng") lng: String,
         @Query("billData") billData: String
     ): Deferred<AddBillResponse>
+
+    @POST("FFMS/api//getUserBillList.jsp")
+    fun getBillListAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String
+    ): Deferred<BillDashboardResponse>
 }
 
 object FieldForceApi {

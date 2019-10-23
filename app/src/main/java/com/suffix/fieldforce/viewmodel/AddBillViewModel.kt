@@ -43,7 +43,7 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
         coroutineScope.launch {
             val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
                 Constants.KEY,
-                "BLA0010",
+                Constants.USER_ID,
                 "23.7746479",
                 "90.4031033"
             )
