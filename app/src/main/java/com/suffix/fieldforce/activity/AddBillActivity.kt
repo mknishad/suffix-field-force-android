@@ -152,6 +152,10 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
             val billDataObj = mutableListOf<Bill>()
             for (i in 1 until textInputLayouts.size - 1) {
                 val bill = Bill(
+                    null,
+                    null,
+                    null,
+                    null,
                     textInputLayouts[i].editText?.text.toString().toDouble(),
                     textInputLayouts[i].tag.toString().toInt()
                 )

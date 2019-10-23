@@ -26,4 +26,6 @@
     <string name="submit">Submit</string>
     <string name="date">Date</string>
     <string name="remarks">Remarks</string>
+    <string name="approved_pending_amount">Approved Pending Amount</string>
+    <string name="disbursed_amount">Disbursed Amount</string>
 </resources>
