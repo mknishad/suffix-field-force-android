@@ -33,8 +33,7 @@
                 android:layout_marginEnd="16dp"
                 android:text="@{bill.description}"
                 android:textColor="@color/colorAquaDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/statusTextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -52,11 +51,12 @@
                 android:text="@{bill.status}"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
+                app:billBackgroundTint="@{bill}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/bg_status"
-                tools:text="Open" />
+                tools:text="@{bill}" />
 
             <TextView
                 android:id="@+id/dateTextView"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@{bill.billDate}"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/billDescriptionTextView"

@@ -13,9 +13,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class BillsViewModel(application: Application) : AndroidViewModel(application) {
-    val billDashboard = MutableLiveData<BillDashboardResponseData>()
-    /*val billDashboard: LiveData<BillDashboardResponseData>
-        get() = _billDashboard*/
+    private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
+    val billsDashboard: LiveData<BillDashboardResponseData>
+        get() = _billsDashboard
 
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
@@ -52,7 +52,7 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 _progress.value = true
                 val result = getBillDashboardDeferred.await()
-                billDashboard.value = result.responseData
+                _billsDashboard.value = result.responseData
                 _progress.value = false
             } catch (e: Exception) {
                 _progress.value = false

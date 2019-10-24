@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="@{Double.toString(viewModel.billDashboard.billStatObj.dashboards[0].approvedPendingAmount)}"
+                    android:text="@{Double.toString(viewModel.billsDashboard.billStatObj.dashboards[0].approvedPendingAmount)}"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="@{Double.toString(viewModel.billDashboard.billStatObj.dashboards[0].disburseAmount)}"
+                    android:text="@{Double.toString(viewModel.billsDashboard.billStatObj.dashboards[0].disburseAmount)}"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

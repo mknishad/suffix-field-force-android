@@ -50,7 +50,7 @@
                 android:paddingEnd="4dp"
                 android:textColor="@color/colorWhite"
                 tools:background="@drawable/bg_status"
-                app:backgroundTint="@{task}"
+                app:taskBackgroundTint="@{task}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Open" />
