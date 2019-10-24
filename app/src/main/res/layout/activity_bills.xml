@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.TaskListActivity">
+    tools:context=".activity.BillsActivity">
 
     <data>
         <import type="android.view.View"/>
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toStartOf="@id/disbursedCardView"
@@ -59,8 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:textSize="20sp"
-                    android:text="@{viewModel.billDashboard.billStatObj.dashboards[0].approvedPendingAmount}" />
+                    android:text="@{Double.toString(viewModel.billDashboard.billStatObj.dashboards[0].approvedPendingAmount)}"
+                    android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -68,7 +68,7 @@
             android:id="@+id/disbursedCardView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
@@ -98,8 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:textSize="20sp"
-                    android:text="@{viewModel.billDashboard.billStatObj.dashboards[0].disburseAmount}" />
+                    android:text="@{Double.toString(viewModel.billDashboard.billStatObj.dashboards[0].disburseAmount)}"
+                    android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

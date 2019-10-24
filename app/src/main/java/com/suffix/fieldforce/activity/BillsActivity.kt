@@ -28,8 +28,8 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_bills)
         viewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_bills)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
