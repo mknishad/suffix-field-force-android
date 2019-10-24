@@ -4,10 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.suffix.fieldforce.BuildConfig
-import com.suffix.fieldforce.model.AddBillResponse
-import com.suffix.fieldforce.model.BillDashboardResponse
-import com.suffix.fieldforce.model.BillTypeResponse
-import com.suffix.fieldforce.model.LocationResponse
+import com.suffix.fieldforce.model.*
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -72,6 +69,15 @@ interface FieldForceApiService {
         @Query("lat") lat: String,
         @Query("lng") lng: String
     ): Deferred<BillDashboardResponse>
+
+    @POST("FFMS/api//getUserBillDetails.jsp")
+    fun getBillDetailsAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("billId") billId: String
+    ): Deferred<BillDetailsResponse>
 }
 
 object FieldForceApi {

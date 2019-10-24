@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.AddBillActivity"></activity>
+        <activity android:name=".activity.BillDetailsActivity"></activity>
+        <activity android:name=".activity.AddBillActivity" />
         <activity android:name=".activity.TaskDetailsActivity" />
         <activity android:name=".activity.InventoryActivity" />
         <activity android:name=".activity.TaskListActivity" />

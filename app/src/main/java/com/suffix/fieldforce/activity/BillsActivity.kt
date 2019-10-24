@@ -37,7 +37,9 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
 
     private fun init() {
         adapter = BillsAdapter(BillsListener { bill ->
-
+            startActivity<BillDetailsActivity>(
+                "billId" to bill.billId
+            )
         })
         binding.recyclerView.adapter = adapter
 
