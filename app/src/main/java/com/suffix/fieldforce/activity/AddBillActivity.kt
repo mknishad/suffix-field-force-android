@@ -95,7 +95,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
     private fun addDateLayout() {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_bill, null)
+        val view = inflater.inflate(R.layout.item_bill_input_layout, null)
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.date)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
@@ -114,7 +114,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         for (billType in billTypes) {
             val inflater =
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(R.layout.item_bill, null)
+            val view = inflater.inflate(R.layout.item_bill_input_layout, null)
             val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
             layout.hint = billType.billShortName
             layout.tag = billType.billTypeId
@@ -126,7 +126,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
     private fun addRemarksLayout(linearLayout: LinearLayout) {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_bill, null)
+        val view = inflater.inflate(R.layout.item_bill_input_layout, null)
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.remarks)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT

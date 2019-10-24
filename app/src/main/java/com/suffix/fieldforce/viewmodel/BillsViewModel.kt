@@ -53,7 +53,6 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
                 _progress.value = true
                 val result = getBillDashboardDeferred.await()
                 billDashboard.value = result.responseData
-                val pending = billDashboard.value!!.billStatObj.dashboards[0].approvedPendingAmount
                 _progress.value = false
             } catch (e: Exception) {
                 _progress.value = false

@@ -18,7 +18,7 @@ class TaskAdapter(private val clickListener: TaskListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ViewHolder -> {
+            is TaskViewHolder -> {
                 val taskItem = getItem(position) as Task
                 holder.bind(taskItem, clickListener)
             }
@@ -26,7 +26,7 @@ class TaskAdapter(private val clickListener: TaskListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder.from(parent)
+        return TaskViewHolder.from(parent)
     }
 
     fun callSubmitList(list: List<Task>?) {
@@ -39,7 +39,7 @@ class TaskAdapter(private val clickListener: TaskListener) :
     }
 }
 
-class ViewHolder private constructor(private val binding: ListItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+class TaskViewHolder private constructor(private val binding: ListItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Task, clickListener: TaskListener) {
         binding.task = item
         binding.clickListener = clickListener
@@ -47,10 +47,10 @@ class ViewHolder private constructor(private val binding: ListItemTaskBinding) :
     }
 
     companion object {
-        fun from(parent: ViewGroup): ViewHolder {
+        fun from(parent: ViewGroup): RecyclerView.ViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ListItemTaskBinding.inflate(layoutInflater, parent, false)
-            return ViewHolder(binding)
+            return TaskViewHolder(binding)
         }
     }
 }
