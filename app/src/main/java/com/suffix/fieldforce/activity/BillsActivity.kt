@@ -14,8 +14,10 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.adapter.BillsAdapter
 import com.suffix.fieldforce.adapter.BillsListener
 import com.suffix.fieldforce.databinding.ActivityBillsBinding
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.BillsViewModel
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 
 class BillsActivity : AppCompatActivity(), AnkoLogger {
@@ -38,7 +40,7 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
     private fun init() {
         adapter = BillsAdapter(BillsListener { bill ->
             startActivity<BillDetailsActivity>(
-                "billId" to bill.billId
+                Constants.BILL_ID to bill.billId
             )
         })
         binding.recyclerView.adapter = adapter
@@ -47,6 +49,7 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
         //setupRecyclerView()
         observeBillsDashboard()
         observeShowAddBills()
+        observeMessage()
     }
 
     private fun setupToolbar() {
@@ -81,6 +84,14 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
         viewModel.billsDashboard.observe(this, Observer {dashboard ->
             dashboard?.let {
                 adapter.callSubmitList(it.billListObj.bills)
+            }
+        })
+    }
+
+    private fun observeMessage() {
+        viewModel.message.observe(this, Observer { message ->
+            message?.let {
+                binding.recyclerView.snackbar(it)
             }
         })
     }

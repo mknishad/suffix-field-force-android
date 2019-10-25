@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -24,10 +23,12 @@ import com.suffix.fieldforce.databinding.ActivityAddBillBinding
 import com.suffix.fieldforce.model.Bill
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
+import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
+import org.jetbrains.anko.design.snackbar
 import java.util.*
 
 class AddBillActivity : AppCompatActivity(), AnkoLogger {
@@ -37,6 +38,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var textInputLayouts: MutableList<TextInputLayout>
     private lateinit var linearLayout: LinearLayout
+    private lateinit var preferences: FieldForcePreferences
 
     private var mDay: Int = 0
     private var mMonth: Int = 0
@@ -56,11 +58,13 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         linearLayout = LinearLayout(this)
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
+        preferences = FieldForcePreferences(this)
 
         setupToolbar()
         observeBillTypes()
         observeBillTypes()
         observeAddBillResponse()
+        observeMessage()
     }
 
     private fun setupToolbar() {
@@ -98,7 +102,12 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         val view = inflater.inflate(R.layout.item_bill_input_layout, null)
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.date)
-        layout.editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_calendar_black_24dp, 0)
+        layout.editText?.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            R.drawable.ic_calendar_black_24dp,
+            0
+        )
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
         layout.editText?.showSoftInputOnFocus = false
         layout.editText?.setOnTouchListener { v, event ->
@@ -171,9 +180,9 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
             viewModel.submitBill(
                 Constants.KEY,
-                "BLA0010",
-                "23.7746479",
-                "90.4031033",
+                Constants.USER_ID,
+                preferences.getLocation().latitude.toString(),
+                preferences.getLocation().longitude.toString(),
                 billData
             )
         }
@@ -187,7 +196,15 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
             if (it.responseCode.equals("1", true)) {
                 finish()
             } else {
-                Toast.makeText(this, it.responseText, Toast.LENGTH_SHORT).show()
+                binding.scrollView.snackbar(it.responseText)
+            }
+        })
+    }
+
+    private fun observeMessage() {
+        viewModel.message.observe(this, Observer { message ->
+            message?.let {
+                binding.scrollView.snackbar(it)
             }
         })
     }

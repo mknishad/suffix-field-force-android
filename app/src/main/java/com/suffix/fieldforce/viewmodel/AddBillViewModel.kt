@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
@@ -15,8 +16,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 
-class AddBillViewModel(application: Application) : AndroidViewModel(application) {
+class AddBillViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
     private val _billTypes = MutableLiveData<List<BillType>>()
     val billTypes: LiveData<List<BillType>>
     get() = _billTypes
@@ -24,6 +27,10 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
         get() = _progress
+
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String>
+        get() = _message
 
     private val _addBillResponse = MutableLiveData<AddBillResponse>()
     val addBillResponse: LiveData<AddBillResponse>
@@ -80,7 +87,9 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
                 _addBillResponse.value = result
                 _progress.value = false
             } catch (e: Exception) {
+                error(e.message, e)
                 _progress.value = false
+                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

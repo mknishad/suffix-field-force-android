@@ -8,10 +8,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.ActivityBillDetailsBinding
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.BillDetailsViewModel
+import org.jetbrains.anko.design.snackbar
 
 class BillDetailsActivity : AppCompatActivity() {
 
@@ -32,8 +35,10 @@ class BillDetailsActivity : AppCompatActivity() {
     private fun init() {
         setupToolbar()
 
-        billId = intent.getStringExtra("billId")
+        billId = intent.getStringExtra(Constants.BILL_ID)
         viewModel.getBillDetails(billId)
+
+        observeMessage()
     }
 
     private fun setupToolbar() {
@@ -53,5 +58,13 @@ class BillDetailsActivity : AppCompatActivity() {
         } else {
             binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
         }
+    }
+
+    private fun observeMessage() {
+        viewModel.message.observe(this, Observer { message ->
+            message?.let {
+                binding.scrollView.snackbar(it)
+            }
+        })
     }
 }

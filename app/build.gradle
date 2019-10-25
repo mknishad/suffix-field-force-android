@@ -76,6 +76,9 @@ dependencies {
     // Anko Commons
     implementation "org.jetbrains.anko:anko-commons:$version_anko"
 
+    // Anko Design for SnackBar
+    implementation "org.jetbrains.anko:anko-design:$version_anko"
+
     // Location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.BillDashboardResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.preference.FieldForcePreferences
@@ -12,8 +13,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 
-class BillsViewModel(application: Application) : AndroidViewModel(application) {
+class BillsViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
     private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
     val billsDashboard: LiveData<BillDashboardResponseData>
         get() = _billsDashboard
@@ -21,6 +24,10 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
         get() = _progress
+
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String>
+        get() = _message
 
     private val _eventGoToAddBills = MutableLiveData<Boolean>()
     val eventShowAddBills: LiveData<Boolean>
@@ -58,7 +65,9 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
                 _billsDashboard.value = result.responseData
                 _progress.value = false
             } catch (e: Exception) {
+                error(e.message, e)
                 _progress.value = false
+                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

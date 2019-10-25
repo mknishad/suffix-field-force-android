@@ -15,7 +15,7 @@ import com.suffix.fieldforce.adapter.TaskListener
 import com.suffix.fieldforce.databinding.ActivityTaskListBinding
 import com.suffix.fieldforce.model.Task
 import com.suffix.fieldforce.viewmodel.TaskListViewModel
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.design.snackbar
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -59,7 +59,7 @@ class TaskListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val adapter = TaskAdapter(TaskListener { task ->
-            toast(task.name.toString())
+            binding.recyclerView.snackbar(task.name.toString())
         })
         binding.recyclerView.adapter = adapter
 
