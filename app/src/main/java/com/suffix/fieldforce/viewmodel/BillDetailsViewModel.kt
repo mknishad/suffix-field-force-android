@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.model.BillDetailsResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
+import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,13 +27,15 @@ class BillDetailsViewModel(application: Application): AndroidViewModel(applicati
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
+
     fun getBillDetails(billId: String) {
         coroutineScope.launch {
             val getBillDetailsDeferred = FieldForceApi.retrofitService.getBillDetailsAsync(
                 Constants.KEY,
                 Constants.USER_ID,
-                "23.7746479",
-                "90.4031033",
+                preferences.getLocation().latitude.toString(),
+                preferences.getLocation().longitude.toString(),
                 billId
             )
 

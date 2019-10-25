@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.model.BillDashboardResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
+import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,8 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
+
     init{
         getBillDashboard()
     }
@@ -45,8 +48,8 @@ class BillsViewModel(application: Application) : AndroidViewModel(application) {
             val getBillDashboardDeferred = FieldForceApi.retrofitService.getBillListAsync(
                 Constants.KEY,
                 Constants.USER_ID,
-                "23.7746479",
-                "90.4031033"
+                preferences.getLocation().latitude.toString(),
+                preferences.getLocation().longitude.toString()
             )
 
             try {

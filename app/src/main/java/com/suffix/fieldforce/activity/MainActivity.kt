@@ -16,12 +16,14 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.fragment.HomeFragment
+import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.MainViewModel
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 import java.util.*
@@ -33,11 +35,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private var online: Boolean = false
     private var locationUpdateActive: Boolean = false
+    private var openApp: Boolean = true
 
+    private lateinit var mPreferences: FieldForcePreferences
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mLocationCallback: LocationCallback
 
+    private lateinit var mLocationCallback: LocationCallback
     private val INTERVAL = (60 * 1000).toLong()
     private val FASTEST_INTERVAL = (60 * 1000).toLong()
 
@@ -65,9 +69,12 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun init() {
+        mPreferences = FieldForcePreferences(this)
+
         initBottomNav()
         initLocationProvider()
         initProgressBar()
+        initLocationSettings()
     }
 
     private fun initBottomNav() {
@@ -146,17 +153,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                     //Update user location
                     try {
                         info { "${location.latitude} ${location.longitude}" }
-                        /*BuddyUtil.showSnackbar(rootView, location.getLatitude() + " "
-                                + location.getLongitude());*/
-                        /*mSocket.emit(
-                            Constants.EVENT_MOVE, JSONObject(
-                                GsonBuilder().create().toJson(
-                                    bd.buddy.passenger.model.ridehistorydetail.Location(
-                                        location.latitude, location.longitude
-                                    )
-                                )
-                            )
-                        )*/
+                        mPreferences.putLocation(location)
                         viewModel.sendGeoLocation(
                             Constants.KEY,
                             "BLA0010",
@@ -164,7 +161,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                             location.longitude.toString()
                         )
                     } catch (e: Exception) {
-                        error { e.message }
+                        error(e.message, e)
                     }
                 }
             }
@@ -216,7 +213,12 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         val task = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
-            goOnline()
+            if (openApp) {
+                getDeviceLocation()
+                openApp = false
+            } else {
+                goOnline()
+            }
         }
 
         task.addOnFailureListener(this) { e ->
@@ -227,6 +229,26 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                     e.printStackTrace()
                 }
             }
+        }
+    }
+
+    private fun getDeviceLocation() {
+        debug("getDeviceLocation: ")
+        try {
+            val locationTask = mFusedLocationProviderClient.lastLocation
+            locationTask.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    debug("onComplete: location found")
+                    task.result?.let {
+                        mPreferences.putLocation(it)
+                    }
+                } else {
+                    error("onComplete: current location is null")
+                    getDeviceLocation()
+                }
+            }
+        } catch (e: SecurityException) {
+            error("getDeviceLocation: SecurityException: " + e.message, e)
         }
     }
 
@@ -281,7 +303,14 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (resultCode) {
-            Activity.RESULT_OK -> goOnline()
+            Activity.RESULT_OK -> {
+                if (openApp) {
+                    getDeviceLocation()
+                    openApp = false
+                } else {
+                    goOnline()
+                }
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data)

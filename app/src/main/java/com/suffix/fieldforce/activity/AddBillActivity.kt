@@ -98,6 +98,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         val view = inflater.inflate(R.layout.item_bill_input_layout, null)
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.date)
+        layout.editText?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_calendar_black_24dp, 0)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
         layout.editText?.showSoftInputOnFocus = false
         layout.editText?.setOnTouchListener { v, event ->

@@ -9,6 +9,7 @@ import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.networking.FieldForceApi
+import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,8 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
+
     init {
         getBillTypes()
     }
@@ -44,8 +47,8 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
             val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
                 Constants.KEY,
                 Constants.USER_ID,
-                "23.7746479",
-                "90.4031033"
+                preferences.getLocation().latitude.toString(),
+                preferences.getLocation().longitude.toString()
             )
 
             try {
