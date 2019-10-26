@@ -30,4 +30,5 @@
     <string name="disbursed_amount">Disbursed Amount</string>
     <string name="bill_details">Bill Details</string>
     <string name="something_went_wrong">Something went wrong!</string>
+    <string name="rejected">Rejected</string>
 </resources>

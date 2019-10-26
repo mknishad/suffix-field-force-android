@@ -46,11 +46,11 @@ fun TextView.setBillBackgroundTint(bill: Bill) {
     }
 }
 
-@BindingAdapter("text")
-fun TextView.setBillText(bill: Bill) {
-    bill.let { bill ->
-        when (bill.status) {
-            "R" -> statusTextView.text = "Requested"
+@BindingAdapter("billStatus")
+fun TextView.setBillStatus(status: String) {
+    status.let {
+        when (status) {
+            "R" -> statusTextView.text = "Rejected"
             "A" -> statusTextView.text = "Approved"
             "D" -> statusTextView.text = "Disbursed"
             "P" -> statusTextView.text = "Pending"
