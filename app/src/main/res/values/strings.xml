@@ -31,4 +31,8 @@
     <string name="bill_details">Bill Details</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="rejected">Rejected</string>
+    <string name="assigned_list">Assigned List</string>
+    <string name="accepted_list">Accepted List</string>
+    <string name="completed_list">Completed List</string>
+    <string name="in_progress_list">In-Progress List</string>
 </resources>
