@@ -44,19 +44,19 @@ class TaskDashboardViewModel(application: Application): BaseViewModel(applicatio
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = getTaskDashboardDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _taskDashboard.value = result[0].responseData[0]
                     info(_taskDashboard.value?.acceptedTicketCount)
                 } else {
-                    _message.value = result[0].responseMsg
+                    message.value = result[0].responseMsg
                 }
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
+                progress.value = false
                 error(e.message, e)
-                _progress.value = false
-                _message.value = getApplication<Application>().resources
+                message.value = getApplication<Application>().resources
                     .getString(R.string.something_went_wrong)
             }
         }

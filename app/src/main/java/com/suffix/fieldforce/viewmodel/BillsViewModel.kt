@@ -45,14 +45,14 @@ class BillsViewModel(application: Application) : BaseViewModel(application), Ank
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = getBillDashboardDeferred.await()
                 _billsDashboard.value = result.responseData
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
-                _progress.value = false
-                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

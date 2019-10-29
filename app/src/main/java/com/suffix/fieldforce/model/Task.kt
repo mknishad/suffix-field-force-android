@@ -5,9 +5,20 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Task(
-    var id: String?,
-    var name: String?,
-    var status: String?,
-    var date: String?,
-    var project: String?
+    var ticketTitle: String?,
+    var consumerAddress: String?,
+    var consumerThana: String?,
+    var ticketRemark: String?,
+    var deviceName: String?,
+    var consumerDistrict: String?,
+    var ticketCateroryCode: String?,
+    var ticketStartDate: String?,
+    var ticketEndDate: String?,
+    var ticketStatus: String?,
+    var ticketStatusText: String?,
+    var ticketCateroryTitle: String?,
+    var ticketCode: String?,
+    var ticketId: String?,
+    var consumerMobile: String?,
+    var consumerName: String?
 ) : Parcelable

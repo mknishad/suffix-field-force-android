@@ -30,14 +30,14 @@ class BillDetailsViewModel(application: Application): BaseViewModel(application)
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = getBillDetailsDeferred.await()
                 _billDetails.value = result.responseData
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
-                _progress.value = false
-                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

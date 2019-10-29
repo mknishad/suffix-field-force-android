@@ -51,7 +51,7 @@
                 android:text="@{bill.status}"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
-                app:billBackgroundTint="@{bill}"
+                app:billBackgroundTint="@{bill.status}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

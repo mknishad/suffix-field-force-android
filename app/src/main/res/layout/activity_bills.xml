@@ -123,7 +123,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:visibility="@{viewModel._progress ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{viewModel.progress ? View.VISIBLE : View.GONE}"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"

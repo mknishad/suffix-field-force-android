@@ -73,7 +73,7 @@ class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
         viewModel.eventShowAssignedTaskList.observe(this, Observer {
             if (it) {
                 startActivity<TaskListActivity>(
-                    Constants.ASSIGNED to Constants.TASK_TYPE
+                    Constants.TASK_TYPE to Constants.ASSIGNED
                 )
                 viewModel.assignedTaskListShown()
             }
@@ -84,9 +84,9 @@ class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
         viewModel.eventShowAcceptedTaskList.observe(this, Observer {
             if (it) {
                 startActivity<TaskListActivity>(
-                    Constants.ACCEPTED to Constants.TASK_TYPE
+                    Constants.TASK_TYPE to Constants.ACCEPTED
                 )
-                viewModel.assignedTaskListShown()
+                viewModel.acceptedTaskListShown()
             }
         })
     }
@@ -95,9 +95,9 @@ class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
         viewModel.eventShowCompletedTaskList.observe(this, Observer {
             if (it) {
                 startActivity<TaskListActivity>(
-                    Constants.COMPLETED to Constants.TASK_TYPE
+                    Constants.TASK_TYPE to Constants.COMPLETED
                 )
-                viewModel.assignedTaskListShown()
+                viewModel.completedTaskListShown()
             }
         })
     }
@@ -106,9 +106,9 @@ class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
         viewModel.eventShowInProgressTaskList.observe(this, Observer {
             if (it) {
                 startActivity<TaskListActivity>(
-                    Constants.IN_PROGRESS to Constants.TASK_TYPE
+                    Constants.TASK_TYPE to Constants.IN_PROGRESS
                 )
-                viewModel.assignedTaskListShown()
+                viewModel.inProgressTaskListShown()
             }
         })
     }

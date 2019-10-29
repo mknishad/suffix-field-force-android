@@ -35,6 +35,12 @@ private val retrofit = Retrofit.Builder()
     .client(okHttpClient)
     .build()
 
+object FieldForceApi {
+    val retrofitService: FieldForceApiService by lazy {
+        retrofit.create(FieldForceApiService::class.java)
+    }
+}
+
 interface FieldForceApiService {
 
     @POST("FFMS/api/geoLocationEntry.jsp")
@@ -83,10 +89,24 @@ interface FieldForceApiService {
     fun getTaskDashboardAsync(
         @Query("regTechId") regTechId: String
     ): Deferred<List<TaskDashboardResponse>>
-}
 
-object FieldForceApi {
-    val retrofitService: FieldForceApiService by lazy {
-        retrofit.create(FieldForceApiService::class.java)
-    }
+    @POST("FFMS/api/assignTicketList.jsp")
+    fun getAssignedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/acceptedTicketList.jsp")
+    fun getAcceptedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/completedTicketList.jsp")
+    fun getCompletedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/inprogressTicketList.jsp")
+    fun getInProgressTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
 }

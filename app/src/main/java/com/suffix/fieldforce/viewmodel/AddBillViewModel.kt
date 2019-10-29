@@ -44,12 +44,14 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = getBillTypesDeferred.await()
                 _billTypes.value = result.responseData
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
-                _progress.value = false
+                error(e.message, e)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }
@@ -67,14 +69,14 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = addBillDeferred.await()
                 _addBillResponse.value = result
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
-                _progress.value = false
-                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }
