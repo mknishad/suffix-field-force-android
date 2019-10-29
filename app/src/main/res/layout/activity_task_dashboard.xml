@@ -55,6 +55,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
+                        android:onClick="@{() -> viewModel.showAssignedTaskList()}"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground">
@@ -110,6 +111,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="10dp"
                         android:layout_weight="1"
+                        android:onClick="@{() -> viewModel.showAcceptedTaskList()}"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground">
@@ -174,6 +176,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
                         android:layout_weight="1"
+                        android:onClick="@{() -> viewModel.showCompletedTaskList()}"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground">
@@ -229,6 +232,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:layout_weight="1"
+                        android:onClick="@{() -> viewModel.showInProgressTaskList()}"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground">

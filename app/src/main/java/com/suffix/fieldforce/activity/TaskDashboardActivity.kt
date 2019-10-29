@@ -12,10 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.ActivityTaskDashboardBinding
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskDashboardViewModel
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.startActivity
 
-class TaskDashboardActivity : AppCompatActivity() {
+class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var binding: ActivityTaskDashboardBinding
     private lateinit var viewModel: TaskDashboardViewModel
@@ -33,7 +36,10 @@ class TaskDashboardActivity : AppCompatActivity() {
     private fun init() {
         setupToolbar()
         observeMessage()
-        //observeTaskDashboard()
+        observeShowAssignedTaskList()
+        observeShowAcceptedTaskList()
+        observeShowCompletedTaskList()
+        observeShowInProgressTaskList()
     }
 
     private fun setupToolbar() {
@@ -63,13 +69,46 @@ class TaskDashboardActivity : AppCompatActivity() {
         })
     }
 
-    private fun observeTaskDashboard() {
-        viewModel.taskDashboard.observe(this, Observer { taskDashboard ->
-            taskDashboard.let {
-                binding.vAssign.text = it.acceptedTicketCount
-                binding.vAccept.text = it.acceptedTicketCount
-                binding.vComplete.text = it.completedTicketCount
-                binding.vProgress.text = it.assignedTicketCount
+    private fun observeShowAssignedTaskList() {
+        viewModel.eventShowAssignedTaskList.observe(this, Observer {
+            if (it) {
+                startActivity<TaskListActivity>(
+                    Constants.ASSIGNED to Constants.TASK_TYPE
+                )
+                viewModel.assignedTaskListShown()
+            }
+        })
+    }
+
+    private fun observeShowAcceptedTaskList() {
+        viewModel.eventShowAcceptedTaskList.observe(this, Observer {
+            if (it) {
+                startActivity<TaskListActivity>(
+                    Constants.ACCEPTED to Constants.TASK_TYPE
+                )
+                viewModel.assignedTaskListShown()
+            }
+        })
+    }
+
+    private fun observeShowCompletedTaskList() {
+        viewModel.eventShowCompletedTaskList.observe(this, Observer {
+            if (it) {
+                startActivity<TaskListActivity>(
+                    Constants.COMPLETED to Constants.TASK_TYPE
+                )
+                viewModel.assignedTaskListShown()
+            }
+        })
+    }
+
+    private fun observeShowInProgressTaskList() {
+        viewModel.eventShowInProgressTaskList.observe(this, Observer {
+            if (it) {
+                startActivity<TaskListActivity>(
+                    Constants.IN_PROGRESS to Constants.TASK_TYPE
+                )
+                viewModel.assignedTaskListShown()
             }
         })
     }

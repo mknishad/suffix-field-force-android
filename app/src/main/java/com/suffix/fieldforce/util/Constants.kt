@@ -5,4 +5,9 @@ object Constants {
     val USER_ID = "BLA0010"
     val LOCATION = "location"
     val BILL_ID = "billId"
+    val TASK_TYPE = "task-type"
+    val ASSIGNED = "assigned"
+    val ACCEPTED = "accepted"
+    val COMPLETED = "completed"
+    val IN_PROGRESS = "in-progress"
 }

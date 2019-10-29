@@ -17,6 +17,22 @@ class TaskDashboardViewModel(application: Application): BaseViewModel(applicatio
     val taskDashboard: LiveData<TaskDashboardResponseData>
     get() = _taskDashboard
 
+    private val _eventShowAssignedTaskList = MutableLiveData<Boolean>()
+    val eventShowAssignedTaskList: LiveData<Boolean>
+    get() = _eventShowAssignedTaskList
+
+    private val _eventShowAcceptedTaskList = MutableLiveData<Boolean>()
+    val eventShowAcceptedTaskList: LiveData<Boolean>
+        get() = _eventShowAcceptedTaskList
+
+    private val _eventShowCompletedTaskList = MutableLiveData<Boolean>()
+    val eventShowCompletedTaskList: LiveData<Boolean>
+        get() = _eventShowCompletedTaskList
+
+    private val _eventShowInProgressTaskList = MutableLiveData<Boolean>()
+    val eventShowInProgressTaskList: LiveData<Boolean>
+        get() = _eventShowInProgressTaskList
+
     init {
         getTaskDashboard()
     }
@@ -44,5 +60,37 @@ class TaskDashboardViewModel(application: Application): BaseViewModel(applicatio
                     .getString(R.string.something_went_wrong)
             }
         }
+    }
+
+    fun showAssignedTaskList() {
+        _eventShowAssignedTaskList.value = true
+    }
+
+    fun assignedTaskListShown() {
+        _eventShowAssignedTaskList.value = false
+    }
+
+    fun showAcceptedTaskList() {
+        _eventShowAcceptedTaskList.value = true
+    }
+
+    fun acceptedTaskListShown() {
+        _eventShowAcceptedTaskList.value = false
+    }
+
+    fun showCompletedTaskList() {
+        _eventShowCompletedTaskList.value = true
+    }
+
+    fun completedTaskListShown() {
+        _eventShowCompletedTaskList.value = false
+    }
+
+    fun showInProgressTaskList() {
+        _eventShowInProgressTaskList.value = true
+    }
+
+    fun inProgressTaskListShown() {
+        _eventShowInProgressTaskList.value = false
     }
 }
