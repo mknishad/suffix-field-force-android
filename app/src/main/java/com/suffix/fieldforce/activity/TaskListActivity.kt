@@ -17,7 +17,7 @@ import com.suffix.fieldforce.databinding.ActivityTaskListBinding
 import com.suffix.fieldforce.model.Task
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskListViewModel
-import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.startActivity
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -66,7 +66,9 @@ class TaskListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView(taskList: List<Task>) {
         val adapter = TaskAdapter(TaskListener { task ->
-            binding.recyclerView.snackbar(task.ticketTitle.toString())
+            startActivity<TaskDetailsActivity>(
+                Constants.TASK_ID to task.ticketId
+            )
         })
         binding.recyclerView.adapter = adapter
 

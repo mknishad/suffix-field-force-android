@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.model
 
 import android.os.Parcelable
+import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -11,12 +12,12 @@ data class Task(
     var ticketRemark: String?,
     var deviceName: String?,
     var consumerDistrict: String?,
-    var ticketCateroryCode: String?,
+    @Json(name = "ticketCateroryCode") var ticketCategoryCode: String?,
     var ticketStartDate: String?,
     var ticketEndDate: String?,
     var ticketStatus: String?,
     var ticketStatusText: String?,
-    var ticketCateroryTitle: String?,
+    @Json(name = "ticketCateroryTitle") var ticketCategoryTitle: String?,
     var ticketCode: String?,
     var ticketId: String?,
     var consumerMobile: String?,

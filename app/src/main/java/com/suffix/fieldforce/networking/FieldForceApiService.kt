@@ -109,4 +109,10 @@ interface FieldForceApiService {
     fun getInProgressTaskListAsync(
         @Query("regTechId") regTechId: String
     ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/tickeDetailsInfo.jsp")
+    fun getTaskDetailsAsync(
+        @Query("regTechId") regTechId: String,
+        @Query("ticketId") ticketId: String
+    ): Deferred<List<TaskDetailsResponse>>
 }
