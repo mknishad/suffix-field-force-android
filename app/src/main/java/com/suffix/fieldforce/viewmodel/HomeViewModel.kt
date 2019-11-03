@@ -14,6 +14,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val eventNavigateToInventory: LiveData<Boolean>
         get() = _eventNavigateToInventory
 
+    private val _eventNavigateToBills = MutableLiveData<Boolean>()
+    val eventNavigateToBills: LiveData<Boolean>
+    get() = _eventNavigateToBills
+
     fun showTask() {
         _eventNavigateToTask.value = true
     }
@@ -28,5 +32,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun inventoryShown() {
         _eventNavigateToInventory.value = false
+    }
+
+    fun showBills() {
+        _eventNavigateToBills.value = true
+    }
+
+    fun billsShown() {
+        _eventNavigateToBills.value = false
     }
 }

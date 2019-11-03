@@ -21,4 +21,13 @@
     <string name="site_map">Site Map</string>
     <string name="statistics">Statistics</string>
     <string name="issue">Issue</string>
+    <string name="bills">Bills</string>
+    <string name="add_bill">Add Bill</string>
+    <string name="submit">Submit</string>
+    <string name="date">Date</string>
+    <string name="remarks">Remarks</string>
+    <string name="approved_pending_amount">Approved Pending Amount</string>
+    <string name="disbursed_amount">Disbursed Amount</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="something_went_wrong">Something went wrong!</string>
 </resources>

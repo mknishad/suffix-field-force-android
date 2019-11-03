@@ -8,34 +8,46 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.fragment.HomeFragment
+import com.suffix.fieldforce.preference.FieldForcePreferences
+import com.suffix.fieldforce.util.Constants
+import com.suffix.fieldforce.viewmodel.MainViewModel
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
+import org.jetbrains.anko.error
+import org.jetbrains.anko.info
 import java.util.*
 
 const val REQUEST_CHECK_SETTINGS = 1000
 const val REQUEST_LOCATION_PERMISSION = 1001
-const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private var online: Boolean = false
     private var locationUpdateActive: Boolean = false
+    private var openApp: Boolean = true
 
+    private lateinit var mPreferences: FieldForcePreferences
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mLocationCallback: LocationCallback
 
-    private val INTERVAL = (1000).toLong()
-    private val FASTEST_INTERVAL = (1000).toLong()
+    private lateinit var mLocationCallback: LocationCallback
+    private val INTERVAL = (60 * 1000).toLong()
+    private val FASTEST_INTERVAL = (60 * 1000).toLong()
+
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +69,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        mPreferences = FieldForcePreferences(this)
+
         initBottomNav()
         initLocationProvider()
         initProgressBar()
+        initLocationSettings()
     }
 
     private fun initBottomNav() {
@@ -130,27 +145,23 @@ class MainActivity : AppCompatActivity() {
 
         mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
-                Log.i(TAG, "onLocationResult")
+                info { "onLocationResult" }
                 if (locationResult == null) {
                     return
                 }
                 for (location in locationResult.locations) {
                     //Update user location
                     try {
-                        Log.i(TAG, location.latitude.toString() + " " + location.longitude)
-                        /*BuddyUtil.showSnackbar(rootView, location.getLatitude() + " "
-                                + location.getLongitude());*/
-                        /*mSocket.emit(
-                            Constants.EVENT_MOVE, JSONObject(
-                                GsonBuilder().create().toJson(
-                                    bd.buddy.passenger.model.ridehistorydetail.Location(
-                                        location.latitude, location.longitude
-                                    )
-                                )
-                            )
-                        )*/
+                        info { "${location.latitude} ${location.longitude}" }
+                        mPreferences.putLocation(location)
+                        viewModel.sendGeoLocation(
+                            Constants.KEY,
+                            "BLA0010",
+                            location.latitude.toString(),
+                            location.longitude.toString()
+                        )
                     } catch (e: Exception) {
-                        Log.e(TAG, e.message!!)
+                        error(e.message, e)
                     }
                 }
             }
@@ -202,7 +213,12 @@ class MainActivity : AppCompatActivity() {
         val task = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
-            goOnline()
+            if (openApp) {
+                getDeviceLocation()
+                openApp = false
+            } else {
+                goOnline()
+            }
         }
 
         task.addOnFailureListener(this) { e ->
@@ -213,6 +229,26 @@ class MainActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
+        }
+    }
+
+    private fun getDeviceLocation() {
+        debug("getDeviceLocation: ")
+        try {
+            val locationTask = mFusedLocationProviderClient.lastLocation
+            locationTask.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    debug("onComplete: location found")
+                    task.result?.let {
+                        mPreferences.putLocation(it)
+                    }
+                } else {
+                    error("onComplete: current location is null")
+                    getDeviceLocation()
+                }
+            }
+        } catch (e: SecurityException) {
+            error("getDeviceLocation: SecurityException: " + e.message, e)
         }
     }
 
@@ -267,7 +303,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (resultCode) {
-            Activity.RESULT_OK -> goOnline()
+            Activity.RESULT_OK -> {
+                if (openApp) {
+                    getDeviceLocation()
+                    openApp = false
+                } else {
+                    goOnline()
+                }
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data)
