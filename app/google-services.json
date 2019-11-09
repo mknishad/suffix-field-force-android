@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "639573133142",
+    "firebase_url": "https://suffixfieldforce.firebaseio.com",
+    "project_id": "suffixfieldforce",
+    "storage_bucket": "suffixfieldforce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639573133142:android:c3009a213b0c58c59fb8f7",
+        "android_client_info": {
+          "package_name": "com.suffix.fieldforce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639573133142-e1nakknsjr6jv9dndpl3o1p5u199sql3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.suffix.fieldforce",
+            "certificate_hash": "7fa532f1d6c2852ff30aec5152664877d6d57c96"
+          }
+        },
+        {
+          "client_id": "639573133142-jf92v1in1ko51tt67407epe5cudkspdi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRhV8_Ecogrgn7TFaRIvPZ-L30Wr9i3QY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639573133142-jf92v1in1ko51tt67407epe5cudkspdi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

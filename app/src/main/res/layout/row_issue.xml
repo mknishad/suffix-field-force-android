@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:background="@android:color/white"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtIssueNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/colorMint"
+        android:padding="@dimen/padding_1"
+        android:text="SUFFIX-12"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/txtIssueDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_toRightOf="@id/txtIssueNumber"
+        android:padding="4dp"
+        android:text="This is a demo issue for pre defense" />
+
+    <TextView
+        android:id="@+id/txtIssueStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtIssueNumber"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:background="@drawable/border_mint"
+        android:paddingLeft="@dimen/padding_2"
+        android:paddingTop="@dimen/padding_1"
+        android:paddingRight="@dimen/padding_2"
+        android:paddingBottom="2dp"
+        android:text="Not Started"
+        android:textColor="@android:color/white"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/txtDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtIssueStatus"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/borderorange"
+        android:paddingLeft="@dimen/padding_2"
+        android:paddingTop="@dimen/padding_1"
+        android:paddingRight="@dimen/padding_2"
+        android:paddingBottom="2dp"
+        android:text="10 June, 2019"
+        android:textColor="@android:color/white"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtIssueNumber">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProjectIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:src="@drawable/consultant" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txtDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/layout_margin_5"
+                android:text="Dr. Solaiman"
+                android:textColor="@color/colorMint"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Dhaka" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
