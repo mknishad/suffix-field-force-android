@@ -64,7 +64,7 @@ class TaskViewHolder private constructor(private val binding: ListItemTaskBindin
  */
 class TaskDiffCallback : DiffUtil.ItemCallback<Task>() {
     override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.ticketId == newItem.ticketId
     }
 
     @SuppressLint("DiffUtilEquals")

@@ -35,9 +35,15 @@ private val retrofit = Retrofit.Builder()
     .client(okHttpClient)
     .build()
 
+object FieldForceApi {
+    val retrofitService: FieldForceApiService by lazy {
+        retrofit.create(FieldForceApiService::class.java)
+    }
+}
+
 interface FieldForceApiService {
 
-    @POST("FFMS/api//geoLocationEntry.jsp")
+    @POST("FFMS/api/geoLocationEntry.jsp")
     fun sendGeoLocationAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
@@ -45,7 +51,7 @@ interface FieldForceApiService {
         @Query("lng") lng: String
     ): Deferred<LocationResponse>
 
-    @POST("FFMS/api//getBillType.jsp")
+    @POST("FFMS/api/getBillType.jsp")
     fun getBillTypeAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
@@ -53,7 +59,7 @@ interface FieldForceApiService {
         @Query("lng") lng: String
     ): Deferred<BillTypeResponse>
 
-    @POST("FFMS/api//billEntry.jsp")
+    @POST("FFMS/api/billEntry.jsp")
     fun addBillAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
@@ -62,7 +68,7 @@ interface FieldForceApiService {
         @Query("billData") billData: String
     ): Deferred<AddBillResponse>
 
-    @POST("FFMS/api//getUserBillList.jsp")
+    @POST("FFMS/api/getUserBillList.jsp")
     fun getBillListAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
@@ -70,7 +76,7 @@ interface FieldForceApiService {
         @Query("lng") lng: String
     ): Deferred<BillDashboardResponse>
 
-    @POST("FFMS/api//getUserBillDetails.jsp")
+    @POST("FFMS/api/getUserBillDetails.jsp")
     fun getBillDetailsAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
@@ -78,10 +84,35 @@ interface FieldForceApiService {
         @Query("lng") lng: String,
         @Query("billId") billId: String
     ): Deferred<BillDetailsResponse>
-}
 
-object FieldForceApi {
-    val retrofitService: FieldForceApiService by lazy {
-        retrofit.create(FieldForceApiService::class.java)
-    }
+    @POST("FFMS/api/technicianSummaryInfo.jsp")
+    fun getTaskDashboardAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskDashboardResponse>>
+
+    @POST("FFMS/api/assignTicketList.jsp")
+    fun getAssignedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/acceptedTicketList.jsp")
+    fun getAcceptedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/completedTicketList.jsp")
+    fun getCompletedTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/inprogressTicketList.jsp")
+    fun getInProgressTaskListAsync(
+        @Query("regTechId") regTechId: String
+    ): Deferred<List<TaskListResponse>>
+
+    @POST("FFMS/api/tickeDetailsInfo.jsp")
+    fun getTaskDetailsAsync(
+        @Query("regTechId") regTechId: String,
+        @Query("ticketId") ticketId: String
+    ): Deferred<List<TaskDetailsResponse>>
 }

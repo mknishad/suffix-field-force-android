@@ -1,11 +1,10 @@
 package com.suffix.fieldforce.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class InventoryViewModel(application: Application) : AndroidViewModel(application) {
+class InventoryViewModel(application: Application) : BaseViewModel(application) {
     private val _eventShowPC = MutableLiveData<Boolean>()
     val eventShowPC: LiveData<Boolean>
         get() = _eventShowPC

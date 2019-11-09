@@ -1,18 +1,14 @@
 package com.suffix.fieldforce.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.model.LocationResponse
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.networking.FieldForceApiStatus
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : BaseViewModel(application) {
     private val _locationResponse = MutableLiveData<LocationResponse>()
     val locationResponse: LiveData<LocationResponse>
         get() = _locationResponse
@@ -20,9 +16,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _status = MutableLiveData<FieldForceApiStatus>()
     val status: LiveData<FieldForceApiStatus>
         get() = _status
-
-    private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     fun sendGeoLocation(key: String, userId: String, lat: String, lng: String) {
         coroutineScope.launch {
@@ -42,10 +35,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _status.value = FieldForceApiStatus.ERROR
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

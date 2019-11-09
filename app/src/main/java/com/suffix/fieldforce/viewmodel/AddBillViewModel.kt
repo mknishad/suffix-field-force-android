@@ -1,7 +1,6 @@
 package com.suffix.fieldforce.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -12,25 +11,14 @@ import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class AddBillViewModel(application: Application) : AndroidViewModel(application), AnkoLogger {
+class AddBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
     private val _billTypes = MutableLiveData<List<BillType>>()
     val billTypes: LiveData<List<BillType>>
     get() = _billTypes
-
-    private val _progress = MutableLiveData<Boolean>()
-    val progress: LiveData<Boolean>
-        get() = _progress
-
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String>
-        get() = _message
 
     private val _addBillResponse = MutableLiveData<AddBillResponse>()
     val addBillResponse: LiveData<AddBillResponse>
@@ -39,9 +27,6 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
     private val _eventAddBill = MutableLiveData<Boolean>()
     val eventAddBill: LiveData<Boolean>
     get() = _eventAddBill
-
-    private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private val preferences: FieldForcePreferences = FieldForcePreferences(application)
 
@@ -59,12 +44,14 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = getBillTypesDeferred.await()
                 _billTypes.value = result.responseData
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
-                _progress.value = false
+                error(e.message, e)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }
@@ -82,20 +69,15 @@ class AddBillViewModel(application: Application) : AndroidViewModel(application)
             )
 
             try {
-                _progress.value = true
+                progress.value = true
                 val result = addBillDeferred.await()
                 _addBillResponse.value = result
-                _progress.value = false
+                progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
-                _progress.value = false
-                _message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                progress.value = false
+                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

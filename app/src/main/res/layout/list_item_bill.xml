@@ -51,12 +51,11 @@
                 android:text="@{bill.status}"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
-                app:billBackgroundTint="@{bill}"
+                app:billBackgroundTint="@{bill.status}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/bg_status"
-                tools:text="@{bill}" />
+                tools:background="@drawable/bg_status" />
 
             <TextView
                 android:id="@+id/dateTextView"

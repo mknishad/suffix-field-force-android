@@ -77,6 +77,7 @@
     <color name="bar">#DC5627</color>
     <color name="pred">#E05F5B</color>
     <color name="predD">#AF4643</color>
+    <color name="colorLightGrey">#E1E1E1</color>
 
 
     <color name="bg_screen1">#3498db</color>

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BillsActivity
 import com.suffix.fieldforce.activity.InventoryActivity
-import com.suffix.fieldforce.activity.TaskListActivity
+import com.suffix.fieldforce.activity.TaskDashboardActivity
 import com.suffix.fieldforce.databinding.FragmentHomeBinding
 import com.suffix.fieldforce.viewmodel.HomeViewModel
 import org.jetbrains.anko.startActivity
@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
     private fun observeShowTaskEvent() {
         viewModel.eventNavigateToTask.observe(this, Observer {
             if (it) {
-                activity?.startActivity<TaskListActivity>()
+                activity?.startActivity<TaskDashboardActivity>()
                 viewModel.taskShown()
             }
         })

@@ -8,19 +8,22 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.adapter.TaskAdapter
 import com.suffix.fieldforce.adapter.TaskListener
 import com.suffix.fieldforce.databinding.ActivityTaskListBinding
 import com.suffix.fieldforce.model.Task
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskListViewModel
-import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.startActivity
 
 class TaskListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTaskListBinding
     private lateinit var viewModel: TaskListViewModel
+    private lateinit var taskType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,11 @@ class TaskListActivity : AppCompatActivity() {
 
     private fun init() {
         setupToolbar()
-        setupRecyclerView()
+        //setupRecyclerView()
+        observeTaskList()
+
+        taskType = intent.getStringExtra(Constants.TASK_TYPE)
+        viewModel.getTaskList(taskType)
     }
 
     private fun setupToolbar() {
@@ -57,25 +64,24 @@ class TaskListActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(taskList: List<Task>) {
         val adapter = TaskAdapter(TaskListener { task ->
-            binding.recyclerView.snackbar(task.name.toString())
+            startActivity<TaskDetailsActivity>(
+                Constants.TASK_ID to task.ticketId
+            )
         })
         binding.recyclerView.adapter = adapter
 
-        val taskList = listOf(
-            Task(";alskf;ls", "Task 1", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 2", "In Progress", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 3", "Resolved", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 4", "Closed", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 5", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 6", "In Progress", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 7", "Resolved", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 8", "Closed", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 9", "Open", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 10", "In Progress", "Jul 1, 2020", "Project 1"),
-            Task(";alskf;ls", "Task 11", "Resolved", "Jul 1, 2020", "Project 1"))
-
         adapter.callSubmitList(taskList)
+    }
+
+    private fun observeTaskList() {
+        viewModel.taskList.observe(this, Observer { taskList ->
+            taskList.let {
+                if (it.isNotEmpty()) {
+                    setupRecyclerView(it)
+                }
+            }
+        })
     }
 }
