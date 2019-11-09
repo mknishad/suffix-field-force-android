@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/coverImage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_head"
+        android:src="@drawable/background2" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="@dimen/layout_margin_40"
+        android:layout_height="@dimen/layout_margin_40"
+        android:src="@drawable/profile2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/profile_margin"
+        />
+
+    <com.budiyev.android.circularprogressbar.CircularProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/layout_margin_42"
+        android:layout_height="@dimen/layout_margin_42"
+        app:animateProgress="true"
+        app:backgroundStrokeColor="@color/colorWhite"
+        app:backgroundStrokeWidth="@dimen/padding_1"
+        app:drawBackgroundStroke="true"
+        app:foregroundStrokeCap="butt"
+        app:foregroundStrokeColor="@color/colorGrass"
+        app:foregroundStrokeWidth="5dp"
+        app:indeterminate="false"
+        app:indeterminateRotationAnimationDuration="1200"
+        app:indeterminateSweepAnimationDuration="600"
+        app:indeterminateMinimumAngle="45"
+        app:maximum="100"
+        app:progressAnimationDuration="500"
+        app:startAngle="270"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/profile_margin"
+        />
+
+</RelativeLayout>
