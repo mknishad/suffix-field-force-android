@@ -1,23 +1,27 @@
 <resources>
-	<dimen name="layout_margin_52">124.8dp</dimen>
 	<dimen name="layout_margin_40">96dp</dimen>
-	<dimen name="layout_margin_10">24dp</dimen>
 	<dimen name="layout_margin_42">100.8dp</dimen>
 	<dimen name="layout_height_30">72dp</dimen>
-	<dimen name="layout_height_20">48dp</dimen>
-	<dimen name="layout_height_100">240dp</dimen>
-	<dimen name="layout_margin_50">120dp</dimen>
 	<dimen name="layout_height_10">24dp</dimen>
 	<dimen name="layout_height_110">264dp</dimen>
+	<dimen name="card_height_45">108dp</dimen>
 	<dimen name="padding_1">2.4dp</dimen>
-	<dimen name="layout_height_90">216dp</dimen>
 	<dimen name="layout_height_80">192dp</dimen>
 	<dimen name="padding_3">7.2dp</dimen>
 	<dimen name="padding_2">4.8dp</dimen>
-	<dimen name="layout_head">144dp</dimen>
+	<dimen name="layout_margin_2">4.8dp</dimen>
 	<dimen name="padding_5">12dp</dimen>
+	<dimen name="layout_margin_1">2.4dp</dimen>
 	<dimen name="padding_4">9.6dp</dimen>
 	<dimen name="layout_height_40">96dp</dimen>
 	<dimen name="layout_margin_5">12dp</dimen>
 	<dimen name="profile_margin">96dp</dimen>
+	<dimen name="layout_margin_52">124.8dp</dimen>
+	<dimen name="layout_margin_10">24dp</dimen>
+	<dimen name="layout_height_20">48dp</dimen>
+	<dimen name="layout_height_100">240dp</dimen>
+	<dimen name="layout_margin_50">120dp</dimen>
+	<dimen name="layout_height_45">108dp</dimen>
+	<dimen name="layout_height_90">216dp</dimen>
+	<dimen name="layout_head">144dp</dimen>
 </resources>
