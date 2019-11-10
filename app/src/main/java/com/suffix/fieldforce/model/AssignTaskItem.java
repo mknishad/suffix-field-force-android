@@ -1,9 +1,12 @@
-package com.suffix.fieldforce.model.task;
+package com.suffix.fieldforce.model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AssignTaskItem {
+public class AssignTaskItem implements Parcelable {
 
     @SerializedName("ticketTitle")
     @Expose
@@ -191,5 +194,63 @@ public class AssignTaskItem {
 
     public void setConsumerName(String consumerName) {
         this.consumerName = consumerName;
+    }
+
+    protected AssignTaskItem(Parcel in) {
+        ticketTitle = in.readString();
+        consumerAddress = in.readString();
+        consumerThana = in.readString();
+        orderId = in.readString();
+        ticketRemark = in.readString();
+        deviceName = in.readString();
+        consumerDistrict = in.readString();
+        ticketCateroryCode = in.readString();
+        ticketStartDate = in.readString();
+        ticketEndDate = in.readString();
+        ticketStatus = in.readString();
+        ticketStatusText = in.readString();
+        ticketCateroryTitle = in.readString();
+        ticketCode = in.readString();
+        ticketId = in.readString();
+        consumerMobile = in.readString();
+        consumerName = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(ticketTitle);
+        parcel.writeString(consumerAddress);
+        parcel.writeString(consumerThana);
+        parcel.writeString(orderId);
+        parcel.writeString(ticketRemark);
+        parcel.writeString(deviceName);
+        parcel.writeString(consumerDistrict);
+        parcel.writeString(ticketCateroryCode);
+        parcel.writeString(ticketStartDate);
+        parcel.writeString(ticketEndDate);
+        parcel.writeString(ticketStatus);
+        parcel.writeString(ticketStatusText);
+        parcel.writeString(ticketCateroryTitle);
+        parcel.writeString(ticketCode);
+        parcel.writeString(ticketId);
+        parcel.writeString(consumerMobile);
+        parcel.writeString(consumerName);
+    }
+
+    public static final Creator<AssignTaskItem> CREATOR = new Creator<AssignTaskItem>() {
+        @Override
+        public AssignTaskItem createFromParcel(Parcel in) {
+            return new AssignTaskItem(in);
+        }
+
+        @Override
+        public AssignTaskItem[] newArray(int size) {
+            return new AssignTaskItem[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

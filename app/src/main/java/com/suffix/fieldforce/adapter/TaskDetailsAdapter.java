@@ -1,15 +1,16 @@
-package com.suffix.fieldforce.activity.task.adapters;
+package com.suffix.fieldforce.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.model.task.AssignTaskItem;
+import com.suffix.fieldforce.model.AssignTaskItem;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,12 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         this.modelRemainderArrayList = modelRemainderArrayList;
     }
 
+    private TaskDetailsAdapterListener taskDetailsAdapterListener;
+
+    public void setTaskDetailsAdapterListener(TaskDetailsAdapterListener taskDetailsAdapterListener) {
+        this.taskDetailsAdapterListener = taskDetailsAdapterListener;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -42,6 +49,15 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         holder.ticketStatusText.setText(assignTaskItem.getTicketStatusText());
         holder.consumerName.setText(assignTaskItem.getConsumerName());
         holder.consumerAddress.setText(assignTaskItem.getConsumerAddress());
+
+        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(taskDetailsAdapterListener != null){
+                    taskDetailsAdapterListener.onItemClicked(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -70,6 +86,8 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         TextView consumerName;
         @BindView(R.id.consumerAddress)
         TextView consumerAddress;
+        @BindView(R.id.layoutItem)
+        RelativeLayout layoutItem;
 
         public ViewHolder(View itemView) {
             super(itemView);

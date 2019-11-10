@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity.task.adapters;
+package com.suffix.fieldforce.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

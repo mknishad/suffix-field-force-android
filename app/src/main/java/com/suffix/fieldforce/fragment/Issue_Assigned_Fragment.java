@@ -1,5 +1,4 @@
-package com.suffix.fieldforce.activity.task.fragments;
-
+package com.suffix.fieldforce.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,15 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.task.adapters.TaskDetailsAdapter;
-import com.suffix.fieldforce.model.task.AssignTaskItem;
-import com.suffix.fieldforce.model.task.AssignedTask;
+import com.suffix.fieldforce.adapter.TaskDetailsAdapter;
+import com.suffix.fieldforce.adapter.TaskDetailsAdapterListener;
+import com.suffix.fieldforce.model.AssignTaskItem;
+import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 
@@ -66,6 +67,12 @@ public class Issue_Assigned_Fragment extends Fragment {
                     assignTaskItems = (ArrayList<AssignTaskItem>) assignedTask.getResponseData();
                     adapter = new TaskDetailsAdapter(getContext(), assignTaskItems);
                     recyclerViewList.setAdapter(adapter);
+                    adapter.setTaskDetailsAdapterListener(new TaskDetailsAdapterListener() {
+                        @Override
+                        public void onItemClicked(int position) {
+                            Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     recyclerViewList.setVisibility(View.GONE);
                     txtError.setVisibility(View.VISIBLE);

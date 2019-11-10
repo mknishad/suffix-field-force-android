@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.model.task;
+package com.suffix.fieldforce.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

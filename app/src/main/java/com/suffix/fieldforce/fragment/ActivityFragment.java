@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity.task.fragments;
+package com.suffix.fieldforce.fragment;
 
 
 import android.os.Bundle;

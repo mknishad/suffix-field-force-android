@@ -1,6 +1,6 @@
 package com.suffix.fieldforce.retrofitapi;
 
-import com.suffix.fieldforce.model.task.AssignedTask;
+import com.suffix.fieldforce.model.AssignedTask;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

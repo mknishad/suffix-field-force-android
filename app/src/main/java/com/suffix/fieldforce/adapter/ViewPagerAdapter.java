@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity.task.adapters;
+package com.suffix.fieldforce.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -10,7 +10,6 @@ import java.util.List;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     List<Fragment> fragmentList = new ArrayList<>();
     List<String> fragmentTitles = new ArrayList<>();
-
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);

@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity.task.fragments;
+package com.suffix.fieldforce.fragment;
 
 
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.task.adapters.ViewPagerAdapter;
+import com.suffix.fieldforce.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
