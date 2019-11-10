@@ -1,6 +1,8 @@
 <resources>
+	<dimen name="card_height_60">108dp</dimen>
 	<dimen name="layout_margin_40">72dp</dimen>
 	<dimen name="layout_margin_42">75.6dp</dimen>
+	<dimen name="layout_height_5">9dp</dimen>
 	<dimen name="layout_height_30">54dp</dimen>
 	<dimen name="layout_height_10">18dp</dimen>
 	<dimen name="layout_height_110">198dp</dimen>
@@ -17,6 +19,7 @@
 	<dimen name="layout_margin_5">9dp</dimen>
 	<dimen name="profile_margin">72dp</dimen>
 	<dimen name="layout_margin_52">93.6dp</dimen>
+	<dimen name="card_height_50">90dp</dimen>
 	<dimen name="layout_margin_10">18dp</dimen>
 	<dimen name="layout_height_20">36dp</dimen>
 	<dimen name="layout_height_100">180dp</dimen>

@@ -25,11 +25,5 @@
         android:icon="@drawable/ic_show_chart"
         android:title="Activity"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_watchlist"
-        android:enabled="true"
-        android:icon="@drawable/ic_remove_red_eye"
-        android:title="Watchlist"
-        app:showAsAction="ifRoom" />
 
 </menu>

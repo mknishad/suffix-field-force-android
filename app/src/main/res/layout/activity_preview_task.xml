@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/txtCompanyName"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/layout_height_20"
+        android:layout_marginStart="@dimen/layout_margin_5"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:gravity="center|start"
+        android:text="Suffix IT-101"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:id="@+id/txtIssueTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center|start"
+        android:text="Advance Task List"
+        app:layout_constraintBottom_toBottomOf="@+id/txtCompanyName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toEndOf="@+id/txtCompanyName"
+        app:layout_constraintTop_toTopOf="@+id/txtCompanyName"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txtHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="(Admin App)"
+        app:layout_constraintStart_toStartOf="@+id/txtCompanyName"
+        app:layout_constraintTop_toBottomOf="@+id/txtCompanyName" />
+
+    <ImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        app:layout_constraintStart_toStartOf="@+id/txtCompanyName"
+        app:layout_constraintTop_toBottomOf="@+id/txtHint"
+        app:srcCompat="@drawable/consultant" />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_marginStart="8dp"
+        android:text="Mohammad Solaiman"
+        app:layout_constraintStart_toEndOf="@+id/imageProfile"
+        app:layout_constraintTop_toTopOf="@+id/imageProfile" />
+
+    <TextView
+        android:id="@+id/textDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunday, Nov 10, 2019"
+        app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+        app:layout_constraintEnd_toEndOf="@+id/textName"
+        app:layout_constraintStart_toStartOf="@+id/textName"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+    <TextView
+        android:id="@+id/txtShortTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Admin App"
+        app:layout_constraintStart_toStartOf="@+id/imageProfile"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+
+    <TextView
+        android:id="@+id/txtComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_margin_5"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/padding_2"
+        android:text="Put one test button on user profile\nPut one test button on user profile\nPut one test button on user profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtShortTitle" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="@dimen/layout_height_45"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="@string/issue_type"
+        app:layout_constraintStart_toStartOf="@+id/txtShortTitle"
+        app:layout_constraintTop_toBottomOf="@+id/txtComments" />
+
+    <TextView
+        android:id="@+id/txtIssueType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin_40"
+        android:text="Task"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="@string/status"
+        app:layout_constraintEnd_toEndOf="@+id/textView7"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="@string/priority"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="@string/categories"
+        app:layout_constraintEnd_toEndOf="@+id/textView10"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/txtIssueStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin_40"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:background="@color/colorGrassDark"
+        android:paddingLeft="@dimen/padding_2"
+        android:paddingRight="@dimen/padding_2"
+        android:text="Open"
+        android:textColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="@+id/txtIssueType"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/txtIssueType" />
+
+    <TextView
+        android:id="@+id/txtPriority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin_40"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="Normal"
+        app:layout_constraintEnd_toEndOf="@+id/txtIssueStatus"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/txtIssueStatus" />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin_40"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:text="Admin App"
+        app:layout_constraintEnd_toEndOf="@+id/txtPriority"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/txtPriority" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
