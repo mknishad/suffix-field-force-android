@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/txtIssueNumber"
+        android:id="@+id/ticketCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,19 +20,18 @@
         android:textColor="@android:color/white" />
 
     <TextView
-        android:id="@+id/txtIssueDescription"
+        android:id="@+id/ticketTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_toRightOf="@id/txtIssueNumber"
+        android:layout_toRightOf="@id/ticketCode"
         android:padding="4dp"
         android:text="This is a demo issue for pre defense" />
 
     <TextView
-        android:id="@+id/txtIssueStatus"
+        android:id="@+id/ticketStatusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtIssueNumber"
+        android:layout_below="@id/ticketCode"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/layout_margin_5"
         android:background="@drawable/border_mint"
@@ -45,10 +44,10 @@
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/txtDateTime"
+        android:id="@+id/ticketStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtIssueStatus"
+        android:layout_below="@id/ticketStatusText"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="4dp"
         android:background="@drawable/borderorange"
@@ -63,7 +62,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtIssueNumber">
+        android:layout_below="@+id/ticketCode">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProjectIcon"
@@ -77,7 +76,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/txtDoctor"
+                android:id="@+id/consumerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -87,7 +86,7 @@
                 android:textStyle="bold"
                 />
             <TextView
-                android:id="@+id/txtAddress"
+                android:id="@+id/consumerAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
