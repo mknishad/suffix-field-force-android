@@ -21,6 +21,7 @@ import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +35,10 @@ public class Issue_Assigned_Fragment extends Fragment {
     LinearLayout filterIssue;
     @BindView(R.id.issue_item)
     RecyclerView recyclerViewList;
-
-    private final String RESPONSE_OK = "1";
     @BindView(R.id.txtError)
     TextView txtError;
+
+    private final String RESPONSE_OK = "1";
 
     private ArrayList<AssignTaskItem> assignTaskItems;
     TaskDetailsAdapter adapter;
@@ -48,42 +49,37 @@ public class Issue_Assigned_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_issue__assigned_, container, false);
         ButterKnife.bind(this, view);
 
-//        final SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-//        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-//        pDialog.setTitleText("please wait...");
-//        pDialog.setCancelable(false);
-//        pDialog.show();
-
         recyclerViewList.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
-        Call<AssignedTask> getAssignTicketList = apiInterface.getAssignTicketList("BLA0010");
-        getAssignTicketList.enqueue(new Callback<AssignedTask>() {
+        Call<List<AssignedTask>> getAssignTicketList = apiInterface.getAssignTicketList("BLA0010");
+        getAssignTicketList.enqueue(new Callback<List<AssignedTask>>() {
             @Override
-            public void onResponse(Call<AssignedTask> call, Response<AssignedTask> response) {
-                AssignedTask assignedTask = response.body();
-                if (assignedTask.getResponseCode().contains(RESPONSE_OK)) {
-                    assignTaskItems = (ArrayList<AssignTaskItem>) assignedTask.getResponseData();
-                    adapter = new TaskDetailsAdapter(getContext(), assignTaskItems);
-                    recyclerViewList.setAdapter(adapter);
-                    adapter.setTaskDetailsAdapterListener(new TaskDetailsAdapterListener() {
-                        @Override
-                        public void onItemClicked(int position) {
-                            Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<List<AssignedTask>> call, Response<List<AssignedTask>> response) {
+                    if(response.isSuccessful()){
+                        List<AssignedTask> assignedTasks = response.body();
+                        AssignedTask assignedTask = assignedTasks.get(0);
+
+                        if(assignedTask.getResponseCode().contains(RESPONSE_OK)){
+                            adapter = new TaskDetailsAdapter(getContext(),assignedTask.getResponseData());
+                            recyclerViewList.setAdapter(adapter);
+                            adapter.setTaskDetailsAdapterListener(new TaskDetailsAdapterListener() {
+                                @Override
+                                public void onItemClicked(int position) {
+                                    Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
-                    });
-                } else {
-                    recyclerViewList.setVisibility(View.GONE);
-                    txtError.setVisibility(View.VISIBLE);
-                }
+                    }
             }
 
             @Override
-            public void onFailure(Call<AssignedTask> call, Throwable t) {
-
+            public void onFailure(Call<List<AssignedTask>> call, Throwable t) {
+                t.printStackTrace();
             }
         });
+
         return view;
     }
 

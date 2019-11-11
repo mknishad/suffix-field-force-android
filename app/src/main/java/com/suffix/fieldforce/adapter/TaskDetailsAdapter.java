@@ -13,6 +13,7 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.AssignTaskItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,9 +22,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<AssignTaskItem> modelRemainderArrayList = new ArrayList<AssignTaskItem>();
+    private List<AssignTaskItem> modelRemainderArrayList = new ArrayList<AssignTaskItem>();
 
-    public TaskDetailsAdapter(Context context, ArrayList<AssignTaskItem> modelRemainderArrayList) {
+    public TaskDetailsAdapter(Context context, List<AssignTaskItem> modelRemainderArrayList) {
         this.context = context;
         this.modelRemainderArrayList = modelRemainderArrayList;
     }
@@ -49,6 +50,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         holder.ticketStatusText.setText(assignTaskItem.getTicketStatusText());
         holder.consumerName.setText(assignTaskItem.getConsumerName());
         holder.consumerAddress.setText(assignTaskItem.getConsumerAddress());
+        holder.ticketStartDate.setText(assignTaskItem.getTicketStartDate());
 
         holder.layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override

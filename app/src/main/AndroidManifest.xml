@@ -20,10 +20,11 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.AddBillActivity" />
         <activity android:name=".activity.TaskDetailsActivity" />
+        <activity android:name=".activity.task.TaskDashboard" />
         <activity android:name=".activity.InventoryActivity" />
         <activity android:name=".activity.TaskListActivity" />
         <activity android:name=".activity.BillsActivity" />
-        <activity android:name=".activity.home.PreviewTask" />
+        <activity android:name=".activity.task.PreviewTask" />
 
         <activity android:name=".activity.home.MainDashboard"
             android:label="@string/app_name"
@@ -35,8 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.MainActivity"/>
 
         <service android:name=".networking.MyFirebaseMessagingService">
             <intent-filter>
