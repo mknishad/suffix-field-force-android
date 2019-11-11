@@ -1,15 +1,36 @@
 package com.suffix.fieldforce.activity.home;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +38,22 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainDashboard extends AppCompatActivity {
+
+    private static final String TAG = "MainDashboard";
+    private static int REQUEST_CHECK_SETTINGS = 1000;
+    private static int REQUEST_LOCATION_PERMISSION = 1001;
+
+    private boolean isOnline;
+    private boolean isLocationUpdateActive;
+    private boolean isFirstOpen = true;
+
+    private FieldForcePreferences preferences;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+
+    private static long INTERVAL = 60 * 1000;
+    private static long FASTEST_INTERVAL = 60 * 1000;
 
     @BindView(R.id.imgDrawer)
     ImageView imgDrawer;
@@ -42,18 +79,182 @@ public class MainDashboard extends AppCompatActivity {
     CardView cardSiteMap;
     @BindView(R.id.imgUserProfile)
     CircleImageView imgUserProfile;
+    @BindView(R.id.progressBar)
+    CircularProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dashboard);
         ButterKnife.bind(this);
+
+        init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (isLocationUpdateActive) {
+            stopLocationUpdate();
+        }
+    }
+
+    private void init() {
+        preferences = new FieldForcePreferences(this);
+
+        initLocationProvider();
+        initProgressBar();
+        initLocationSettings();
+    }
+
+    private void initLocationProvider() {
+        fusedLocationProviderClient = new FusedLocationProviderClient(this);
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    try {
+                        preferences.putLocation(location);
+                        // TODO:  Send Geo Location to server
+                    } catch (Exception e) {
+                        Log.e(TAG, "onLocationResult: " + e.getMessage(), e);
+                    }
+                }
+            }
+        };
+    }
+
+    private void initProgressBar() {
+        goOffline();
+        progressBar.setOnClickListener(v -> {
+            if (!isOnline) {
+                initLocationSettings();
+            } else {
+                goOffline();
+            }
+        });
+    }
+
+    private void initLocationSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getLocationPermission();
+        } else {
+            createLocationRequest();
+        }
+    }
+
+    private void getLocationPermission() {
+        String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(
+                getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED) {
+            createLocationRequest();
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissions,
+                    REQUEST_LOCATION_PERMISSION
+            );
+        }
+    }
+
+    private void createLocationRequest() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task task = client.checkLocationSettings(builder.build());
+
+        task.addOnSuccessListener(o -> {
+            if (isFirstOpen) {
+                getDeviceLocation();
+                isFirstOpen = false;
+            } else {
+                goOnline();
+            }
+        }).addOnFailureListener(e -> {
+            if (e instanceof ResolvableApiException) {
+                try {
+                    ((ResolvableApiException) e).startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException ex) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void getDeviceLocation() {
+        try {
+            Task task = fusedLocationProviderClient.getLastLocation();
+            task.addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        if (task != null) {
+                            preferences.putLocation((Location) task.getResult());
+                        }
+                    } else {
+                        getDeviceLocation();
+                    }
+                }
+            });
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: ", e);
+        }
+    }
+
+    private void goOnline() {
+        progressBar.setForegroundStrokeColor(getResources().getColor(android.R.color.holo_green_dark));
+        progressBar.setProgressAnimationDuration(1000);
+        progressBar.setProgress(0f);
+        progressBar.setProgressAnimationDuration(1000);
+        progressBar.setProgress(100f);
+        isOnline = true;
+        startLocationUpdate();
+    }
+
+    private void goOffline() {
+        progressBar.setProgressAnimationDuration(1000);
+        progressBar.setProgress(0f);
+        progressBar.setForegroundStrokeColor(getResources().getColor(android.R.color.holo_red_light));
+        progressBar.setProgressAnimationDuration(1000);
+        progressBar.setProgress(100f);
+        isOnline = false;
+        stopLocationUpdate();
+    }
+
+    private void startLocationUpdate() {
+        fusedLocationProviderClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                null
+        );
+        isLocationUpdateActive = true;
+    }
+
+    private void stopLocationUpdate() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        isLocationUpdateActive = false;
     }
 
     @OnClick(R.id.cardTask)
-    public void openTask(){
+    public void openTask() {
         Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
         startActivity(intent);
     }
-
 }

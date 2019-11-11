@@ -18,7 +18,7 @@ class FieldForcePreferences(context: Context) {
         context.getSharedPreferences(PREFERENCE_TITLE, Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
-    fun putLocation(location: Location) {
+    fun putLocation(location: Location?) {
         val gson = Gson()
         val json = gson.toJson(location)
         editor.putString(Constants.LOCATION, json)
