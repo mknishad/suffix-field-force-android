@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMintDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/login_box"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log"
+            android:textColor="@android:color/white"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In"
+            android:textColor="@color/yello"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mtf_labelColor="@android:color/white"
+            app:mtf_image="@drawable/ic_email"
+            >
+
+            <EditText
+                android:id="@+id/log_input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:textColor="#333"
+                android:textColorHint="#E0DADA"
+                android:textSize="15sp"
+                android:backgroundTint="@color/colorWhite"
+                />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mtf_labelColor="@android:color/white"
+            app:mtf_image="@drawable/ic_security"
+            >
+
+            <EditText
+                android:id="@+id/log_input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:textColorHint="#E0DADA"
+                android:textColor="#333"
+                android:textSize="15sp"
+                android:backgroundTint="@color/colorWhite"
+                />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+        <Button
+            android:id="@+id/log_btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:text="Login"
+            android:background="@drawable/border_white"
+            android:textSize="15sp"
+            android:paddingRight="@dimen/layout_margin_10"
+            android:paddingLeft="@dimen/layout_margin_10"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_box"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an id ? "
+            android:textColor="#BEBEBE"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/log_link_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Creat one"
+            android:textColor="#55AAFF"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+</RelativeLayout>

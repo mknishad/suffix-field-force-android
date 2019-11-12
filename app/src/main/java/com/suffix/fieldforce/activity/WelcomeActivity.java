@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.home.LoginActivity;
 import com.suffix.fieldforce.activity.home.MainDashboard;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -108,7 +109,7 @@ public class WelcomeActivity extends AppCompatActivity {
 //            startActivity(i);
 //        }
 //        else{
-        Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
+        Intent i = new Intent(WelcomeActivity.this, LoginActivity.class);
         startActivity(i);
         //}
         finish();
