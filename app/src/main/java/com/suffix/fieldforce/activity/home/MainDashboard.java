@@ -29,13 +29,21 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.BillsActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
+import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+import com.suffix.fieldforce.retrofitapi.APIClient;
+import com.suffix.fieldforce.retrofitapi.APIInterface;
+import com.suffix.fieldforce.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainDashboard extends AppCompatActivity {
 
@@ -88,6 +96,11 @@ public class MainDashboard extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.cardBills)
+    public void openBills() {
+        startActivity(new Intent(this, BillsActivity.class));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +144,23 @@ public class MainDashboard extends AppCompatActivity {
                     try {
                         preferences.putLocation(location);
                         // TODO:  Send Geo Location to server
+                        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+                        Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
+                                Constants.INSTANCE.getUSER_ID(),
+                                String.valueOf(location.getLatitude()),
+                                String.valueOf(location.getLongitude()));
+                        call.enqueue(new Callback<LocationResponse>() {
+                            @Override
+                            public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                                Log.d(TAG, "onResponse: " + response.toString());
+                            }
+
+                            @Override
+                            public void onFailure(Call<LocationResponse> call, Throwable t) {
+                                Log.d(TAG, "onFailure: " + t.toString());
+                            }
+                        });
+
                     } catch (Exception e) {
                         Log.e(TAG, "onLocationResult: " + e.getMessage(), e);
                     }
