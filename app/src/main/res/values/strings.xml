@@ -56,4 +56,8 @@
     <string name="status">Status</string>
     <string name="priority">Priority</string>
     <string name="categories">Catagory</string>
+
+    <string name="entered">Attendance : Enterd</string>
+    <string name="exit">Attendance : Exit</string>
+    <string name="not_yet">Attendance : Not Yet</string>
 </resources>

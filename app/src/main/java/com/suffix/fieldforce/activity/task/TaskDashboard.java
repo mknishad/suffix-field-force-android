@@ -3,21 +3,18 @@ package com.suffix.fieldforce.activity.task;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.fragment.DashboardFragment;
 import com.suffix.fieldforce.fragment.NotificationsFragment;
 import com.suffix.fieldforce.fragment.ProjectsFragment;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TaskDashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
+public class TaskDashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.frame_container)
     FrameLayout frameContainer;

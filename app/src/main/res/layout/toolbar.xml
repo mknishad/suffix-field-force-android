@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/very_lightGray"
+        android:background="@color/colorMintDark"
         >
 
         <ImageView
@@ -31,6 +31,11 @@
             android:id="@+id/toolBarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="TITLE"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="24sp"
             />
 
     </RelativeLayout>

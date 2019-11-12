@@ -1,18 +1,19 @@
 package com.suffix.fieldforce.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.task.PreviewTaskActivity;
 import com.suffix.fieldforce.adapter.TaskDetailsAdapter;
 import com.suffix.fieldforce.adapter.TaskDetailsAdapterListener;
 import com.suffix.fieldforce.model.AssignTaskItem;
@@ -67,7 +68,10 @@ public class Issue_Assigned_Fragment extends Fragment {
                             adapter.setTaskDetailsAdapterListener(new TaskDetailsAdapterListener() {
                                 @Override
                                 public void onItemClicked(int position) {
-                                    Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
+                                    AssignTaskItem assignTaskItem = assignedTask.getResponseData().get(position);
+                                    Intent intent = new Intent(getContext(), PreviewTaskActivity.class);
+                                    intent.putExtra("MODEL",assignTaskItem);
+                                    startActivity(intent);
                                 }
                             });
                         }

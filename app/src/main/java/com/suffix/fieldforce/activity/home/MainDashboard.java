@@ -82,6 +82,12 @@ public class MainDashboard extends AppCompatActivity {
     @BindView(R.id.progressBar)
     CircularProgressBar progressBar;
 
+    @OnClick(R.id.cardTask)
+    public void openTask() {
+        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,23 +225,27 @@ public class MainDashboard extends AppCompatActivity {
     }
 
     private void goOnline() {
-        progressBar.setForegroundStrokeColor(getResources().getColor(android.R.color.holo_green_dark));
+        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrassDark));
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(0f);
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(100f);
         isOnline = true;
         startLocationUpdate();
+        txtUserStatus.setText(getResources().getString(R.string.entered));
+        txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrassDark));
     }
 
     private void goOffline() {
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(0f);
-        progressBar.setForegroundStrokeColor(getResources().getColor(android.R.color.holo_red_light));
+        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(100f);
         isOnline = false;
         stopLocationUpdate();
+        txtUserStatus.setText(getResources().getString(R.string.exit));
+        txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
     }
 
     private void startLocationUpdate() {
@@ -250,11 +260,5 @@ public class MainDashboard extends AppCompatActivity {
     private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         isLocationUpdateActive = false;
-    }
-
-    @OnClick(R.id.cardTask)
-    public void openTask() {
-        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
-        startActivity(intent);
     }
 }

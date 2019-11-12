@@ -37,7 +37,7 @@
         <activity android:name=".activity.InventoryActivity" />
         <activity android:name=".activity.TaskListActivity" />
         <activity android:name=".activity.BillsActivity" />
-        <activity android:name=".activity.task.PreviewTask" />
+        <activity android:name=".activity.task.PreviewTaskActivity" />
         <activity android:name=".activity.home.MainDashboard" />
         <activity android:name=".activity.MainActivity" />
 
