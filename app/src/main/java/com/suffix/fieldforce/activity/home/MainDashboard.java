@@ -1,10 +1,14 @@
 package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +35,10 @@ import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -213,6 +221,7 @@ public class MainDashboard extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         if (task != null) {
                             preferences.putLocation((Location) task.getResult());
+                            new GetAddressTask(MainDashboard.this).execute((Location) task.getResult());
                         }
                     } else {
                         getDeviceLocation();
@@ -260,5 +269,54 @@ public class MainDashboard extends AppCompatActivity {
     private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         isLocationUpdateActive = false;
+    }
+
+    private class GetAddressTask extends AsyncTask<Location, Void, String> {
+        Context mContext;
+
+        GetAddressTask(Context context) {
+            super();
+            mContext = context;
+        }
+
+        @Override
+        protected String doInBackground(Location... params) {
+            Geocoder geocoder =
+                    new Geocoder(mContext, Locale.getDefault());
+            Location loc = params[0];
+            List<Address> addresses;
+            try {
+                addresses = geocoder.getFromLocation(loc.getLatitude(),
+                        loc.getLongitude(), 1);
+            } catch (IOException e1) {
+                Log.e("LocationSampleActivity",
+                        "IO Exception in getFromLocation()");
+                e1.printStackTrace();
+                return ("IO Exception trying to get address");
+            } catch (IllegalArgumentException e2) {
+                String errorString = "Illegal arguments " +
+                        Double.toString(loc.getLatitude()) +
+                        " , " +
+                        Double.toString(loc.getLongitude()) +
+                        " passed to address service";
+                Log.e("LocationSampleActivity", errorString);
+                e2.printStackTrace();
+                return errorString;
+            }
+            if (addresses != null && addresses.size() > 0) {
+                Address address = addresses.get(0);
+                return address.getAddressLine(0);
+            } else {
+                return "No address found";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String address) {
+            if (address != null) {
+                txtUserAddress.setText(address);
+            }
+
+        }
     }
 }
