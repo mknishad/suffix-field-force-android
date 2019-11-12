@@ -1,5 +1,8 @@
 package com.suffix.fieldforce.retrofitapi;
 
+import com.suffix.fieldforce.BuildConfig;
+import com.suffix.fieldforce.networking.Client;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -8,7 +11,11 @@ public class APIClient {
 
     public static Retrofit getApiClient() {
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl("http://182.16.159.22:8352/UPTS/api/").addConverterFactory(GsonConverterFactory.create()).build();
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BuildConfig.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(Client.INSTANCE.getOkHttpClient())
+                    .build();
         }
         return retrofit;
     }
