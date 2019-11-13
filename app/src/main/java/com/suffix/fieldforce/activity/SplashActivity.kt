@@ -21,6 +21,6 @@ class SplashActivity : BaseActivity() {
             }
 
             finish()
-        }, 1000)
+        }, 1300)
     }
 }

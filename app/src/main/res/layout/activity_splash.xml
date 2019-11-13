@@ -8,10 +8,11 @@
     tools:context=".activity.SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:lottie_fileName="splash.json"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        app:lottie_fileName="trophy.json"
         app:lottie_autoPlay="true"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
