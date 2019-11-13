@@ -151,7 +151,6 @@ public class MainDashboard extends AppCompatActivity {
                 for (Location location : locationResult.getLocations()) {
                     try {
                         preferences.putLocation(location);
-                        // TODO:  Send Geo Location to server
                         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
                         Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
                                 Constants.INSTANCE.getUSER_ID(),
@@ -165,7 +164,7 @@ public class MainDashboard extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<LocationResponse> call, Throwable t) {
-                                Log.d(TAG, "onFailure: " + t.toString());
+                                Log.e(TAG, "onFailure: " + t.toString(), t);
                             }
                         });
 

@@ -14,9 +14,9 @@ import com.suffix.fieldforce.util.Constants
 const val PREFERENCE_TITLE = "FieldForcePreferences"
 
 class FieldForcePreferences(context: Context) {
-    private val sharedPreferences: SharedPreferences =
+    private val preferences: SharedPreferences =
         context.getSharedPreferences(PREFERENCE_TITLE, Context.MODE_PRIVATE)
-    private val editor: SharedPreferences.Editor = sharedPreferences.edit()
+    private val editor: SharedPreferences.Editor = preferences.edit()
 
     fun putLocation(location: Location?) {
         val gson = Gson()
@@ -27,7 +27,16 @@ class FieldForcePreferences(context: Context) {
 
     fun getLocation(): Location {
         val gson = Gson()
-        val json = sharedPreferences.getString(Constants.LOCATION, "")
+        val json = preferences.getString(Constants.LOCATION, "")
         return gson.fromJson<Location>(json, Location::class.java)
+    }
+
+    fun setFirstTimeLaunch(isFirstTime: Boolean) {
+        editor.putBoolean(Constants.FIRST_TIME, isFirstTime)
+        editor.commit()
+    }
+
+    fun isFirstTimeLaunch(): Boolean {
+        return preferences.getBoolean(Constants.FIRST_TIME, true)
     }
 }

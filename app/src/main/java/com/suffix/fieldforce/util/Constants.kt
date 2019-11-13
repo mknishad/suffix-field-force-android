@@ -11,4 +11,5 @@ object Constants {
     val COMPLETED = "completed"
     val IN_PROGRESS = "in-progress"
     val TASK_ID = "task-id"
+    val FIRST_TIME = "first-time"
 }

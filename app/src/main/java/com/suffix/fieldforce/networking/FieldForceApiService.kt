@@ -20,6 +20,7 @@ enum class FieldForceApiStatus { LOADING, ERROR, DONE }
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
+
 object Client {
     val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(60, TimeUnit.SECONDS)
