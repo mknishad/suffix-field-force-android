@@ -56,6 +56,6 @@
             android:id="@+id/txtIssueRemark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height_45"
-            android:background="null" />
+            android:background="@null" />
     </LinearLayout>
 </LinearLayout>
