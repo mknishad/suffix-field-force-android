@@ -51,7 +51,7 @@
                 android:id="@+id/log_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="User ID"
                 android:textColor="#333"
                 android:textColorHint="#E0DADA"
                 android:textSize="15sp"
@@ -120,5 +120,12 @@
             android:textColor="#55AAFF"
             android:textSize="15dp" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.suffix.fieldforce.retrofitapi;
 
 import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.model.LocationResponse;
+import com.suffix.fieldforce.model.LoginResponse;
 
 import java.util.List;
 
@@ -23,5 +24,12 @@ public interface APIInterface {
             @Query("userId") String userId,
             @Query("lat") String lat,
             @Query("lng") String lng
+    );
+
+    @POST("FFMS/api/login.jsp")
+    Call<LoginResponse> login(
+            @Query("key") String key,
+            @Query("userId") String userId,
+            @Query("password") String password
     );
 }
