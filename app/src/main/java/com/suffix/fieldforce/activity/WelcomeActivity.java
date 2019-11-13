@@ -14,12 +14,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.home.LoginActivity;
 import com.suffix.fieldforce.activity.home.MainDashboard;
+import com.suffix.fieldforce.model.User;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -109,8 +113,14 @@ public class WelcomeActivity extends AppCompatActivity {
 //            startActivity(i);
 //        }
 //        else{
-        Intent i = new Intent(WelcomeActivity.this, LoginActivity.class);
-        startActivity(i);
+        try {
+            FieldForcePreferences preferences = new FieldForcePreferences(this);
+            User user = preferences.getUser();
+            Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
+            startActivity(i);
+        } catch (Exception e) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
         //}
         finish();
     }

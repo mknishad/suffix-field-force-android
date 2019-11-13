@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.home.LoginActivity
+import com.suffix.fieldforce.activity.home.MainDashboard
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : BaseActivity() {
@@ -17,7 +18,12 @@ class SplashActivity : BaseActivity() {
                 startActivity<WelcomeActivity>()
                 //preferences.setFirstTimeLaunch(false)
             } else {
-                startActivity<LoginActivity>()
+                try {
+                    val user = preferences.getUser()
+                    startActivity<MainDashboard>()
+                } catch (e: Exception) {
+                    startActivity<LoginActivity>()
+                }
             }
 
             finish()

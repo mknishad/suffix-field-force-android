@@ -38,6 +38,7 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.BillsActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
+import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
@@ -215,7 +216,20 @@ public class MainDashboard extends AppCompatActivity {
     }
 
     private void callPushTokenService(String token) {
+        Call<SendPushTokenResponse> pushTokenCall = apiInterface.sendPushToken(Constants.INSTANCE.getKEY(),
+                Constants.INSTANCE.getUSER_ID(),
+                token);
+        pushTokenCall.enqueue(new Callback<SendPushTokenResponse>() {
+            @Override
+            public void onResponse(Call<SendPushTokenResponse> call, Response<SendPushTokenResponse> response) {
+                Log.d(TAG, "onResponse: " + response.toString());
+            }
 
+            @Override
+            public void onFailure(Call<SendPushTokenResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.toString(), t);
+            }
+        });
     }
 
     private void getLocationPermission() {

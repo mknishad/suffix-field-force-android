@@ -3,6 +3,7 @@ package com.suffix.fieldforce.retrofitapi;
 import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
+import com.suffix.fieldforce.model.SendPushTokenResponse;
 
 import java.util.List;
 
@@ -33,10 +34,10 @@ public interface APIInterface {
             @Query("password") String password
     );
 
-    @POST("FFMS/api/login.jsp")
-    Call<LoginResponse> sendPushToken(
+    @POST("FFMS/api/userDeviceInfoSet.jsp")
+    Call<SendPushTokenResponse> sendPushToken(
             @Query("key") String key,
             @Query("userId") String userId,
-            @Query("token") String token
+            @Query("deviceId") String deviceId
     );
 }
