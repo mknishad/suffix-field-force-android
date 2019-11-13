@@ -12,7 +12,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/onlyborder"
+        android:background="@drawable/only_border"
         android:gravity="center"
         android:layout_marginTop="1dp"
         >

@@ -15,12 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.home.LoginActivity"/>
+        <activity android:name=".activity.task.TaskEditActivity"></activity>
+        <activity android:name=".activity.home.LoginActivity" />
         <activity
             android:name=".activity.WelcomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -36,7 +36,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.TaskDashboardActivity" />
         <activity
             android:name=".activity.BillDetailsActivity"

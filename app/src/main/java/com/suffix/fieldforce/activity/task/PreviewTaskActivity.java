@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.activity.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.suffix.fieldforce.model.AssignTaskItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PreviewTaskActivity extends AppCompatActivity {
@@ -43,6 +45,8 @@ public class PreviewTaskActivity extends AppCompatActivity {
     TextView ticketCateroryTitle;
     @BindView(R.id.ticketStatusText)
     TextView ticketStatusText;
+    @BindView(R.id.txtTicketStatus)
+    TextView txtTicketStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +58,15 @@ public class PreviewTaskActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("MODEL")) {
             AssignTaskItem assignTaskItem = getIntent().getParcelableExtra("MODEL");
-//            txtCompanyName.setText(assignTaskItem.getTicketCode());
-//            txtIssueTitle.setText(assignTaskItem.getTicketTitle());
-//            txtHint.setText(assignTaskItem.getTicketCateroryTitle());
-//            textName.setText(assignTaskItem.getConsumerName());
-//            textDateTime.setText("Mobile : " + assignTaskItem.getConsumerMobile() + "\nStart : " + assignTaskItem.getTicketStartDate() + "\n" + "End : " + assignTaskItem.getTicketEndDate());
-//            txtShortTitle.setText(assignTaskItem.getDeviceName());
-//            txtPriority.setText(assignTaskItem.getTicketCateroryTitle());
-//            txtCategory.setText(assignTaskItem.getTicketRemark());
-//            txtComments.setText("Caterory Code : " + assignTaskItem.getTicketCateroryCode() + "\n");
+            ticketTitle.setText(assignTaskItem.getTicketTitle());
+            ticketCateroryTitle.setText(assignTaskItem.getTicketCateroryTitle());
+            consumerName.setText(assignTaskItem.getConsumerName());
+            deviceName.setText(assignTaskItem.getDeviceName());
+            consumerAddress.setText(assignTaskItem.getConsumerAddress());
+            consumerDistrict.setText(assignTaskItem.getConsumerDistrict());
+            consumerThana.setText(assignTaskItem.getConsumerThana());
+            consumerMobile.setText(assignTaskItem.getConsumerMobile());
+            ticketStatusText.setText(assignTaskItem.getTicketStatusText());
         }
     }
 
@@ -70,5 +74,17 @@ public class PreviewTaskActivity extends AppCompatActivity {
         imgDrawer.setImageResource(R.drawable.ic_arrow_back);
         imgMap.setImageResource(R.drawable.ic_edit);
         toolBarTitle.setText("Preview Task");
+    }
+
+    @OnClick(R.id.imgMap)
+    public void editStatus() {
+        Intent intent = new Intent(PreviewTaskActivity.this, TaskEditActivity.class);
+        intent.putExtra("", "");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.imgDrawer)
+    public void onViewClicked() {
+        super.onBackPressed();
     }
 }

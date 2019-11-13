@@ -60,4 +60,12 @@
     <string name="entered">Attendance : Enterd</string>
     <string name="exit">Attendance : Exit</string>
     <string name="not_yet">Attendance : Not Yet</string>
+
+    <string-array name="spinnerItems">
+        <item>Open</item>
+        <item>In Progress</item>
+        <item>Resolved</item>
+        <item>Close</item>
+    </string-array>
+
 </resources>

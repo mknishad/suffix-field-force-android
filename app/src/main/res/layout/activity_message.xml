@@ -69,7 +69,7 @@
             android:id="@+id/txt_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/onlyborder"
+            android:background="@drawable/only_border"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_send"
             android:hint="Type a message"
