@@ -32,4 +32,11 @@ public interface APIInterface {
             @Query("userId") String userId,
             @Query("password") String password
     );
+
+    @POST("FFMS/api/login.jsp")
+    Call<LoginResponse> sendPushToken(
+            @Query("key") String key,
+            @Query("userId") String userId,
+            @Query("token") String token
+    );
 }

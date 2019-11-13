@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.BillsActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
@@ -42,6 +44,7 @@ import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,6 +70,8 @@ public class MainDashboard extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
+
+    private APIInterface apiInterface;
 
     private static long INTERVAL = 60 * 1000;
     private static long FASTEST_INTERVAL = 60 * 1000;
@@ -129,10 +134,12 @@ public class MainDashboard extends AppCompatActivity {
 
     private void init() {
         preferences = new FieldForcePreferences(this);
+        apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
         initLocationProvider();
         initProgressBar();
         initLocationSettings();
+        sendPushToken();
     }
 
     private void initLocationProvider() {
@@ -151,7 +158,6 @@ public class MainDashboard extends AppCompatActivity {
                 for (Location location : locationResult.getLocations()) {
                     try {
                         preferences.putLocation(location);
-                        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
                         Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
                                 Constants.INSTANCE.getUSER_ID(),
                                 String.valueOf(location.getLatitude()),
@@ -193,6 +199,23 @@ public class MainDashboard extends AppCompatActivity {
         } else {
             createLocationRequest();
         }
+    }
+
+    private void sendPushToken() {
+        if (TextUtils.isEmpty(preferences.getPushToken())) {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+                String newToken = instanceIdResult.getToken();
+                Log.i(TAG, "newToken = " + newToken);
+                preferences.putPushToken(newToken);
+                callPushTokenService(newToken);
+            });
+        } else {
+            callPushTokenService(preferences.getPushToken());
+        }
+    }
+
+    private void callPushTokenService(String token) {
+
     }
 
     private void getLocationPermission() {
@@ -313,7 +336,7 @@ public class MainDashboard extends AppCompatActivity {
             Geocoder geocoder =
                     new Geocoder(mContext, Locale.getDefault());
             Location loc = params[0];
-            List<Address> addresses;
+            List<Address> addresses = new ArrayList<>();
             try {
                 addresses = geocoder.getFromLocation(loc.getLatitude(),
                         loc.getLongitude(), 1);
@@ -331,6 +354,8 @@ public class MainDashboard extends AppCompatActivity {
                 Log.e("LocationSampleActivity", errorString);
                 e2.printStackTrace();
                 return errorString;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             if (addresses != null && addresses.size() > 0) {
                 Address address = addresses.get(0);

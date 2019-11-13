@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.LoginResponse;
+import com.suffix.fieldforce.model.User;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
@@ -38,11 +40,15 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    private FieldForcePreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_type_two);
         ButterKnife.bind(this);
+
+        preferences = new FieldForcePreferences(this);
     }
 
     @OnClick(R.id.log_btn_login)
@@ -76,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 try {
                     if (response.body().getResponseCode().equalsIgnoreCase("1")) {
+                        User user = response.body().getResponseData();
+                        preferences.putUser(user);
                         startActivity(new Intent(LoginActivity.this, MainDashboard.class));
                         finish();
                     } else {

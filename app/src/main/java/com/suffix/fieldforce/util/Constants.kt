@@ -12,4 +12,6 @@ object Constants {
     val IN_PROGRESS = "in-progress"
     val TASK_ID = "task-id"
     val FIRST_TIME = "first-time"
+    val PUSH_TOKEN = "first-time"
+    val USER = "user"
 }
