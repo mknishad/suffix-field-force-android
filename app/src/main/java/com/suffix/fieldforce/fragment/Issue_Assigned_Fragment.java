@@ -71,6 +71,7 @@ public class Issue_Assigned_Fragment extends Fragment {
                                     AssignTaskItem assignTaskItem = assignedTask.getResponseData().get(position);
                                     Intent intent = new Intent(getContext(), PreviewTaskActivity.class);
                                     intent.putExtra("MODEL",assignTaskItem);
+                                    //Constants.INSTANCE.getTASK_ID();
                                     startActivity(intent);
                                 }
                             });

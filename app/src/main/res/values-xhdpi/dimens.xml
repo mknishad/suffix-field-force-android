@@ -27,4 +27,5 @@
 	<dimen name="layout_height_45">81dp</dimen>
 	<dimen name="layout_height_90">162dp</dimen>
 	<dimen name="layout_head">108dp</dimen>
+	<dimen name="layout_margin_15">27dp</dimen>
 </resources>

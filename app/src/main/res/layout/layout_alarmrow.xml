@@ -41,7 +41,7 @@
                     android:textStyle="normal"
                     android:textSize="20dp"
                     android:paddingLeft="5dp"
-                    android:background="@drawable/borderred"
+                    android:background="@drawable/border_red"
                     android:textColor="@android:color/white"
                     android:layout_marginTop="5dp"
                     />
