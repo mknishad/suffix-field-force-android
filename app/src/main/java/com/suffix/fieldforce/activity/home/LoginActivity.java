@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.User;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
 
     private FieldForcePreferences preferences;
+    private APIInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         preferences = new FieldForcePreferences(this);
+        apiInterface = APIClient.getApiClient().create(APIInterface.class);
     }
 
     @OnClick(R.id.log_btn_login)
@@ -74,8 +77,20 @@ public class LoginActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-        Call<LoginResponse> loginCall = apiInterface.login(Constants.INSTANCE.getKEY(), userId, password);
+        if (TextUtils.isEmpty(preferences.getPushToken())) {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+                String newToken = instanceIdResult.getToken();
+                Log.i(TAG, "newToken = " + newToken);
+                preferences.putPushToken(newToken);
+                callLoginService(userId, password, newToken);
+            });
+        } else {
+            callLoginService(userId, password, preferences.getPushToken());
+        }
+    }
+
+    private void callLoginService(String userId, String password, String token) {
+        Call<LoginResponse> loginCall = apiInterface.login(Constants.INSTANCE.getKEY(), userId, password, token);
         loginCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
