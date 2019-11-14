@@ -2,6 +2,7 @@ package com.suffix.fieldforce.activity
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.ActivityAddBillBinding
@@ -91,7 +93,8 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
             if (textInputLayouts.size == 0) {
                 addDateLayout()
                 addBillTypesLayout(it)
-                addRemarksLayout(linearLayout)
+                addImagePickerLayout()
+                addRemarksLayout()
                 addButton()
             }
         })
@@ -134,13 +137,27 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    private fun addRemarksLayout(linearLayout: LinearLayout) {
+    private fun addImagePickerLayout() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+        val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+        layout.hint = getString(R.string.bill_image)
+        layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
+        layout.editText?.setText("abc")
+        linearLayout.addView(view)
+        textInputLayouts.add(layout)
+    }
+
+    private fun addRemarksLayout() {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.item_bill_input_layout, null)
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.remarks)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
         layout.editText?.setText("abc")
+        layout.editText?.setOnClickListener {
+            ImagePicker.create(this).start()
+        }
         linearLayout.addView(view)
         textInputLayouts.add(layout)
     }
@@ -231,5 +248,13 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         )
         datePickerDialog.show()
         //viewModel.datePickerShown()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            val images = ImagePicker.getImages(data)
+            val image = ImagePicker.getFirstImageOrNull(data)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
