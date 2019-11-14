@@ -35,7 +35,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void setActionBar() {
         imgMap.setImageResource(R.drawable.ic_save);
-        getActionBar().setTitle("Edit Task");
+        //igetActionBar().setTitle("Edit Task");
     }
 
     @OnClick(R.id.imgMap)
