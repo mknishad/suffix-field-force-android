@@ -31,7 +31,8 @@ public interface APIInterface {
     Call<LoginResponse> login(
             @Query("key") String key,
             @Query("userId") String userId,
-            @Query("password") String password
+            @Query("password") String password,
+            @Query("deviceId") String deviceId
     );
 
     @POST("FFMS/api/userDeviceInfoSet.jsp")

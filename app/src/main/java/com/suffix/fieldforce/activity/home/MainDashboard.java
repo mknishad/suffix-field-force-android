@@ -11,7 +11,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,12 +32,10 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.BillsActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
-import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
@@ -140,7 +137,6 @@ public class MainDashboard extends AppCompatActivity {
         initLocationProvider();
         initProgressBar();
         initLocationSettings();
-        sendPushToken();
     }
 
     private void initLocationProvider() {
@@ -200,36 +196,6 @@ public class MainDashboard extends AppCompatActivity {
         } else {
             createLocationRequest();
         }
-    }
-
-    private void sendPushToken() {
-        if (TextUtils.isEmpty(preferences.getPushToken())) {
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
-                String newToken = instanceIdResult.getToken();
-                Log.i(TAG, "newToken = " + newToken);
-                preferences.putPushToken(newToken);
-                callPushTokenService(newToken);
-            });
-        } else {
-            callPushTokenService(preferences.getPushToken());
-        }
-    }
-
-    private void callPushTokenService(String token) {
-        Call<SendPushTokenResponse> pushTokenCall = apiInterface.sendPushToken(Constants.INSTANCE.getKEY(),
-                Constants.INSTANCE.getUSER_ID(),
-                token);
-        pushTokenCall.enqueue(new Callback<SendPushTokenResponse>() {
-            @Override
-            public void onResponse(Call<SendPushTokenResponse> call, Response<SendPushTokenResponse> response) {
-                Log.d(TAG, "onResponse: " + response.toString());
-            }
-
-            @Override
-            public void onFailure(Call<SendPushTokenResponse> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.toString(), t);
-            }
-        });
     }
 
     private void getLocationPermission() {
