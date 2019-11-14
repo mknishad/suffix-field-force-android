@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar"/>
+
     <FrameLayout
         android:id="@+id/frame_container"
+        android:layout_below="@id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigation" />

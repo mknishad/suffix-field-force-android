@@ -22,9 +22,8 @@
             android:layout_height="wrap_content"
             android:text="Suffix IT Limited - 101 : Advance Task List (Admin App)"
             android:textColor="@color/green"
-            android:textStyle="bold"
             android:textSize="15sp"
-            />
+            android:textStyle="bold" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImage"
@@ -48,28 +47,31 @@
             android:id="@+id/txtStatusTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status"
-            android:textStyle="bold"
-            android:textColor="@color/green"
-            android:layout_toRightOf="@id/consumerName"
             android:layout_below="@+id/ticketTitle"
-            android:layout_marginTop="@dimen/layout_margin_5"
             android:layout_marginLeft="@dimen/layout_margin_10"
-            />
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_toLeftOf="@+id/txtTicketStatus"
+            android:gravity="center"
+            android:text="Status"
+            android:textColor="@color/green"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/txtTicketStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Open"
-            android:layout_toRightOf="@id/txtStatusTitle"
             android:layout_below="@+id/ticketTitle"
-            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_marginTop="@dimen/layout_margin_5"
             android:background="@drawable/border_orange"
-            android:textColor="@color/color_white"
-            android:paddingRight="@dimen/layout_margin_10"
             android:paddingLeft="@dimen/layout_margin_10"
-            />
+            android:paddingTop="@dimen/padding_2"
+            android:paddingRight="@dimen/layout_margin_10"
+            android:paddingBottom="@dimen/padding_2"
+            android:text="Open"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/consumerMobile"
@@ -132,42 +134,53 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_5"
                 android:background="@color/colorWhite"
-                android:padding="@dimen/padding_2"
-                android:weightSum="3">
+                android:padding="@dimen/padding_5"
+                android:weightSum="4">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical|end"
+                    android:textSize="12sp"
+                    android:layout_marginRight="@dimen/layout_margin_10"
                     android:text="ADDRESS"
                     android:textColor="@color/green"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/consumerAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorBlueJeansDark"
-                        android:text="H-202/E, R-6, Mohammadia housing lts, 2nd f" />
+                        android:text="H-202/E, R-6, Mohammadia housing lts, 2nd f"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/consumerThana"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Dhaka" />
+                        android:text="Dhaka"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/consumerDistrict"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Dhaka" />
+                        android:text="Dhaka"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                 </LinearLayout>
 
@@ -178,14 +191,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_5"
                 android:background="@color/colorWhite"
-                android:padding="@dimen/padding_2"
-                android:weightSum="3">
+                android:padding="@dimen/padding_5"
+                android:weightSum="4">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical|end"
+                    android:textSize="12sp"
+                    android:layout_marginRight="@dimen/layout_margin_10"
                     android:text="TASK"
                     android:textColor="@color/green"
                     android:textStyle="bold" />
@@ -193,32 +208,44 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/orderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="BGD0636536" />
+                        android:text="BGD0636536"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/deviceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Classic GKK 3000 Liter" />
+                        android:text="Classic GKK 3000 Liter"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/ticketCateroryTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Express Service" />
+                        android:text="Express Service"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/ticketStatusText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Assigned" />
+                        android:text="Assigned"
+                        android:textSize="10sp"
+                        android:textColor="@color/colorBlueJeans"
+                        />
 
                 </LinearLayout>
 
@@ -233,13 +260,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="3">
+                    android:weightSum="4"
+                    android:padding="@dimen/padding_5"
+                    >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="center_vertical|end"
+                        android:textSize="12sp"
+                        android:layout_marginRight="@dimen/layout_margin_10"
                         android:text="DATE"
                         android:textColor="@color/green"
                         android:textStyle="bold" />
@@ -247,35 +278,39 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="3"
                         android:orientation="vertical">
 
                         <CalendarView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:focusedMonthDateColor="@color/colorMintDark" />
+                            android:focusedMonthDateColor="@color/colorMintDark"
+                            android:visibility="gone" />
 
-                        <!--                <TextView-->
-                        <!--                    android:id="@+id/orderId"-->
-                        <!--                    android:layout_width="match_parent"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:text="BGD0636536"/>-->
-                        <!--                <TextView-->
-                        <!--                    android:id="@+id/deviceName"-->
-                        <!--                    android:layout_width="match_parent"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:text="Classic GKK 3000 Liter"/>-->
-                        <!--                <TextView-->
-                        <!--                    android:id="@+id/ticketCateroryTitle"-->
-                        <!--                    android:layout_width="match_parent"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:text="Express Service"/>-->
-                        <!--                <TextView-->
-                        <!--                    android:id="@+id/ticketStatusText"-->
-                        <!--                    android:layout_width="match_parent"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:text="Assigned"/>-->
+                        <TextView
+                            android:id="@+id/ticketStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Start : 4 August 2019 12:13 PM"
+                            android:background="@drawable/border_green"
+                            android:textColor="@color/color_white"
+                            android:padding="@dimen/padding_2"
+                            android:textAlignment="center"
+                            android:textSize="10sp"
+                            />
 
+                        <TextView
+                            android:id="@+id/ticketEndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="End : 4 August 2019 12:13 PM"
+                            android:background="@drawable/border_red"
+                            android:textColor="@color/color_white"
+                            android:padding="@dimen/padding_2"
+                            android:textAlignment="center"
+                            android:textSize="10sp"
+                            android:layout_marginTop="@dimen/padding_2"
+                            />
                     </LinearLayout>
 
                 </LinearLayout>

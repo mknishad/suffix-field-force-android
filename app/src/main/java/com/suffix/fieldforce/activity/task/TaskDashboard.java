@@ -2,17 +2,24 @@ package com.suffix.fieldforce.activity.task;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.fragment.DashboardFragment;
 import com.suffix.fieldforce.fragment.NotificationsFragment;
 import com.suffix.fieldforce.fragment.ProjectsFragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TaskDashboard extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -20,6 +27,12 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
     FrameLayout frameContainer;
     @BindView(R.id.bottomNavigation)
     BottomNavigationView bottomNavigation;
+    @BindView(R.id.imgMap)
+    ImageView imgMap;
+    @BindView(R.id.imgDrawer)
+    ImageView imgDrawer;
+    @BindView(R.id.toolBarTitle)
+    TextView toolBarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +40,16 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
         setContentView(R.layout.activity_task_dashboard_type_two);
         ButterKnife.bind(this);
 
+        setActionBar();
+
         bottomNavigation.setOnNavigationItemSelectedListener(this);
         replaceDummyFragment(new DashboardFragment());
+    }
+
+    private void setActionBar() {
+        imgDrawer.setImageResource(R.drawable.ic_arrow_back);
+        imgMap.setVisibility(View.GONE);
+        toolBarTitle.setText("TASK LIST");
     }
 
     @Override
@@ -70,5 +91,10 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
         Bundle b = new Bundle();
         fragment.setArguments(b);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).commit();
+    }
+
+    @OnClick(R.id.imgDrawer)
+    public void onViewClicked() {
+        super.onBackPressed();
     }
 }

@@ -67,7 +67,19 @@ public class PreviewTaskActivity extends AppCompatActivity {
             consumerThana.setText(assignTaskItem.getConsumerThana());
             consumerMobile.setText(assignTaskItem.getConsumerMobile());
             ticketStatusText.setText(assignTaskItem.getTicketStatusText());
+            txtTicketStatus.setText(assignTaskItem.getTicketStatusText());
         }
+
+        //APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+//        SpannableString spannableString = new SpannableString(" START  " + startAddress);
+//        Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#2e7d32"));
+//        Object clearSpan = new BackgroundColorSpan(Color.TRANSPARENT);
+//        spannableString.setSpan(bgGreenSpan, 0, 7, 0);
+//        spannableString.setSpan(clearSpan, 7, spannableString.length(), 0);
+//        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        holder.txtStartAddress.setText(spannableString);
+
+
     }
 
     private void setActionBar() {
