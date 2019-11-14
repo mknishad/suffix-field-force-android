@@ -3,13 +3,11 @@ package com.suffix.fieldforce.activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.Button
@@ -27,10 +25,12 @@ import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
+import com.suffix.fieldforce.util.Utils
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.design.snackbar
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 class AddBillActivity : AppCompatActivity(), AnkoLogger {
@@ -41,6 +41,9 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
     private lateinit var textInputLayouts: MutableList<TextInputLayout>
     private lateinit var linearLayout: LinearLayout
     private lateinit var preferences: FieldForcePreferences
+
+    //private lateinit var taskId: String
+    private var encodedImage = ""
 
     private var mDay: Int = 0
     private var mMonth: Int = 0
@@ -61,6 +64,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
         preferences = FieldForcePreferences(this)
+        //taskId = intent.getStringExtra(Constants.TASK_ID)
 
         setupToolbar()
         observeBillTypes()
@@ -144,6 +148,9 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         layout.hint = getString(R.string.bill_image)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
         layout.editText?.setText("abc")
+        layout.editText?.setOnClickListener {
+            ImagePicker.create(this).start()
+        }
         linearLayout.addView(view)
         textInputLayouts.add(layout)
     }
@@ -155,9 +162,6 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         layout.hint = getString(R.string.remarks)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
         layout.editText?.setText("abc")
-        layout.editText?.setOnClickListener {
-            ImagePicker.create(this).start()
-        }
         linearLayout.addView(view)
         textInputLayouts.add(layout)
     }
@@ -177,7 +181,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         button.layoutParams = params
         button.setOnClickListener {
             val billDataObj = mutableListOf<Bill>()
-            for (i in 1 until textInputLayouts.size - 1) {
+            for (i in 1 until textInputLayouts.size - 2) {
                 val bill = Bill(
                     null,
                     null,
@@ -200,7 +204,10 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
                 Constants.USER_ID,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
-                billData
+                billData,
+                "373",
+                "1139",
+                encodedImage
             )
         }
 
@@ -254,6 +261,14 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             val images = ImagePicker.getImages(data)
             val image = ImagePicker.getFirstImageOrNull(data)
+
+            val bitmap = BitmapFactory.decodeFile(image.path)
+            val resizedBitmap = Utils.getResizedBitmap(bitmap)
+            val baos = ByteArrayOutputStream()
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos) //bm is the bitmap object
+            val b = baos.toByteArray()
+
+            encodedImage = Base64.encodeToString(b, Base64.DEFAULT)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
