@@ -109,7 +109,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void launchHomeScreen() {
 //        prefManager.setFirstTimeLaunch(false);
 //        if(prefManager.isLoggedIn()) {
-//            Intent i = new Intent(WelcomeActivity.this, MainActivityWeb.class);
+//            Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
 //            startActivity(i);
 //        }
 //        else{
