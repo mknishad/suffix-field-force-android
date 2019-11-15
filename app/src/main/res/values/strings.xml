@@ -69,4 +69,7 @@
         <item>Close</item>
     </string-array>
 
+    <string name="btn_submit">SUBMIT</string>
+    <string name="btn_attach_image">ATTACH IMAGE</string>
+
 </resources>

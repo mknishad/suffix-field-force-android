@@ -129,5 +129,8 @@ dependencies {
 
     // Image Pikcer
     implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
+
+    //AppCrash
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

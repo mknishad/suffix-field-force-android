@@ -18,8 +18,6 @@ import com.suffix.fieldforce.adapter.TaskDetailsAdapter;
 import com.suffix.fieldforce.adapter.TaskDetailsAdapterListener;
 import com.suffix.fieldforce.model.AssignTaskItem;
 import com.suffix.fieldforce.model.AssignedTask;
-import com.suffix.fieldforce.retrofitapi.APIClient;
-import com.suffix.fieldforce.retrofitapi.APIInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,11 @@ public class Issue_Assigned_Fragment extends Fragment {
 
     private ArrayList<AssignTaskItem> assignTaskItems;
     TaskDetailsAdapter adapter;
+    Call<List<AssignedTask>> getTicketList;
+
+    public Issue_Assigned_Fragment(Call<List<AssignedTask>> taskTicketList) {
+        this.getTicketList = taskTicketList;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,10 +55,7 @@ public class Issue_Assigned_Fragment extends Fragment {
 
         recyclerViewList.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
-        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-
-        Call<List<AssignedTask>> getAssignTicketList = apiInterface.getAssignTicketList("BLA0010");
-        getAssignTicketList.enqueue(new Callback<List<AssignedTask>>() {
+        getTicketList.clone().enqueue(new Callback<List<AssignedTask>>() {
             @Override
             public void onResponse(Call<List<AssignedTask>> call, Response<List<AssignedTask>> response) {
                     if(response.isSuccessful()){

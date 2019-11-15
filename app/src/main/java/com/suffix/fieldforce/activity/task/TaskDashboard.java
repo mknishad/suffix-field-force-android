@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.activity.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.fragment.DashboardFragment;
 import com.suffix.fieldforce.fragment.NotificationsFragment;
@@ -33,6 +35,8 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
     ImageView imgDrawer;
     @BindView(R.id.toolBarTitle)
     TextView toolBarTitle;
+    @BindView(R.id.buttonCreateTask)
+    FloatingActionButton buttonCreateTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,9 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
 
     private void setActionBar() {
         imgDrawer.setImageResource(R.drawable.ic_arrow_back);
+        imgDrawer.setImageResource(R.drawable.ic_arrow_back);
         imgMap.setVisibility(View.GONE);
+        imgDrawer.setVisibility(View.VISIBLE);
         toolBarTitle.setText("TASK LIST");
     }
 
@@ -94,7 +100,12 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
     }
 
     @OnClick(R.id.imgDrawer)
-    public void onViewClicked() {
+    public void onBackClicked() {
         super.onBackPressed();
+    }
+
+    @OnClick(R.id.buttonCreateTask)
+    public void onCreateTaskClicked() {
+        startActivity(new Intent(TaskDashboard.this,CreateTaskActivity.class));
     }
 }

@@ -14,7 +14,45 @@ import retrofit2.http.Query;
 public interface APIInterface {
 
     @POST("FFMS/api/assignTicketList.jsp")
-    Call<List<AssignedTask>> getAssignTicketList(@Query("regTechId") String regTechId);
+    Call<List<AssignedTask>> assignTicketList(
+            @Query("regTechId") String regTechId
+    );
+
+    @POST("FFMS/api/acceptedTicketList.jsp")
+    Call<List<AssignedTask>> acceptedTicketList(
+            @Query("regTechId") String regTechId
+    );
+
+    @POST("FFMS/api/completedTicketList.jsp")
+    Call<List<AssignedTask>> completedTicketList(
+            @Query("regTechId") String regTechId
+    );
+
+    @POST("FFMS/api/inprogressTicketList.jsp")
+    Call<List<AssignedTask>> inprogressTicketList(
+            @Query("regTechId") String regTechId
+    );
+
+    @POST("FFMS/api/ticketOpenInfo.jsp")
+    Call<List<AssignedTask>> ticketOpenInfo(
+            @Query("regTechId") String regTechId,
+            @Query("ticketId") String ticketId,
+            @Query("regTicketComments") String regTicketComments
+    );
+
+    @POST("FFMS/api/ticketInprogressInfo.jsp")
+    Call<List<AssignedTask>> ticketInprogressInfo(
+            @Query("regTechId") String regTechId,
+            @Query("ticketId") String ticketId,
+            @Query("regTicketComments") String regTicketComments
+    );
+
+    @POST("FFMS/api/ticketCloseInfo.jsp")
+    Call<List<AssignedTask>> ticketCloseInfo(
+            @Query("regTechId") String regTechId,
+            @Query("ticketId") String ticketId,
+            @Query("regTicketComments") String regTicketComments
+    );
 
     @POST("FFMS/api/tickeDetailsInfo.jsp")
     Call<List<AssignedTask>> getTickeDetailsInfo(
@@ -40,27 +78,6 @@ public interface APIInterface {
             @Query("address") String address,
             @Query("consumerName") String consumerName,
             @Query("consumerMobileNumber") String consumerMobileNumber
-    );
-
-    @POST("FFMS/api/ticketOpenInfo.jsp")
-    Call<List<AssignedTask>> ticketOpenInfo(
-            @Query("regTechId") String regTechId,
-            @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
-    );
-
-    @POST("FFMS/api/ticketInprogressInfo.jsp")
-    Call<List<AssignedTask>> ticketInprogressInfo(
-            @Query("regTechId") String regTechId,
-            @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
-    );
-
-    @POST("FFMS/api/ticketCloseInfo.jsp")
-    Call<List<AssignedTask>> ticketCloseInfo(
-            @Query("regTechId") String regTechId,
-            @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
     );
 
     @POST("FFMS/api/geoLocationEntry.jsp")

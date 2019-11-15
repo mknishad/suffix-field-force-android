@@ -8,7 +8,7 @@
     android:layout_marginTop="2dp"
     android:layout_marginRight="2dp"
     android:background="@android:color/white"
-    android:padding="10dp">
+    android:padding="@dimen/padding_2">
 
     <TextView
         android:id="@+id/ticketCode"
@@ -16,8 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/colorMint"
-        android:padding="@dimen/padding_1"
+        android:background="@color/colorRed"
+        android:paddingLeft="@dimen/padding_2"
+        android:paddingRight="@dimen/padding_2"
+        android:paddingTop="@dimen/padding_1"
+        android:paddingBottom="@dimen/padding_1"
         android:text="SUFFIX-12"
         android:textColor="@android:color/white" />
 
@@ -37,9 +40,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/layout_margin_5"
         android:background="@drawable/border_mint"
-        android:paddingLeft="@dimen/padding_2"
+        android:paddingLeft="@dimen/padding_4"
         android:paddingTop="@dimen/padding_1"
-        android:paddingRight="@dimen/padding_2"
+        android:paddingRight="@dimen/padding_4"
         android:paddingBottom="2dp"
         android:text="Not Started"
         android:textColor="@android:color/white"
@@ -52,10 +55,10 @@
         android:layout_below="@id/ticketStatusText"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="4dp"
-        android:background="@drawable/borderorange"
-        android:paddingLeft="@dimen/padding_2"
+        android:background="@drawable/border_levender"
+        android:paddingLeft="@dimen/padding_4"
         android:paddingTop="@dimen/padding_1"
-        android:paddingRight="@dimen/padding_2"
+        android:paddingRight="@dimen/padding_4"
         android:paddingBottom="2dp"
         android:text="10 June, 2019"
         android:textColor="@android:color/white"
@@ -68,6 +71,7 @@
         android:layout_toLeftOf="@+id/ticketStartDate"
         android:layout_alignParentStart="true"
         android:gravity="start"
+        android:paddingRight="@dimen/padding_2"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -97,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Dhaka\nDhaka"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:textSize="10sp"
                 />
         </LinearLayout>
