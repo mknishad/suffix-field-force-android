@@ -126,5 +126,8 @@ dependencies {
 
     //material text
     implementation 'com.github.florent37:materialtextfield:1.0.7'
+
+    // Image Pikcer
+    implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
 }
 apply plugin: 'com.google.gms.google-services'

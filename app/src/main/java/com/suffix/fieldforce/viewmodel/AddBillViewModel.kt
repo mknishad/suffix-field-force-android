@@ -56,7 +56,8 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
         }
     }
 
-    fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData) {
+    fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData,
+                   taskId: String, advanceId: String, imageString: String) {
         val billDataJson = Gson().toJson(billData)
 
         coroutineScope.launch {
@@ -65,7 +66,10 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
                 userId,
                 lat,
                 lng,
-                billDataJson
+                billDataJson,
+                taskId,
+                advanceId,
+                imageString
             )
 
             try {

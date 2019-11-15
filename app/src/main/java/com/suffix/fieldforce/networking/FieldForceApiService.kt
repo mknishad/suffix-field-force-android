@@ -68,7 +68,10 @@ interface FieldForceApiService {
         @Query("userId") userId: String,
         @Query("lat") lat: String,
         @Query("lng") lng: String,
-        @Query("billData") billData: String
+        @Query("billData") billData: String,
+        @Query("taskId") taskId: String,
+        @Query("advanceId") advanceId: String,
+        @Query("imageString") imageString: String
     ): Deferred<AddBillResponse>
 
     @POST("FFMS/api/getUserBillList.jsp")

@@ -60,6 +60,7 @@
     <string name="entered">Attendance : Enterd</string>
     <string name="exit">Attendance : Exit</string>
     <string name="not_yet">Attendance : Not Yet</string>
+    <string name="bill_image">Bill Image</string>
 
     <string-array name="spinnerItems">
         <item>Open</item>
