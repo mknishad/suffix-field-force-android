@@ -18,15 +18,15 @@ import org.jetbrains.anko.error
 class AddBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
     private val _billTypes = MutableLiveData<List<BillType>>()
     val billTypes: LiveData<List<BillType>>
-    get() = _billTypes
+        get() = _billTypes
 
     private val _addBillResponse = MutableLiveData<AddBillResponse>()
     val addBillResponse: LiveData<AddBillResponse>
-    get() = _addBillResponse
+        get() = _addBillResponse
 
     private val _eventAddBill = MutableLiveData<Boolean>()
     val eventAddBill: LiveData<Boolean>
-    get() = _eventAddBill
+        get() = _eventAddBill
 
     private val preferences: FieldForcePreferences = FieldForcePreferences(application)
 
@@ -51,13 +51,16 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
             } catch (e: Exception) {
                 error(e.message, e)
                 progress.value = false
-                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }
 
-    fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData,
-                   taskId: String, advanceId: String, imageString: String) {
+    fun submitBill(
+        key: String, userId: String, lat: String, lng: String, billData: BillData,
+        taskId: String, advanceId: String, imageString: String
+    ) {
         val billDataJson = Gson().toJson(billData)
 
         coroutineScope.launch {
@@ -75,12 +78,17 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
             try {
                 progress.value = true
                 val result = addBillDeferred.await()
-                _addBillResponse.value = result
+                if (result.responseCode.equals("1", true)) {
+                    _addBillResponse.value = result
+                } else {
+                    message.value = result.responseText
+                }
                 progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
                 progress.value = false
-                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

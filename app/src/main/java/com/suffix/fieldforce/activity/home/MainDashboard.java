@@ -109,7 +109,8 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardBills)
     public void openBills() {
-        startActivity(new Intent(this, BillsActivity.class));
+        Intent intent = new Intent(MainDashboard.this, BillsActivity.class);
+        startActivity(intent);
     }
 
     @Override
