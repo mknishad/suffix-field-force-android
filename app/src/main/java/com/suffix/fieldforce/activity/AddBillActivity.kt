@@ -25,7 +25,6 @@ import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
-import com.suffix.fieldforce.util.Utils
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
@@ -68,7 +67,6 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
         setupToolbar()
         observeBillTypes()
-        observeBillTypes()
         observeAddBillResponse()
         observeMessage()
     }
@@ -96,8 +94,8 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         viewModel.billTypes.observe(this, Observer {
             if (textInputLayouts.size == 0) {
                 addDateLayout()
-                addBillTypesLayout(it)
                 addImagePickerLayout()
+                addBillTypesLayout(it)
                 addRemarksLayout()
                 addButton()
             }
@@ -127,6 +125,29 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         textInputLayouts.add(layout)
     }
 
+    private fun addImagePickerLayout() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+        val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+        layout.hint = getString(R.string.bill_image)
+        layout.editText?.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            R.drawable.ic_image_black_24dp,
+            0
+        )
+        layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
+        layout.editText?.showSoftInputOnFocus = false
+        layout.editText?.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                ImagePicker.create(this).start()
+            }
+            return@setOnTouchListener false
+        }
+        linearLayout.addView(view)
+        textInputLayouts.add(layout)
+    }
+
     private fun addBillTypesLayout(billTypes: List<BillType>) {
         for (billType in billTypes) {
             val inflater =
@@ -139,20 +160,6 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
             linearLayout.addView(view)
             textInputLayouts.add(layout)
         }
-    }
-
-    private fun addImagePickerLayout() {
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.item_bill_input_layout, null)
-        val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-        layout.hint = getString(R.string.bill_image)
-        layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
-        layout.editText?.setText("abc")
-        layout.editText?.setOnClickListener {
-            ImagePicker.create(this).start()
-        }
-        linearLayout.addView(view)
-        textInputLayouts.add(layout)
     }
 
     private fun addRemarksLayout() {
@@ -181,7 +188,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         button.layoutParams = params
         button.setOnClickListener {
             val billDataObj = mutableListOf<Bill>()
-            for (i in 1 until textInputLayouts.size - 2) {
+            for (i in 2 until textInputLayouts.size - 1) {
                 val bill = Bill(
                     null,
                     null,
@@ -261,14 +268,14 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             val images = ImagePicker.getImages(data)
             val image = ImagePicker.getFirstImageOrNull(data)
+            textInputLayouts[1].editText?.setText(image.path)
 
             val bitmap = BitmapFactory.decodeFile(image.path)
-            val resizedBitmap = Utils.getResizedBitmap(bitmap)
             val baos = ByteArrayOutputStream()
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos) //bm is the bitmap object
-            val b = baos.toByteArray()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
+            val byteArray = baos.toByteArray()
 
-            encodedImage = Base64.encodeToString(b, Base64.DEFAULT)
+            encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
