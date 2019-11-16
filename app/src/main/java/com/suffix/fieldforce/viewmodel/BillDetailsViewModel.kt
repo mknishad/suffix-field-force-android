@@ -20,6 +20,7 @@ class BillDetailsViewModel(application: Application): BaseViewModel(application)
     private val preferences: FieldForcePreferences = FieldForcePreferences(application)
 
     fun getBillDetails(billId: String) {
+        progress.value = true
         coroutineScope.launch {
             val getBillDetailsDeferred = FieldForceApi.retrofitService.getBillDetailsAsync(
                 Constants.KEY,
@@ -30,7 +31,6 @@ class BillDetailsViewModel(application: Application): BaseViewModel(application)
             )
 
             try {
-                progress.value = true
                 val result = getBillDetailsDeferred.await()
                 _billDetails.value = result.responseData
                 progress.value = false

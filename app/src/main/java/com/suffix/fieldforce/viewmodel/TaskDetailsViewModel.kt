@@ -20,6 +20,7 @@ class TaskDetailsViewModel(application: Application): BaseViewModel(application)
 
 
     fun getTaskDetails(taskId: String) {
+        progress.value = true
         viewModelScope.launch {
             val  getTaskDetailsDeferred = FieldForceApi.retrofitService.getTaskDetailsAsync(
                 Constants.USER_ID,
@@ -27,7 +28,6 @@ class TaskDetailsViewModel(application: Application): BaseViewModel(application)
             )
 
             try {
-                progress.value = true
                 val result = getTaskDetailsDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _task.value = result[0].responseData[0]

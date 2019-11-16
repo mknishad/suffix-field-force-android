@@ -20,6 +20,7 @@ class TaskListViewModel(application: Application) : BaseViewModel(application), 
         get() = _taskList
 
     fun getTaskList(taskType: String) {
+        progress.value = true
         val getTaskListDeferred: Deferred<List<TaskListResponse>>
         when (taskType) {
             Constants.ASSIGNED -> {
@@ -49,7 +50,6 @@ class TaskListViewModel(application: Application) : BaseViewModel(application), 
         }
         coroutineScope.launch {
             try {
-                progress.value = true
                 val result = getTaskListDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _taskList.value = result[0].responseData

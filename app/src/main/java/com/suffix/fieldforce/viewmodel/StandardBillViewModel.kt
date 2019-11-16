@@ -36,6 +36,7 @@ class StandardBillViewModel(application: Application) : BaseViewModel(applicatio
     }
 
     private fun getBillDashboard() {
+        progress.value = true
         coroutineScope.launch {
             val getBillDashboardDeferred = FieldForceApi.retrofitService.getBillListAsync(
                 Constants.KEY,
@@ -45,7 +46,6 @@ class StandardBillViewModel(application: Application) : BaseViewModel(applicatio
             )
 
             try {
-                progress.value = true
                 val result = getBillDashboardDeferred.await()
                 if (result.responseCode.equals("1", true)) {
                     _billsDashboard.value = result.responseData

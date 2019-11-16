@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
+import com.suffix.fieldforce.adapter.CategoryAdapter
 import com.suffix.fieldforce.databinding.ActivityBillDashboardBinding
 
 class BillDashboardActivity : BaseActivity() {
@@ -48,6 +49,8 @@ class BillDashboardActivity : BaseActivity() {
     }
 
     private fun setupViewPager() {
+        val adapter = CategoryAdapter(this, supportFragmentManager)
+        binding.viewPager.adapter  = adapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
     }
 }

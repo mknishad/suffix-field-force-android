@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             style="@style/ToolbarStyle"
-            android:backgroundTint="@color/colorAquaDark"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

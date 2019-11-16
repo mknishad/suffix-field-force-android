@@ -38,13 +38,13 @@ class TaskDashboardViewModel(application: Application): BaseViewModel(applicatio
     }
 
     private fun getTaskDashboard() {
+        progress.value = true
         coroutineScope.launch {
             val getTaskDashboardDeferred = FieldForceApi.retrofitService.getTaskDashboardAsync(
                 Constants.USER_ID
             )
 
             try {
-                progress.value = true
                 val result = getTaskDashboardDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _taskDashboard.value = result[0].responseData[0]
