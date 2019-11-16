@@ -12,5 +12,6 @@ data class Bill(
     var advanceBillDate: String?,
     var status: String?,
     var billAmount: Double?,
-    var billTypeId: Int?
+    var billTypeId: Int?,
+    var taskId: String?
 ): Parcelable

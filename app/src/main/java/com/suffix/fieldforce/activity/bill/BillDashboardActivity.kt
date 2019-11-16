@@ -6,11 +6,14 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.adapter.CategoryAdapter
 import com.suffix.fieldforce.databinding.ActivityBillDashboardBinding
+import com.suffix.fieldforce.util.Constants
+import org.jetbrains.anko.startActivity
 
 class BillDashboardActivity : BaseActivity() {
 
@@ -50,7 +53,13 @@ class BillDashboardActivity : BaseActivity() {
 
     private fun setupViewPager() {
         val adapter = CategoryAdapter(this, supportFragmentManager)
-        binding.viewPager.adapter  = adapter
+        binding.viewPager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.viewPager)
+    }
+
+    fun showAddBills(v: View) {
+        startActivity<AddBillActivity>(
+            Constants.TASK_ID to "149"
+        )
     }
 }

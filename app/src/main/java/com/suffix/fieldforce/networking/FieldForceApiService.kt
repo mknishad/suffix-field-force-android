@@ -62,6 +62,15 @@ interface FieldForceApiService {
         @Query("lng") lng: String
     ): Deferred<BillTypeResponse>
 
+    @POST("FFMS/api/getUserAdvanceIdTaskWise.jsp")
+    fun getTaskwiseAdvanseIdAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("lng") taskId: String
+    ): Deferred<AdvanceIdResponse>
+
     @POST("FFMS/api/billEntry.jsp")
     fun addBillAsync(
         @Query("key") key: String,
@@ -71,6 +80,17 @@ interface FieldForceApiService {
         @Query("billData") billData: String,
         @Query("taskId") taskId: String,
         @Query("advanceId") advanceId: String,
+        @Query("priority") priority: String
+    ): Deferred<AddBillResponse>
+
+    @POST("FFMS/api/advanceBillEntry.jsp")
+    fun addAdvanceBillAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("billData") billData: String,
+        @Query("taskId") taskId: String,
         @Query("priority") priority: String
     ): Deferred<AddBillResponse>
 

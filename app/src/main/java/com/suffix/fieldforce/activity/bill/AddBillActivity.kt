@@ -7,11 +7,11 @@ import android.graphics.*
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextUtils
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -39,9 +39,11 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var textInputLayouts: MutableList<TextInputLayout>
     private lateinit var linearLayout: LinearLayout
+    private lateinit var spinner: Spinner
+    private lateinit var checkBox: CheckBox
     private lateinit var preferences: FieldForcePreferences
+    private lateinit var taskId: String
 
-    //private lateinit var taskId: String
     private var encodedImage = ""
 
     private var mDay: Int = 0
@@ -60,10 +62,12 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
 
     private fun init() {
         linearLayout = LinearLayout(applicationContext)
+        spinner = Spinner(applicationContext)
+        checkBox = CheckBox(applicationContext)
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
         preferences = FieldForcePreferences(this)
-        //taskId = intent.getStringExtra(Constants.TASK_ID)
+        taskId = intent.getStringExtra(Constants.TASK_ID)
 
         setupToolbar()
         observeBillTypes()
@@ -93,13 +97,40 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
     private fun observeBillTypes() {
         viewModel.billTypes.observe(this, Observer {
             if (textInputLayouts.size == 0) {
+                addSpinner()
                 addDateLayout()
                 //addImagePickerLayout()
                 addBillTypesLayout(it)
                 addRemarksLayout()
+                addCheckBox()
                 addButton()
             }
         })
+    }
+
+    private fun addSpinner() {
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(20, 20, 20, 0)
+
+        val spinnerArray = ArrayList<String>()
+        spinnerArray.add("Select Bill Type")
+        spinnerArray.add("Expense")
+        spinnerArray.add("Advance")
+
+        val spinnerArrayAdapter = ArrayAdapter<String>(
+            applicationContext,
+            android.R.layout.simple_spinner_dropdown_item, spinnerArray
+        )
+
+        spinner.layoutParams = params
+        spinner.setBackgroundResource(R.drawable.bg_spinner)
+        spinner.adapter = spinnerArrayAdapter
+
+        linearLayout.addView(spinner)
+        binding.scrollView.addView(linearLayout)
     }
 
     private fun addDateLayout() {
@@ -173,6 +204,19 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         textInputLayouts.add(layout)
     }
 
+    private fun addCheckBox() {
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(16, 16, 16, 0)
+
+        checkBox.text = getString(R.string.urgent)
+        checkBox.textSize = 16f
+        checkBox.layoutParams = params
+        linearLayout.addView(checkBox)
+    }
+
     private fun addButton() {
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -180,47 +224,94 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         )
         params.setMargins(20, 20, 20, 20)
 
-        val button = Button(this)
+        val button = Button(applicationContext)
         button.text = getString(R.string.submit)
-        button.textSize = 20f
+        button.textSize = 16f
         button.setTextColor(Color.parseColor("#FFFFFF"))
         button.background = getDrawable(R.drawable.bg_button)
         button.layoutParams = params
         button.setOnClickListener {
-            val billDataObj = mutableListOf<Bill>()
-            for (i in 2 until textInputLayouts.size - 1) {
-                val bill = Bill(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    textInputLayouts[i].editText?.text.toString().toDouble(),
-                    textInputLayouts[i].tag.toString().toInt()
-                )
-                billDataObj.add(bill)
+            submitBill()
+        }
+
+        linearLayout.addView(button)
+    }
+
+    private fun submitBill() {
+        val billType: String = when (spinner.selectedItemPosition) {
+            0 -> {
+                spinner.snackbar("Select Bill Type")
+                return
             }
+            1 -> Constants.EXPENSE
+            else -> Constants.ADVANCE
+        }
 
-            val billData = BillData(
-                textInputLayouts[0].editText?.text.toString(),
-                billDataObj,
-                textInputLayouts[textInputLayouts.size - 1].editText?.text.toString()
+        val date: String
+
+        if (TextUtils.isEmpty(textInputLayouts[0].editText?.text.toString())) {
+            linearLayout.snackbar("Select Date")
+            return
+        } else {
+            date = textInputLayouts[0].editText?.text.toString()
+        }
+
+        val billDataObj = mutableListOf<Bill>()
+        for (i in 3 until textInputLayouts.size - 2) {
+            val billAmount: Double =
+                if (TextUtils.isEmpty(textInputLayouts[i].editText?.text.toString())) {
+                    0.0
+                } else {
+                    textInputLayouts[i].editText?.text.toString().toDouble()
+                }
+
+            val bill = Bill(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                billAmount,
+                textInputLayouts[i].tag.toString().toInt(),
+                null
             )
+            billDataObj.add(bill)
+        }
 
-            viewModel.submitBill(
+        val billData = BillData(
+            date,
+            billDataObj,
+            textInputLayouts[textInputLayouts.size - 1].editText?.text.toString()
+        )
+
+        val priority: String = if (checkBox.isChecked) {
+            "1"
+        } else {
+            "0"
+        }
+
+        if (billType.equals(Constants.EXPENSE, true)) {
+            viewModel.submitBillWithAdvanceId(
                 Constants.KEY,
                 Constants.USER_ID,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
                 billData,
-                "373",
-                "1139"
+                taskId,
+                priority
+            )
+        } else {
+            viewModel.submitAdvanceBill(
+                Constants.KEY,
+                Constants.USER_ID,
+                preferences.getLocation().latitude.toString(),
+                preferences.getLocation().longitude.toString(),
+                billData,
+                taskId,
+                priority
             )
         }
-
-        linearLayout.addView(button)
-        binding.scrollView.addView(linearLayout)
     }
 
     private fun observeAddBillResponse() {
