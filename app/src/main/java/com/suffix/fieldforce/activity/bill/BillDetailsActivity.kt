@@ -21,6 +21,7 @@ class BillDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBillDetailsBinding
     private lateinit var viewModel: BillDetailsViewModel
     private lateinit var billId: String
+    private lateinit var billType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,8 @@ class BillDetailsActivity : AppCompatActivity() {
         setupToolbar()
 
         billId = intent.getStringExtra(Constants.BILL_ID)
-        viewModel.getBillDetails(billId)
+        billType = intent.getStringExtra(Constants.BILL_TYPE)
+        viewModel.getBillDetails(billId, billType)
 
         observeMessage()
     }

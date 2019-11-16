@@ -49,7 +49,8 @@ class AdvanceBillFragment : Fragment() {
     private fun init() {
         adapter = AdvanceBillsAdapter(BillsListener { bill ->
             activity?.startActivity<BillDetailsActivity>(
-                Constants.BILL_ID to bill.advanceId
+                Constants.BILL_ID to bill.advanceId,
+                Constants.BILL_TYPE to Constants.ADVANCE
             )
         })
         binding.recyclerView.adapter = adapter

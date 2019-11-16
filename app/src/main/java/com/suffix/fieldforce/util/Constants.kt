@@ -14,4 +14,7 @@ object Constants {
     val FIRST_TIME = "first-time"
     val PUSH_TOKEN = "push-token"
     val USER = "user"
+    val BILL_TYPE = "bill-type"
+    val EXPENSE = "expense"
+    val ADVANCE = "advance"
 }
