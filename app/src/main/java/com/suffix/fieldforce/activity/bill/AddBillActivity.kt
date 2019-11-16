@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity
+package com.suffix.fieldforce.activity.bill
 
 import android.app.DatePickerDialog
 import android.content.Context

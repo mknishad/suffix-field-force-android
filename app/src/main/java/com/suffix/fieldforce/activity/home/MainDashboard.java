@@ -33,7 +33,7 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.BillsActivity;
+import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -109,7 +109,7 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardBills)
     public void openBills() {
-        Intent intent = new Intent(MainDashboard.this, BillsActivity.class);
+        Intent intent = new Intent(MainDashboard.this, BillDashboardActivity.class);
         startActivity(intent);
     }
 

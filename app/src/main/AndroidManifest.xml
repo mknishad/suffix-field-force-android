@@ -15,11 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.task.CreateTaskActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.task.TaskEditActivity"
+        <activity android:name=".activity.bill.BillDashboardActivity"></activity>
+        <activity
+            android:name=".activity.task.CreateTaskActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.home.LoginActivity"
+        <activity
+            android:name=".activity.task.TaskEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.home.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.WelcomeActivity"
@@ -40,29 +44,39 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TaskDashboardActivity"
+        <activity
+            android:name=".activity.TaskDashboardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BillDetailsActivity"
+            android:name=".activity.bill.BillDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.AddBillActivity"
+        <activity
+            android:name=".activity.bill.AddBillActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TaskDetailsActivity"
+        <activity
+            android:name=".activity.TaskDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.task.TaskDashboard"
+        <activity
+            android:name=".activity.task.TaskDashboard"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.InventoryActivity"
+        <activity
+            android:name=".activity.InventoryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TaskListActivity"
+        <activity
+            android:name=".activity.TaskListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.BillsActivity"
+        <activity
+            android:name=".activity.bill.BillsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.task.PreviewTaskActivity"
+        <activity
+            android:name=".activity.task.PreviewTaskActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.home.MainDashboard"
+        <activity
+            android:name=".activity.home.MainDashboard"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity"
+        <activity
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".networking.MyFirebaseMessagingService">

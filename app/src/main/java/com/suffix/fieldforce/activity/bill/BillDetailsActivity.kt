@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity
+package com.suffix.fieldforce.activity.bill
 
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -11,26 +11,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.adapter.BillsAdapter
-import com.suffix.fieldforce.adapter.BillsListener
-import com.suffix.fieldforce.databinding.ActivityBillsBinding
+import com.suffix.fieldforce.databinding.ActivityBillDetailsBinding
 import com.suffix.fieldforce.util.Constants
-import com.suffix.fieldforce.viewmodel.BillsViewModel
-import org.jetbrains.anko.AnkoLogger
+import com.suffix.fieldforce.viewmodel.BillDetailsViewModel
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.startActivity
 
-class BillsActivity : AppCompatActivity(), AnkoLogger {
+class BillDetailsActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBillsBinding
-    private lateinit var viewModel: BillsViewModel
-    private lateinit var adapter: BillsAdapter
+    private lateinit var binding: ActivityBillDetailsBinding
+    private lateinit var viewModel: BillDetailsViewModel
+    private lateinit var billId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_bills)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_bill_details)
+        viewModel = ViewModelProviders.of(this).get(BillDetailsViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -38,17 +33,11 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun init() {
-        adapter = BillsAdapter(BillsListener { bill ->
-            startActivity<BillDetailsActivity>(
-                Constants.BILL_ID to bill.billId
-            )
-        })
-        binding.recyclerView.adapter = adapter
-
         setupToolbar()
-        //setupRecyclerView()
-        observeBillsDashboard()
-        observeShowAddBills()
+
+        billId = intent.getStringExtra(Constants.BILL_ID)
+        viewModel.getBillDetails(billId)
+
         observeMessage()
     }
 
@@ -61,7 +50,7 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
         }
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.bills)
+        supportActionBar?.setTitle(R.string.bill_details)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             binding.toolbar.navigationIcon?.colorFilter =
@@ -71,27 +60,10 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    private fun observeShowAddBills() {
-        viewModel.eventShowAddBills.observe(this, Observer {
-            if (it) {
-                startActivity<AddBillActivity>()
-                viewModel.addBillsShown()
-            }
-        })
-    }
-
-    private fun observeBillsDashboard() {
-        viewModel.billsDashboard.observe(this, Observer {dashboard ->
-            dashboard?.let {
-                adapter.callSubmitList(it.billListObj.bills)
-            }
-        })
-    }
-
     private fun observeMessage() {
         viewModel.message.observe(this, Observer { message ->
             message?.let {
-                binding.recyclerView.snackbar(it)
+                binding.scrollView.snackbar(it)
             }
         })
     }
