@@ -6,36 +6,40 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.model.DistrictData;
+import com.suffix.fieldforce.model.DistrictInfo;
+import com.suffix.fieldforce.model.TaskEntry;
+import com.suffix.fieldforce.model.ThanaInfo;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,13 +63,13 @@ public class CreateTaskActivity extends AppCompatActivity {
     @BindView(R.id.ticketDetails)
     TextInputEditText ticketDetails;
     @BindView(R.id.priority)
-    TextInputEditText priority;
+    AutoCompleteTextView priority;
     @BindView(R.id.address)
     TextInputEditText address;
     @BindView(R.id.thanaId)
-    TextInputEditText thanaId;
+    AutoCompleteTextView thanaId;
     @BindView(R.id.districtId)
-    TextInputEditText districtId;
+    AutoCompleteTextView districtId;
     @BindView(R.id.startDate)
     TextInputEditText startDate;
     @BindView(R.id.endDate)
@@ -82,15 +86,20 @@ public class CreateTaskActivity extends AppCompatActivity {
     TextInputEditText consumerMobileNumber;
 
     private Bitmap bitmap;
-    private Intent intent;
 
+    private String strPriority;
+    private String strDistrictId;
+    private String strThanaId;
+
+    private String[] priorityList = new String[]{"Low", "Medium", "High"};
+    private String[] districtList;
+    private String[] thanaList;
+    private ArrayAdapter<String> adapter;
     private List<DistrictData> districtData;
-
+    private List<DistrictInfo> districtInfos;
     private APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-
-    final Calendar myCalendar = Calendar.getInstance();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
-
+    private final Calendar myCalendar = Calendar.getInstance();
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd hh:mm:ss a");
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -101,11 +110,72 @@ public class CreateTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
         ButterKnife.bind(this);
-
         setActionBar();
+        initDistrictThana();
         verifyStoragePermissions(this);
 
-        initDistrictThana();
+        priority.setKeyListener(null);
+        districtId.setKeyListener(null);
+        thanaId.setKeyListener(null);
+
+        priority.setAdapter(new ArrayAdapter<>(
+                getApplicationContext(),
+                R.layout.dropdown_menu_popup_item,
+                priorityList));
+        priority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                priority.showDropDown();
+            }
+        });
+
+        priority.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+              strPriority = String.valueOf(i);
+            }
+        });
+
+        districtId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                districtId.showDropDown();
+            }
+        });
+        districtId.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                strDistrictId = String.valueOf(i);
+                DistrictInfo districtInfo = districtInfos.get(i);
+                List<ThanaInfo> thanaInfos = districtInfo.getThanaInfo();
+                thanaList = new String[thanaInfos.size()];
+                for(int thanaIndex = 0; thanaIndex<thanaInfos.size(); thanaIndex++){
+                    thanaList [thanaIndex] = thanaInfos.get(thanaIndex).getThanaName();
+                }
+
+                thanaId.setText("");
+
+                thanaId.setAdapter(new ArrayAdapter<>(
+                        getApplicationContext(),
+                        R.layout.dropdown_menu_popup_item,
+                        thanaList));
+                thanaId.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        thanaId.showDropDown();
+                    }
+                });
+            }
+        });
+
+        thanaId.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                strThanaId = String.valueOf(i);
+            }
+        });
+
+
     }
 
     private void initDistrictThana() {
@@ -114,6 +184,15 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<DistrictData>> call, Response<List<DistrictData>> response) {
                 districtData = response.body();
+                districtInfos = districtData.get(0).getResponseData();
+                districtList = new String[districtInfos.size()];
+                for (int i = 0; i < districtInfos.size(); i++) {
+                    districtList[i] = districtInfos.get(i).getDistrictName();
+                }
+                districtId.setAdapter(new ArrayAdapter<>(
+                        getApplicationContext(),
+                        R.layout.dropdown_menu_popup_item,
+                        districtList));
             }
 
             @Override
@@ -187,51 +266,66 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private void uploadData(Location location) {
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-        Call<List<AssignedTask>> taskEntry = apiInterface.taskEntry(
+        Call<TaskEntry> taskEntry = apiInterface.taskEntry(
                 Constants.INSTANCE.getKEY(),
                 Constants.INSTANCE.getUSER_ID(),
                 String.valueOf(location.getLatitude()),
                 String.valueOf(location.getLongitude()),
-                "4",
+                "1",
                 ticketTitle.getText().toString(),
-                priority.getText().toString(),
-                imagetTOString(),
+                "1",
+                encodeTobase64(bitmap),
                 ticketDetails.getText().toString(),
                 startDate.getText().toString(),
                 endDate.getText().toString(),
-                "12",
-                "12",
+                "41",
+                "524",
                 address.getText().toString(),
                 consumerName.getText().toString(),
                 consumerMobileNumber.getText().toString()
         );
 
-        taskEntry.enqueue(new Callback<List<AssignedTask>>() {
+        taskEntry.enqueue(new Callback<TaskEntry>() {
             @Override
-            public void onResponse(Call<List<AssignedTask>> call, Response<List<AssignedTask>> response) {
-                Toast.makeText(CreateTaskActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<TaskEntry> call, Response<TaskEntry> response) {
+                TaskEntry taskResponse = response.body();
+                Toast.makeText(CreateTaskActivity.this, taskResponse.getResponseText(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<List<AssignedTask>> call, Throwable t) {
-
+            public void onFailure(Call<TaskEntry> call, Throwable t) {
+                Toast.makeText(CreateTaskActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
             }
         });
     }
 
     private void selectImage() {
-        Intent intent = new Intent();
-        intent.setType("iamge/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 777);
+        ImagePicker.create(this)
+                .start();
 
     }
 
-    private String imagetTOString() {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] imageByte = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imageByte, Base64.DEFAULT);
+    public String encodeTobase64(Bitmap image) {
+        Bitmap bitmap = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        return imageEncoded;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bitmap, 0, 0, width, height, matrix, false);
+        bitmap.recycle();
+        return resizedBitmap;
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -246,19 +340,15 @@ public class CreateTaskActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 777 && resultCode == RESULT_OK && data != null) {
-            Uri path = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
-                imgAttach.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            List<Image> images = ImagePicker.getImages(data);
+            Image image = ImagePicker.getFirstImageOrNull(data);
+            bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
+            imgAttach.setImageBitmap(bitmap);
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
