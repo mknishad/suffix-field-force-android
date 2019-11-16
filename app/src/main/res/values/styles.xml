@@ -2,7 +2,7 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorMint</item>
-        <item name="colorPrimaryDark">@color/colorMintDark</item>
+        <item name="colorPrimaryDark">@color/colorMint</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
@@ -21,9 +21,9 @@
     <style name="ToolbarStyle">
         <item name="android:theme">?attr/actionBarTheme</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:background">@color/colorMintDark</item>
+        <item name="android:background">@color/colorMint</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="Ripple">
@@ -35,6 +35,19 @@
         <item name="android:background">@drawable/bg_button</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- Style for a tab that displays a category name -->
+    <style name="CategoryTab" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="android:background">@color/colorMint</item>
+        <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
+    </style>
+
+    <!-- Text appearance style for a category tab -->
+    <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">#CCCCCC</item>
     </style>
 
 </resources>

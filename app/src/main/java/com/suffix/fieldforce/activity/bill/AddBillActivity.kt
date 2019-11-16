@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity
+package com.suffix.fieldforce.activity.bill
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -59,7 +59,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun init() {
-        linearLayout = LinearLayout(this)
+        linearLayout = LinearLayout(applicationContext)
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
         preferences = FieldForcePreferences(this)

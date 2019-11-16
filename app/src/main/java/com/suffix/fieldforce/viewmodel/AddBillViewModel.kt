@@ -35,6 +35,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
     }
 
     private fun getBillTypes() {
+        progress.value = true
         coroutineScope.launch {
             val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
                 Constants.KEY,
@@ -44,7 +45,6 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
             )
 
             try {
-                progress.value = true
                 val result = getBillTypesDeferred.await()
                 _billTypes.value = result.responseData
                 progress.value = false
