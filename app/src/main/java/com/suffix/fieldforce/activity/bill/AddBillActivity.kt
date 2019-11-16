@@ -84,7 +84,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         }
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.add_bill)
+        supportActionBar?.setTitle(R.string.bill_entry)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             binding.toolbar.navigationIcon?.colorFilter =

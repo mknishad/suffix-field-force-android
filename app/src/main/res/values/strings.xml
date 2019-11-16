@@ -78,5 +78,6 @@
     <string name="expense">Expense</string>
     <string name="advance">Advance</string>
     <string name="urgent">Urgent</string>
+    <string name="bill_entry">Bill Entry</string>
 
 </resources>

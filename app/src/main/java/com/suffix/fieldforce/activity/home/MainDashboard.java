@@ -15,7 +15,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -30,7 +29,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
@@ -156,6 +154,7 @@ public class MainDashboard extends AppCompatActivity {
                 for (Location location : locationResult.getLocations()) {
                     try {
                         preferences.putLocation(location);
+                        new GetAddressTask(MainDashboard.this).execute(location);
                         Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
                                 Constants.INSTANCE.getUSER_ID(),
                                 String.valueOf(location.getLatitude()),
@@ -248,17 +247,16 @@ public class MainDashboard extends AppCompatActivity {
     private void getDeviceLocation() {
         try {
             Task task = fusedLocationProviderClient.getLastLocation();
-            task.addOnCompleteListener(new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()) {
-                        if (task != null) {
-                            preferences.putLocation((Location) task.getResult());
-                            new GetAddressTask(MainDashboard.this).execute((Location) task.getResult());
-                        }
+            task.addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()) {
+                    if (task1 != null) {
+                        preferences.putLocation((Location) task1.getResult());
+                        new GetAddressTask(MainDashboard.this).execute((Location) task1.getResult());
                     } else {
                         getDeviceLocation();
                     }
+                } else {
+                    getDeviceLocation();
                 }
             });
         } catch (SecurityException e) {
@@ -351,7 +349,6 @@ public class MainDashboard extends AppCompatActivity {
             if (address != null) {
                 txtUserAddress.setText(address);
             }
-
         }
     }
 }
