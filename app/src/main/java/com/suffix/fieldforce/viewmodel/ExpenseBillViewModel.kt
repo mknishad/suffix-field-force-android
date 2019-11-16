@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class StandardBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class ExpenseBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
     private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
     val billsDashboard: LiveData<BillDashboardResponseData>
         get() = _billsDashboard
@@ -38,7 +38,7 @@ class StandardBillViewModel(application: Application) : BaseViewModel(applicatio
     private fun getBillDashboard() {
         progress.value = true
         coroutineScope.launch {
-            val getBillDashboardDeferred = FieldForceApi.retrofitService.getBillListAsync(
+            val getBillDashboardDeferred = FieldForceApi.retrofitService.getExpenseBillListAsync(
                 Constants.KEY,
                 Constants.USER_ID,
                 preferences.getLocation().latitude.toString(),

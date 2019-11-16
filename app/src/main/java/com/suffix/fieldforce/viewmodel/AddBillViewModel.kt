@@ -59,7 +59,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
 
     fun submitBill(
         key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, advanceId: String, imageString: String
+        taskId: String, advanceId: String
     ) {
         val billDataJson = Gson().toJson(billData)
 
@@ -72,7 +72,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
                 billDataJson,
                 taskId,
                 advanceId,
-                imageString
+                "0"
             )
 
             try {

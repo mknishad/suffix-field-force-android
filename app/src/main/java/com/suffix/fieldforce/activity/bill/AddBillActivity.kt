@@ -94,7 +94,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         viewModel.billTypes.observe(this, Observer {
             if (textInputLayouts.size == 0) {
                 addDateLayout()
-                addImagePickerLayout()
+                //addImagePickerLayout()
                 addBillTypesLayout(it)
                 addRemarksLayout()
                 addButton()
@@ -194,6 +194,8 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
                     null,
                     null,
                     null,
+                    null,
+                    null,
                     textInputLayouts[i].editText?.text.toString().toDouble(),
                     textInputLayouts[i].tag.toString().toInt()
                 )
@@ -213,8 +215,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
                 preferences.getLocation().longitude.toString(),
                 billData,
                 "373",
-                "1139",
-                encodedImage
+                "1139"
             )
         }
 

@@ -71,11 +71,19 @@ interface FieldForceApiService {
         @Query("billData") billData: String,
         @Query("taskId") taskId: String,
         @Query("advanceId") advanceId: String,
-        @Query("imageString") imageString: String
+        @Query("priority") priority: String
     ): Deferred<AddBillResponse>
 
     @POST("FFMS/api/getUserBillList.jsp")
-    fun getBillListAsync(
+    fun getExpenseBillListAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String
+    ): Deferred<BillDashboardResponse>
+
+    @POST("FFMS/api/getUserAdvanceBillList.jsp")
+    fun getAdvanceBillListAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
         @Query("lat") lat: String,

@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragment.StandardBillFragment">
+    tools:context=".fragment.ExpenseBillFragment">
 
     <data>
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.suffix.fieldforce.viewmodel.StandardBillViewModel" />
+            type="com.suffix.fieldforce.viewmodel.AdvanceBillViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

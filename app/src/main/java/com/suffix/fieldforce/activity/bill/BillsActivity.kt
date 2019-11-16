@@ -15,7 +15,7 @@ import com.suffix.fieldforce.adapter.BillsAdapter
 import com.suffix.fieldforce.adapter.BillsListener
 import com.suffix.fieldforce.databinding.ActivityBillsBinding
 import com.suffix.fieldforce.util.Constants
-import com.suffix.fieldforce.viewmodel.StandardBillViewModel
+import com.suffix.fieldforce.viewmodel.ExpenseBillViewModel
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
@@ -23,13 +23,13 @@ import org.jetbrains.anko.startActivity
 class BillsActivity : AppCompatActivity(), AnkoLogger {
 
     private lateinit var binding: ActivityBillsBinding
-    private lateinit var viewModel: StandardBillViewModel
+    private lateinit var viewModel: ExpenseBillViewModel
     private lateinit var adapter: BillsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(StandardBillViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ExpenseBillViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bills)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

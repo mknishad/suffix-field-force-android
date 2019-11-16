@@ -75,5 +75,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="standard">Standard</string>
+    <string name="expense">Expense</string>
+    <string name="advance">Advance</string>
 
 </resources>
