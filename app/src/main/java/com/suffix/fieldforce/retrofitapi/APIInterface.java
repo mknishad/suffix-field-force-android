@@ -5,17 +5,19 @@ import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
+import com.suffix.fieldforce.model.TaskEntry;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface APIInterface {
 
-    @GET("FFMS/api/getDistrictThanaInfo.jsp")
+    @POST("FFMS/api/getDistrictThanaInfo.jsp")
     Call<List<DistrictData>> getDistrictThanaInfo();
 
     @POST("FFMS/api/assignTicketList.jsp")
@@ -65,24 +67,25 @@ public interface APIInterface {
             @Query("ticketId") String ticketId
     );
 
+    @FormUrlEncoded
     @POST("FFMS/api/taskEntry.jsp")
-    Call<List<AssignedTask>> taskEntry(
-            @Query("key") String key,
-            @Query("userId") String userId,
-            @Query("lat") String lat,
-            @Query("lng") String lng,
-            @Query("categoryId") String categoryId,
-            @Query("ticketTitle") String ticketTitle,
-            @Query("priority") String priority,
-            @Query("imageString") String imageString,
-            @Query("ticketDetails") String ticketDetails,
-            @Query("startDate") String startDate,
-            @Query("endDate") String endDate,
-            @Query("districtId") String districtId,
-            @Query("thanaId") String thanaId,
-            @Query("address") String address,
-            @Query("consumerName") String consumerName,
-            @Query("consumerMobileNumber") String consumerMobileNumber
+    Call<TaskEntry> taskEntry(
+            @Field("key") String key,
+            @Field("userId") String userId,
+            @Field("lat") String lat,
+            @Field("lng") String lng,
+            @Field("categoryId") String categoryId,
+            @Field("ticketTitle") String ticketTitle,
+            @Field("priority") String priority,
+            @Field("imageString") String imageString,
+            @Field("ticketDetails") String ticketDetails,
+            @Field("startDate") String startDate,
+            @Field("endDate") String endDate,
+            @Field("districtId") String districtId,
+            @Field("thanaId") String thanaId,
+            @Field("address") String address,
+            @Field("consumerName") String consumerName,
+            @Field("consumerMobileNumber") String consumerMobileNumber
     );
 
     @POST("FFMS/api/geoLocationEntry.jsp")
