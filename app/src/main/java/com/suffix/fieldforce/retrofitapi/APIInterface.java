@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.retrofitapi;
 
 import com.suffix.fieldforce.model.AssignedTask;
+import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
@@ -8,10 +9,14 @@ import com.suffix.fieldforce.model.SendPushTokenResponse;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface APIInterface {
+
+    @GET("FFMS/api/getDistrictThanaInfo.jsp")
+    Call<List<DistrictData>> getDistrictThanaInfo();
 
     @POST("FFMS/api/assignTicketList.jsp")
     Call<List<AssignedTask>> assignTicketList(

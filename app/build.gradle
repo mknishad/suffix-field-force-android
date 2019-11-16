@@ -58,6 +58,7 @@ dependencies {
 
     //circle image
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
     //circle progressbar
     implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
 
@@ -69,6 +70,7 @@ dependencies {
 
     //firebase
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     // kotlin co-routines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
@@ -132,5 +134,8 @@ dependencies {
 
     //AppCrash
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
+
+    //Smart Location
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
 }
 apply plugin: 'com.google.gms.google-services'

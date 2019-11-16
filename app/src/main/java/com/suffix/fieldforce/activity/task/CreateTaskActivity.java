@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.AssignedTask;
+import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
@@ -38,6 +40,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,9 +76,17 @@ public class CreateTaskActivity extends AppCompatActivity {
     Button btnAttachImage;
     @BindView(R.id.btnSubmit)
     Button btnSubmit;
+    @BindView(R.id.consumerName)
+    TextInputEditText consumerName;
+    @BindView(R.id.consumerMobileNumber)
+    TextInputEditText consumerMobileNumber;
 
     private Bitmap bitmap;
     private Intent intent;
+
+    private List<DistrictData> districtData;
+
+    private APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
     final Calendar myCalendar = Calendar.getInstance();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
@@ -92,6 +104,23 @@ public class CreateTaskActivity extends AppCompatActivity {
 
         setActionBar();
         verifyStoragePermissions(this);
+
+        initDistrictThana();
+    }
+
+    private void initDistrictThana() {
+        Call<List<DistrictData>> getDistrictThanaInfo = apiInterface.getDistrictThanaInfo();
+        getDistrictThanaInfo.enqueue(new Callback<List<DistrictData>>() {
+            @Override
+            public void onResponse(Call<List<DistrictData>> call, Response<List<DistrictData>> response) {
+                districtData = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<DistrictData>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void setActionBar() {
@@ -144,18 +173,25 @@ public class CreateTaskActivity extends AppCompatActivity {
                 selectImage();
                 break;
             case R.id.btnSubmit:
-                uploadData();
+                SmartLocation.with(CreateTaskActivity.this).location()
+                        .oneFix()
+                        .start(new OnLocationUpdatedListener() {
+                            @Override
+                            public void onLocationUpdated(Location location) {
+                                uploadData(location);
+                            }
+                        });
                 break;
         }
     }
 
-    private void uploadData() {
+    private void uploadData(Location location) {
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
         Call<List<AssignedTask>> taskEntry = apiInterface.taskEntry(
                 Constants.INSTANCE.getKEY(),
                 Constants.INSTANCE.getUSER_ID(),
-                "12.12",
-                "12.13",
+                String.valueOf(location.getLatitude()),
+                String.valueOf(location.getLongitude()),
                 "4",
                 ticketTitle.getText().toString(),
                 priority.getText().toString(),
@@ -166,9 +202,9 @@ public class CreateTaskActivity extends AppCompatActivity {
                 "12",
                 "12",
                 address.getText().toString(),
-                "name",
-                "01914"
-                );
+                consumerName.getText().toString(),
+                consumerMobileNumber.getText().toString()
+        );
 
         taskEntry.enqueue(new Callback<List<AssignedTask>>() {
             @Override
@@ -223,5 +259,11 @@ public class CreateTaskActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SmartLocation.with(CreateTaskActivity.this).location().stop();
     }
 }
