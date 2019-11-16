@@ -69,8 +69,8 @@ public class MainDashboard extends AppCompatActivity {
 
     private APIInterface apiInterface;
 
-    private static long INTERVAL = 60 * 1000;
-    private static long FASTEST_INTERVAL = 60 * 1000;
+    private static long INTERVAL = 5 * 60 * 1000;
+    private static long FASTEST_INTERVAL = 5 * 60 * 1000;
 
     @BindView(R.id.imgDrawer)
     ImageView imgDrawer;

@@ -183,7 +183,6 @@ class AddBillActivity : BaseActivity() {
             val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
             layout.hint = billType.billShortName
             layout.tag = billType.billTypeId
-            layout.editText?.setText("123")
             linearLayout.addView(view)
             textInputLayouts.add(layout)
         }
@@ -195,7 +194,6 @@ class AddBillActivity : BaseActivity() {
         val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
         layout.hint = getString(R.string.remarks)
         layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
-        layout.editText?.setText("abc")
         linearLayout.addView(view)
         textInputLayouts.add(layout)
     }
