@@ -65,7 +65,6 @@
     <string-array name="spinnerItems">
         <item>Open</item>
         <item>In Progress</item>
-        <item>Resolved</item>
         <item>Close</item>
     </string-array>
 

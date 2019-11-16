@@ -24,8 +24,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.developer.kalert.KAlertDialog;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.DistrictData;
@@ -77,7 +79,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     @BindView(R.id.imgAttach)
     ImageView imgAttach;
     @BindView(R.id.btnAttachImage)
-    Button btnAttachImage;
+    FloatingActionButton btnAttachImage;
     @BindView(R.id.btnSubmit)
     Button btnSubmit;
     @BindView(R.id.consumerName)
@@ -289,7 +291,17 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TaskEntry> call, Response<TaskEntry> response) {
                 TaskEntry taskResponse = response.body();
-                Toast.makeText(CreateTaskActivity.this, taskResponse.getResponseText(), Toast.LENGTH_SHORT).show();
+                new KAlertDialog(CreateTaskActivity.this, KAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Good job!")
+                        .setContentText("Task Created Successfully")
+                        .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                            @Override
+                            public void onClick(KAlertDialog kAlertDialog) {
+                                kAlertDialog.dismissWithAnimation();
+                                CreateTaskActivity.super.onBackPressed();
+                            }
+                        })
+                        .show();
             }
 
             @Override

@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:hint="Priority"
+                    android:focusable="false"
                     android:paddingTop="18dp"
                     android:paddingBottom="18dp"
                     android:paddingStart="16dp"
@@ -124,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mobile Number"
-                    android:inputType="phone"
                     android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -143,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:hint="District"
+                    android:focusable="false"
                     android:paddingTop="18dp"
                     android:paddingBottom="18dp"
                     android:paddingStart="16dp"
@@ -164,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:hint="Thana"
+                    android:focusable="false"
                     android:paddingTop="18dp"
                     android:paddingBottom="18dp"
                     android:paddingStart="16dp"
@@ -183,7 +185,7 @@
                     android:id="@+id/startDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="startDate"
+                    android:hint="Start Date"
                     android:inputType="date"
                     android:focusable="false"
                     android:textSize="20sp" />
@@ -202,38 +204,46 @@
                     android:id="@+id/endDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="EndDate"
+                    android:hint="End Date"
                     android:inputType="date"
                     android:focusable="false"
                     android:textSize="20sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/imgAttach"
+            <RelativeLayout
                 android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/image_attach"
+                android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="16dp"
-                />
+                >
+                <ImageView
+                    android:id="@+id/imgAttach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/attachment"
+                    android:padding="@dimen/layout_margin_10"
+                    />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnAttachImage"
+                    android:layout_width="@dimen/card_height_45"
+                    android:layout_height="@dimen/card_height_45"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:backgroundTint="@color/colorOrange"
+                    android:src="@drawable/ic_add_white_24dp"
+                    app:backgroundTint="@color/backgroundcolor"/>
 
-            <Button
-                android:id="@+id/btnAttachImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_attach_image"
-                android:layout_marginRight="@dimen/layout_height_20"
-                android:layout_marginLeft="@dimen/layout_height_20"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/border_orange"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                />
-
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLICK TO ADD IMAGE"
+                        android:textColor="@color/darkblue"
+                        />
+            </RelativeLayout>
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"

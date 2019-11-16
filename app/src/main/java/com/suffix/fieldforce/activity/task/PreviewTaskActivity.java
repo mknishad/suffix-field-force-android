@@ -102,6 +102,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
     @OnClick(R.id.imgMap)
     public void editStatus() {
         Intent intent = new Intent(PreviewTaskActivity.this, TaskEditActivity.class);
+        intent.putExtra(Constants.INSTANCE.getTASK_ID(), ticketId);
         startActivity(intent);
     }
 

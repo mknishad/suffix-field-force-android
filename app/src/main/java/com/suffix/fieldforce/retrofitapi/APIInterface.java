@@ -6,6 +6,7 @@ import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.model.TaskEntry;
+import com.suffix.fieldforce.model.Ticketstatus;
 
 import java.util.List;
 
@@ -41,21 +42,21 @@ public interface APIInterface {
     );
 
     @POST("FFMS/api/ticketOpenInfo.jsp")
-    Call<List<AssignedTask>> ticketOpenInfo(
+    Call<List<Ticketstatus>> ticketOpenInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
             @Query("regTicketComments") String regTicketComments
     );
 
     @POST("FFMS/api/ticketInprogressInfo.jsp")
-    Call<List<AssignedTask>> ticketInprogressInfo(
+    Call<List<Ticketstatus>> ticketInprogressInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
             @Query("regTicketComments") String regTicketComments
     );
 
     @POST("FFMS/api/ticketCloseInfo.jsp")
-    Call<List<AssignedTask>> ticketCloseInfo(
+    Call<List<Ticketstatus>> ticketCloseInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
             @Query("regTicketComments") String regTicketComments

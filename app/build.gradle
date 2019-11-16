@@ -137,5 +137,8 @@ dependencies {
 
     //Smart Location
     implementation 'io.nlopez.smartlocation:library:3.3.3'
+
+    //KAlertDialog
+    implementation 'com.github.TutorialsAndroid:KAlertDialog:v7.0.19'
 }
 apply plugin: 'com.google.gms.google-services'
