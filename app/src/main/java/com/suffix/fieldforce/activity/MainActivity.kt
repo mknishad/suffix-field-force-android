@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -22,7 +21,6 @@ import com.suffix.fieldforce.viewmodel.MainViewModel
 import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
@@ -31,7 +29,7 @@ import java.util.*
 const val REQUEST_CHECK_SETTINGS = 1000
 const val REQUEST_LOCATION_PERMISSION = 1001
 
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class MainActivity : BaseActivity() {
 
     private var online: Boolean = false
     private var locationUpdateActive: Boolean = false
@@ -156,7 +154,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                         mPreferences.putLocation(location)
                         viewModel.sendGeoLocation(
                             Constants.KEY,
-                            "BLA0010",
+                            preferences.getUser().userId,
                             location.latitude.toString(),
                             location.longitude.toString()
                         )

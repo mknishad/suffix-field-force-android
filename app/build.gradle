@@ -58,6 +58,7 @@ dependencies {
 
     //circle image
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
     //circle progressbar
     implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
 
@@ -67,11 +68,9 @@ dependencies {
     //bottom nav
     implementation 'devlight.io:navigationtabbar:1.2.5'
 
-    implementation 'com.jakewharton:butterknife:10.2.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
-
     //firebase
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     // kotlin co-routines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
@@ -95,6 +94,7 @@ dependencies {
     // Retrofit with Moshi Converter
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
@@ -112,5 +112,30 @@ dependencies {
 
     // Gson
     implementation "com.google.code.gson:gson:$version_gson"
+
+    //butterknife
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
+
+    //lottie
+    implementation('com.airbnb.android:lottie:2.7.0') {
+        exclude group: 'com.android.support', module: 'support-v7'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview'
+        exclude group: 'com.android.support', module: 'transition'
+    }
+
+    //material text
+    implementation 'com.github.florent37:materialtextfield:1.0.7'
+
+    // Image Pikcer
+    implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
+
+    //AppCrash
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
+
+    //Smart Location
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
 }
 apply plugin: 'com.google.gms.google-services'

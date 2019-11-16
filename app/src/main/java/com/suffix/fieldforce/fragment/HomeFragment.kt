@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.activity.BillsActivity
+import com.suffix.fieldforce.activity.bill.BillsActivity
 import com.suffix.fieldforce.activity.InventoryActivity
 import com.suffix.fieldforce.activity.TaskDashboardActivity
 import com.suffix.fieldforce.databinding.FragmentHomeBinding

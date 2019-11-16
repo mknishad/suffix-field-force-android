@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_margin_5">
+
+        <TextView
+            android:id="@+id/ticketTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suffix IT Limited - 101 : Advance Task List (Admin App)"
+            android:textColor="@color/green"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="@dimen/layout_height_20"
+            android:layout_height="@dimen/layout_height_20"
+            android:layout_below="@+id/ticketTitle"
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_marginRight="@dimen/layout_margin_5"
+            android:src="@drawable/consultant" />
+
+        <TextView
+            android:id="@+id/consumerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ticketTitle"
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_toRightOf="@+id/profileImage"
+            android:text="Mohammad Solaiman" />
+
+        <TextView
+            android:id="@+id/txtStatusTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ticketTitle"
+            android:layout_marginLeft="@dimen/layout_margin_10"
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_toLeftOf="@+id/txtTicketStatus"
+            android:gravity="center"
+            android:text="Status"
+            android:textColor="@color/green"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtTicketStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ticketTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_marginTop="@dimen/layout_margin_5"
+            android:background="@drawable/border_orange"
+            android:paddingLeft="@dimen/layout_margin_10"
+            android:paddingTop="@dimen/padding_2"
+            android:paddingRight="@dimen/layout_margin_10"
+            android:paddingBottom="@dimen/padding_2"
+            android:text="Open"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/consumerMobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/consumerName"
+            android:layout_toRightOf="@+id/profileImage"
+            android:text="01914667359"
+            android:textColor="@color/colorMintDark" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_5"
+        android:background="@color/color_white"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorAquaDark"
+            android:padding="4dp"
+            android:text="Details"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:text="Comments (2)"
+            android:textAlignment="center"
+            android:textColor="@color/orange" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:text="Files (1)"
+            android:textAlignment="center"
+            android:textColor="@color/orange" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_5"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/padding_5"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:textSize="12sp"
+                    android:layout_marginRight="@dimen/layout_margin_10"
+                    android:text="ADDRESS"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/consumerAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="H-202/E, R-6, Mohammadia housing lts, 2nd f"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/consumerThana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dhaka"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/consumerDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dhaka"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_5"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/padding_5"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:textSize="12sp"
+                    android:layout_marginRight="@dimen/layout_margin_10"
+                    android:text="TASK"
+                    android:textColor="@color/green"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/orderId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="BGD0636536"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/deviceName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Classic GKK 3000 Liter"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/ticketCateroryTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Express Service"
+                        android:textColor="@color/colorBlueJeans"
+                        android:textSize="10sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/ticketStatusText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Assigned"
+                        android:textSize="10sp"
+                        android:textColor="@color/colorBlueJeans"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_5"
+                app:cardElevation="@dimen/layout_margin_5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="4"
+                    android:padding="@dimen/padding_5"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|end"
+                        android:textSize="12sp"
+                        android:layout_marginRight="@dimen/layout_margin_10"
+                        android:text="DATE"
+                        android:textColor="@color/green"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <CalendarView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:focusedMonthDateColor="@color/colorMintDark"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/ticketStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Start : 4 August 2019 12:13 PM"
+                            android:background="@drawable/border_green"
+                            android:textColor="@color/color_white"
+                            android:padding="@dimen/padding_2"
+                            android:textAlignment="center"
+                            android:textSize="10sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/ticketEndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="End : 4 August 2019 12:13 PM"
+                            android:background="@drawable/border_red"
+                            android:textColor="@color/color_white"
+                            android:padding="@dimen/padding_2"
+                            android:textAlignment="center"
+                            android:textSize="10sp"
+                            android:layout_marginTop="@dimen/padding_2"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

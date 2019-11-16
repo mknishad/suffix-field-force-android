@@ -3,7 +3,7 @@
     <color name="colorPrimary">#005a85</color>
     <color name="colorPrimaryDark">#004262</color>
     <color name="colorPrimaryLight">#007ab5</color>
-    <color name="colorAccent">#443E40</color>
+    <color name="colorAccent">#ED5565</color>
     <color name="colorRed">#fc624d</color>
     <color name="colorPink">#fca7a7</color>
     <color name="colorWhite">#FFFFFF</color>
@@ -21,6 +21,7 @@
     <color name="colorLavander">#AC92EC</color>
     <color name="colorLavanderDark">#967ADC</color>
     <color name="colorMint">#48CFAD</color>
+    <color name="colorMintLight">#52E2BE</color>
     <color name="colorMintDark">#37BC9B</color>
     <color name="colorAqua">#4FC1E9</color>
     <color name="colorAquaDark">#3BAFDA</color>
@@ -78,11 +79,12 @@
     <color name="pred">#E05F5B</color>
     <color name="predD">#AF4643</color>
     <color name="colorLightGrey">#E1E1E1</color>
+    <color name="colorGrey">#999999</color>
 
 
     <color name="bg_screen1">#3498db</color>
     <color name="bg_screen2">#e74c3c</color>
-    <color name="bg_screen3">#9b59b6</color>
+    <color name="bg_screen3">#007DE5</color>
     <color name="bg_screen4">#1abc9c</color>
 
     <!-- dots active colors -->
@@ -109,4 +111,6 @@
         <item>@color/dot_dark_screen3</item>
         <item>@color/dot_dark_screen4</item>
     </array>
+
+    <color name="colorMainDashboard">#0F81D0</color>
 </resources>

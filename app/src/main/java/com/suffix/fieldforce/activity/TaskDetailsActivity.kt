@@ -8,7 +8,6 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
@@ -16,7 +15,7 @@ import com.suffix.fieldforce.databinding.ActivityTaskDetailsBinding
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskDetailsViewModel
 
-class TaskDetailsActivity : AppCompatActivity() {
+class TaskDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityTaskDetailsBinding
     private lateinit var viewModel: TaskDetailsViewModel

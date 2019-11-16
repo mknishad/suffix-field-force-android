@@ -15,7 +15,7 @@ class HomeViewModel(application: Application) : BaseViewModel(application) {
 
     private val _eventNavigateToBills = MutableLiveData<Boolean>()
     val eventNavigateToBills: LiveData<Boolean>
-    get() = _eventNavigateToBills
+        get() = _eventNavigateToBills
 
     fun showTask() {
         _eventNavigateToTask.value = true

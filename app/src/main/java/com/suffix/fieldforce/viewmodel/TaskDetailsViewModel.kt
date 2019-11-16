@@ -7,27 +7,25 @@ import androidx.lifecycle.viewModelScope
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.Task
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class TaskDetailsViewModel(application: Application): BaseViewModel(application), AnkoLogger {
+class TaskDetailsViewModel(application: Application) : BaseViewModel(application) {
 
     private val _task = MutableLiveData<Task>()
     val task: LiveData<Task>
-    get() = _task
+        get() = _task
 
 
     fun getTaskDetails(taskId: String) {
+        progress.value = true
         viewModelScope.launch {
-            val  getTaskDetailsDeferred = FieldForceApi.retrofitService.getTaskDetailsAsync(
-                Constants.USER_ID,
+            val getTaskDetailsDeferred = FieldForceApi.retrofitService.getTaskDetailsAsync(
+                preferences.getUser().userId,
                 taskId
             )
 
             try {
-                progress.value = true
                 val result = getTaskDetailsDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _task.value = result[0].responseData[0]

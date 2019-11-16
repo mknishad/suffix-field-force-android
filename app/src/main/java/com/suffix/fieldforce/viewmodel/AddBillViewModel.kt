@@ -9,54 +9,86 @@ import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class AddBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class AddBillViewModel(application: Application) : BaseViewModel(application) {
     private val _billTypes = MutableLiveData<List<BillType>>()
     val billTypes: LiveData<List<BillType>>
-    get() = _billTypes
+        get() = _billTypes
 
     private val _addBillResponse = MutableLiveData<AddBillResponse>()
     val addBillResponse: LiveData<AddBillResponse>
-    get() = _addBillResponse
+        get() = _addBillResponse
 
     private val _eventAddBill = MutableLiveData<Boolean>()
     val eventAddBill: LiveData<Boolean>
-    get() = _eventAddBill
-
-    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
+        get() = _eventAddBill
 
     init {
         getBillTypes()
     }
 
     private fun getBillTypes() {
+        progress.value = true
         coroutineScope.launch {
             val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
                 Constants.KEY,
-                Constants.USER_ID,
+                preferences.getUser().userId,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString()
             )
 
             try {
-                progress.value = true
                 val result = getBillTypesDeferred.await()
                 _billTypes.value = result.responseData
                 progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
                 progress.value = false
-                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }
 
-    fun submitBill(key: String, userId: String, lat: String, lng: String, billData: BillData) {
+    fun submitBillWithAdvanceId(
+        key: String, userId: String, lat: String, lng: String, billData: BillData,
+        taskId: String, priority: String
+    ) {
+        var advanceId: String = "0"
+        coroutineScope.launch {
+            val advanceIdDeferred = FieldForceApi.retrofitService.getTaskwiseAdvanseIdAsync(
+                key,
+                userId,
+                lat,
+                lng,
+                taskId
+            )
+
+            try {
+                progress.value = true
+                val result = advanceIdDeferred.await()
+                if (result.responseCode.equals("1", true)) {
+                    if (result.responseData.responseCode.equals("1", true)) {
+                        if (result.responseData.bills.isNotEmpty()) {
+                            advanceId = result.responseData.bills[0].advanceId.toString()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                error(e.message, e)
+            }
+
+            submitBill(key, userId, lat, lng, billData, taskId, advanceId, priority)
+        }
+    }
+
+    private fun submitBill(
+        key: String, userId: String, lat: String, lng: String, billData: BillData,
+        taskId: String, advanceId: String, priority: String
+    ) {
         val billDataJson = Gson().toJson(billData)
 
         coroutineScope.launch {
@@ -65,18 +97,60 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
                 userId,
                 lat,
                 lng,
-                billDataJson
+                billDataJson,
+                taskId,
+                advanceId,
+                priority
             )
 
             try {
-                progress.value = true
                 val result = addBillDeferred.await()
-                _addBillResponse.value = result
+                if (result.responseCode.equals("1", true)) {
+                    _addBillResponse.value = result
+                } else {
+                    message.value = result.responseText
+                }
                 progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
                 progress.value = false
-                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
+            }
+        }
+    }
+
+    fun submitAdvanceBill(
+        key: String, userId: String, lat: String, lng: String, billData: BillData,
+        taskId: String, priority: String
+    ) {
+        val billDataJson = Gson().toJson(billData)
+
+        coroutineScope.launch {
+            val addAdvanceBillDeferred = FieldForceApi.retrofitService.addAdvanceBillAsync(
+                key,
+                userId,
+                lat,
+                lng,
+                billDataJson,
+                taskId,
+                priority
+            )
+
+            try {
+                progress.value = true
+                val result = addAdvanceBillDeferred.await()
+                if (result.responseCode.equals("1", true)) {
+                    _addBillResponse.value = result
+                } else {
+                    message.value = result.responseText
+                }
+                progress.value = false
+            } catch (e: Exception) {
+                error(e.message, e)
+                progress.value = false
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

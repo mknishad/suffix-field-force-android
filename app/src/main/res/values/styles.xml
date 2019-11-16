@@ -1,17 +1,29 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorGrapeFruit</item>
-        <item name="colorPrimaryDark">@color/colorGrapeFruitDark</item>
+        <item name="colorPrimary">@color/colorMint</item>
+        <item name="colorPrimaryDark">@color/colorMint</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    </style>
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <!--<item name="android:windowBackground">@mipmap/ic_launcher</item>-->
     </style>
 
     <style name="ToolbarStyle">
         <item name="android:theme">?attr/actionBarTheme</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorMint</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="Ripple">
@@ -23,6 +35,19 @@
         <item name="android:background">@drawable/bg_button</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- Style for a tab that displays a category name -->
+    <style name="CategoryTab" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="android:background">@color/colorMint</item>
+        <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
+    </style>
+
+    <!-- Text appearance style for a category tab -->
+    <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">#CCCCCC</item>
     </style>
 
 </resources>

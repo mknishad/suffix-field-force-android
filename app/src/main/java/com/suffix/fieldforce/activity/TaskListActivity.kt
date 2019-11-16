@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +18,7 @@ import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskListViewModel
 import org.jetbrains.anko.startActivity
 
-class TaskListActivity : AppCompatActivity() {
+class TaskListActivity : BaseActivity() {
 
     private lateinit var binding: ActivityTaskListBinding
     private lateinit var viewModel: TaskListViewModel
@@ -42,7 +41,7 @@ class TaskListActivity : AppCompatActivity() {
         observeTaskList()
 
         taskType = intent.getStringExtra(Constants.TASK_TYPE)
-        viewModel.getTaskList(taskType)
+        viewModel.getTaskList(preferences.getUser().userId, taskType)
     }
 
     private fun setupToolbar() {

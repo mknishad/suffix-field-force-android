@@ -6,20 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.TaskDashboardResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 
-class TaskDashboardViewModel(application: Application): BaseViewModel(application), AnkoLogger {
+class TaskDashboardViewModel(application: Application) : BaseViewModel(application) {
     private val _taskDashboard = MutableLiveData<TaskDashboardResponseData>()
     val taskDashboard: LiveData<TaskDashboardResponseData>
-    get() = _taskDashboard
+        get() = _taskDashboard
 
     private val _eventShowAssignedTaskList = MutableLiveData<Boolean>()
     val eventShowAssignedTaskList: LiveData<Boolean>
-    get() = _eventShowAssignedTaskList
+        get() = _eventShowAssignedTaskList
 
     private val _eventShowAcceptedTaskList = MutableLiveData<Boolean>()
     val eventShowAcceptedTaskList: LiveData<Boolean>
@@ -38,13 +36,13 @@ class TaskDashboardViewModel(application: Application): BaseViewModel(applicatio
     }
 
     private fun getTaskDashboard() {
+        progress.value = true
         coroutineScope.launch {
             val getTaskDashboardDeferred = FieldForceApi.retrofitService.getTaskDashboardAsync(
-                Constants.USER_ID
+                preferences.getUser().userId
             )
 
             try {
-                progress.value = true
                 val result = getTaskDashboardDeferred.await()
                 if (result[0].responseCode.equals("1", true)) {
                     _taskDashboard.value = result[0].responseData[0]

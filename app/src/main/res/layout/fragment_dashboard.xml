@@ -7,7 +7,17 @@
     android:orientation="vertical"
     android:background="#F1F0F0">
 
-    <include layout="@layout/toolbar"/>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        style="@style/Widget.Design.TabLayout"
+        android:layout_width="match_parent"
+        app:tabBackground="@color/colorMintDark"
+        app:tabIndicatorColor="@color/colorMintLight"
+        app:tabTextColor="@color/transparent"
+        app:tabSelectedTextColor="@color/colorWhite"
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorHeight="@dimen/padding_1"
+        />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"

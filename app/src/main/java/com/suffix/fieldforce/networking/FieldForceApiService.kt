@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.suffix.fieldforce.BuildConfig
 import com.suffix.fieldforce.model.*
+import com.suffix.fieldforce.networking.Client.okHttpClient
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,13 +21,15 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
-private val okHttpClient = OkHttpClient.Builder()
-    .connectTimeout(60, TimeUnit.SECONDS)
-    .readTimeout(60, TimeUnit.SECONDS)
-    .writeTimeout(60, TimeUnit.SECONDS)
-    .retryOnConnectionFailure(true)
-    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-    .build()
+object Client {
+    val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(5, TimeUnit.MINUTES)
+        .readTimeout(5, TimeUnit.MINUTES)
+        .writeTimeout(5, TimeUnit.MINUTES)
+        .retryOnConnectionFailure(true)
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .build()
+}
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
@@ -59,17 +62,48 @@ interface FieldForceApiService {
         @Query("lng") lng: String
     ): Deferred<BillTypeResponse>
 
+    @POST("FFMS/api/getUserAdvanceIdTaskWise.jsp")
+    fun getTaskwiseAdvanseIdAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("lng") taskId: String
+    ): Deferred<AdvanceIdResponse>
+
     @POST("FFMS/api/billEntry.jsp")
     fun addBillAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
         @Query("lat") lat: String,
         @Query("lng") lng: String,
-        @Query("billData") billData: String
+        @Query("billData") billData: String,
+        @Query("taskId") taskId: String,
+        @Query("advanceId") advanceId: String,
+        @Query("priority") priority: String
+    ): Deferred<AddBillResponse>
+
+    @POST("FFMS/api/advanceBillEntry.jsp")
+    fun addAdvanceBillAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("billData") billData: String,
+        @Query("taskId") taskId: String,
+        @Query("priority") priority: String
     ): Deferred<AddBillResponse>
 
     @POST("FFMS/api/getUserBillList.jsp")
-    fun getBillListAsync(
+    fun getExpenseBillListAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String
+    ): Deferred<BillDashboardResponse>
+
+    @POST("FFMS/api/getUserAdvanceBillList.jsp")
+    fun getAdvanceBillListAsync(
         @Query("key") key: String,
         @Query("userId") userId: String,
         @Query("lat") lat: String,
@@ -83,6 +117,15 @@ interface FieldForceApiService {
         @Query("lat") lat: String,
         @Query("lng") lng: String,
         @Query("billId") billId: String
+    ): Deferred<BillDetailsResponse>
+
+    @POST("FFMS/api/getUserAdvanceBillDetails.jsp")
+    fun getAdvanceBillDetailsAsync(
+        @Query("key") key: String,
+        @Query("userId") userId: String,
+        @Query("lat") lat: String,
+        @Query("lng") lng: String,
+        @Query("advanceBillId") advanceBillId: String
     ): Deferred<BillDetailsResponse>
 
     @POST("FFMS/api/technicianSummaryInfo.jsp")

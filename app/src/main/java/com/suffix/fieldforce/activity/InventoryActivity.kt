@@ -5,7 +5,6 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,7 +14,7 @@ import com.suffix.fieldforce.databinding.ActivityInventoryBinding
 import com.suffix.fieldforce.viewmodel.InventoryViewModel
 import org.jetbrains.anko.toast
 
-class InventoryActivity : AppCompatActivity() {
+class InventoryActivity : BaseActivity() {
 
     private lateinit var binding: ActivityInventoryBinding
     private lateinit var viewModel: InventoryViewModel

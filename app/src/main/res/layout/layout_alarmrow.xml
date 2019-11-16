@@ -41,7 +41,7 @@
                     android:textStyle="normal"
                     android:textSize="20dp"
                     android:paddingLeft="5dp"
-                    android:background="@drawable/borderred"
+                    android:background="@drawable/border_red"
                     android:textColor="@android:color/white"
                     android:layout_marginTop="5dp"
                     />
@@ -69,7 +69,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/onlyborder"
+                    android:background="@drawable/only_border"
                     >
                     <TextView
                         android:id="@+id/desc"

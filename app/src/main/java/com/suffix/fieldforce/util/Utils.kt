@@ -1,6 +1,8 @@
 package com.suffix.fieldforce.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.net.ConnectivityManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -78,5 +80,15 @@ object Utils {
     fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    fun getResizedBitmap(bitmap: Bitmap): Bitmap {
+        val newWidth = bitmap.width / 2
+        val newHeight = bitmap.height / 2
+        val matrix = Matrix()
+        matrix.postScale(newWidth.toFloat(), newHeight.toFloat())
+        val resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, newWidth, newHeight, matrix,
+            false)
+        return resizedBitmap
     }
 }

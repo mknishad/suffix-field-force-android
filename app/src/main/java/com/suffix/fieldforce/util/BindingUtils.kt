@@ -2,6 +2,7 @@ package com.suffix.fieldforce.util
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.suffix.fieldforce.R
 import kotlinx.android.synthetic.main.list_item_task.view.*
 
 @BindingAdapter("taskBackgroundTint")
@@ -48,10 +49,22 @@ fun TextView.setBillBackgroundTint(status: String) {
 fun TextView.setBillStatus(status: String) {
     status.let {
         when (status) {
-            "R" -> statusTextView.text = "Rejected"
-            "A" -> statusTextView.text = "Approved"
-            "D" -> statusTextView.text = "Disbursed"
-            "P" -> statusTextView.text = "Pending"
+            "R" -> {
+                statusTextView.text = "Rejected"
+                statusTextView.setBackgroundResource(R.drawable.bg_status_red)
+            }
+            "A" -> {
+                statusTextView.text = "Approved"
+                statusTextView.setBackgroundResource(R.drawable.bg_status_blue)
+            }
+            "D" -> {
+                statusTextView.text = "Disbursed"
+                statusTextView.setBackgroundResource(R.drawable.bg_status_green)
+            }
+            "P" -> {
+                statusTextView.text = "Pending"
+                statusTextView.setBackgroundResource(R.drawable.bg_status_grey)
+            }
         }
     }
 }

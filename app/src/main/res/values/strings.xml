@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SuffixFieldForce</string>
+    <string name="app_name">SFForce</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -51,4 +51,33 @@
     <string name="ticket_status_text">Ticket Status Text</string>
     <string name="ticket_category_title">Ticket Category Title</string>
     <string name="ticket_code">Ticket Code</string>
+
+    <string name="issue_type">Issue Type</string>
+    <string name="status">Status</string>
+    <string name="priority">Priority</string>
+    <string name="categories">Catagory</string>
+
+    <string name="entered">Attendance : Enterd</string>
+    <string name="exit">Attendance : Exit</string>
+    <string name="not_yet">Attendance : Not Yet</string>
+    <string name="bill_image">Bill Image</string>
+
+    <string-array name="spinnerItems">
+        <item>Open</item>
+        <item>In Progress</item>
+        <item>Resolved</item>
+        <item>Close</item>
+    </string-array>
+
+    <string name="btn_submit">SUBMIT</string>
+    <string name="btn_attach_image">ATTACH IMAGE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="standard">Standard</string>
+    <string name="expense">Expense</string>
+    <string name="advance">Advance</string>
+    <string name="urgent">Urgent</string>
+    <string name="bill_entry">Bill Entry</string>
+
 </resources>
