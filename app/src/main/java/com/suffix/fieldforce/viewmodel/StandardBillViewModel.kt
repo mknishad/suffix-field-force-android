@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class BillsViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class StandardBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
     private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
     val billsDashboard: LiveData<BillDashboardResponseData>
         get() = _billsDashboard
@@ -47,7 +47,11 @@ class BillsViewModel(application: Application) : BaseViewModel(application), Ank
             try {
                 progress.value = true
                 val result = getBillDashboardDeferred.await()
-                _billsDashboard.value = result.responseData
+                if (result.responseCode.equals("1", true)) {
+                    _billsDashboard.value = result.responseData
+                } else {
+                    message.value = result.responseText
+                }
                 progress.value = false
             } catch (e: Exception) {
                 error(e.message, e)
