@@ -6,13 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.BillDashboardResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class ExpenseBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class ExpenseBillViewModel(application: Application) : BaseViewModel(application) {
     private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
     val billsDashboard: LiveData<BillDashboardResponseData>
         get() = _billsDashboard
@@ -21,9 +19,7 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
     val eventShowAddBills: LiveData<Boolean>
         get() = _eventGoToAddBills
 
-    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
-
-    init{
+    init {
         getBillDashboard()
     }
 
@@ -40,7 +36,7 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
         coroutineScope.launch {
             val getBillDashboardDeferred = FieldForceApi.retrofitService.getExpenseBillListAsync(
                 Constants.KEY,
-                Constants.USER_ID,
+                preferences.getUser().userId,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString()
             )
@@ -56,7 +52,8 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
             } catch (e: Exception) {
                 error(e.message, e)
                 progress.value = false
-                message.value = getApplication<Application>().resources.getString(R.string.something_went_wrong)
+                message.value =
+                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
             }
         }
     }

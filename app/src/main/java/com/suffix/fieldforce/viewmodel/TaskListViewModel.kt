@@ -10,41 +10,40 @@ import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
 
-class TaskListViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class TaskListViewModel(application: Application) : BaseViewModel(application) {
     private val _taskList = MutableLiveData<List<Task>>()
     val taskList: LiveData<List<Task>>
         get() = _taskList
 
-    fun getTaskList(taskType: String) {
+    fun getTaskList(userId: String, taskType: String) {
         progress.value = true
         val getTaskListDeferred: Deferred<List<TaskListResponse>>
         when (taskType) {
             Constants.ASSIGNED -> {
                 getTaskListDeferred =
                     FieldForceApi.retrofitService.getAssignedTaskListAsync(
-                        Constants.USER_ID
+                        preferences.getUser().userId
                     )
             }
             Constants.ACCEPTED -> {
                 getTaskListDeferred =
                     FieldForceApi.retrofitService.getAcceptedTaskListAsync(
-                        Constants.USER_ID
+                        preferences.getUser().userId
                     )
             }
             Constants.COMPLETED -> {
                 getTaskListDeferred =
                     FieldForceApi.retrofitService.getCompletedTaskListAsync(
-                        Constants.USER_ID
+                        preferences.getUser().userId
                     )
             }
             else -> {
                 getTaskListDeferred =
                     FieldForceApi.retrofitService.getInProgressTaskListAsync(
-                        Constants.USER_ID
+                        preferences.getUser().userId
                     )
             }
         }

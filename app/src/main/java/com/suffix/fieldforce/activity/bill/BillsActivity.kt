@@ -6,21 +6,20 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.adapter.BillsAdapter
 import com.suffix.fieldforce.adapter.BillsListener
 import com.suffix.fieldforce.databinding.ActivityBillsBinding
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.ExpenseBillViewModel
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 
-class BillsActivity : AppCompatActivity(), AnkoLogger {
+class BillsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityBillsBinding
     private lateinit var viewModel: ExpenseBillViewModel
@@ -81,7 +80,7 @@ class BillsActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun observeBillsDashboard() {
-        viewModel.billsDashboard.observe(this, Observer {dashboard ->
+        viewModel.billsDashboard.observe(this, Observer { dashboard ->
             dashboard?.let {
                 adapter.callSubmitList(it.billListObj.bills)
             }

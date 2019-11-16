@@ -6,17 +6,17 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.databinding.ActivityBillDetailsBinding
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.BillDetailsViewModel
 import org.jetbrains.anko.design.snackbar
 
-class BillDetailsActivity : AppCompatActivity() {
+class BillDetailsActivity : BaseActivity() {
 
     private lateinit var binding: ActivityBillDetailsBinding
     private lateinit var viewModel: BillDetailsViewModel

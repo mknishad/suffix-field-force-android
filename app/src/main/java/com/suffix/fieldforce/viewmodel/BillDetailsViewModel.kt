@@ -7,28 +7,24 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.BillDetailsResponse
 import com.suffix.fieldforce.model.BillDetailsResponseData
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class BillDetailsViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class BillDetailsViewModel(application: Application) : BaseViewModel(application) {
     private val _billDetails = MutableLiveData<BillDetailsResponseData>()
     val billDetails: LiveData<BillDetailsResponseData>
         get() = _billDetails
-
-    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
 
     fun getBillDetails(billId: String, billType: String) {
         progress.value = true
         var getBillDetailsDeferred: Deferred<BillDetailsResponse>
         coroutineScope.launch {
             if (billType.equals(Constants.EXPENSE, true)) {
-                 getBillDetailsDeferred = FieldForceApi.retrofitService.getBillDetailsAsync(
+                getBillDetailsDeferred = FieldForceApi.retrofitService.getBillDetailsAsync(
                     Constants.KEY,
-                    Constants.USER_ID,
+                    preferences.getUser().userId,
                     preferences.getLocation().latitude.toString(),
                     preferences.getLocation().longitude.toString(),
                     billId
@@ -37,7 +33,7 @@ class BillDetailsViewModel(application: Application) : BaseViewModel(application
                 getBillDetailsDeferred =
                     FieldForceApi.retrofitService.getAdvanceBillDetailsAsync(
                         Constants.KEY,
-                        Constants.USER_ID,
+                        preferences.getUser().userId,
                         preferences.getLocation().latitude.toString(),
                         preferences.getLocation().longitude.toString(),
                         billId

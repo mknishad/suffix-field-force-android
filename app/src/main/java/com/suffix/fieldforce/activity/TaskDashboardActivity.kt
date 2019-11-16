@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,11 +13,10 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.ActivityTaskDashboardBinding
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.TaskDashboardViewModel
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.startActivity
 
-class TaskDashboardActivity : AppCompatActivity(), AnkoLogger {
+class TaskDashboardActivity : BaseActivity() {
 
     private lateinit var binding: ActivityTaskDashboardBinding
     private lateinit var viewModel: TaskDashboardViewModel

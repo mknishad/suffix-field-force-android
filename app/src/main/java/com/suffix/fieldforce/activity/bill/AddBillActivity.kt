@@ -12,27 +12,25 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.databinding.ActivityAddBillBinding
 import com.suffix.fieldforce.model.Bill
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
-import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.design.snackbar
 import java.io.ByteArrayOutputStream
 import java.util.*
 
-class AddBillActivity : AppCompatActivity(), AnkoLogger {
+class AddBillActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddBillBinding
     private lateinit var viewModel: AddBillViewModel
@@ -41,7 +39,6 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
     private lateinit var linearLayout: LinearLayout
     private lateinit var spinner: Spinner
     private lateinit var checkBox: CheckBox
-    private lateinit var preferences: FieldForcePreferences
     private lateinit var taskId: String
 
     private var encodedImage = ""
@@ -66,7 +63,6 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         checkBox = CheckBox(applicationContext)
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
-        preferences = FieldForcePreferences(this)
         taskId = intent.getStringExtra(Constants.TASK_ID)
 
         setupToolbar()
@@ -294,7 +290,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         if (billType.equals(Constants.EXPENSE, true)) {
             viewModel.submitBillWithAdvanceId(
                 Constants.KEY,
-                Constants.USER_ID,
+                preferences.getUser().userId,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
                 billData,
@@ -304,7 +300,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
         } else {
             viewModel.submitAdvanceBill(
                 Constants.KEY,
-                Constants.USER_ID,
+                preferences.getUser().userId,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
                 billData,

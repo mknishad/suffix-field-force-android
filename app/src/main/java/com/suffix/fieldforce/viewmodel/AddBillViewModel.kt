@@ -9,13 +9,11 @@ import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.networking.FieldForceApi
-import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 
-class AddBillViewModel(application: Application) : BaseViewModel(application), AnkoLogger {
+class AddBillViewModel(application: Application) : BaseViewModel(application) {
     private val _billTypes = MutableLiveData<List<BillType>>()
     val billTypes: LiveData<List<BillType>>
         get() = _billTypes
@@ -28,8 +26,6 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
     val eventAddBill: LiveData<Boolean>
         get() = _eventAddBill
 
-    private val preferences: FieldForcePreferences = FieldForcePreferences(application)
-
     init {
         getBillTypes()
     }
@@ -39,7 +35,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application), A
         coroutineScope.launch {
             val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
                 Constants.KEY,
-                Constants.USER_ID,
+                preferences.getUser().userId,
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString()
             )
