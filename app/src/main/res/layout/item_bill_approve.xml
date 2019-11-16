@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_5"
+    android:background="@drawable/border_box_blue"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/txtBillStatus"
+        android:layout_alignParentStart="true"
+        >
+    <TextView
+        android:id="@+id/txtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approve User Name : Sadia Afrin Anni"
+        android:background="@color/colorLavanderDark"
+        android:textColor="@color/color_white"
+        />
+    <TextView
+        android:id="@+id/txtBillId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bill Approve Id : 1130"
+        />
+    <TextView
+        android:id="@+id/txtUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approve User Id : TL001"
+        />
+    <TextView
+        android:id="@+id/txtApproveDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approve Date : 2019-10-21 12:53:12.0"
+        android:textColor="@color/orange"
+        />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtBillStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Approved"
+        android:background="@drawable/border_green"
+        android:textColor="@color/color_white"
+        android:paddingRight="@dimen/padding_5"
+        android:paddingLeft="@dimen/padding_5"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/padding_5"/>
+</RelativeLayout>
