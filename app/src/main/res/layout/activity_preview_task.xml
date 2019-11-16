@@ -315,6 +315,17 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnStartBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Bill"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="@dimen/layout_height_40"
+                android:layout_marginLeft="@dimen/layout_height_40"
+                android:background="@drawable/border_green"
+                android:textColor="@color/color_white"/>
         </LinearLayout>
     </ScrollView>
 
