@@ -59,7 +59,7 @@ class AddBillActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun init() {
-        linearLayout = LinearLayout(this)
+        linearLayout = LinearLayout(applicationContext)
         linearLayout.orientation = LinearLayout.VERTICAL
         textInputLayouts = mutableListOf()
         preferences = FieldForcePreferences(this)
