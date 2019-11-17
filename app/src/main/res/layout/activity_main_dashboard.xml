@@ -82,7 +82,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Address: House No: 503, Lane - 9, Dhaka 1212"
+                    android:text="Address: Your address will appear here"
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
 

@@ -46,6 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
@@ -107,6 +108,8 @@ public class CreateTaskActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    SpotsDialog waitingDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         setActionBar();
         initDistrictThana();
         verifyStoragePermissions(this);
+
+        waitingDialog = new SpotsDialog(CreateTaskActivity.this, R.style.Custom);
 
         priority.setKeyListener(null);
         districtId.setKeyListener(null);
@@ -259,6 +264,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                         .start(new OnLocationUpdatedListener() {
                             @Override
                             public void onLocationUpdated(Location location) {
+                                waitingDialog.show();
                                 uploadData(location);
                             }
                         });
@@ -291,23 +297,31 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TaskEntry> call, Response<TaskEntry> response) {
                 TaskEntry taskResponse = response.body();
-                new KAlertDialog(CreateTaskActivity.this, KAlertDialog.SUCCESS_TYPE)
-                        .setTitleText("Good job!")
-                        .setContentText("Task Created Successfully")
-                        .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
-                            @Override
-                            public void onClick(KAlertDialog kAlertDialog) {
-                                kAlertDialog.dismissWithAnimation();
-                                CreateTaskActivity.super.onBackPressed();
-                            }
-                        })
-                        .show();
+
+                if(waitingDialog.isShowing()){
+                    waitingDialog.dismiss();
+                    new KAlertDialog(CreateTaskActivity.this, KAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Good job!")
+                            .setContentText("Task Created Successfully")
+                            .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                                @Override
+                                public void onClick(KAlertDialog kAlertDialog) {
+                                    kAlertDialog.dismissWithAnimation();
+                                    CreateTaskActivity.super.onBackPressed();
+                                }
+                            })
+                            .show();
+                }
+
             }
 
             @Override
             public void onFailure(Call<TaskEntry> call, Throwable t) {
                 Toast.makeText(CreateTaskActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
+                if(waitingDialog.isShowing()){
+                    waitingDialog.dismiss();
+                }
             }
         });
     }

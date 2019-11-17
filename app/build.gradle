@@ -140,5 +140,8 @@ dependencies {
 
     //KAlertDialog
     implementation 'com.github.TutorialsAndroid:KAlertDialog:v7.0.19'
+
+    //Spot Dialog
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
 }
 apply plugin: 'com.google.gms.google-services'
