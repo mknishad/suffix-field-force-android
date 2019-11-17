@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Bill(
     var billId: String?,
     var advanceId: String?,
+    var advanceBillId: String?,
     var description: String?,
     var billDate: String?,
     var advanceBillDate: String?,

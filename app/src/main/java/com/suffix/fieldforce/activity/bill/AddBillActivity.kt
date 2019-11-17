@@ -266,6 +266,7 @@ class AddBillActivity : BaseActivity() {
                 null,
                 null,
                 null,
+                null,
                 billAmount,
                 textInputLayouts[i].tag.toString().toInt(),
                 null
