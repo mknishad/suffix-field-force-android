@@ -1,8 +1,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorMint</item>
-        <item name="colorPrimaryDark">@color/colorMint</item>
+        <item name="colorPrimary">@color/colorMintDark</item>
+        <item name="colorPrimaryDark">@color/colorMintDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
@@ -21,7 +21,7 @@
     <style name="ToolbarStyle">
         <item name="android:theme">?attr/actionBarTheme</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="android:background">@color/colorMint</item>
+        <item name="android:background">@color/colorMintDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:elevation">0dp</item>
     </style>
@@ -41,7 +41,7 @@
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/white</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
-        <item name="android:background">@color/colorMint</item>
+        <item name="android:background">@color/colorMintDark</item>
         <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
     </style>
 
