@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
+import com.suffix.fieldforce.adapter.BillApproveListAdapter
 import com.suffix.fieldforce.databinding.ActivityBillDetailsBinding
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.BillDetailsViewModel
@@ -22,6 +23,8 @@ class BillDetailsActivity : BaseActivity() {
     private lateinit var viewModel: BillDetailsViewModel
     private lateinit var billId: String
     private lateinit var billType: String
+
+    private lateinit var adapter: BillApproveListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +42,11 @@ class BillDetailsActivity : BaseActivity() {
         billId = intent.getStringExtra(Constants.BILL_ID)
         billType = intent.getStringExtra(Constants.BILL_TYPE)
         viewModel.getBillDetails(billId, billType)
+        adapter = BillApproveListAdapter()
+        binding.recyclerView.adapter = adapter
 
         observeMessage()
+        observeBillDetails()
     }
 
     private fun setupToolbar() {
@@ -66,6 +72,14 @@ class BillDetailsActivity : BaseActivity() {
         viewModel.message.observe(this, Observer { message ->
             message?.let {
                 binding.scrollView.snackbar(it)
+            }
+        })
+    }
+
+    private fun observeBillDetails() {
+        viewModel.billDetails.observe(this, Observer {
+            it?.let {
+                adapter.callSubmitList(it.billApproveObj.billApproveList)
             }
         })
     }

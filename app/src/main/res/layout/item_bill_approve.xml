@@ -5,9 +5,6 @@
         <variable
             name="billApprove"
             type="com.suffix.fieldforce.model.BillApprove"/>
-        <variable
-            name="clickListener"
-            type="com.suffix.fieldforce.adapter.BillsListener"/>
     </data>
 
     <RelativeLayout
@@ -29,26 +26,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorLavanderDark"
-                android:text="Approve User Name : Sadia Afrin Anni"
+                android:text="@{`Approve User Name : ` + billApprove.approveEmpName}"
                 android:textColor="@color/color_white" />
 
             <TextView
                 android:id="@+id/txtBillId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bill Approve Id : 1130" />
+                android:text="@{`Bill Approve Id : ` + billApprove.billApproveId}" />
 
             <TextView
                 android:id="@+id/txtUserId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approve User Id : TL001" />
+                android:text="@{`Approve User Id : ` + billApprove.approveEmpId}" />
 
             <TextView
                 android:id="@+id/txtApproveDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approve Date : 2019-10-21 12:53:12.0"
+                android:text="@{`Approve Date : ` + billApprove.approveDate}"
                 android:textColor="@color/orange" />
 
         </LinearLayout>
@@ -63,7 +60,7 @@
             android:background="@drawable/border_green"
             android:paddingLeft="@dimen/padding_5"
             android:paddingRight="@dimen/padding_5"
-            android:text="Approved"
+            android:text="@{billApprove.managerStatus}"
             android:textColor="@color/color_white" />
     </RelativeLayout>
 </layout>
