@@ -21,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.home.LoginActivity;
-import com.suffix.fieldforce.activity.home.MainDashboard;
 import com.suffix.fieldforce.model.User;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -116,7 +115,7 @@ public class WelcomeActivity extends AppCompatActivity {
         try {
             FieldForcePreferences preferences = new FieldForcePreferences(this);
             User user = preferences.getUser();
-            Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
+            Intent i = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(i);
         } catch (Exception e) {
             startActivity(new Intent(this, LoginActivity.class));
