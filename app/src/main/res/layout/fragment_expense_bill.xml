@@ -29,13 +29,15 @@
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toStartOf="@id/disbursedCardView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="8dp"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/border_mint"
+                android:background="@drawable/border_green"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">
@@ -72,13 +74,15 @@
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/pendingCardView"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="8dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="@drawable/border_orange"
+                android:background="@drawable/border_red"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="8dp">

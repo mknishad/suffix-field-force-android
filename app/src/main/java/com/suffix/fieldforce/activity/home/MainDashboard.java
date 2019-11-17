@@ -265,7 +265,7 @@ public class MainDashboard extends AppCompatActivity {
     }
 
     private void goOnline() {
-        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrassDark));
+        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorTransparentTheme));
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(0f);
         progressBar.setProgressAnimationDuration(1000);
