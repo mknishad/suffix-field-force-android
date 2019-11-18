@@ -136,6 +136,7 @@ public class MainDashboard extends AppCompatActivity {
         initLocationProvider();
         initProgressBar();
         initLocationSettings();
+        txtUserName.setText(preferences.getUser().getUserName());
     }
 
     private void initLocationProvider() {
@@ -153,10 +154,11 @@ public class MainDashboard extends AppCompatActivity {
                 }
                 for (Location location : locationResult.getLocations()) {
                     try {
+
                         preferences.putLocation(location);
                         new GetAddressTask(MainDashboard.this).execute(location);
                         Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
-                                Constants.INSTANCE.getUSER_ID(),
+                                preferences.getUser().getUserId(),
                                 String.valueOf(location.getLatitude()),
                                 String.valueOf(location.getLongitude()));
                         call.enqueue(new Callback<LocationResponse>() {
