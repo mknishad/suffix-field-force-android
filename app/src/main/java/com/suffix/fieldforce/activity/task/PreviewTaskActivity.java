@@ -80,7 +80,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
             ticketId = assignTaskItem.getTicketId();
         }
 
-        //APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+//        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 //        SpannableString spannableString = new SpannableString(" START  " + startAddress);
 //        Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#2e7d32"));
 //        Object clearSpan = new BackgroundColorSpan(Color.TRANSPARENT);

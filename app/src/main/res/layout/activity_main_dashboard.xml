@@ -75,23 +75,12 @@
                     android:textColor="@android:color/white"
                     android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/txtUserAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Address: Your address will appear here"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
             </LinearLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="170dp"
+                android:layout_marginTop="180dp"
                 android:background="#e4e9ef"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -472,6 +461,18 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
                 />
+
+            <TextView
+                android:id="@+id/txtUserAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="8dp"
+                android:text="Address: Your address will appear here"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 

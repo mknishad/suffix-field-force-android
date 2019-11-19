@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.Ticketstatus;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
@@ -35,11 +36,13 @@ public class TaskEditActivity extends AppCompatActivity {
     EditText txtIssueRemark;
 
     private String ticketId;
+    private FieldForcePreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_edit);
+        preferences = new FieldForcePreferences(TaskEditActivity.this);
         ButterKnife.bind(this);
 
         setActionBar();
@@ -58,13 +61,13 @@ public class TaskEditActivity extends AppCompatActivity {
         Call<List<Ticketstatus>> ticketStatus = null;
         switch (spinnerStatus.getSelectedItem().toString()){
             case "Open" :
-                ticketStatus = apiInterface.ticketOpenInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString());
+                ticketStatus = apiInterface.ticketOpenInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
                 break;
             case "In Progress" :
-                ticketStatus = apiInterface.ticketInprogressInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString());
+                ticketStatus = apiInterface.ticketInprogressInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
                 break;
             case "Close" :
-                ticketStatus = apiInterface.ticketCloseInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString());
+                ticketStatus = apiInterface.ticketCloseInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
                 break;
         }
 

@@ -45,21 +45,27 @@ public interface APIInterface {
     Call<List<Ticketstatus>> ticketOpenInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
+            @Query("regTicketComments") String regTicketComments,
+            @Query("lat") String lat,
+            @Query("lng") String lng
     );
 
     @POST("FFMS/api/ticketInprogressInfo.jsp")
     Call<List<Ticketstatus>> ticketInprogressInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
+            @Query("regTicketComments") String regTicketComments,
+            @Query("lat") String lat,
+            @Query("lng") String lng
     );
 
     @POST("FFMS/api/ticketCloseInfo.jsp")
     Call<List<Ticketstatus>> ticketCloseInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
-            @Query("regTicketComments") String regTicketComments
+            @Query("regTicketComments") String regTicketComments,
+            @Query("lat") String lat,
+            @Query("lng") String lng
     );
 
     @POST("FFMS/api/tickeDetailsInfo.jsp")
