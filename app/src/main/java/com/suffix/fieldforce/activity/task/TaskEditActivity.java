@@ -2,6 +2,7 @@ package com.suffix.fieldforce.activity.task;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -25,6 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TaskEditActivity extends AppCompatActivity {
+
+    private static final String TAG = "TaskEditActivity";
 
     @BindView(R.id.imgMap)
     ImageView imgMap;
@@ -56,25 +59,35 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.imgMap)
-    public void onViewClicked() {
+    public void onViewClic() {
+
+        Log.wtf(TAG, "lat = " + preferences.getLocation().getLatitude() + " lng = " + preferences.getLocation().getLongitude());
+
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
         Call<List<Ticketstatus>> ticketStatus = null;
-        switch (spinnerStatus.getSelectedItem().toString()){
-            case "Open" :
-                ticketStatus = apiInterface.ticketOpenInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
+        switch (spinnerStatus.getSelectedItem().toString()) {
+            case "Open":
+                ticketStatus = apiInterface.ticketOpenInfo(Constants.INSTANCE.getUSER_ID(),
+                        ticketId, txtIssueRemark.getText().toString(), String.valueOf(preferences.getLocation().getLatitude()), String.valueOf(preferences.getLocation().getLongitude()));
                 break;
-            case "In Progress" :
-                ticketStatus = apiInterface.ticketInprogressInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
+            case "In Progress":
+                ticketStatus = apiInterface.ticketInprogressInfo(Constants.INSTANCE.getUSER_ID(),
+                        ticketId, txtIssueRemark.getText().toString(),
+                        String.valueOf(preferences.getLocation().getLatitude()),
+                        String.valueOf(preferences.getLocation().getLongitude()));
                 break;
-            case "Close" :
-                ticketStatus = apiInterface.ticketCloseInfo(Constants.INSTANCE.getUSER_ID(),ticketId,txtIssueRemark.getText().toString(),String.valueOf(preferences.getLocation().getLatitude()),String.valueOf(preferences.getLocation().getLongitude()));
+            case "Close":
+                ticketStatus = apiInterface.ticketCloseInfo(Constants.INSTANCE.getUSER_ID(),
+                        ticketId, txtIssueRemark.getText().toString(),
+                        String.valueOf(preferences.getLocation().getLatitude()),
+                        String.valueOf(preferences.getLocation().getLongitude()));
                 break;
         }
 
         ticketStatus.enqueue(new Callback<List<Ticketstatus>>() {
             @Override
             public void onResponse(Call<List<Ticketstatus>> call, Response<List<Ticketstatus>> response) {
-                startActivity(new Intent(TaskEditActivity.this,TaskDashboard.class));
+                startActivity(new Intent(TaskEditActivity.this, TaskDashboard.class));
             }
 
             @Override

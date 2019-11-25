@@ -269,6 +269,8 @@ public class MainDashboard extends AppCompatActivity {
                         @Override
                         public void onLocationUpdated(Location location) {
 
+                            preferences.putLocation(location);
+
                             SmartLocation.with(MainDashboard.this).geocoding()
                                     .reverse(location, new OnReverseGeocodingListener() {
                                         @Override
