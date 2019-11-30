@@ -282,7 +282,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 "1",
                 ticketTitle.getText().toString(),
                 "1",
-                encodeTobase64(bitmap),
+                encodeToBase64(bitmap),
                 ticketDetails.getText().toString(),
                 startDate.getText().toString(),
                 endDate.getText().toString(),
@@ -332,7 +332,7 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     }
 
-    public String encodeTobase64(Bitmap image) {
+    public String encodeToBase64(Bitmap image) {
         Bitmap bitmap = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
