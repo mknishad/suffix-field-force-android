@@ -367,6 +367,7 @@ class AddBillActivity : BaseActivity() {
             //encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
 
             encodedImage = Utils.encodeToBase64(byteArray)
+            debug("encodedImage = $encodedImage")
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
