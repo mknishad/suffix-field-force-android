@@ -79,6 +79,7 @@ interface FieldForceApiService {
         @Query("lng") lng: String,
         @Query("billData") billData: String,
         @Query("taskId") taskId: String,
+        @Query("imageString") imageString: String,
         @Query("advanceId") advanceId: String,
         @Query("priority") priority: String
     ): Deferred<AddBillResponse>
@@ -90,6 +91,7 @@ interface FieldForceApiService {
         @Query("lat") lat: String,
         @Query("lng") lng: String,
         @Query("billData") billData: String,
+        @Query("imageString") imageString: String,
         @Query("taskId") taskId: String,
         @Query("priority") priority: String
     ): Deferred<AddBillResponse>

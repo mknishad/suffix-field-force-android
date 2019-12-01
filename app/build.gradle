@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
@@ -103,7 +103,6 @@ dependencies {
     // Retrofit Coroutines Support
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
-
     // Logger for Retrofit
     implementation "com.squareup.okhttp3:logging-interceptor:${version_okhttp}"
 
@@ -143,5 +142,6 @@ dependencies {
 
     //Spot Dialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
+    implementation files('libs/org-apache-commons-codec.jar')
 }
 apply plugin: 'com.google.gms.google-services'

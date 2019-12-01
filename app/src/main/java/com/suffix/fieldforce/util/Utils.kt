@@ -8,9 +8,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.InverseMethod
 import com.google.android.material.snackbar.Snackbar
+import org.apache.commons.codec.binary.Base64
+import java.io.FileNotFoundException
+import java.io.IOException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object Utils {
 
@@ -87,8 +91,65 @@ object Utils {
         val newHeight = bitmap.height / 2
         val matrix = Matrix()
         matrix.postScale(newWidth.toFloat(), newHeight.toFloat())
-        val resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, newWidth, newHeight, matrix,
-            false)
+        val resizedBitmap = Bitmap.createBitmap(
+            bitmap, 0, 0, newWidth, newHeight, matrix,
+            false
+        )
         return resizedBitmap
+    }
+
+    fun encodeToBase64(byteArray: ByteArray): String {
+        var imageDataString = ""
+        try {
+            // Reading a Image file from file system
+            //val imageInFile = FileInputStream(file)
+            //val imageData = ByteArray(file.length())
+            //imageInFile.read(byteArray)
+
+            // Converting Image byte array into Base64 String
+            imageDataString = getEncodedImage(byteArray)
+
+            // Converting a Base64 String into Image byte array
+            //val imageByteArray = decodeImage(imageDataString)
+
+            // Write a image byte array into file system
+            /*val imageOutFile = FileOutputStream(
+                "sample-modifiied.jpg"
+            )*/
+
+            //imageOutFile.write(imageByteArray)
+
+            //imageInFile.close()
+            //imageOutFile.close()
+
+            println("Image Successfully Manipulated!")
+        } catch (e: FileNotFoundException) {
+            println("Image not found$e")
+        } catch (ioe: IOException) {
+            println("Exception while reading the Image $ioe")
+        }
+
+        return imageDataString
+    }
+
+
+    /**
+     * Encodes the byte array into base64 string
+     *
+     * @param imageByteArray - byte array
+     * @return String a [java.lang.String]
+     */
+    fun getEncodedImage(imageByteArray: ByteArray): String {
+        return String(Base64.encodeBase64(imageByteArray))
+    }
+
+    /**
+     * Decodes the base64 string into byte array
+     *
+     * @param imageDataString - a [java.lang.String]
+     * @return byte array
+     */
+    fun decodeImage(imageDataString: String): ByteArray {
+        return Base64.decodeBase64(imageDataString.toByteArray())
     }
 }

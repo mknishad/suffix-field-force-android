@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.*
@@ -24,6 +23,7 @@ import com.suffix.fieldforce.model.Bill
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
 import com.suffix.fieldforce.util.Constants
+import com.suffix.fieldforce.util.Utils
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.design.snackbar
@@ -95,7 +95,7 @@ class AddBillActivity : BaseActivity() {
             if (textInputLayouts.size == 0) {
                 addSpinner()
                 addDateLayout()
-                //addImagePickerLayout()
+                addImagePickerLayout()
                 addBillTypesLayout(it)
                 addRemarksLayout()
                 addCheckBox()
@@ -293,6 +293,7 @@ class AddBillActivity : BaseActivity() {
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
                 billData,
+                encodedImage,
                 taskId,
                 priority
             )
@@ -303,6 +304,7 @@ class AddBillActivity : BaseActivity() {
                 preferences.getLocation().latitude.toString(),
                 preferences.getLocation().longitude.toString(),
                 billData,
+                encodedImage,
                 taskId,
                 priority
             )
@@ -362,7 +364,9 @@ class AddBillActivity : BaseActivity() {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
             val byteArray = baos.toByteArray()
 
-            encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            //encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
+
+            encodedImage = Utils.encodeToBase64(byteArray)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

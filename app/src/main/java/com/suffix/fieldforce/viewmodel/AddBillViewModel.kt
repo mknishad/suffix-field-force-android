@@ -55,7 +55,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
 
     fun submitBillWithAdvanceId(
         key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, priority: String
+        encodedImage: String, taskId: String, priority: String
     ) {
         var advanceId: String = "0"
         coroutineScope.launch {
@@ -81,13 +81,13 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
                 error(e.message, e)
             }
 
-            submitBill(key, userId, lat, lng, billData, taskId, advanceId, priority)
+            submitBill(key, userId, lat, lng, billData, taskId, encodedImage, advanceId, priority)
         }
     }
 
     private fun submitBill(
         key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, advanceId: String, priority: String
+        taskId: String, encodedImage: String, advanceId: String, priority: String
     ) {
         val billDataJson = Gson().toJson(billData)
 
@@ -99,6 +99,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
                 lng,
                 billDataJson,
                 taskId,
+                encodedImage,
                 advanceId,
                 priority
             )
@@ -121,7 +122,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun submitAdvanceBill(
-        key: String, userId: String, lat: String, lng: String, billData: BillData,
+        key: String, userId: String, lat: String, lng: String, billData: BillData, encodedImage: String,
         taskId: String, priority: String
     ) {
         val billDataJson = Gson().toJson(billData)
@@ -133,6 +134,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
                 lat,
                 lng,
                 billDataJson,
+                encodedImage,
                 taskId,
                 priority
             )
