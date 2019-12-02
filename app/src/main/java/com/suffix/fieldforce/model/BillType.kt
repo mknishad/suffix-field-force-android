@@ -6,6 +6,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillType(
-    @Json(name = "BillShortName") var billShortName: String,
-    var billTypeId: Int
-): Parcelable
+  @Json(name = "BillShortName") var billShortName: String,
+  var billTypeId: Int
+) : Parcelable

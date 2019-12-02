@@ -15,26 +15,26 @@ import com.suffix.fieldforce.fragment.ExpenseBillFragment
  */
 
 class CategoryAdapter(
-    private val mContext: Context, fm: FragmentManager
+  private val mContext: Context, fm: FragmentManager
 ) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    override fun getItem(position: Int): Fragment {
-        return if (position == 0) {
-            ExpenseBillFragment()
-        } else {
-            AdvanceBillFragment()
-        }
+  override fun getItem(position: Int): Fragment {
+    return if (position == 0) {
+      ExpenseBillFragment()
+    } else {
+      AdvanceBillFragment()
     }
+  }
 
-    override fun getCount(): Int {
-        return 2
-    }
+  override fun getCount(): Int {
+    return 2
+  }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return if (position == 0) {
-            mContext.getString(R.string.expense)
-        } else {
-            mContext.getString(R.string.advance)
-        }
+  override fun getPageTitle(position: Int): CharSequence? {
+    return if (position == 0) {
+      mContext.getString(R.string.expense)
+    } else {
+      mContext.getString(R.string.advance)
     }
+  }
 }

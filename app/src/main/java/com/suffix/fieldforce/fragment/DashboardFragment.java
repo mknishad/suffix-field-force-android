@@ -42,10 +42,10 @@ public class DashboardFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new Issue_Assigned_Fragment(apiInterface.assignTicketList(preferences.getUser().getUserId())), "Assigned");
-        viewPagerAdapter.addFragment(new Issue_Assigned_Fragment(apiInterface.inprogressTicketList(preferences.getUser().getUserId())), "In Progress");
-        viewPagerAdapter.addFragment(new Issue_Assigned_Fragment(apiInterface.acceptedTicketList(preferences.getUser().getUserId())), "Accepted");
-        viewPagerAdapter.addFragment(new Issue_Assigned_Fragment(apiInterface.completedTicketList(preferences.getUser().getUserId())), "Completed");
+        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.assignTicketList(preferences.getUser().getUserId())), "Assigned");
+        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.inprogressTicketList(preferences.getUser().getUserId())), "In Progress");
+        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.acceptedTicketList(preferences.getUser().getUserId())), "Accepted");
+        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.completedTicketList(preferences.getUser().getUserId())), "Completed");
         viewPager.setAdapter(viewPagerAdapter);
     }
 

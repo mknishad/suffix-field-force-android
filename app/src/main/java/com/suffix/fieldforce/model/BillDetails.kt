@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillDetails(
-    var billName: String,
-    var billAmount: String,
-    var billTypeId: String
-): Parcelable
+  var billName: String,
+  var billAmount: String,
+  var billTypeId: String
+) : Parcelable

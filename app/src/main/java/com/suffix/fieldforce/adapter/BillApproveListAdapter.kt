@@ -14,44 +14,45 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BillApproveListAdapter() :
-    ListAdapter<BillApprove, RecyclerView.ViewHolder>(BillApproveDiffCallback()) {
+  ListAdapter<BillApprove, RecyclerView.ViewHolder>(BillApproveDiffCallback()) {
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is BillApproveViewHolder -> {
-                val billApproveItem = getItem(position) as BillApprove
-                holder.bind(billApproveItem)
-            }
-        }
+  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    when (holder) {
+      is BillApproveViewHolder -> {
+        val billApproveItem = getItem(position) as BillApprove
+        holder.bind(billApproveItem)
+      }
     }
+  }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return BillApproveViewHolder.from(parent)
-    }
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    return BillApproveViewHolder.from(parent)
+  }
 
-    fun callSubmitList(list: List<BillApprove>?) {
-        val adapterScope = CoroutineScope(Dispatchers.Default)
-        adapterScope.launch {
-            withContext(Dispatchers.Main) {
-                submitList(list)
-            }
-        }
+  fun callSubmitList(list: List<BillApprove>?) {
+    val adapterScope = CoroutineScope(Dispatchers.Default)
+    adapterScope.launch {
+      withContext(Dispatchers.Main) {
+        submitList(list)
+      }
     }
+  }
 }
 
-class BillApproveViewHolder private constructor(private val binding: ItemBillApproveBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: BillApprove) {
-        binding.billApprove = item
-        binding.executePendingBindings()
-    }
+class BillApproveViewHolder private constructor(private val binding: ItemBillApproveBinding) :
+  RecyclerView.ViewHolder(binding.root) {
+  fun bind(item: BillApprove) {
+    binding.billApprove = item
+    binding.executePendingBindings()
+  }
 
-    companion object {
-        fun from(parent: ViewGroup): BillApproveViewHolder {
-            val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemBillApproveBinding.inflate(layoutInflater, parent, false)
-            return BillApproveViewHolder(binding)
-        }
+  companion object {
+    fun from(parent: ViewGroup): BillApproveViewHolder {
+      val layoutInflater = LayoutInflater.from(parent.context)
+      val binding = ItemBillApproveBinding.inflate(layoutInflater, parent, false)
+      return BillApproveViewHolder(binding)
     }
+  }
 }
 
 
@@ -62,12 +63,12 @@ class BillApproveViewHolder private constructor(private val binding: ItemBillApp
  * list that's been passed to `submitList`.
  */
 class BillApproveDiffCallback : DiffUtil.ItemCallback<BillApprove>() {
-    override fun areItemsTheSame(oldItem: BillApprove, newItem: BillApprove): Boolean {
-        return oldItem.billApproveId == newItem.billApproveId
-    }
+  override fun areItemsTheSame(oldItem: BillApprove, newItem: BillApprove): Boolean {
+    return oldItem.billApproveId == newItem.billApproveId
+  }
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: BillApprove, newItem: BillApprove): Boolean {
-        return oldItem == newItem
-    }
+  @SuppressLint("DiffUtilEquals")
+  override fun areContentsTheSame(oldItem: BillApprove, newItem: BillApprove): Boolean {
+    return oldItem == newItem
+  }
 }

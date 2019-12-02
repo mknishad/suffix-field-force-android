@@ -5,9 +5,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillDetailsResponseData(
-    //@Json(name = "ResponseCode") var responseCode: String,
-    var billDetailsObj: BillDetailsObj,
-    var billListObj: BillListObj,
-    var billApproveObj: BillApproveObj
-    //@Json(name = "ResponseText") var responseText: String
+  //@Json(name = "ResponseCode") var responseCode: String,
+  var billDetailsObj: BillDetailsObj,
+  var billListObj: BillListObj,
+  var billApproveObj: BillApproveObj
+  //@Json(name = "ResponseText") var responseText: String
 ) : Parcelable

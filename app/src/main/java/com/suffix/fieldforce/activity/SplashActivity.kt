@@ -9,24 +9,24 @@ import org.jetbrains.anko.startActivity
 
 class SplashActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_splash)
 
-        Handler().postDelayed({
-            if (preferences.isFirstTimeLaunch()) {
-                startActivity<WelcomeActivity>()
-                //preferences.setFirstTimeLaunch(false)
-            } else {
-                try {
-                    val user = preferences.getUser()
-                    startActivity<MainDashboard>()
-                } catch (e: Exception) {
-                    startActivity<LoginActivity>()
-                }
-            }
+    Handler().postDelayed({
+      if (preferences.isFirstTimeLaunch()) {
+        startActivity<WelcomeActivity>()
+        //preferences.setFirstTimeLaunch(false)
+      } else {
+        try {
+          val user = preferences.getUser()
+          startActivity<MainDashboard>()
+        } catch (e: Exception) {
+          startActivity<LoginActivity>()
+        }
+      }
 
-            finish()
-        }, 1300)
-    }
+      finish()
+    }, 1300)
+  }
 }
