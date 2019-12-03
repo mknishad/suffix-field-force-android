@@ -4,6 +4,7 @@ import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
+import com.suffix.fieldforce.model.RosterScheduleModel;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.model.TaskEntry;
 import com.suffix.fieldforce.model.Ticketstatus;
@@ -116,5 +117,15 @@ public interface APIInterface {
             @Query("key") String key,
             @Query("userId") String userId,
             @Query("deviceId") String deviceId
+    );
+
+    @POST("FFMS/api/getUserRosterSchedule.jsp")
+    Call<RosterScheduleModel> getUserRosterSchedule(
+        @Query("key") String key,
+        @Query("userId") String userId,
+        @Query("lat") String lat,
+        @Query("lng") String lng,
+        @Query("year") String year,
+        @Query("month") String month
     );
 }

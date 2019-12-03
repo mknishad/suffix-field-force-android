@@ -16,6 +16,7 @@
     <string name="task">Task</string>
     <string name="inventory">Inventory</string>
     <string name="activity_log">Activity Log</string>
+    <string name="roster_management">Roster Management</string>
     <string name="history">History</string>
     <string name="chat">Chat</string>
     <string name="site_map">Site Map</string>

@@ -87,8 +87,8 @@ public class MainDashboard extends AppCompatActivity {
     CardView cardTask;
     @BindView(R.id.cardBills)
     CardView cardBills;
-    @BindView(R.id.cardActivityLog)
-    CardView cardActivityLog;
+    @BindView(R.id.cardRosterManagement)
+    CardView cardRosterManagement;
     @BindView(R.id.cardHistory)
     CardView cardHistory;
     @BindView(R.id.cardInventory)
@@ -102,6 +102,12 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardTask)
     public void openTask() {
+        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.cardRosterManagement)
+    public void openRoster() {
         Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
         startActivity(intent);
     }

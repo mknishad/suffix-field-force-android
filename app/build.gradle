@@ -8,140 +8,143 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 29
-    defaultConfig {
-        applicationId "com.suffix.fieldforce"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  compileSdkVersion 29
+  defaultConfig {
+    applicationId "com.suffix.fieldforce"
+    minSdkVersion 21
+    targetSdkVersion 29
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
-        }
-        debug {
-            buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
-        }
+    debug {
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
     }
+  }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
-    androidExtensions {
-        experimental = true
-    }
+  androidExtensions {
+    experimental = true
+  }
 
-    dataBinding {
-        enabled = true
-    }
+  dataBinding {
+    enabled = true
+  }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.navigation:navigation-fragment:2.1.0'
-    implementation 'androidx.navigation:navigation-ui:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
+  implementation 'androidx.appcompat:appcompat:1.1.0'
+  implementation 'androidx.core:core-ktx:1.1.0'
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  implementation 'com.google.android.material:material:1.0.0'
+  implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+  implementation 'androidx.navigation:navigation-fragment:2.1.0'
+  implementation 'androidx.navigation:navigation-ui:2.1.0'
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+  implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
+  implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
 
-    //circle image
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
+  //circle image
+  implementation 'de.hdodenhof:circleimageview:3.0.1'
 
-    //circle progressbar
-    implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
+  //circle progressbar
+  implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
 
-    //moving background
-    implementation 'com.flaviofaria:kenburnsview:1.0.7'
+  //moving background
+  implementation 'com.flaviofaria:kenburnsview:1.0.7'
 
-    //bottom nav
-    implementation 'devlight.io:navigationtabbar:1.2.5'
+  //bottom nav
+  implementation 'devlight.io:navigationtabbar:1.2.5'
 
-    //firebase
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+  //firebase
+  implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
-    // kotlin co-routines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+  // kotlin co-routines
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 
-    // Anko Commons
-    implementation "org.jetbrains.anko:anko-commons:$version_anko"
+  // Anko Commons
+  implementation "org.jetbrains.anko:anko-commons:$version_anko"
 
-    // Anko Design for SnackBar
-    implementation "org.jetbrains.anko:anko-design:$version_anko"
+  // Anko Design for SnackBar
+  implementation "org.jetbrains.anko:anko-design:$version_anko"
 
-    // Location
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+  // Location
+  implementation 'com.google.android.gms:play-services-location:17.0.0'
 
-    // Core with Ktx
-    implementation "androidx.core:core-ktx:$version_core"
+  // Core with Ktx
+  implementation "androidx.core:core-ktx:$version_core"
 
-    // Moshi
-    implementation "com.squareup.moshi:moshi:$version_moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+  // Moshi
+  implementation "com.squareup.moshi:moshi:$version_moshi"
+  implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
-    // Retrofit with Moshi Converter
-    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
+  // Retrofit with Moshi Converter
+  implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+  implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
+  implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
 
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
+  // Coroutines
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
 
-    // Retrofit Coroutines Support
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
+  // Retrofit Coroutines Support
+  implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
-    // Logger for Retrofit
-    implementation "com.squareup.okhttp3:logging-interceptor:${version_okhttp}"
+  // Logger for Retrofit
+  implementation "com.squareup.okhttp3:logging-interceptor:${version_okhttp}"
 
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$version_glide"
+  // Glide
+  implementation "com.github.bumptech.glide:glide:$version_glide"
 
-    // Gson
-    implementation "com.google.code.gson:gson:$version_gson"
+  // Gson
+  implementation "com.google.code.gson:gson:$version_gson"
 
-    //butterknife
-    implementation 'com.jakewharton:butterknife:10.2.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.2.0'
+  //butterknife
+  implementation 'com.jakewharton:butterknife:10.2.0'
+  kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 
-    //lottie
-    implementation('com.airbnb.android:lottie:2.7.0') {
-        exclude group: 'com.android.support', module: 'support-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview'
-        exclude group: 'com.android.support', module: 'transition'
-    }
+  //lottie
+  implementation('com.airbnb.android:lottie:2.7.0') {
+    exclude group: 'com.android.support', module: 'support-v7'
+    exclude group: 'com.android.support', module: 'support-v4'
+    exclude group: 'com.android.support', module: 'design'
+    exclude group: 'com.android.support', module: 'recyclerview'
+    exclude group: 'com.android.support', module: 'transition'
+  }
 
-    //material text
-    implementation 'com.github.florent37:materialtextfield:1.0.7'
+  //material text
+  implementation 'com.github.florent37:materialtextfield:1.0.7'
 
-    // Image Pikcer
-    implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
+  // Image Pikcer
+  implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
 
-    //AppCrash
-    implementation 'cat.ereza:customactivityoncrash:2.2.0'
+  //AppCrash
+  implementation 'cat.ereza:customactivityoncrash:2.2.0'
 
-    //Smart Location
-    implementation 'io.nlopez.smartlocation:library:3.3.3'
+  //Smart Location
+  implementation 'io.nlopez.smartlocation:library:3.3.3'
 
-    //KAlertDialog
-    implementation 'com.github.TutorialsAndroid:KAlertDialog:v7.0.19'
+  //KAlertDialog
+  implementation 'com.github.TutorialsAndroid:KAlertDialog:v7.0.19'
 
-    //Spot Dialog
-    implementation 'com.github.d-max:spots-dialog:0.7@aar'
-    implementation files('libs/org-apache-commons-codec.jar')
+  //Spot Dialog
+  implementation 'com.github.d-max:spots-dialog:0.7@aar'
+  implementation files('libs/org-apache-commons-codec.jar')
+
+  //Material Calender View
+  implementation 'com.applandeo:material-calendar-view:1.7.0'
 }
 apply plugin: 'com.google.gms.google-services'

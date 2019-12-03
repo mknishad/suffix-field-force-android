@@ -37,6 +37,7 @@ import com.suffix.fieldforce.model.ThanaInfo;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
+import com.suffix.fieldforce.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -102,7 +103,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     private List<DistrictInfo> districtInfos;
     private APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
     private final Calendar myCalendar = Calendar.getInstance();
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd hh:mm:ss a");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -221,7 +222,13 @@ public class CreateTaskActivity extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            startDate.setText(simpleDateFormat.format(myCalendar.getTime()));
+            String currentDateTime = simpleDateFormat.format(myCalendar.getTime());
+            if(currentDateTime.contains("AM")){
+                currentDateTime.replace("AM","am");
+            }else{
+                currentDateTime.replace("PM","pm");
+            }
+            startDate.setText(currentDateTime);
         }
 
     };
@@ -234,7 +241,13 @@ public class CreateTaskActivity extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            endDate.setText(simpleDateFormat.format(myCalendar.getTime()));
+            String currentDateTime = simpleDateFormat.format(myCalendar.getTime());
+            if(currentDateTime.contains("AM")){
+                currentDateTime.replace("AM","am");
+            }else{
+                currentDateTime.replace("PM","pm");
+            }
+            endDate.setText(currentDateTime);
         }
 
     };
@@ -337,8 +350,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
         byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
+        //String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        return Utils.INSTANCE.encodeToBase64(b);
     }
 
     public Bitmap getResizedBitmap(Bitmap bitmap, int newWidth, int newHeight) {

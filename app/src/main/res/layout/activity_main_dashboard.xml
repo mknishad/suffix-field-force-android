@@ -221,7 +221,7 @@
                                 android:weightSum="2">
 
                                 <androidx.cardview.widget.CardView
-                                    android:id="@+id/cardActivityLog"
+                                    android:id="@+id/cardRosterManagement"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/layout_margin_5"
@@ -248,7 +248,7 @@
                                             android:layout_height="wrap_content"
                                             android:background="#def0f7"
                                             android:gravity="center"
-                                            android:text="@string/activity_log"
+                                            android:text="@string/roster_management"
                                             android:textStyle="bold" />
 
                                         <TextView
