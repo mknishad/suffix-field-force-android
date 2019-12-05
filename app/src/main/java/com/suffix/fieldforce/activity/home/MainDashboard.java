@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -108,7 +109,7 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardRosterManagement)
     public void openRoster() {
-        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
+        Intent intent = new Intent(MainDashboard.this, RosterManagementActivity.class);
         startActivity(intent);
     }
 
