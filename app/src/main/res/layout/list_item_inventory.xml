@@ -7,12 +7,8 @@
   <data>
 
     <variable
-        name="bill"
-        type="com.suffix.fieldforce.model.Bill" />
-
-    <variable
-        name="clickListener"
-        type="com.suffix.fieldforce.adapter.BillsListener" />
+        name="inventory"
+        type="com.suffix.fieldforce.model.Inventory" />
   </data>
 
   <androidx.cardview.widget.CardView
@@ -24,26 +20,25 @@
         style="@style/Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(bill)}"
         android:orientation="vertical">
 
       <TextView
-          android:id="@+id/billDescriptionTextView"
-          android:layout_width="0dp"
+          android:id="@+id/inventoryIdTextView"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:layout_marginEnd="16dp"
-          android:text="@{bill.description}"
-          android:textColor="@color/colorAquaDark"
-          android:textSize="16sp"
-          app:layout_constraintEnd_toStartOf="@+id/statusTextView"
+          android:textSize="12sp"
+          android:text="@{inventory.id}"
+          app:layout_constraintEnd_toStartOf="@+id/quantityTextView"
+          app:layout_constraintHorizontal_bias="0.00"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          tools:text="Project Enigma" />
+          tools:text="I0001" />
 
       <TextView
-          android:id="@+id/statusTextView"
+          android:id="@+id/quantityTextView"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="8dp"
@@ -51,27 +46,26 @@
           android:layout_marginBottom="8dp"
           android:paddingStart="4dp"
           android:paddingEnd="4dp"
-          android:textColor="@color/colorWhite"
-          android:textSize="16sp"
-          app:billStatus="@{bill.status}"
+          android:textSize="12sp"
+          android:text="@{inventory.quantity}"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          tools:background="@drawable/bg_status" />
+          tools:text="100" />
 
       <TextView
-          android:id="@+id/dateTextView"
+          android:id="@+id/inventoryNameTextView"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="8dp"
           android:layout_marginTop="4dp"
           android:layout_marginBottom="8dp"
-          android:text="@{bill.billDate}"
           android:textSize="12sp"
+          android:text="@{inventory.name}"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/billDescriptionTextView"
-          tools:text="1 July, 2020" />
+          app:layout_constraintTop_toBottomOf="@id/inventoryIdTextView"
+          tools:text="CAT5 Cable" />
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.cardview.widget.CardView>
 </layout>

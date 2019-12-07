@@ -35,7 +35,9 @@ class ExpenseBillFragment : Fragment() {
   ): View? {
     // Inflate the layout for this fragment
     binding = DataBindingUtil.inflate(
-      inflater, R.layout.fragment_expense_bill, container,
+      inflater,
+      R.layout.fragment_expense_bill,
+      container,
       false
     )
     viewModel = ViewModelProviders.of(this).get(ExpenseBillViewModel::class.java)

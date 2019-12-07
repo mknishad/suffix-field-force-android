@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
@@ -116,6 +117,12 @@ public class MainDashboardActivity extends AppCompatActivity {
     @OnClick(R.id.cardBills)
     public void openBills() {
         Intent intent = new Intent(MainDashboardActivity.this, BillDashboardActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.cardInventory)
+    public void openInventory() {
+        Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
         startActivity(intent);
     }
 

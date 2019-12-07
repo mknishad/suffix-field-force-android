@@ -16,7 +16,7 @@ class SplashActivity : BaseActivity() {
     Handler().postDelayed({
       if (preferences.isFirstTimeLaunch()) {
         startActivity<WelcomeActivity>()
-        //preferences.setFirstTimeLaunch(false)
+        preferences.setFirstTimeLaunch(false)
       } else {
         try {
           val user = preferences.getUser()
