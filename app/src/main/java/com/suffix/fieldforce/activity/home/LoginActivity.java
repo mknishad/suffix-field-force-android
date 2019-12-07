@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.log_btn_login)
     public void onViewClicked() {
         login();
-        //startActivity(new Intent(LoginActivity.this,MainDashboard.class));
+        //startActivity(new Intent(LoginActivity.this,MainDashboardActivity.class));
         //finish();
     }
 
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.body().getResponseCode().equalsIgnoreCase("1")) {
                         User user = response.body().getResponseData();
                         preferences.putUser(user);
-                        startActivity(new Intent(LoginActivity.this, MainDashboard.class));
+                        startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
                         finish();
                     } else {
                         Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();

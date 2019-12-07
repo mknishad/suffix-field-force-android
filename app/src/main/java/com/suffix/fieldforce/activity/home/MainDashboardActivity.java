@@ -54,9 +54,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainDashboard extends AppCompatActivity {
+public class MainDashboardActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainDashboard";
+    private static final String TAG = "MainDashboardActivity";
     private static int REQUEST_CHECK_SETTINGS = 1000;
     private static int REQUEST_LOCATION_PERMISSION = 1001;
 
@@ -103,19 +103,19 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardTask)
     public void openTask() {
-        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
+        Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.cardRosterManagement)
     public void openRoster() {
-        Intent intent = new Intent(MainDashboard.this, RosterManagementActivity.class);
+        Intent intent = new Intent(MainDashboardActivity.this, RosterManagementActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.cardBills)
     public void openBills() {
-        Intent intent = new Intent(MainDashboard.this, BillDashboardActivity.class);
+        Intent intent = new Intent(MainDashboardActivity.this, BillDashboardActivity.class);
         startActivity(intent);
     }
 
@@ -262,7 +262,7 @@ public class MainDashboard extends AppCompatActivity {
 //                if (task1.isSuccessful()) {
 //                    if (task1 != null) {
 //                        preferences.putLocation((Location) task1.getResult());
-//                        new GetAddressTask(MainDashboard.this).execute((Location) task1.getResult());
+//                        new GetAddressTask(MainDashboardActivity.this).execute((Location) task1.getResult());
 //                    } else {
 //                        getDeviceLocation();
 //                    }
@@ -278,13 +278,13 @@ public class MainDashboard extends AppCompatActivity {
 
                             preferences.putLocation(location);
 
-                            SmartLocation.with(MainDashboard.this).geocoding()
+                            SmartLocation.with(MainDashboardActivity.this).geocoding()
                                     .reverse(location, new OnReverseGeocodingListener() {
                                         @Override
                                         public void onAddressResolved(Location location, List<Address> list) {
 
                                             if (BuildConfig.DEBUG) {
-                                                Toast.makeText(MainDashboard.this, "Total Location : "+list.size(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(MainDashboardActivity.this, "Total Location : "+list.size(), Toast.LENGTH_SHORT).show();
                                             }
 
                                             if (list.size() > 0) {
@@ -296,7 +296,7 @@ public class MainDashboard extends AppCompatActivity {
                                                     addressElements.add(result.getAddressLine(i));
                                                 }
                                                 if (BuildConfig.DEBUG) {
-                                                    Toast.makeText(MainDashboard.this, "Total AddressLine : "+result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MainDashboardActivity.this, "Total AddressLine : "+result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
                                                 }
                                                 builder.append(TextUtils.join(", ", addressElements));
                                                 txtUserAddress.setText(builder.toString());

@@ -15,7 +15,8 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".activity.roster.RosterManagementActivity"></activity>
+    <activity android:name=".activity.inventory.InventoryDashboardActivity"></activity>
+    <activity android:name=".activity.roster.RosterManagementActivity" />
     <activity android:name=".activity.bill.BillDashboardActivity" />
     <activity
         android:name=".activity.task.CreateTaskActivity"
@@ -74,7 +75,7 @@
         android:name=".activity.task.PreviewTaskActivity"
         android:screenOrientation="portrait" />
     <activity
-        android:name=".activity.home.MainDashboard"
+        android:name=".activity.home.MainDashboardActivity"
         android:screenOrientation="portrait" />
     <activity
         android:name=".activity.MainActivity"

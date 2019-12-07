@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.home.MainDashboard;
+import com.suffix.fieldforce.activity.home.MainDashboardActivity;
 import com.suffix.fieldforce.fragment.DashboardFragment;
 import com.suffix.fieldforce.fragment.NotificationsFragment;
 import com.suffix.fieldforce.fragment.ProjectsFragment;
@@ -112,7 +112,7 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(TaskDashboard.this, MainDashboard.class));
+        startActivity(new Intent(TaskDashboard.this, MainDashboardActivity.class));
         finish();
     }
 }

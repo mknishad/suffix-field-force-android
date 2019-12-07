@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.home.LoginActivity
-import com.suffix.fieldforce.activity.home.MainDashboard
+import com.suffix.fieldforce.activity.home.MainDashboardActivity
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : BaseActivity() {
@@ -20,7 +20,7 @@ class SplashActivity : BaseActivity() {
       } else {
         try {
           val user = preferences.getUser()
-          startActivity<MainDashboard>()
+          startActivity<MainDashboardActivity>()
         } catch (e: Exception) {
           startActivity<LoginActivity>()
         }
