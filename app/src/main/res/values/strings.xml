@@ -79,5 +79,6 @@
   <string name="advance">Advance</string>
   <string name="urgent">Urgent</string>
   <string name="bill_entry">Bill Entry</string>
+  <string name="requisition">Requisition</string>
 
 </resources>

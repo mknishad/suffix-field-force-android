@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.adapter.InventoryCategoryAdapter
 import com.suffix.fieldforce.databinding.ActivityInventoryDashboardBinding
 
 class InventoryDashboardActivity : AppCompatActivity() {
@@ -49,7 +48,10 @@ class InventoryDashboardActivity : AppCompatActivity() {
   }
 
   private fun setupViewPager() {
-    val adapter = InventoryCategoryAdapter(this, supportFragmentManager)
+    val adapter = InventoryCategoryAdapter(
+      this,
+      supportFragmentManager
+    )
     binding.viewPager.adapter = adapter
     binding.tabLayout.setupWithViewPager(binding.viewPager)
   }
