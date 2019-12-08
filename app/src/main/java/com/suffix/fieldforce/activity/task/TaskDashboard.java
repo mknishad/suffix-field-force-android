@@ -103,6 +103,7 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
     @OnClick(R.id.imgDrawer)
     public void onBackClicked() {
         super.onBackPressed();
+        finish();
     }
 
     @OnClick(R.id.buttonCreateTask)
@@ -112,7 +113,7 @@ public class TaskDashboard extends AppCompatActivity implements BottomNavigation
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(TaskDashboard.this, MainDashboardActivity.class));
+        super.onBackPressed();
         finish();
     }
 }

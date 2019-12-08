@@ -97,5 +97,6 @@ public class TaskEditActivity extends AppCompatActivity {
         });
 
         super.onBackPressed();
+        finish();
     }
 }

@@ -1,4 +1,5 @@
 <resources>
+	<dimen name="input_text_size_10sp">18sp</dimen>
 	<dimen name="card_height_60">108dp</dimen>
 	<dimen name="layout_margin_40">72dp</dimen>
 	<dimen name="layout_margin_42">75.6dp</dimen>
