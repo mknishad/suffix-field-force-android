@@ -86,6 +86,13 @@
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
     </service>
+
+    <receiver android:name=".location.LocationUpdatesBroadcastReceiver"
+        android:exported="true">
+      <intent-filter>
+        <action android:name=".location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
+      </intent-filter>
+    </receiver>
   </application>
 
 </manifest>

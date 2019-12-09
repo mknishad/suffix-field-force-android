@@ -72,8 +72,9 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     private APIInterface apiInterface;
 
-    private static long INTERVAL = 5 * 60 * 1000;
-    private static long FASTEST_INTERVAL = 5 * 60 * 1000;
+    private static long UPDATE_INTERVAL = 10 * 1000;
+    private static long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
+    private static long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
 
     @BindView(R.id.imgDrawer)
     ImageView imgDrawer;
@@ -158,8 +159,8 @@ public class MainDashboardActivity extends AppCompatActivity {
     private void initLocationProvider() {
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(INTERVAL);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         locationCallback = new LocationCallback() {
@@ -235,8 +236,8 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     private void createLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(INTERVAL);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
