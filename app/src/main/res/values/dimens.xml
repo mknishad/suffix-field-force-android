@@ -1,4 +1,7 @@
 <resources>
+
+    <dimen name="input_text_size_10sp">10sp</dimen>
+
     <dimen name="padding_1">1dp</dimen>
     <dimen name="padding_2">2dp</dimen>
     <dimen name="padding_3">3dp</dimen>

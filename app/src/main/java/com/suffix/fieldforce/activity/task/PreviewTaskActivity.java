@@ -106,6 +106,12 @@ public class PreviewTaskActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.imgDrawer)
+    public void back() {
+        super.onBackPressed();
+        finish();
+    }
+
     @OnClick(R.id.btnStartBill)
     public void startBill() {
         if(ticketId != null) {
