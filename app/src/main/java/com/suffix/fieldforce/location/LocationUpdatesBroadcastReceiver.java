@@ -20,7 +20,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.location.LocationResult;
 
@@ -46,6 +49,7 @@ public class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
             "com.google.android.gms.location.sample.backgroundlocationupdates.action" +
                     ".PROCESS_UPDATES";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent != null) {

@@ -72,8 +72,6 @@
   <string name="btn_submit">SUBMIT</string>
   <string name="btn_attach_image">ATTACH IMAGE</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="standard">Standard</string>
   <string name="expense">Expense</string>
   <string name="advance">Advance</string>
@@ -81,4 +79,18 @@
   <string name="bill_entry">Bill Entry</string>
   <string name="requisition">Requisition</string>
 
+
+  <string name="request_updates">Request updates</string>
+  <string name="remove_updates">Remove updates</string>
+  <string name="unknown_location">Unknown location</string>
+
+  <string name="batched_location_updates">Batched location updates</string>
+
+  <plurals name="num_locations_reported">
+    <item quantity="zero">No location reported</item>
+    <item quantity="one">One location reported</item>
+    <item quantity="other">%d locations reported</item>
+  </plurals>
+
+  <string name="default_channel">Default channel</string>
 </resources>

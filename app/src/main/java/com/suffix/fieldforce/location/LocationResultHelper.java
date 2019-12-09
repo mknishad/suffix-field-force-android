@@ -24,8 +24,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.TaskStackBuilder;
 
 import com.suffix.fieldforce.R;
@@ -121,6 +123,7 @@ class LocationResultHelper {
     /**
      * Displays a notification with the location results.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void showNotification() {
         Intent notificationIntent = new Intent(mContext, MainActivity.class);
 
