@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="billApprove"
+            type="com.suffix.fieldforce.model.BillApprove"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_box_blue"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/txtBillStatus"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorLavanderDark"
+                android:text="@{`Approve User Name : ` + billApprove.approveEmpName}"
+                android:textColor="@color/color_white" />
+
+            <TextView
+                android:id="@+id/txtBillId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Bill Approve Id : ` + billApprove.billApproveId}" />
+
+            <TextView
+                android:id="@+id/txtUserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Approve User Id : ` + billApprove.approveEmpId}" />
+
+            <TextView
+                android:id="@+id/txtApproveDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Approve Date : ` + billApprove.approveDate}"
+                android:textColor="@color/orange" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtBillStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_5"
+            android:background="@drawable/border_green"
+            android:paddingLeft="@dimen/padding_5"
+            android:paddingRight="@dimen/padding_5"
+            android:text="@{billApprove.managerStatus}"
+            android:textColor="@color/color_white" />
+    </RelativeLayout>
+</layout>

@@ -92,7 +92,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/layout_margin_5"
                 android:text="Dr. Solaiman"
-                android:textColor="@color/colorMint"
+                android:textColor="@color/colorMinttwo"
                 android:textStyle="bold"
                 />
             <TextView

@@ -2,13 +2,16 @@ package com.suffix.fieldforce.activity.task;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.bill.AddBillActivity;
 import com.suffix.fieldforce.model.AssignTaskItem;
+import com.suffix.fieldforce.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +50,12 @@ public class PreviewTaskActivity extends AppCompatActivity {
     TextView ticketStatusText;
     @BindView(R.id.txtTicketStatus)
     TextView txtTicketStatus;
+    @BindView(R.id.txtStatusTitle)
+    TextView txtStatusTitle;
+    @BindView(R.id.btnStartBill)
+    Button btnStartBill;
+
+    private String ticketId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +77,10 @@ public class PreviewTaskActivity extends AppCompatActivity {
             consumerMobile.setText(assignTaskItem.getConsumerMobile());
             ticketStatusText.setText(assignTaskItem.getTicketStatusText());
             txtTicketStatus.setText(assignTaskItem.getTicketStatusText());
+            ticketId = assignTaskItem.getTicketId();
         }
 
-        //APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+//        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
 //        SpannableString spannableString = new SpannableString(" START  " + startAddress);
 //        Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#2e7d32"));
 //        Object clearSpan = new BackgroundColorSpan(Color.TRANSPARENT);
@@ -86,16 +96,28 @@ public class PreviewTaskActivity extends AppCompatActivity {
         imgDrawer.setImageResource(R.drawable.ic_arrow_back);
         imgMap.setImageResource(R.drawable.ic_edit);
         toolBarTitle.setText("Preview Task");
+
     }
 
     @OnClick(R.id.imgMap)
     public void editStatus() {
         Intent intent = new Intent(PreviewTaskActivity.this, TaskEditActivity.class);
+        intent.putExtra(Constants.INSTANCE.getTASK_ID(), ticketId);
         startActivity(intent);
     }
 
     @OnClick(R.id.imgDrawer)
-    public void onViewClicked() {
+    public void back() {
         super.onBackPressed();
+        finish();
+    }
+
+    @OnClick(R.id.btnStartBill)
+    public void startBill() {
+        if(ticketId != null) {
+            Intent intent = new Intent(PreviewTaskActivity.this, AddBillActivity.class);
+            intent.putExtra(Constants.INSTANCE.getTASK_ID(), ticketId);
+            startActivity(intent);
+        }
     }
 }

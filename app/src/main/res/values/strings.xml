@@ -1,83 +1,96 @@
 <resources>
-    <string name="app_name">SFForce</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+  <string name="app_name">SFForce</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="nav_header_title">Android Studio</string>
+  <string name="nav_header_subtitle">android.studio@android.com</string>
+  <string name="nav_header_desc">Navigation header</string>
+  <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-    <string name="task">Task</string>
-    <string name="inventory">Inventory</string>
-    <string name="activity_log">Activity Log</string>
-    <string name="history">History</string>
-    <string name="chat">Chat</string>
-    <string name="site_map">Site Map</string>
-    <string name="statistics">Statistics</string>
-    <string name="issue">Issue</string>
-    <string name="bills">Bills</string>
-    <string name="add_bill">Add Bill</string>
-    <string name="submit">Submit</string>
-    <string name="date">Date</string>
-    <string name="remarks">Remarks</string>
-    <string name="approved_pending_amount">Approved Pending Amount</string>
-    <string name="disbursed_amount">Disbursed Amount</string>
-    <string name="bill_details">Bill Details</string>
-    <string name="something_went_wrong">Something went wrong!</string>
-    <string name="rejected">Rejected</string>
-    <string name="assigned_list">Assigned List</string>
-    <string name="accepted_list">Accepted List</string>
-    <string name="completed_list">Completed List</string>
-    <string name="in_progress_list">In-Progress List</string>
-    <string name="task_details">Task Details</string>
-    <string name="ticket_title">Ticket Title</string>
-    <string name="consumer_name">Consumer Name</string>
-    <string name="consumer_mobile">Consumer Mobile</string>
-    <string name="consumer_address">Consumer Address</string>
-    <string name="consumer_thana">Consumer Thana</string>
-    <string name="consumer_district">Consumer District</string>
-    <string name="ticket_remark">Ticket Remark</string>
-    <string name="device_name">Device Name</string>
-    <string name="ticket_category_code">Ticket Category Code</string>
-    <string name="ticket_start_date">Ticket Start Date</string>
-    <string name="ticket_end_date">Ticket End Date</string>
-    <string name="ticket_status">Ticket Status</string>
-    <string name="ticket_status_text">Ticket Status Text</string>
-    <string name="ticket_category_title">Ticket Category Title</string>
-    <string name="ticket_code">Ticket Code</string>
+  <string name="menu_home">Home</string>
+  <string name="menu_gallery">Gallery</string>
+  <string name="menu_slideshow">Slideshow</string>
+  <string name="menu_tools">Tools</string>
+  <string name="menu_share">Share</string>
+  <string name="menu_send">Send</string>
+  <string name="task">Task</string>
+  <string name="inventory">Inventory</string>
+  <string name="activity_log">Activity Log</string>
+  <string name="roster_management">Roster Management</string>
+  <string name="history">History</string>
+  <string name="chat">Chat</string>
+  <string name="site_map">Site Map</string>
+  <string name="statistics">Statistics</string>
+  <string name="issue">Issue</string>
+  <string name="bills">Bills</string>
+  <string name="add_bill">Add Bill</string>
+  <string name="submit">Submit</string>
+  <string name="date">Date</string>
+  <string name="remarks">Remarks</string>
+  <string name="approved_pending_amount">Approved Pending Amount</string>
+  <string name="disbursed_amount">Disbursed Amount</string>
+  <string name="bill_details">Bill Details</string>
+  <string name="something_went_wrong">Something went wrong!</string>
+  <string name="rejected">Rejected</string>
+  <string name="assigned_list">Assigned List</string>
+  <string name="accepted_list">Accepted List</string>
+  <string name="completed_list">Completed List</string>
+  <string name="in_progress_list">In-Progress List</string>
+  <string name="task_details">Task Details</string>
+  <string name="ticket_title">Ticket Title</string>
+  <string name="consumer_name">Consumer Name</string>
+  <string name="consumer_mobile">Consumer Mobile</string>
+  <string name="consumer_address">Consumer Address</string>
+  <string name="consumer_thana">Consumer Thana</string>
+  <string name="consumer_district">Consumer District</string>
+  <string name="ticket_remark">Ticket Remark</string>
+  <string name="device_name">Device Name</string>
+  <string name="ticket_category_code">Ticket Category Code</string>
+  <string name="ticket_start_date">Ticket Start Date</string>
+  <string name="ticket_end_date">Ticket End Date</string>
+  <string name="ticket_status">Ticket Status</string>
+  <string name="ticket_status_text">Ticket Status Text</string>
+  <string name="ticket_category_title">Ticket Category Title</string>
+  <string name="ticket_code">Ticket Code</string>
 
-    <string name="issue_type">Issue Type</string>
-    <string name="status">Status</string>
-    <string name="priority">Priority</string>
-    <string name="categories">Catagory</string>
+  <string name="issue_type">Issue Type</string>
+  <string name="status">Status</string>
+  <string name="priority">Priority</string>
+  <string name="categories">Catagory</string>
 
-    <string name="entered">Attendance : Enterd</string>
-    <string name="exit">Attendance : Exit</string>
-    <string name="not_yet">Attendance : Not Yet</string>
-    <string name="bill_image">Bill Image</string>
+  <string name="entered">Attendance : Enterd</string>
+  <string name="exit">Attendance : Exit</string>
+  <string name="not_yet">Attendance : Not Yet</string>
+  <string name="bill_image">Bill Image</string>
 
-    <string-array name="spinnerItems">
-        <item>Open</item>
-        <item>In Progress</item>
-        <item>Resolved</item>
-        <item>Close</item>
-    </string-array>
+  <string-array name="spinnerItems">
+    <item>Open</item>
+    <item>In Progress</item>
+    <item>Close</item>
+  </string-array>
 
-    <string name="btn_submit">SUBMIT</string>
-    <string name="btn_attach_image">ATTACH IMAGE</string>
+  <string name="btn_submit">SUBMIT</string>
+  <string name="btn_attach_image">ATTACH IMAGE</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="standard">Standard</string>
-    <string name="expense">Expense</string>
-    <string name="advance">Advance</string>
-    <string name="urgent">Urgent</string>
-    <string name="bill_entry">Bill Entry</string>
+  <string name="standard">Standard</string>
+  <string name="expense">Expense</string>
+  <string name="advance">Advance</string>
+  <string name="urgent">Urgent</string>
+  <string name="bill_entry">Bill Entry</string>
+  <string name="requisition">Requisition</string>
 
+
+  <string name="request_updates">Request updates</string>
+  <string name="remove_updates">Remove updates</string>
+  <string name="unknown_location">Unknown location</string>
+
+  <string name="batched_location_updates">Batched location updates</string>
+
+  <plurals name="num_locations_reported">
+    <item quantity="zero">No location reported</item>
+    <item quantity="one">One location reported</item>
+    <item quantity="other">%d locations reported</item>
+  </plurals>
+
+  <string name="default_channel">Default channel</string>
 </resources>

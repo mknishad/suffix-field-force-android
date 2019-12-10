@@ -14,144 +14,146 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.error
 
 class AddBillViewModel(application: Application) : BaseViewModel(application) {
-    private val _billTypes = MutableLiveData<List<BillType>>()
-    val billTypes: LiveData<List<BillType>>
-        get() = _billTypes
+  private val _billTypes = MutableLiveData<List<BillType>>()
+  val billTypes: LiveData<List<BillType>>
+    get() = _billTypes
 
-    private val _addBillResponse = MutableLiveData<AddBillResponse>()
-    val addBillResponse: LiveData<AddBillResponse>
-        get() = _addBillResponse
+  private val _addBillResponse = MutableLiveData<AddBillResponse>()
+  val addBillResponse: LiveData<AddBillResponse>
+    get() = _addBillResponse
 
-    private val _eventAddBill = MutableLiveData<Boolean>()
-    val eventAddBill: LiveData<Boolean>
-        get() = _eventAddBill
+  private val _eventAddBill = MutableLiveData<Boolean>()
+  val eventAddBill: LiveData<Boolean>
+    get() = _eventAddBill
 
-    init {
-        getBillTypes()
+  init {
+    getBillTypes()
+  }
+
+  private fun getBillTypes() {
+    progress.value = true
+    coroutineScope.launch {
+      try {
+        val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
+          Constants.KEY,
+          preferences.getUser().userId,
+          preferences.getLocation().latitude.toString(),
+          preferences.getLocation().longitude.toString()
+        )
+
+        val result = getBillTypesDeferred.await()
+        _billTypes.value = result.responseData
+        progress.value = false
+      } catch (e: Exception) {
+        error(e.message, e)
+        progress.value = false
+        message.value =
+          getApplication<Application>().resources.getString(R.string.something_went_wrong)
+      }
     }
+  }
 
-    private fun getBillTypes() {
+  fun submitBillWithAdvanceId(
+    key: String, userId: String, lat: String, lng: String, billData: BillData,
+    encodedImage: String, taskId: String, priority: String
+  ) {
+    var advanceId: String = "0"
+    coroutineScope.launch {
+      try {
+        val advanceIdDeferred = FieldForceApi.retrofitService.getTaskWiseAdvanceIdAsync(
+          key,
+          userId,
+          lat,
+          lng,
+          taskId
+        )
+
         progress.value = true
-        coroutineScope.launch {
-            val getBillTypesDeferred = FieldForceApi.retrofitService.getBillTypeAsync(
-                Constants.KEY,
-                preferences.getUser().userId,
-                preferences.getLocation().latitude.toString(),
-                preferences.getLocation().longitude.toString()
-            )
-
-            try {
-                val result = getBillTypesDeferred.await()
-                _billTypes.value = result.responseData
-                progress.value = false
-            } catch (e: Exception) {
-                error(e.message, e)
-                progress.value = false
-                message.value =
-                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
+        val result = advanceIdDeferred.await()
+        if (result.responseCode.equals("1", true)) {
+          if (result.responseData.responseCode.equals("1", true)) {
+            if (result.responseData.bills.isNotEmpty()) {
+              advanceId = result.responseData.bills[0].advanceId.toString()
             }
+          }
         }
+      } catch (e: Exception) {
+        error(e.message, e)
+      }
+
+      submitBill(key, userId, lat, lng, billData, taskId, encodedImage, advanceId, priority)
     }
+  }
 
-    fun submitBillWithAdvanceId(
-        key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, priority: String
-    ) {
-        var advanceId: String = "0"
-        coroutineScope.launch {
-            val advanceIdDeferred = FieldForceApi.retrofitService.getTaskwiseAdvanseIdAsync(
-                key,
-                userId,
-                lat,
-                lng,
-                taskId
-            )
+  private fun submitBill(
+    key: String, userId: String, lat: String, lng: String, billData: BillData,
+    taskId: String, encodedImage: String, advanceId: String, priority: String
+  ) {
+    val billDataJson = Gson().toJson(billData)
 
-            try {
-                progress.value = true
-                val result = advanceIdDeferred.await()
-                if (result.responseCode.equals("1", true)) {
-                    if (result.responseData.responseCode.equals("1", true)) {
-                        if (result.responseData.bills.isNotEmpty()) {
-                            advanceId = result.responseData.bills[0].advanceId.toString()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                error(e.message, e)
-            }
+    coroutineScope.launch {
+      try {
+        val addBillDeferred = FieldForceApi.retrofitService.addBillAsync(
+          key,
+          userId,
+          lat,
+          lng,
+          billDataJson,
+          taskId,
+          encodedImage,
+          advanceId,
+          priority
+        )
 
-            submitBill(key, userId, lat, lng, billData, taskId, advanceId, priority)
+        val result = addBillDeferred.await()
+        if (result.responseCode.equals("1", true)) {
+          _addBillResponse.value = result
+        } else {
+          message.value = result.responseText
         }
+        progress.value = false
+      } catch (e: Exception) {
+        error(e.message, e)
+        progress.value = false
+        message.value =
+          getApplication<Application>().resources.getString(R.string.something_went_wrong)
+      }
     }
+  }
 
-    private fun submitBill(
-        key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, advanceId: String, priority: String
-    ) {
-        val billDataJson = Gson().toJson(billData)
+  fun submitAdvanceBill(
+    key: String, userId: String, lat: String, lng: String, billData: BillData, encodedImage: String,
+    taskId: String, priority: String
+  ) {
+    val billDataJson = Gson().toJson(billData)
 
-        coroutineScope.launch {
-            val addBillDeferred = FieldForceApi.retrofitService.addBillAsync(
-                key,
-                userId,
-                lat,
-                lng,
-                billDataJson,
-                taskId,
-                advanceId,
-                priority
-            )
+    coroutineScope.launch {
+      try {
+        val addAdvanceBillDeferred = FieldForceApi.retrofitService.addAdvanceBillAsync(
+          key,
+          userId,
+          lat,
+          lng,
+          billDataJson,
+          encodedImage,
+          taskId,
+          priority
+        )
 
-            try {
-                val result = addBillDeferred.await()
-                if (result.responseCode.equals("1", true)) {
-                    _addBillResponse.value = result
-                } else {
-                    message.value = result.responseText
-                }
-                progress.value = false
-            } catch (e: Exception) {
-                error(e.message, e)
-                progress.value = false
-                message.value =
-                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
-            }
+        progress.value = true
+        val result = addAdvanceBillDeferred.await()
+        if (result.responseCode.equals("1", true)) {
+          _addBillResponse.value = result
+        } else {
+          message.value = result.responseText
         }
+        progress.value = false
+      } catch (e: Exception) {
+        error(e.message, e)
+        progress.value = false
+        message.value =
+          getApplication<Application>().resources.getString(R.string.something_went_wrong)
+      }
     }
-
-    fun submitAdvanceBill(
-        key: String, userId: String, lat: String, lng: String, billData: BillData,
-        taskId: String, priority: String
-    ) {
-        val billDataJson = Gson().toJson(billData)
-
-        coroutineScope.launch {
-            val addAdvanceBillDeferred = FieldForceApi.retrofitService.addAdvanceBillAsync(
-                key,
-                userId,
-                lat,
-                lng,
-                billDataJson,
-                taskId,
-                priority
-            )
-
-            try {
-                progress.value = true
-                val result = addAdvanceBillDeferred.await()
-                if (result.responseCode.equals("1", true)) {
-                    _addBillResponse.value = result
-                } else {
-                    message.value = result.responseText
-                }
-                progress.value = false
-            } catch (e: Exception) {
-                error(e.message, e)
-                progress.value = false
-                message.value =
-                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
-            }
-        }
-    }
+  }
 }

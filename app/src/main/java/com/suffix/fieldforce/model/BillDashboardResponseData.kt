@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillDashboardResponseData(
-    var billStatObj: BillStatObj,
-    var billListObj: BillListObj
+  var billStatObj: BillStatObj,
+  var billListObj: BillListObj
 ) : Parcelable

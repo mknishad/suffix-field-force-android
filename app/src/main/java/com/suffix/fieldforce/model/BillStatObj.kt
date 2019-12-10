@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BillStatObj(
-    @Json(name = "ResponseData") var dashboards: List<DashBoard>
-): Parcelable
+  @Json(name = "ResponseData") var dashboards: List<DashBoard>
+) : Parcelable

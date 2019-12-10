@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Suffix IT Limited - 101 : Advance Task List (Admin App)"
-            android:textColor="@color/green"
+            android:textColor="@color/colorMint"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,9 @@
             android:layout_below="@+id/ticketTitle"
             android:layout_marginTop="@dimen/layout_margin_5"
             android:layout_toRightOf="@+id/profileImage"
-            android:text="Mohammad Solaiman" />
+            android:text="Mohammad Solaiman"
+            android:textColor="@color/material_blue_grey_90"
+            />
 
         <TextView
             android:id="@+id/txtStatusTitle"
@@ -53,8 +55,9 @@
             android:layout_toLeftOf="@+id/txtTicketStatus"
             android:gravity="center"
             android:text="Status"
-            android:textColor="@color/green"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/txtTicketStatus"
@@ -63,15 +66,16 @@
             android:layout_below="@+id/ticketTitle"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_marginRight="@dimen/layout_margin_5"
             android:layout_marginTop="@dimen/layout_margin_5"
             android:background="@drawable/border_orange"
-            android:paddingLeft="@dimen/layout_margin_10"
-            android:paddingTop="@dimen/padding_2"
-            android:paddingRight="@dimen/layout_margin_10"
-            android:paddingBottom="@dimen/padding_2"
             android:text="Open"
+            android:textAlignment="center"
             android:textColor="@color/color_white"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:paddingLeft="@dimen/padding_5"
+            android:paddingRight="@dimen/padding_5"
+            />
 
         <TextView
             android:id="@+id/consumerMobile"
@@ -79,8 +83,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/consumerName"
             android:layout_toRightOf="@+id/profileImage"
-            android:text="01914667359"
-            android:textColor="@color/colorMintDark" />
+            android:text="01914667359\nreturnmain70@gmail.com"
+            android:textColor="@color/color_midtranssparent"
+            android:textSize="10sp"/>
 
     </RelativeLayout>
 
@@ -145,7 +150,7 @@
                     android:textSize="12sp"
                     android:layout_marginRight="@dimen/layout_margin_10"
                     android:text="ADDRESS"
-                    android:textColor="@color/green"
+                    android:textColor="@color/color_midtranssparent"
                     android:textStyle="bold"
                     />
 
@@ -202,7 +207,7 @@
                     android:textSize="12sp"
                     android:layout_marginRight="@dimen/layout_margin_10"
                     android:text="TASK"
-                    android:textColor="@color/green"
+                    android:textColor="@color/color_midtranssparent"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -251,11 +256,6 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_5"
-                app:cardElevation="@dimen/layout_margin_5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -272,7 +272,7 @@
                         android:textSize="12sp"
                         android:layout_marginRight="@dimen/layout_margin_10"
                         android:text="DATE"
-                        android:textColor="@color/green"
+                        android:textColor="@color/color_midtranssparent"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -292,7 +292,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Start : 4 August 2019 12:13 PM"
-                            android:background="@drawable/border_green"
+                            android:background="@drawable/border_sky"
                             android:textColor="@color/color_white"
                             android:padding="@dimen/padding_2"
                             android:textAlignment="center"
@@ -314,7 +314,17 @@
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnStartBill"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height_20"
+                android:text="Start Bill"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="@dimen/layout_height_20"
+                android:layout_marginLeft="@dimen/layout_height_20"
+                android:background="@drawable/border_green"
+                android:textColor="@color/color_white"/>
         </LinearLayout>
     </ScrollView>
 

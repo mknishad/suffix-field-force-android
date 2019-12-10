@@ -11,50 +11,50 @@ import kotlinx.coroutines.launch
 import org.jetbrains.anko.error
 
 class AdvanceBillViewModel(application: Application) : BaseViewModel(application) {
-    private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
-    val billsDashboard: LiveData<BillDashboardResponseData>
-        get() = _billsDashboard
+  private val _billsDashboard = MutableLiveData<BillDashboardResponseData>()
+  val billsDashboard: LiveData<BillDashboardResponseData>
+    get() = _billsDashboard
 
-    private val _eventGoToAddBills = MutableLiveData<Boolean>()
-    val eventShowAddBills: LiveData<Boolean>
-        get() = _eventGoToAddBills
+  private val _eventGoToAddBills = MutableLiveData<Boolean>()
+  val eventShowAddBills: LiveData<Boolean>
+    get() = _eventGoToAddBills
 
-    init {
-        getBillDashboard()
-    }
+  init {
+    getBillDashboard()
+  }
 
-    fun showAddBills() {
-        _eventGoToAddBills.value = true
-    }
+  fun showAddBills() {
+    _eventGoToAddBills.value = true
+  }
 
-    fun addBillsShown() {
-        _eventGoToAddBills.value = false
-    }
+  fun addBillsShown() {
+    _eventGoToAddBills.value = false
+  }
 
-    private fun getBillDashboard() {
-        progress.value = true
-        coroutineScope.launch {
-            val getBillDashboardDeferred = FieldForceApi.retrofitService.getAdvanceBillListAsync(
-                Constants.KEY,
-                preferences.getUser().userId,
-                preferences.getLocation().latitude.toString(),
-                preferences.getLocation().longitude.toString()
-            )
+  private fun getBillDashboard() {
+    progress.value = true
+    coroutineScope.launch {
+      try {
+        val getBillDashboardDeferred = FieldForceApi.retrofitService.getAdvanceBillListAsync(
+          Constants.KEY,
+          preferences.getUser().userId,
+          preferences.getLocation().latitude.toString(),
+          preferences.getLocation().longitude.toString()
+        )
 
-            try {
-                val result = getBillDashboardDeferred.await()
-                if (result.responseCode.equals("1", true)) {
-                    _billsDashboard.value = result.responseData
-                } else {
-                    message.value = result.responseText
-                }
-                progress.value = false
-            } catch (e: Exception) {
-                error(e.message, e)
-                progress.value = false
-                message.value =
-                    getApplication<Application>().resources.getString(R.string.something_went_wrong)
-            }
+        val result = getBillDashboardDeferred.await()
+        if (result.responseCode.equals("1", true)) {
+          _billsDashboard.value = result.responseData
+        } else {
+          message.value = result.responseText
         }
+        progress.value = false
+      } catch (e: Exception) {
+        error(e.message, e)
+        progress.value = false
+        message.value =
+          getApplication<Application>().resources.getString(R.string.something_went_wrong)
+      }
     }
+  }
 }

@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Issue_Assigned_Fragment extends Fragment {
+public class IssueAssignedFragment extends Fragment {
 
     @BindView(R.id.filter_issue)
     LinearLayout filterIssue;
@@ -43,14 +43,14 @@ public class Issue_Assigned_Fragment extends Fragment {
     TaskDetailsAdapter adapter;
     Call<List<AssignedTask>> getTicketList;
 
-    public Issue_Assigned_Fragment(Call<List<AssignedTask>> taskTicketList) {
+    public IssueAssignedFragment(Call<List<AssignedTask>> taskTicketList) {
         this.getTicketList = taskTicketList;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_issue__assigned_, container, false);
+        View view = inflater.inflate(R.layout.fragment_issue_assigned, container, false);
         ButterKnife.bind(this, view);
 
         recyclerViewList.setLayoutManager(new GridLayoutManager(getContext(), 1));

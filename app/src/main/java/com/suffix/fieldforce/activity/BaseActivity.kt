@@ -7,11 +7,11 @@ import org.jetbrains.anko.AnkoLogger
 
 open class BaseActivity : AppCompatActivity(), AnkoLogger {
 
-    protected lateinit var preferences: FieldForcePreferences
+  protected lateinit var preferences: FieldForcePreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
 
-        preferences = FieldForcePreferences(this)
-    }
+    preferences = FieldForcePreferences(this)
+  }
 }

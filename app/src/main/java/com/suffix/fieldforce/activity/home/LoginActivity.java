@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.suffix.fieldforce.R;
@@ -20,7 +18,6 @@ import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.log_btn_login)
     public void onViewClicked() {
         login();
-        //startActivity(new Intent(LoginActivity.this,MainDashboard.class));
+        //startActivity(new Intent(LoginActivity.this,MainDashboardActivity.class));
         //finish();
     }
 
@@ -99,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.body().getResponseCode().equalsIgnoreCase("1")) {
                         User user = response.body().getResponseData();
                         preferences.putUser(user);
-                        startActivity(new Intent(LoginActivity.this, MainDashboard.class));
+                        startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
                         finish();
                     } else {
                         Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();

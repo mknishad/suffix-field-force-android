@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Issue_Created_Fragment extends Fragment {
+public class IssueCreatedFragment extends Fragment {
 
     @BindView(R.id.filter_issue)
     LinearLayout filterIssue;
@@ -33,7 +33,7 @@ public class Issue_Created_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_issue__created, container, false);
+        View view = inflater.inflate(R.layout.fragment_issue_created, container, false);
         ButterKnife.bind(this,view);
 
         recyclerViewList.setLayoutManager(new GridLayoutManager(getContext(), 1));

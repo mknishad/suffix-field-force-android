@@ -60,7 +60,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="Mohammad Solaiman"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -73,25 +73,14 @@
                     android:padding="@dimen/padding_1"
                     android:text="Attendance : Not Yet"
                     android:textColor="@android:color/white"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/txtUserAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Address: House No: 503, Lane - 9, Dhaka 1212"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="8sp" />
 
             </LinearLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="170dp"
+                android:layout_marginTop="180dp"
                 android:background="#e4e9ef"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -108,7 +97,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="@dimen/layout_height_100"
                             android:background="@drawable/backgroundcurve" />
 
                         <LinearLayout
@@ -154,8 +143,9 @@
                                             android:background="#def0f7"
                                             android:gravity="center"
                                             android:text="@string/task"
-                                            android:textStyle="bold" />
-
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
@@ -202,7 +192,9 @@
                                             android:background="#def0f7"
                                             android:gravity="center"
                                             android:text="@string/bills"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -232,7 +224,7 @@
                                 android:weightSum="2">
 
                                 <androidx.cardview.widget.CardView
-                                    android:id="@+id/cardActivityLog"
+                                    android:id="@+id/cardRosterManagement"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/layout_margin_5"
@@ -259,8 +251,10 @@
                                             android:layout_height="wrap_content"
                                             android:background="#def0f7"
                                             android:gravity="center"
-                                            android:text="@string/activity_log"
-                                            android:textStyle="bold" />
+                                            android:text="@string/roster_management"
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -308,7 +302,9 @@
                                             android:background="#def0f7"
                                             android:gravity="center"
                                             android:text="@string/history"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -366,7 +362,9 @@
                                             android:background="#def0f7"
                                             android:gravity="center"
                                             android:text="@string/inventory"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -414,7 +412,9 @@
                                             android:background="#def0f7"
                                             android:gravity="center"
                                             android:text="@string/site_map"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold"
+                                            android:textSize="12sp"
+                                            />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -472,6 +472,18 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"
                 />
+
+            <TextView
+                android:id="@+id/txtUserAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="8dp"
+                android:text="Address: Your address will appear here"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 

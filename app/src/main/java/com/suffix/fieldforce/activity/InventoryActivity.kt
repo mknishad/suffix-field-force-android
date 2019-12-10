@@ -16,81 +16,81 @@ import org.jetbrains.anko.toast
 
 class InventoryActivity : BaseActivity() {
 
-    private lateinit var binding: ActivityInventoryBinding
-    private lateinit var viewModel: InventoryViewModel
+  private lateinit var binding: ActivityInventoryBinding
+  private lateinit var viewModel: InventoryViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inventory)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_inventory)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_inventory)
-        viewModel = ViewModelProviders.of(this).get(InventoryViewModel::class.java)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_inventory)
+    viewModel = ViewModelProviders.of(this).get(InventoryViewModel::class.java)
+    binding.viewModel = viewModel
+    binding.lifecycleOwner = this
 
-        init()
+    init()
+  }
+
+  private fun init() {
+    setupToolbar()
+    observeShowPcEvent()
+    observeShowMonitorEvent()
+    observeShowRouterEvent()
+    observeShowSpeakerEvent()
+  }
+
+  private fun setupToolbar() {
+    setSupportActionBar(binding.toolbar)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      binding.toolbar.setTitleTextColor(resources.getColor(android.R.color.white, null))
+    } else {
+      binding.toolbar.setTitleTextColor(resources.getColor(android.R.color.white))
     }
-
-    private fun init() {
-        setupToolbar()
-        observeShowPcEvent()
-        observeShowMonitorEvent()
-        observeShowRouterEvent()
-        observeShowSpeakerEvent()
+    supportActionBar?.setDisplayShowTitleEnabled(true)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setTitle(R.string.task)
+    binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      binding.toolbar.navigationIcon?.colorFilter =
+        BlendModeColorFilter(Color.WHITE, BlendMode.SRC_ATOP)
+    } else {
+      binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
     }
+  }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.toolbar.setTitleTextColor(resources.getColor(android.R.color.white, null))
-        } else {
-            binding.toolbar.setTitleTextColor(resources.getColor(android.R.color.white))
-        }
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.task)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            binding.toolbar.navigationIcon?.colorFilter =
-                BlendModeColorFilter(Color.WHITE, BlendMode.SRC_ATOP)
-        } else {
-            binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-        }
-    }
+  private fun observeShowPcEvent() {
+    viewModel.eventShowPC.observe(this, Observer {
+      if (it) {
+        toast("PC")
+        viewModel.pcShown()
+      }
+    })
+  }
 
-    private fun observeShowPcEvent() {
-        viewModel.eventShowPC.observe(this, Observer {
-            if (it) {
-                toast("PC")
-                viewModel.pcShown()
-            }
-        })
-    }
+  private fun observeShowMonitorEvent() {
+    viewModel.eventShowMonitor.observe(this, Observer {
+      if (it) {
+        toast("Monitor")
+        viewModel.monitorShown()
+      }
+    })
+  }
 
-    private fun observeShowMonitorEvent() {
-        viewModel.eventShowMonitor.observe(this, Observer {
-            if (it) {
-                toast("Monitor")
-                viewModel.monitorShown()
-            }
-        })
-    }
+  private fun observeShowRouterEvent() {
+    viewModel.eventShowRouter.observe(this, Observer {
+      if (it) {
+        toast("Router")
+        viewModel.routerShown()
+      }
+    })
+  }
 
-    private fun observeShowRouterEvent() {
-        viewModel.eventShowRouter.observe(this, Observer {
-            if (it) {
-                toast("Router")
-                viewModel.routerShown()
-            }
-        })
-    }
-
-    private fun observeShowSpeakerEvent() {
-        viewModel.eventShowSpeaker.observe(this, Observer {
-            if (it) {
-                toast("Speaker")
-                viewModel.speakerShown()
-            }
-        })
-    }
+  private fun observeShowSpeakerEvent() {
+    viewModel.eventShowSpeaker.observe(this, Observer {
+      if (it) {
+        toast("Speaker")
+        viewModel.speakerShown()
+      }
+    })
+  }
 }

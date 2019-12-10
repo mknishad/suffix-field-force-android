@@ -24,8 +24,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.developer.kalert.KAlertDialog;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.DistrictData;
@@ -35,6 +37,7 @@ import com.suffix.fieldforce.model.ThanaInfo;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
+import com.suffix.fieldforce.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -44,6 +47,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
@@ -77,7 +81,7 @@ public class CreateTaskActivity extends AppCompatActivity {
     @BindView(R.id.imgAttach)
     ImageView imgAttach;
     @BindView(R.id.btnAttachImage)
-    Button btnAttachImage;
+    FloatingActionButton btnAttachImage;
     @BindView(R.id.btnSubmit)
     Button btnSubmit;
     @BindView(R.id.consumerName)
@@ -99,11 +103,13 @@ public class CreateTaskActivity extends AppCompatActivity {
     private List<DistrictInfo> districtInfos;
     private APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
     private final Calendar myCalendar = Calendar.getInstance();
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd hh:mm:ss a");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss a");
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    SpotsDialog waitingDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +119,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         setActionBar();
         initDistrictThana();
         verifyStoragePermissions(this);
+
+        waitingDialog = new SpotsDialog(CreateTaskActivity.this, R.style.Custom);
 
         priority.setKeyListener(null);
         districtId.setKeyListener(null);
@@ -214,7 +222,13 @@ public class CreateTaskActivity extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            startDate.setText(simpleDateFormat.format(myCalendar.getTime()));
+            String currentDateTime = simpleDateFormat.format(myCalendar.getTime());
+            if(currentDateTime.contains("AM")){
+                currentDateTime.replace("AM","am");
+            }else{
+                currentDateTime.replace("PM","pm");
+            }
+            startDate.setText(currentDateTime);
         }
 
     };
@@ -227,7 +241,13 @@ public class CreateTaskActivity extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            endDate.setText(simpleDateFormat.format(myCalendar.getTime()));
+            String currentDateTime = simpleDateFormat.format(myCalendar.getTime());
+            if(currentDateTime.contains("AM")){
+                currentDateTime.replace("AM","am");
+            }else{
+                currentDateTime.replace("PM","pm");
+            }
+            endDate.setText(currentDateTime);
         }
 
     };
@@ -257,6 +277,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                         .start(new OnLocationUpdatedListener() {
                             @Override
                             public void onLocationUpdated(Location location) {
+                                waitingDialog.show();
                                 uploadData(location);
                             }
                         });
@@ -274,7 +295,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 "1",
                 ticketTitle.getText().toString(),
                 "1",
-                encodeTobase64(bitmap),
+                encodeToBase64(bitmap),
                 ticketDetails.getText().toString(),
                 startDate.getText().toString(),
                 endDate.getText().toString(),
@@ -289,13 +310,31 @@ public class CreateTaskActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TaskEntry> call, Response<TaskEntry> response) {
                 TaskEntry taskResponse = response.body();
-                Toast.makeText(CreateTaskActivity.this, taskResponse.getResponseText(), Toast.LENGTH_SHORT).show();
+
+                if(waitingDialog.isShowing()){
+                    waitingDialog.dismiss();
+                    new KAlertDialog(CreateTaskActivity.this, KAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Good job!")
+                            .setContentText("Task Created Successfully")
+                            .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                                @Override
+                                public void onClick(KAlertDialog kAlertDialog) {
+                                    kAlertDialog.dismissWithAnimation();
+                                    CreateTaskActivity.super.onBackPressed();
+                                }
+                            })
+                            .show();
+                }
+
             }
 
             @Override
             public void onFailure(Call<TaskEntry> call, Throwable t) {
                 Toast.makeText(CreateTaskActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
+                if(waitingDialog.isShowing()){
+                    waitingDialog.dismiss();
+                }
             }
         });
     }
@@ -306,13 +345,13 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     }
 
-    public String encodeTobase64(Bitmap image) {
+    public String encodeToBase64(Bitmap image) {
         Bitmap bitmap = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
         byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        return imageEncoded;
+        //String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+        return Utils.INSTANCE.encodeToBase64(b);
     }
 
     public Bitmap getResizedBitmap(Bitmap bitmap, int newWidth, int newHeight) {

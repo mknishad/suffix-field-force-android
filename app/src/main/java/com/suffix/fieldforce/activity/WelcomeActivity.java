@@ -21,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.home.LoginActivity;
-import com.suffix.fieldforce.activity.home.MainDashboard;
 import com.suffix.fieldforce.model.User;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -109,14 +108,14 @@ public class WelcomeActivity extends AppCompatActivity {
     private void launchHomeScreen() {
 //        prefManager.setFirstTimeLaunch(false);
 //        if(prefManager.isLoggedIn()) {
-//            Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
+//            Intent i = new Intent(WelcomeActivity.this, MainDashboardActivity.class);
 //            startActivity(i);
 //        }
 //        else{
         try {
             FieldForcePreferences preferences = new FieldForcePreferences(this);
             User user = preferences.getUser();
-            Intent i = new Intent(WelcomeActivity.this, MainDashboard.class);
+            Intent i = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(i);
         } catch (Exception e) {
             startActivity(new Intent(this, LoginActivity.class));

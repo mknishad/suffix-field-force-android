@@ -1,19 +1,18 @@
 package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -30,8 +29,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
+import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
+import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -39,22 +41,23 @@ import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.OnReverseGeocodingListener;
+import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainDashboard extends AppCompatActivity {
+public class MainDashboardActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainDashboard";
+    private static final String TAG = "MainDashboardActivity";
     private static int REQUEST_CHECK_SETTINGS = 1000;
     private static int REQUEST_LOCATION_PERMISSION = 1001;
 
@@ -69,8 +72,9 @@ public class MainDashboard extends AppCompatActivity {
 
     private APIInterface apiInterface;
 
-    private static long INTERVAL = 5 * 60 * 1000;
-    private static long FASTEST_INTERVAL = 5 * 60 * 1000;
+    private static long UPDATE_INTERVAL = 10 * 1000;
+    private static long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
+    private static long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
 
     @BindView(R.id.imgDrawer)
     ImageView imgDrawer;
@@ -86,8 +90,8 @@ public class MainDashboard extends AppCompatActivity {
     CardView cardTask;
     @BindView(R.id.cardBills)
     CardView cardBills;
-    @BindView(R.id.cardActivityLog)
-    CardView cardActivityLog;
+    @BindView(R.id.cardRosterManagement)
+    CardView cardRosterManagement;
     @BindView(R.id.cardHistory)
     CardView cardHistory;
     @BindView(R.id.cardInventory)
@@ -101,13 +105,25 @@ public class MainDashboard extends AppCompatActivity {
 
     @OnClick(R.id.cardTask)
     public void openTask() {
-        Intent intent = new Intent(MainDashboard.this, TaskDashboard.class);
+        Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.cardRosterManagement)
+    public void openRoster() {
+        Intent intent = new Intent(MainDashboardActivity.this, RosterManagementActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.cardBills)
     public void openBills() {
-        Intent intent = new Intent(MainDashboard.this, BillDashboardActivity.class);
+        Intent intent = new Intent(MainDashboardActivity.this, BillDashboardActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.cardInventory)
+    public void openInventory() {
+        Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
         startActivity(intent);
     }
 
@@ -130,19 +146,21 @@ public class MainDashboard extends AppCompatActivity {
     }
 
     private void init() {
+
         preferences = new FieldForcePreferences(this);
         apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
         initLocationProvider();
         initProgressBar();
         initLocationSettings();
+        txtUserName.setText(preferences.getUser().getUserName());
     }
 
     private void initLocationProvider() {
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(INTERVAL);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         locationCallback = new LocationCallback() {
@@ -153,10 +171,11 @@ public class MainDashboard extends AppCompatActivity {
                 }
                 for (Location location : locationResult.getLocations()) {
                     try {
+
                         preferences.putLocation(location);
-                        new GetAddressTask(MainDashboard.this).execute(location);
+
                         Call<LocationResponse> call = apiInterface.sendGeoLocation(Constants.INSTANCE.getKEY(),
-                                Constants.INSTANCE.getUSER_ID(),
+                                preferences.getUser().getUserId(),
                                 String.valueOf(location.getLatitude()),
                                 String.valueOf(location.getLongitude()));
                         call.enqueue(new Callback<LocationResponse>() {
@@ -217,8 +236,8 @@ public class MainDashboard extends AppCompatActivity {
 
     private void createLocationRequest() {
         LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(INTERVAL);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -228,7 +247,7 @@ public class MainDashboard extends AppCompatActivity {
 
         task.addOnSuccessListener(o -> {
             if (isFirstOpen) {
-                getDeviceLocation();
+                getDeviceLocation("");
                 isFirstOpen = false;
             } else {
                 goOnline();
@@ -244,33 +263,71 @@ public class MainDashboard extends AppCompatActivity {
         });
     }
 
-    private void getDeviceLocation() {
+    private void getDeviceLocation(String text) {
         try {
-            Task task = fusedLocationProviderClient.getLastLocation();
-            task.addOnCompleteListener(task1 -> {
-                if (task1.isSuccessful()) {
-                    if (task1 != null) {
-                        preferences.putLocation((Location) task1.getResult());
-                        new GetAddressTask(MainDashboard.this).execute((Location) task1.getResult());
-                    } else {
-                        getDeviceLocation();
-                    }
-                } else {
-                    getDeviceLocation();
-                }
-            });
+//            Task task = fusedLocationProviderClient.getLastLocation();
+//            task.addOnCompleteListener(task1 -> {
+//                if (task1.isSuccessful()) {
+//                    if (task1 != null) {
+//                        preferences.putLocation((Location) task1.getResult());
+//                        new GetAddressTask(MainDashboardActivity.this).execute((Location) task1.getResult());
+//                    } else {
+//                        getDeviceLocation();
+//                    }
+//                } else {
+//                    getDeviceLocation();
+//                }
+//            });
+            SmartLocation.with(this).location()
+//                    .oneFix()
+                    .start(new OnLocationUpdatedListener() {
+                        @Override
+                        public void onLocationUpdated(Location location) {
+
+                            preferences.putLocation(location);
+
+                            SmartLocation.with(MainDashboardActivity.this).geocoding()
+                                    .reverse(location, new OnReverseGeocodingListener() {
+                                        @Override
+                                        public void onAddressResolved(Location location, List<Address> list) {
+
+                                            if (BuildConfig.DEBUG) {
+                                                Toast.makeText(MainDashboardActivity.this, "Total Location : "+list.size(), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            if (list.size() > 0) {
+                                                Address result = list.get(0);
+                                                StringBuilder builder = new StringBuilder();
+                                                builder.append(text);
+                                                List<String> addressElements = new ArrayList<>();
+                                                for (int i = 0; i <= result.getMaxAddressLineIndex(); i++) {
+                                                    addressElements.add(result.getAddressLine(i));
+                                                }
+                                                if (BuildConfig.DEBUG) {
+                                                    Toast.makeText(MainDashboardActivity.this, "Total AddressLine : "+result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
+                                                }
+                                                builder.append(TextUtils.join(", ", addressElements));
+                                                txtUserAddress.setText(builder.toString());
+                                            }else{
+                                                txtUserAddress.setText("No Address Found");
+                                            }
+                                        }
+                                    });
+                        }
+                    });
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: ", e);
         }
     }
 
     private void goOnline() {
-        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrassDark));
+        progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorTransparentTheme));
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(0f);
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(100f);
         isOnline = true;
+        getDeviceLocation("Entered : ");
         startLocationUpdate();
         txtUserStatus.setText(getResources().getString(R.string.entered));
         txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrassDark));
@@ -283,6 +340,7 @@ public class MainDashboard extends AppCompatActivity {
         progressBar.setProgressAnimationDuration(1000);
         progressBar.setProgress(100f);
         isOnline = false;
+        getDeviceLocation("Exit : ");
         stopLocationUpdate();
         txtUserStatus.setText(getResources().getString(R.string.exit));
         txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
@@ -298,57 +356,8 @@ public class MainDashboard extends AppCompatActivity {
     }
 
     private void stopLocationUpdate() {
+        SmartLocation.with(this).location().stop();
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         isLocationUpdateActive = false;
-    }
-
-    private class GetAddressTask extends AsyncTask<Location, Void, String> {
-        Context mContext;
-
-        GetAddressTask(Context context) {
-            super();
-            mContext = context;
-        }
-
-        @Override
-        protected String doInBackground(Location... params) {
-            Geocoder geocoder =
-                    new Geocoder(mContext, Locale.getDefault());
-            Location loc = params[0];
-            List<Address> addresses = new ArrayList<>();
-            try {
-                addresses = geocoder.getFromLocation(loc.getLatitude(),
-                        loc.getLongitude(), 1);
-            } catch (IOException e1) {
-                Log.e("LocationSampleActivity",
-                        "IO Exception in getFromLocation()");
-                e1.printStackTrace();
-                return ("IO Exception trying to get address");
-            } catch (IllegalArgumentException e2) {
-                String errorString = "Illegal arguments " +
-                        Double.toString(loc.getLatitude()) +
-                        " , " +
-                        Double.toString(loc.getLongitude()) +
-                        " passed to address service";
-                Log.e("LocationSampleActivity", errorString);
-                e2.printStackTrace();
-                return errorString;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (addresses != null && addresses.size() > 0) {
-                Address address = addresses.get(0);
-                return address.getAddressLine(0);
-            } else {
-                return "No address found";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String address) {
-            if (address != null) {
-                txtUserAddress.setText(address);
-            }
-        }
     }
 }

@@ -43,21 +43,20 @@
         <com.github.florent37.materialtextfield.MaterialTextField
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mtf_labelColor="@android:color/white"
             app:mtf_image="@drawable/ic_email"
-            >
+            app:mtf_labelColor="@android:color/white">
 
             <EditText
                 android:id="@+id/log_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="User ID"
-                android:textColor="#333"
-                android:inputType="text"
-                android:textColorHint="#E0DADA"
-                android:textSize="15sp"
                 android:backgroundTint="@color/colorWhite"
-                />
+                android:hint="User ID"
+                android:inputType="text"
+                android:text="BLA0010"
+                android:textColor="#333"
+                android:textColorHint="#E0DADA"
+                android:textSize="15sp" />
 
         </com.github.florent37.materialtextfield.MaterialTextField>
 
@@ -65,36 +64,35 @@
         <com.github.florent37.materialtextfield.MaterialTextField
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mtf_labelColor="@android:color/white"
             app:mtf_image="@drawable/ic_security"
-            >
+            app:mtf_labelColor="@android:color/white">
 
             <EditText
                 android:id="@+id/log_input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorWhite"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:textColorHint="#E0DADA"
+                android:text="123123"
                 android:textColor="#333"
-                android:textSize="15sp"
-                android:backgroundTint="@color/colorWhite"
-                />
+                android:textColorHint="#E0DADA"
+                android:textSize="15sp" />
 
         </com.github.florent37.materialtextfield.MaterialTextField>
+
         <Button
             android:id="@+id/log_btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
             android:layout_marginTop="@dimen/layout_margin_10"
-            android:text="Login"
             android:background="@drawable/border_white"
-            android:textSize="15sp"
-            android:paddingRight="@dimen/layout_margin_10"
             android:paddingLeft="@dimen/layout_margin_10"
-            />
+            android:paddingRight="@dimen/layout_margin_10"
+            android:text="Login"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -104,8 +102,7 @@
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,9 +122,9 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
-        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>
