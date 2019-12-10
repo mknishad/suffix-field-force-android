@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void callLoginService(String userId, String password, String token) {
-        Call<LoginResponse> loginCall = apiInterface.login(Constants.INSTANCE.getKEY(), userId, password, token);
+        Call<LoginResponse> loginCall = apiInterface.login(Constants.KEY, userId, password, token);
         loginCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

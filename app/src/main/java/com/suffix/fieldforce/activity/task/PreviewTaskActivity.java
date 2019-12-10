@@ -102,7 +102,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
     @OnClick(R.id.imgMap)
     public void editStatus() {
         Intent intent = new Intent(PreviewTaskActivity.this, TaskEditActivity.class);
-        intent.putExtra(Constants.INSTANCE.getTASK_ID(), ticketId);
+        intent.putExtra(Constants.TASK_ID, ticketId);
         startActivity(intent);
     }
 
@@ -116,7 +116,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
     public void startBill() {
         if(ticketId != null) {
             Intent intent = new Intent(PreviewTaskActivity.this, AddBillActivity.class);
-            intent.putExtra(Constants.INSTANCE.getTASK_ID(), ticketId);
+            intent.putExtra(Constants.TASK_ID, ticketId);
             startActivity(intent);
         }
     }

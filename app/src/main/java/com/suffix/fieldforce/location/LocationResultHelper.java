@@ -51,6 +51,7 @@ class LocationResultHelper {
     private List<Location> mLocations;
     private NotificationManager mNotificationManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     LocationResultHelper(Context context, List<Location> locations) {
         mContext = context;
         mLocations = locations;

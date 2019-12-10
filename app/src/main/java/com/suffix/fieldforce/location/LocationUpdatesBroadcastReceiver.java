@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -45,7 +44,7 @@ import java.util.List;
 public class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "LUBroadcastReceiver";
 
-    static final String ACTION_PROCESS_UPDATES =
+    public static final String ACTION_PROCESS_UPDATES =
             "com.google.android.gms.location.sample.backgroundlocationupdates.action" +
                     ".PROCESS_UPDATES";
 
@@ -58,13 +57,12 @@ public class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
                 LocationResult result = LocationResult.extractResult(intent);
                 if (result != null) {
                     List<Location> locations = result.getLocations();
-                    LocationResultHelper locationResultHelper = new LocationResultHelper(
-                            context, locations);
+                    //LocationResultHelper locationResultHelper = new LocationResultHelper(context, locations);
                     // Save the location data to SharedPreferences.
-                    locationResultHelper.saveResults();
+                    //locationResultHelper.saveResults();
                     // Show notification with the location data.
-                    locationResultHelper.showNotification();
-                    Log.i(TAG, LocationResultHelper.getSavedLocationResult(context));
+                    //locationResultHelper.showNotification();
+                    //Log.i(TAG, LocationResultHelper.getSavedLocationResult(context));
                 }
             }
         }
