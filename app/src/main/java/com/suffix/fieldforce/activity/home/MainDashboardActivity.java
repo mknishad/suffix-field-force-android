@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity.home;
 import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
@@ -25,8 +26,12 @@ import androidx.core.app.ActivityCompat;
 import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
@@ -53,6 +58,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     GoogleApiClient.OnConnectionFailedListener {
 
   private static final String TAG = "MainDashboardActivity";
+  private static int REQUEST_CHECK_SETTINGS = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
   private static final long UPDATE_INTERVAL = 10 * 1000;
   private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
@@ -135,6 +141,36 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }
 
     buildGoogleApiClient();
+    //initLocationSettings();
+  }
+
+  private void initLocationSettings() {
+    LocationRequest locationRequest = new LocationRequest();
+    locationRequest.setInterval(UPDATE_INTERVAL);
+    locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
+    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+        .addLocationRequest(locationRequest);
+    SettingsClient client = LocationServices.getSettingsClient(this);
+    Task task = client.checkLocationSettings(builder.build());
+
+    task.addOnSuccessListener(o -> {
+      //buildGoogleApiClient();
+      if (preferences.getOnline()) {
+        goOffline();
+      } else {
+        goOnline();
+      }
+    }).addOnFailureListener(e -> {
+      if (e instanceof ResolvableApiException) {
+        try {
+          ((ResolvableApiException) e).startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+        } catch (IntentSender.SendIntentException ex) {
+          e.printStackTrace();
+        }
+      }
+    });
   }
 
   @Override
@@ -144,11 +180,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void initProgressBar() {
     progressBar.setOnClickListener(v -> {
-      if (preferences.getOnline()) {
+      initLocationSettings();
+      /*if (preferences.getOnline()) {
         goOffline();
       } else {
         goOnline();
-      }
+      }*/
     });
   }
 
@@ -234,6 +271,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
     preferences.putOnline(false);
   }
+
   private void createLocationRequest() {
     mLocationRequest = new LocationRequest();
     mLocationRequest.setInterval(UPDATE_INTERVAL);
