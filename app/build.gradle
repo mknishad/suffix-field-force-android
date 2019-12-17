@@ -69,6 +69,7 @@ dependencies {
   implementation 'devlight.io:navigationtabbar:1.2.5'
 
   //firebase
+  implementation 'com.google.firebase:firebase-database:19.2.0'
   implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
   // kotlin co-routines

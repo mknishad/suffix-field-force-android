@@ -15,7 +15,9 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".activity.inventory.InventoryDashboardActivity"></activity>
+    <activity android:name=".activity.chat.MessageActivity"></activity>
+    <activity android:name=".activity.chat.UserListActivity" />
+    <activity android:name=".activity.inventory.InventoryDashboardActivity" />
     <activity android:name=".activity.roster.RosterManagementActivity" />
     <activity android:name=".activity.bill.BillDashboardActivity" />
     <activity
@@ -87,7 +89,8 @@
       </intent-filter>
     </service>
 
-    <receiver android:name=".location.LocationUpdatesBroadcastReceiver"
+    <receiver
+        android:name=".location.LocationUpdatesBroadcastReceiver"
         android:exported="true">
       <intent-filter>
         <action android:name=".location.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />

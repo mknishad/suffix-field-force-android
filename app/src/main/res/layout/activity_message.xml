@@ -28,6 +28,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/consultant"
+                    android:padding="@dimen/padding_2"
                     />
 
                 <TextView
@@ -52,9 +53,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/appbar"
         android:layout_above="@+id/bottom"
-        >
-
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/chat_item_right"
+        />
 
     <RelativeLayout
         android:id="@+id/bottom"
