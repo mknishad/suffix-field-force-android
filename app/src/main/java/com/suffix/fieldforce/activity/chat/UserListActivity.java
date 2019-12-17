@@ -51,7 +51,7 @@ public class UserListActivity extends AppCompatActivity {
         mUser.clear();
         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
           User user = snapshot.getValue(User.class);
-          if(!user.getUserName().equals(preferences.getUser().getUserName())) {
+          if(!user.getUserPhone1().equals(preferences.getUser().getUserPhone1())) {
             mUser.add(user);
           }
         }
