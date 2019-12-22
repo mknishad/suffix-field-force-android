@@ -129,7 +129,7 @@ dependencies {
   //material text
   implementation 'com.github.florent37:materialtextfield:1.0.7'
 
-  // Image Pikcer
+  // Image Picker
   implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
 
   //AppCrash
