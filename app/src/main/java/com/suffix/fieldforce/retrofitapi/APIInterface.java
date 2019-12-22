@@ -19,6 +19,14 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
+    @POST("FFMS/api/geoLocationEntry.jsp")
+    Call<LocationResponse> sendGeoLocationAsync(
+        @Query("key") String key,
+        @Query("userId") String userId,
+        @Query("lat") String lat,
+        @Query("lng") String lng
+    );
+
     @POST("FFMS/api/getDistrictThanaInfo.jsp")
     Call<List<DistrictData>> getDistrictThanaInfo();
 

@@ -288,8 +288,8 @@ public class CreateTaskActivity extends AppCompatActivity {
     private void uploadData(Location location) {
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
         Call<TaskEntry> taskEntry = apiInterface.taskEntry(
-                Constants.INSTANCE.getKEY(),
-                Constants.INSTANCE.getUSER_ID(),
+            Constants.KEY,
+            Constants.USER_ID,
                 String.valueOf(location.getLatitude()),
                 String.valueOf(location.getLongitude()),
                 "1",
