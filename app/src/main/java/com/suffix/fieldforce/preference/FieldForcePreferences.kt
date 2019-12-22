@@ -42,7 +42,7 @@ class FieldForcePreferences(context: Context) {
   }
 
   fun putPushToken(token: String) {
-    editor.putString(Constants.PUSH_TOKEN, token);
+    editor.putString(Constants.PUSH_TOKEN, token)
     editor.apply()
   }
 
@@ -61,5 +61,14 @@ class FieldForcePreferences(context: Context) {
     val gson = Gson()
     val json = preferences.getString(Constants.USER, "")
     return gson.fromJson<User>(json, User::class.java)
+  }
+
+  fun putOnline(online: Boolean) {
+    editor.putBoolean(Constants.ONLINE, online)
+    editor.apply()
+  }
+
+  fun getOnline(): Boolean {
+    return preferences.getBoolean(Constants.ONLINE, false)
   }
 }

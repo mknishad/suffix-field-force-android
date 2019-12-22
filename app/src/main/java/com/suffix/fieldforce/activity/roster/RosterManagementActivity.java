@@ -41,7 +41,7 @@ public class RosterManagementActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-    Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.INSTANCE.getKEY(),
+    Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
         new FieldForcePreferences(this).getUser().getUserId(),
         String.valueOf(new FieldForcePreferences(this).getLocation().getLatitude()),
         String.valueOf(new FieldForcePreferences(this).getLocation().getLongitude()),

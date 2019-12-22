@@ -50,7 +50,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
         setActionBar();
 
-        ticketId = getIntent().getStringExtra(Constants.INSTANCE.getTASK_ID());
+        ticketId = getIntent().getStringExtra(Constants.TASK_ID);
     }
 
     private void setActionBar() {
@@ -67,17 +67,17 @@ public class TaskEditActivity extends AppCompatActivity {
         Call<List<Ticketstatus>> ticketStatus = null;
         switch (spinnerStatus.getSelectedItem().toString()) {
             case "Open":
-                ticketStatus = apiInterface.ticketOpenInfo(Constants.INSTANCE.getUSER_ID(),
+                ticketStatus = apiInterface.ticketOpenInfo(Constants.USER_ID,
                         ticketId, txtIssueRemark.getText().toString(), String.valueOf(preferences.getLocation().getLatitude()), String.valueOf(preferences.getLocation().getLongitude()));
                 break;
             case "In Progress":
-                ticketStatus = apiInterface.ticketInprogressInfo(Constants.INSTANCE.getUSER_ID(),
+                ticketStatus = apiInterface.ticketInprogressInfo(Constants.USER_ID,
                         ticketId, txtIssueRemark.getText().toString(),
                         String.valueOf(preferences.getLocation().getLatitude()),
                         String.valueOf(preferences.getLocation().getLongitude()));
                 break;
             case "Close":
-                ticketStatus = apiInterface.ticketCloseInfo(Constants.INSTANCE.getUSER_ID(),
+                ticketStatus = apiInterface.ticketCloseInfo(Constants.USER_ID,
                         ticketId, txtIssueRemark.getText().toString(),
                         String.valueOf(preferences.getLocation().getLatitude()),
                         String.valueOf(preferences.getLocation().getLongitude()));

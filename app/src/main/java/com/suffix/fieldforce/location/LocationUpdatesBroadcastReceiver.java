@@ -26,47 +26,78 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.location.LocationResult;
+import com.suffix.fieldforce.model.LocationResponse;
+import com.suffix.fieldforce.retrofitapi.APIClient;
+import com.suffix.fieldforce.retrofitapi.APIInterface;
+import com.suffix.fieldforce.util.Constants;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Receiver for handling location updates.
- *
+ * <p>
  * For apps targeting API level O
  * {@link android.app.PendingIntent#getBroadcast(Context, int, Intent, int)} should be used when
  * requesting location updates. Due to limits on background services,
  * {@link android.app.PendingIntent#getService(Context, int, Intent, int)} should not be used.
- *
- *  Note: Apps running on "O" devices (regardless of targetSdkVersion) may receive updates
- *  less frequently than the interval specified in the
- *  {@link com.google.android.gms.location.LocationRequest} when the app is no longer in the
- *  foreground.
+ * <p>
+ * Note: Apps running on "O" devices (regardless of targetSdkVersion) may receive updates
+ * less frequently than the interval specified in the
+ * {@link com.google.android.gms.location.LocationRequest} when the app is no longer in the
+ * foreground.
  */
 public class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
-    private static final String TAG = "LUBroadcastReceiver";
+  private static final String TAG = "LUBroadcastReceiver";
 
-    static final String ACTION_PROCESS_UPDATES =
-            "com.google.android.gms.location.sample.backgroundlocationupdates.action" +
-                    ".PROCESS_UPDATES";
+  public static final String ACTION_PROCESS_UPDATES =
+      "com.google.android.gms.location.sample.backgroundlocationupdates.action" +
+          ".PROCESS_UPDATES";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_PROCESS_UPDATES.equals(action)) {
-                LocationResult result = LocationResult.extractResult(intent);
-                if (result != null) {
-                    List<Location> locations = result.getLocations();
-                    LocationResultHelper locationResultHelper = new LocationResultHelper(
-                            context, locations);
-                    // Save the location data to SharedPreferences.
-                    locationResultHelper.saveResults();
-                    // Show notification with the location data.
-                    locationResultHelper.showNotification();
-                    Log.i(TAG, LocationResultHelper.getSavedLocationResult(context));
+  @RequiresApi(api = Build.VERSION_CODES.O)
+  @Override
+  public void onReceive(Context context, Intent intent) {
+    if (intent != null) {
+      final String action = intent.getAction();
+      if (ACTION_PROCESS_UPDATES.equals(action)) {
+        LocationResult result = LocationResult.extractResult(intent);
+        if (result != null) {
+          List<Location> locations = result.getLocations();
+          //LocationResultHelper locationResultHelper = new LocationResultHelper(context, locations);
+          // Save the location data to SharedPreferences.
+          //locationResultHelper.saveResults();
+          // Show notification with the location data.
+          //locationResultHelper.showNotification();
+          //Log.i(TAG, LocationResultHelper.getSavedLocationResult(context));
+
+          if (!locations.isEmpty()) {
+            APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+            Call<LocationResponse> call = apiInterface.sendGeoLocation(
+                Constants.KEY,
+                Constants.USER_ID,
+                String.valueOf(locations.get(0).getLatitude()),
+                String.valueOf(locations.get(0).getLongitude()));
+            call.enqueue(new Callback<LocationResponse>() {
+              @Override
+              public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                if (response.isSuccessful()) {
+                  if (response.body().getResponseCode().equals("1")) {
+                    Log.d(TAG, "onResponse: Location sent to server");
+                  }
                 }
-            }
+              }
+
+              @Override
+              public void onFailure(Call<LocationResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.getMessage(), t);
+              }
+            });
+          }
         }
+      }
     }
+  }
 }
