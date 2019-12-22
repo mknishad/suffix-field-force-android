@@ -2,7 +2,6 @@ package com.suffix.fieldforce.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.chat.MessageActivity;
-import com.suffix.fieldforce.model.User;
+import com.suffix.fieldforce.model.ModelUserList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,11 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolder> {
 
     Context mcontext;
-    List<User> mUser = new ArrayList<>();
+    List<ModelUserList> modelUserLists = new ArrayList<>();
 
-    public UserAdapter(Context context, List<User> user) {
+    public UserAdapter(Context context, List<ModelUserList> modelUserLists) {
         this.mcontext = context;
-        this.mUser = user;
+        this.modelUserLists = modelUserLists;
     }
 
     @Override
@@ -38,8 +37,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolde
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
 
-        User user = mUser.get(position);
-        holder.text.setText(user.getUserName());
+        ModelUserList model = modelUserLists.get(position);
+        holder.text.setText(model.getEmpName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +53,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolde
 
     @Override
     public int getItemCount() {
-        return mUser.size();
+        return modelUserLists.size();
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder{

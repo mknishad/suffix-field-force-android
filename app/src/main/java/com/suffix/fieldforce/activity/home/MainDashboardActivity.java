@@ -205,7 +205,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //                }
 //            });
       SmartLocation.with(this).location()
-//                    .oneFix()
+                    .oneFix()
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
@@ -247,7 +247,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void goOnline() {
-    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorTransparentTheme));
+    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.green));
     progressBar.setProgressAnimationDuration(1000);
     progressBar.setProgress(0f);
     progressBar.setProgressAnimationDuration(1000);
@@ -255,7 +255,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     getDeviceLocation("Entered : ");
     requestLocationUpdates();
     txtUserStatus.setText(getResources().getString(R.string.entered));
-    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrassDark));
+    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.green));
     preferences.putOnline(true);
   }
 

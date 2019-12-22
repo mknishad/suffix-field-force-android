@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F1F0F0">
+    android:background="#F1F0F0"
+    android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab"
-        style="@style/Widget.Design.TabLayout"
-        android:layout_width="match_parent"
-        app:tabBackground="@color/colorMintDark"
-        app:tabIndicatorColor="@color/colorMintLight"
-        app:tabTextColor="@color/transparent"
-        app:tabSelectedTextColor="@color/colorWhite"
-        android:layout_height="?attr/actionBarSize"
-        app:tabIndicatorHeight="@dimen/padding_1"
-        />
+  <com.google.android.material.tabs.TabLayout
+      android:id="@+id/tab"
+      style="@style/Widget.Design.TabLayout"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      app:tabBackground="@color/colorMintDark"
+      app:tabIndicatorColor="@color/colorWhite"
+      app:tabIndicatorHeight="@dimen/padding_1"
+      app:tabSelectedTextColor="@color/colorWhite"
+      app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
+      app:tabTextColor="@color/transparent" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+  <androidx.viewpager.widget.ViewPager
+      android:id="@+id/viewpager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.viewpager.widget.ViewPager>
+  </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

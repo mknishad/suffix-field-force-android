@@ -5,50 +5,47 @@
     android:layout_height="match_parent"
     android:background="@color/transparent">
 
-    <LinearLayout
-        android:id="@+id/filter_issue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_filter_list"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:tint="@color/lightGray"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Filter Issue"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:textSize="15sp"
-            android:tint="@color/lightGray"
-            />
-    </LinearLayout>
+  <LinearLayout
+      android:id="@+id/filter_issue"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:layout_marginBottom="5dp"
+      android:orientation="horizontal"
+      android:visibility="gone">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/issue_item"
-        android:layout_below="@+id/filter_issue"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/row_issue"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/txtError"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Data Found"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        />
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:src="@drawable/ic_filter_list"
+        android:tint="@color/lightGray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text="Filter Issue"
+        android:textSize="15sp"
+        android:tint="@color/lightGray" />
+  </LinearLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/issue_item"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/filter_issue"
+      tools:listitem="@layout/row_issue"></androidx.recyclerview.widget.RecyclerView>
+
+  <TextView
+      android:id="@+id/txtError"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:text="No Data Found"
+      android:visibility="gone" />
 
 </RelativeLayout>
