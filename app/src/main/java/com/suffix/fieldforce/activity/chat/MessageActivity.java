@@ -1,9 +1,11 @@
 package com.suffix.fieldforce.activity.chat;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.MessageAdapter;
 import com.suffix.fieldforce.model.Chats;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +36,11 @@ import butterknife.ButterKnife;
 
 public class MessageActivity extends AppCompatActivity {
 
-  @BindView(R.id.name)
-  TextView name;
+  @BindView(R.id.txtUserName)
+  TextView txtUserName;
+
+  @BindView(R.id.txtOnlineStatus)
+  TextView txtOnlineStatus;
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -41,20 +48,27 @@ public class MessageActivity extends AppCompatActivity {
   @BindView(R.id.appbar)
   AppBarLayout appbar;
 
-  @BindView(R.id.chats)
-  RecyclerView recyclerView;
+  @BindView(R.id.recyclerViewChat)
+  RecyclerView recyclerViewChat;
 
-  @BindView(R.id.txt_send)
-  EditText txtSend;
+  @BindView(R.id.imgAttachment)
+  ImageView imgAttachment;
 
-  @BindView(R.id.btn_send)
-  ImageButton btnSend;
+  @BindView(R.id.txtMessageInput)
+  EditText txtMessageInput;
 
+  @BindView(R.id.imgMessageSend)
+  ImageView imgMessageSend;
+
+  @BindView(R.id.imgProfilePicture)
+  SimpleDraweeView imgProfilePicture;
+
+  private Uri uri;
   private DatabaseReference ref;
-
-  List<Chats> mchats;
-  MessageAdapter messageAdapter;
-  String currentUser = null;
+  private List<Chats> mchats;
+  private MessageAdapter messageAdapter;
+  private FieldForcePreferences preferences;
+  private String currentUser;
 
 
   @Override
@@ -63,26 +77,36 @@ public class MessageActivity extends AppCompatActivity {
     setContentView(R.layout.activity_message);
     ButterKnife.bind(this);
 
-    recyclerView.setHasFixedSize(true);
+    preferences = new FieldForcePreferences(this);
+    currentUser = preferences.getUser().getUserName();
+
+    if (getIntent().hasExtra("EMPLOYEE_NAME")) {
+      txtUserName.setText(getIntent().getStringExtra("EMPLOYEE_NAME"));
+    }
+
+    if (getIntent().hasExtra("EMPLOYEE_IMAGE")) {
+      uri = Uri.parse(getIntent().getStringExtra("EMPLOYEE_IMAGE"));
+      imgProfilePicture.setImageURI(uri);
+    }
+
+    recyclerViewChat.setHasFixedSize(true);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
     linearLayoutManager.setStackFromEnd(true);
-    recyclerView.setLayoutManager(linearLayoutManager);
+    recyclerViewChat.setLayoutManager(linearLayoutManager);
 
-    name.setText(getIntent().getStringExtra("name"));
-
-    btnSend.setOnClickListener(new View.OnClickListener() {
+    imgMessageSend.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
 
-        if (!txtSend.getText().toString().equals("")) {
-          sendMessage(currentUser, getIntent().getStringExtra("name"), txtSend.getText().toString());
-          txtSend.setText("");
+        if (!txtMessageInput.getText().toString().equals("")) {
+          sendMessage(currentUser, getIntent().getStringExtra("EMPLOYEE_NAME"), txtMessageInput.getText().toString());
+          txtMessageInput.setText("");
         } else {
           Toast.makeText(MessageActivity.this, "message can not be empty", Toast.LENGTH_SHORT).show();
         }
       }
     });
-    readMessage(currentUser, getIntent().getStringExtra("name"));
+    readMessage(currentUser, getIntent().getStringExtra("EMPLOYEE_NAME"));
   }
 
   public void sendMessage(String sender, String receiver, String message) {
@@ -95,8 +119,9 @@ public class MessageActivity extends AppCompatActivity {
     hashMap.put("message", message);
 
     ref.child("chats").push().setValue(hashMap);
-    readMessage(sender,receiver);
+    readMessage(sender, receiver);
   }
+
   public void readMessage(final String sender, final String receiver) {
     mchats = new ArrayList<>();
 
@@ -106,14 +131,14 @@ public class MessageActivity extends AppCompatActivity {
       @Override
       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         mchats.clear();
-        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
           Chats chats = snapshot.getValue(Chats.class);
-          if((chats.getSender().equals(sender)&&chats.getReceiver().equals(receiver))||(chats.getSender().equals(receiver)&&chats.getReceiver().equals(sender))){
+          if ((chats.getSender().equals(sender) && chats.getReceiver().equals(receiver)) || (chats.getSender().equals(receiver) && chats.getReceiver().equals(sender))) {
             mchats.add(chats);
           }
         }
-        messageAdapter = new MessageAdapter(MessageActivity.this,mchats);
-        recyclerView.setAdapter(messageAdapter);
+        messageAdapter = new MessageAdapter(MessageActivity.this, mchats);
+        recyclerViewChat.setAdapter(messageAdapter);
       }
 
       @Override

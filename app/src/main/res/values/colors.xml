@@ -46,7 +46,7 @@
     <color name="transparent">#BDBDBD</color>
     <color name="darkGray">#555555</color>
     <color name="lightGray">#AAAAAA</color>
-    <color name="very_lightGray">#999999</color>
+    <color name="very_lightGray">#E7E5E5</color>
     <color name="color_black">#000000</color>
     <color name="color_report">#AAFFA726</color>
     <color name="color_task">#AAB769C6</color>

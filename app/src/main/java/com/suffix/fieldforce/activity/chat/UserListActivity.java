@@ -1,10 +1,13 @@
 package com.suffix.fieldforce.activity.chat;
 
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.UserAdapter;
 import com.suffix.fieldforce.model.ModelUser;
@@ -13,8 +16,10 @@ import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -26,7 +31,10 @@ public class UserListActivity extends AppCompatActivity {
   @BindView(R.id.recyclerViewUser)
   RecyclerView recyclerViewUser;
 
-  List<ModelUserList> modelUserLists = new ArrayList<>();
+  @BindView(R.id.toolBarTitle)
+  TextView toolBarTitle;
+
+  private List<ModelUserList> modelUserLists;
   private FieldForcePreferences preferences;
   private UserAdapter adapter;
 
@@ -36,11 +44,14 @@ public class UserListActivity extends AppCompatActivity {
     setContentView(R.layout.activity_user_list);
     ButterKnife.bind(this);
 
+    toolBarTitle.setText("USER LIST");
+
+    modelUserLists = new ArrayList<>();
     preferences = new FieldForcePreferences(this);
 
     recyclerViewUser.setHasFixedSize(true);
-    recyclerViewUser.setLayoutManager( new LinearLayoutManager(this));
-    adapter = new UserAdapter(UserListActivity.this,modelUserLists);
+    recyclerViewUser.setLayoutManager(new LinearLayoutManager(this));
+    adapter = new UserAdapter(UserListActivity.this, modelUserLists);
     recyclerViewUser.setAdapter(adapter);
 
     APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -53,7 +64,7 @@ public class UserListActivity extends AppCompatActivity {
     call.enqueue(new Callback<ModelUser>() {
       @Override
       public void onResponse(Call<ModelUser> call, Response<ModelUser> response) {
-        if(response.isSuccessful()){
+        if (response.isSuccessful()) {
           ModelUser modelUser = response.body();
           modelUserLists.clear();
           modelUserLists = modelUser.responseData;

@@ -139,11 +139,12 @@ public interface APIInterface {
         @Query("month") String month
     );
 
+    @FormUrlEncoded
     @POST("FFMS/api/getUserList.jsp")
     Call<ModelUser> getUserList(
-        @Query("key") String key,
-        @Query("userId") String userId,
-        @Query("lat") String lat,
-        @Query("lng") String lng
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng
     );
 }

@@ -147,5 +147,8 @@ dependencies {
 
   //Material Calender View
   implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+  //Fresco
+  implementation 'com.facebook.fresco:fresco:2.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
