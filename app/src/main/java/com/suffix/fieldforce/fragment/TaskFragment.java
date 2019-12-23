@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IssueAssignedFragment extends Fragment {
+public class TaskFragment extends Fragment {
 
     @BindView(R.id.filter_issue)
     LinearLayout filterIssue;
@@ -43,7 +43,10 @@ public class IssueAssignedFragment extends Fragment {
     TaskDetailsAdapter adapter;
     Call<List<AssignedTask>> getTicketList;
 
-    public IssueAssignedFragment(Call<List<AssignedTask>> taskTicketList) {
+    public TaskFragment() {
+    }
+
+    public TaskFragment(Call<List<AssignedTask>> taskTicketList) {
         this.getTicketList = taskTicketList;
     }
 

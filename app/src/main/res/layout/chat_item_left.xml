@@ -3,20 +3,23 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content">
 
-  <ImageView
-      android:id="@+id/logo"
-      android:layout_width="40dp"
-      android:layout_height="40dp"
-      android:src="@drawable/usrusr" />
-
   <TextView
       android:id="@+id/msg"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginLeft="5dp"
       android:layout_toRightOf="@+id/logo"
-      android:background="@drawable/background_left"
+      android:background="@drawable/chat_background_left"
       android:gravity="center"
       android:padding="8dp"
       android:text="hi" />
+
+  <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/logo"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:src="@drawable/consultant"
+      android:layout_below="@+id/msg"
+      android:layout_marginLeft="10dp"
+      />
 </RelativeLayout>

@@ -4,6 +4,7 @@ import com.suffix.fieldforce.model.AssignedTask;
 import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
+import com.suffix.fieldforce.model.ModelUser;
 import com.suffix.fieldforce.model.ModelUserList;
 import com.suffix.fieldforce.model.RosterScheduleModel;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
@@ -139,7 +140,7 @@ public interface APIInterface {
     );
 
     @POST("FFMS/api/getUserList.jsp")
-    Call<List<ModelUserList>> getUserList(
+    Call<ModelUser> getUserList(
         @Query("key") String key,
         @Query("userId") String userId,
         @Query("lat") String lat,

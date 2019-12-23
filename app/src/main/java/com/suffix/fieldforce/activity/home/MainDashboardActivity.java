@@ -36,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.chat.UserListActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
@@ -117,6 +118,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @OnClick(R.id.cardInventory)
   public void openInventory() {
     Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
+    startActivity(intent);
+  }
+
+  @OnClick(R.id.cardSiteMap)
+  public void openMessage() {
+    Intent intent = new Intent(MainDashboardActivity.this, UserListActivity.class);
     startActivity(intent);
   }
 

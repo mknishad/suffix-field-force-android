@@ -34,14 +34,19 @@ public class MessageActivity extends AppCompatActivity {
 
   @BindView(R.id.name)
   TextView name;
+
   @BindView(R.id.toolbar)
   Toolbar toolbar;
+
   @BindView(R.id.appbar)
   AppBarLayout appbar;
+
   @BindView(R.id.chats)
   RecyclerView recyclerView;
+
   @BindView(R.id.txt_send)
   EditText txtSend;
+
   @BindView(R.id.btn_send)
   ImageButton btnSend;
 
@@ -58,10 +63,6 @@ public class MessageActivity extends AppCompatActivity {
     setContentView(R.layout.activity_message);
     ButterKnife.bind(this);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-
-    recyclerView = (RecyclerView)findViewById(R.id.chats);
     recyclerView.setHasFixedSize(true);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
     linearLayoutManager.setStackFromEnd(true);
@@ -78,7 +79,6 @@ public class MessageActivity extends AppCompatActivity {
           txtSend.setText("");
         } else {
           Toast.makeText(MessageActivity.this, "message can not be empty", Toast.LENGTH_SHORT).show();
-
         }
       }
     });
@@ -106,14 +106,12 @@ public class MessageActivity extends AppCompatActivity {
       @Override
       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         mchats.clear();
-
         for(DataSnapshot snapshot : dataSnapshot.getChildren()){
           Chats chats = snapshot.getValue(Chats.class);
           if((chats.getSender().equals(sender)&&chats.getReceiver().equals(receiver))||(chats.getSender().equals(receiver)&&chats.getReceiver().equals(sender))){
             mchats.add(chats);
           }
         }
-
         messageAdapter = new MessageAdapter(MessageActivity.this,mchats);
         recyclerView.setAdapter(messageAdapter);
       }

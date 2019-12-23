@@ -28,6 +28,7 @@ public class DashboardFragment extends Fragment {
 
     APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
     private FieldForcePreferences preferences;
+    private TaskFragment assignTicket, inprogressTicket, acceptedTicket, completedTicket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +36,12 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         preferences = new FieldForcePreferences(getContext());
         ButterKnife.bind(this,view);
+
+        assignTicket = new TaskFragment();
+        inprogressTicket = new TaskFragment();
+        acceptedTicket = new TaskFragment();
+        completedTicket = new TaskFragment();
+
         setupViewPager(viewpager);
         tab.setupWithViewPager(viewpager);
         return view;
@@ -42,11 +49,19 @@ public class DashboardFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.assignTicketList(preferences.getUser().getUserId())), "Assigned");
-        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.inprogressTicketList(preferences.getUser().getUserId())), "In Progress");
-        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.acceptedTicketList(preferences.getUser().getUserId())), "Accepted");
-        viewPagerAdapter.addFragment(new IssueAssignedFragment(apiInterface.completedTicketList(preferences.getUser().getUserId())), "Completed");
+        viewPagerAdapter.addFragment(new TaskFragment(apiInterface.assignTicketList(preferences.getUser().getUserId())), "Assigned");
+        viewPagerAdapter.addFragment(new TaskFragment(apiInterface.inprogressTicketList(preferences.getUser().getUserId())), "In Progress");
+        viewPagerAdapter.addFragment(new TaskFragment(apiInterface.acceptedTicketList(preferences.getUser().getUserId())), "Accepted");
+        viewPagerAdapter.addFragment(new TaskFragment(apiInterface.completedTicketList(preferences.getUser().getUserId())), "Completed");
         viewPager.setAdapter(viewPagerAdapter);
     }
+//    private void setupViewPager(ViewPager viewPager) {
+//        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+//        viewPagerAdapter.addFragment(assignTicket, "Assigned");
+//        viewPagerAdapter.addFragment(inprogressTicket, "In Progress");
+//        viewPagerAdapter.addFragment(acceptedTicket, "Accepted");
+//        viewPagerAdapter.addFragment(completedTicket, "Completed");
+//        viewPager.setAdapter(viewPagerAdapter);
+//    }
 
 }
