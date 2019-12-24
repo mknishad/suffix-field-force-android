@@ -164,4 +164,12 @@ interface FieldForceApiService {
     @Query("regTechId") regTechId: String,
     @Query("ticketId") ticketId: String
   ): Deferred<List<TaskDetailsResponse>>
+
+  @POST("FFMS/api/getItemList.jsp")
+  fun getInventoryItemList(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String
+  ): Deferred<InventoryItemResponse>
 }
