@@ -1,37 +1,30 @@
 package com.suffix.fieldforce.model;
 
 public class Chats {
-    private String sender,receiver,message;
-    public Chats() {
+
+    private String sender_id;
+    private String sender;
+    private String receiver_id;
+    private String receiver;
+    private String message;
+
+    public String getSender_id() {
+        return sender_id;
     }
 
     public String getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public String getReceiver_id() {
+        return receiver_id;
     }
 
     public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Chats(String sender, String receiver, String message) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.message = message;
     }
 }

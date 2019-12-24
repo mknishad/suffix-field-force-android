@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.MessageAdapter;
 import com.suffix.fieldforce.model.Chats;
+import com.suffix.fieldforce.model.User;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -68,7 +68,9 @@ public class MessageActivity extends AppCompatActivity {
   private List<Chats> mchats;
   private MessageAdapter messageAdapter;
   private FieldForcePreferences preferences;
-  private String currentUser;
+  private User currentUser;
+  private String receiverId;
+  private String receiverName;
 
 
   @Override
@@ -78,15 +80,20 @@ public class MessageActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     preferences = new FieldForcePreferences(this);
-    currentUser = preferences.getUser().getUserName();
+    currentUser = preferences.getUser();
 
     if (getIntent().hasExtra("EMPLOYEE_NAME")) {
-      txtUserName.setText(getIntent().getStringExtra("EMPLOYEE_NAME"));
+      receiverName = getIntent().getStringExtra("EMPLOYEE_NAME");
+      txtUserName.setText(receiverName);
     }
 
     if (getIntent().hasExtra("EMPLOYEE_IMAGE")) {
       uri = Uri.parse(getIntent().getStringExtra("EMPLOYEE_IMAGE"));
       imgProfilePicture.setImageURI(uri);
+    }
+
+    if (getIntent().hasExtra("EMPLOYEE_ID")) {
+      receiverId = getIntent().getStringExtra("EMPLOYEE_ID");
     }
 
     recyclerViewChat.setHasFixedSize(true);
@@ -99,30 +106,32 @@ public class MessageActivity extends AppCompatActivity {
       public void onClick(View view) {
 
         if (!txtMessageInput.getText().toString().equals("")) {
-          sendMessage(currentUser, getIntent().getStringExtra("EMPLOYEE_NAME"), txtMessageInput.getText().toString());
+          sendMessage(txtMessageInput.getText().toString());
           txtMessageInput.setText("");
         } else {
           Toast.makeText(MessageActivity.this, "message can not be empty", Toast.LENGTH_SHORT).show();
         }
       }
     });
-    readMessage(currentUser, getIntent().getStringExtra("EMPLOYEE_NAME"));
+    readMessage();
   }
 
-  public void sendMessage(String sender, String receiver, String message) {
+  public void sendMessage(String message) {
 
     ref = FirebaseDatabase.getInstance().getReference();
 
     HashMap<String, Object> hashMap = new HashMap<>();
-    hashMap.put("sender", sender);
-    hashMap.put("receiver", receiver);
+    hashMap.put("sender_id", currentUser.getUserId());
+    hashMap.put("sender", currentUser.getUserName());
+    hashMap.put("receiver_id", receiverId);
+    hashMap.put("receiver", receiverName);
     hashMap.put("message", message);
 
     ref.child("chats").push().setValue(hashMap);
-    readMessage(sender, receiver);
+    readMessage();
   }
 
-  public void readMessage(final String sender, final String receiver) {
+  public void readMessage() {
     mchats = new ArrayList<>();
 
     ref = FirebaseDatabase.getInstance().getReference("chats");
@@ -133,7 +142,8 @@ public class MessageActivity extends AppCompatActivity {
         mchats.clear();
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
           Chats chats = snapshot.getValue(Chats.class);
-          if ((chats.getSender().equals(sender) && chats.getReceiver().equals(receiver)) || (chats.getSender().equals(receiver) && chats.getReceiver().equals(sender))) {
+          if ((chats.getSender_id().equals(currentUser.getUserId()) && chats.getReceiver_id().equals(receiverId))
+              || (chats.getSender_id().equals(receiverId) && chats.getReceiver_id().equals(currentUser.getUserId()))) {
             mchats.add(chats);
           }
         }

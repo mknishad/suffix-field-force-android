@@ -10,7 +10,7 @@ public class ModelUserList implements Parcelable {
 
   @SerializedName("empId")
   @Expose
-  public Integer empId;
+  public String empId;
   @SerializedName("empOfficeId")
   @Expose
   public String empOfficeId;
@@ -30,7 +30,7 @@ public class ModelUserList implements Parcelable {
   @Expose
   public String empDesg;
 
-  public Integer getEmpId() {
+  public String getEmpId() {
     return empId;
   }
 
@@ -63,11 +63,8 @@ public class ModelUserList implements Parcelable {
   }
 
   protected ModelUserList(Parcel in) {
-    if (in.readByte() == 0) {
-      empId = null;
-    } else {
-      empId = in.readInt();
-    }
+
+    empId = in.readString();
     empOfficeId = in.readString();
     gender = in.readString();
     empName = in.readString();
@@ -78,12 +75,8 @@ public class ModelUserList implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    if (empId == null) {
-      dest.writeByte((byte) 0);
-    } else {
-      dest.writeByte((byte) 1);
-      dest.writeInt(empId);
-    }
+
+    dest.writeString(empId);
     dest.writeString(empOfficeId);
     dest.writeString(gender);
     dest.writeString(empName);

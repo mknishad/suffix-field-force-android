@@ -1,50 +1,34 @@
 {
   "project_info": {
-    "project_number": "639573133142",
-    "firebase_url": "https://suffixfieldforce.firebaseio.com",
-    "project_id": "suffixfieldforce",
-    "storage_bucket": "suffixfieldforce.appspot.com"
+    "project_number": "259722405947",
+    "firebase_url": "https://ffms-992a4.firebaseio.com",
+    "project_id": "ffms-992a4",
+    "storage_bucket": "ffms-992a4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:639573133142:android:c3009a213b0c58c59fb8f7",
+        "mobilesdk_app_id": "1:259722405947:android:7524afea7134ff6133d41e",
         "android_client_info": {
           "package_name": "com.suffix.fieldforce"
         }
       },
       "oauth_client": [
         {
-          "client_id": "639573133142-fve432ucasvj1v90ajta4qluipp83mun.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.suffix.fieldforce",
-            "certificate_hash": "9b1e229ee107dc88e289d9cddae24c5b3d73d2cd"
-          }
-        },
-        {
-          "client_id": "639573133142-e1nakknsjr6jv9dndpl3o1p5u199sql3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.suffix.fieldforce",
-            "certificate_hash": "7fa532f1d6c2852ff30aec5152664877d6d57c96"
-          }
-        },
-        {
-          "client_id": "639573133142-jf92v1in1ko51tt67407epe5cudkspdi.apps.googleusercontent.com",
+          "client_id": "259722405947-eiesfj91stqfu1t9pvkufpoqfp39c2dc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCRhV8_Ecogrgn7TFaRIvPZ-L30Wr9i3QY"
+          "current_key": "AIzaSyBo7v-bC65DkaL0PGCxKqEQMfYqHC5c9oY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "639573133142-jf92v1in1ko51tt67407epe5cudkspdi.apps.googleusercontent.com",
+              "client_id": "259722405947-eiesfj91stqfu1t9pvkufpoqfp39c2dc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
