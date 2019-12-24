@@ -7,8 +7,8 @@
   <data>
 
     <variable
-        name="inventory"
-        type="com.suffix.fieldforce.model.Inventory" />
+        name="inventoryItem"
+        type="com.suffix.fieldforce.model.InventoryItem" />
   </data>
 
   <androidx.cardview.widget.CardView
@@ -30,7 +30,7 @@
           android:layout_marginTop="8dp"
           android:layout_marginEnd="16dp"
           android:textSize="12sp"
-          android:text="@{inventory.id}"
+          android:text="@{`` + inventoryItem.productInvId}"
           app:layout_constraintEnd_toStartOf="@+id/quantityTextView"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
           android:paddingStart="4dp"
           android:paddingEnd="4dp"
           android:textSize="12sp"
-          android:text="@{inventory.quantity}"
+          android:text="@{`` + inventoryItem.stockQuantity}"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +61,7 @@
           android:layout_marginBottom="8dp"
           android:layout_marginEnd="16dp"
           android:textSize="12sp"
-          android:text="@{inventory.name}"
+          android:text="@{inventoryItem.productName}"
           app:layout_constraintEnd_toStartOf="@+id/quantityTextView"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
