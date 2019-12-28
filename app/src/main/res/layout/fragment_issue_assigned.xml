@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:background="@color/lightgray">
 
   <LinearLayout
       android:id="@+id/filter_issue"
@@ -37,7 +37,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_below="@+id/filter_issue"
-      tools:listitem="@layout/row_issue"></androidx.recyclerview.widget.RecyclerView>
+      tools:listitem="@layout/row_issue"/>
 
   <TextView
       android:id="@+id/txtError"
