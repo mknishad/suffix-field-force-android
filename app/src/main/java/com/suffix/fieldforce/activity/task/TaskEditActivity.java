@@ -1,11 +1,11 @@
 package com.suffix.fieldforce.activity.task;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,10 +31,13 @@ public class TaskEditActivity extends AppCompatActivity {
 
     @BindView(R.id.imgMap)
     ImageView imgMap;
+
     @BindView(R.id.imgDrawer)
     ImageView imgDrawer;
+
     @BindView(R.id.spinnerStatus)
     Spinner spinnerStatus;
+
     @BindView(R.id.txtIssueRemark)
     EditText txtIssueRemark;
 
@@ -87,15 +90,19 @@ public class TaskEditActivity extends AppCompatActivity {
         ticketStatus.enqueue(new Callback<List<Ticketstatus>>() {
             @Override
             public void onResponse(Call<List<Ticketstatus>> call, Response<List<Ticketstatus>> response) {
-                startActivity(new Intent(TaskEditActivity.this, TaskDashboard.class));
+                Toast.makeText(TaskEditActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                back();
             }
 
             @Override
             public void onFailure(Call<List<Ticketstatus>> call, Throwable t) {
-
+                Toast.makeText(TaskEditActivity.this, "Update faild", Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    public void back(){
         super.onBackPressed();
         finish();
     }
