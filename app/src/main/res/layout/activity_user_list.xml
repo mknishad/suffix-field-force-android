@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.chat.UserListActivity">
 
-  <include layout="@layout/toolbar" />
+  <include
+      android:id="@+id/toolBar"
+      layout="@layout/toolbar" />
 
   <androidx.recyclerview.widget.RecyclerView
+      android:layout_below="@id/toolBar"
       android:id="@+id/recyclerViewUser"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       tools:listitem="@layout/row_chat_list" />
 
-</LinearLayout>
+  <com.airbnb.lottie.LottieAnimationView
+      android:id="@+id/progress"
+      app:lottie_fileName="progress.json"
+      android:layout_width="@dimen/layout_height_100"
+      android:layout_height="@dimen/layout_height_100"
+      android:foregroundGravity="center"
+      app:lottie_autoPlay="true"
+      app:lottie_loop="true"
+      android:layout_centerInParent="true"
+      />
+
+</RelativeLayout>

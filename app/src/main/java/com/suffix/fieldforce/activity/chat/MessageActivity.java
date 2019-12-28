@@ -1,7 +1,11 @@
 package com.suffix.fieldforce.activity.chat;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.esafirm.imagepicker.features.ImagePicker;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -72,6 +78,10 @@ public class MessageActivity extends AppCompatActivity {
   private String receiverId;
   private String receiverName;
 
+  @OnClick(R.id.imgAttachment)
+  public void attach() {
+    ImagePicker.create(this).start();
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +107,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     recyclerViewChat.setHasFixedSize(true);
-    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
     linearLayoutManager.setStackFromEnd(true);
     recyclerViewChat.setLayoutManager(linearLayoutManager);
 
@@ -113,6 +123,7 @@ public class MessageActivity extends AppCompatActivity {
         }
       }
     });
+
     readMessage();
   }
 
@@ -156,5 +167,41 @@ public class MessageActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.menu_chat, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+// Handle item selection
+    switch (item.getItemId()) {
+      case R.id.action_profile:
+        Toast.makeText(this, R.string.action_profile, Toast.LENGTH_SHORT).show();
+        return true;
+      case R.id.action_block:
+        Toast.makeText(this, R.string.action_block, Toast.LENGTH_SHORT).show();
+        return true;
+      case R.id.action_settings:
+        Toast.makeText(this, R.string.action_settings, Toast.LENGTH_SHORT).show();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+    if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+      /*List<Image> images = ImagePicker.getImages(data);
+      Image image = ImagePicker.getFirstImageOrNull(data);
+      bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
+      imgAttach.setImageBitmap(bitmap);*/
+    }
+    super.onActivityResult(requestCode, resultCode, data);
   }
 }

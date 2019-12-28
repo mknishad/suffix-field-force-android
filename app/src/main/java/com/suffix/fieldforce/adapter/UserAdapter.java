@@ -60,7 +60,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolde
         Intent intent = new Intent(mcontext, MessageActivity.class);
         intent.putExtra("EMPLOYEE_NAME", model.getEmpName());
         intent.putExtra("EMPLOYEE_IMAGE", model.getPictureLink());
-        intent.putExtra("EMPLOYEE_ID", model.getEmpId());
+        intent.putExtra("EMPLOYEE_ID", model.getEmpOfficeId());
         mcontext.startActivity(intent);
       }
     });

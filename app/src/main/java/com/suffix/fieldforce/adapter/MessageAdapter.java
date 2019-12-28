@@ -32,11 +32,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     if (viewType == MSG_TYPE_LEFT) {
 
-      View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left, parent, false);
+      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_left, parent, false);
 
       return new MessageAdapter.ViewHolder(view);
     } else {
-      View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
+      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right, parent, false);
 
       return new MessageAdapter.ViewHolder(view);
 

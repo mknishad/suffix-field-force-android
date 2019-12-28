@@ -100,4 +100,6 @@
   <string name="default_channel">Default channel</string>
 
   <string name="type_a_message">Type a message...</string>
+  <string name="action_profile">Profile</string>
+  <string name="action_block">Block</string>
 </resources>
