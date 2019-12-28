@@ -23,7 +23,7 @@ class InventoryListViewModel(application: Application) : BaseViewModel(applicati
     progress.value = true
     coroutineScope.launch {
       try {
-        val getInventoryListDeferred = FieldForceApi.retrofitService.getInventoryItemList(
+        val getInventoryListDeferred = FieldForceApi.retrofitService.getInventoryItemListAsync(
           Constants.KEY,
           preferences.getUser().userId,
           preferences.getLocation().latitude.toString(),

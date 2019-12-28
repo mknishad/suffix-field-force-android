@@ -15,7 +15,6 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import retrofit2.http.Query
-import java.util.concurrent.TimeUnit
 
 enum class FieldForceApiStatus { LOADING, ERROR, DONE }
 
@@ -25,9 +24,9 @@ private val moshi = Moshi.Builder()
 
 object Client {
   val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-    .connectTimeout(5, TimeUnit.MINUTES)
-    .readTimeout(5, TimeUnit.MINUTES)
-    .writeTimeout(5, TimeUnit.MINUTES)
+    //.connectTimeout(5, TimeUnit.MINUTES)
+    //.readTimeout(5, TimeUnit.MINUTES)
+    //.writeTimeout(5, TimeUnit.MINUTES)
     .retryOnConnectionFailure(true)
     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
     .build()
@@ -166,7 +165,7 @@ interface FieldForceApiService {
   ): Deferred<List<TaskDetailsResponse>>
 
   @POST("FFMS/api/getItemList.jsp")
-  fun getInventoryItemList(
+  fun getInventoryItemListAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
     @Query("lat") lat: String,
