@@ -1,8 +1,11 @@
 package com.suffix.fieldforce.activity.roster;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.applandeo.materialcalendarview.CalendarUtils;
@@ -48,6 +51,7 @@ public class RosterManagementActivity extends AppCompatActivity {
         "2019",
         "11");
     call.enqueue(new Callback<RosterScheduleModel>() {
+      @RequiresApi(api = Build.VERSION_CODES.O)
       @Override
       public void onResponse(Call<RosterScheduleModel> call, Response<RosterScheduleModel> response) {
         try {
@@ -62,14 +66,15 @@ public class RosterManagementActivity extends AppCompatActivity {
                   String status = d.getStatus();
 
                   Drawable drawable = null;
+                  Typeface typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/circulate.ttf");
                   if (status.toUpperCase().contains("R")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, null, R.color.colorGrassDark, 12);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorTheme, 16);
                   } else if (status.toUpperCase().contains("D")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, null, R.color.colorFlowerDark, 12);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 16);
                   } else if (status.toUpperCase().contains("OFF")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, null, R.color.dot_light_screen2, 12);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 16);
                   } else if (status.toUpperCase().contains("N")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, null, R.color.colorLavanderDark, 12);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 16);
                   }
 
                   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

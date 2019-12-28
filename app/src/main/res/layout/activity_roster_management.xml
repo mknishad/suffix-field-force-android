@@ -10,6 +10,8 @@
   <com.applandeo.materialcalendarview.CalendarView
       android:id="@+id/calendarView"
       app:headerColor="@color/colorMintDark"
+      app:abbreviationsBarColor="@color/colorMintLight"
+      app:abbreviationsLabelsColor="@color/very_lightGray"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
