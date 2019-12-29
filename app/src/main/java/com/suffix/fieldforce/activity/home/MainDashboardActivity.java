@@ -36,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.chat.UserListActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
@@ -58,44 +59,56 @@ public class MainDashboardActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
 
-  private static final String TAG = "MainDashboardActivity";
-  private static int REQUEST_CHECK_SETTINGS = 1000;
+  @BindView(R.id.imgDrawer)
+  ImageView imgDrawer;
+
+  @BindView(R.id.imgActivation)
+  ImageView imgActivation;
+
+  @BindView(R.id.txtUserName)
+  TextView txtUserName;
+
+  @BindView(R.id.txtUserStatus)
+  TextView txtUserStatus;
+
+  @BindView(R.id.txtUserAddress)
+  TextView txtUserAddress;
+
+  @BindView(R.id.cardTask)
+  CardView cardTask;
+
+  @BindView(R.id.cardBills)
+  CardView cardBills;
+
+  @BindView(R.id.cardRosterManagement)
+  CardView cardRosterManagement;
+
+  @BindView(R.id.cardHistory)
+  CardView cardHistory;
+
+  @BindView(R.id.cardInventory)
+  CardView cardInventory;
+
+  @BindView(R.id.cardSiteMap)
+  CardView cardSiteMap;
+
+  @BindView(R.id.imgUserProfile)
+  CircleImageView imgUserProfile;
+
+  @BindView(R.id.progressBar)
+  CircularProgressBar progressBar;
+
+  private static final String TAG                           = "MainDashboardActivity";
+  private static int REQUEST_CHECK_SETTINGS                 = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-  private static final long UPDATE_INTERVAL = 10 * 1000;
-  private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
-  private static final long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
+  private static final long UPDATE_INTERVAL                 = 10 * 1000;
+  private static final long FASTEST_UPDATE_INTERVAL         = UPDATE_INTERVAL / 2;
+  private static final long MAX_WAIT_TIME                   = UPDATE_INTERVAL * 3;
 
   private LocationRequest mLocationRequest;
   private GoogleApiClient mGoogleApiClient;
 
   private FieldForcePreferences preferences;
-
-  @BindView(R.id.imgDrawer)
-  ImageView imgDrawer;
-  @BindView(R.id.imgActivation)
-  ImageView imgActivation;
-  @BindView(R.id.txtUserName)
-  TextView txtUserName;
-  @BindView(R.id.txtUserStatus)
-  TextView txtUserStatus;
-  @BindView(R.id.txtUserAddress)
-  TextView txtUserAddress;
-  @BindView(R.id.cardTask)
-  CardView cardTask;
-  @BindView(R.id.cardBills)
-  CardView cardBills;
-  @BindView(R.id.cardRosterManagement)
-  CardView cardRosterManagement;
-  @BindView(R.id.cardHistory)
-  CardView cardHistory;
-  @BindView(R.id.cardInventory)
-  CardView cardInventory;
-  @BindView(R.id.cardSiteMap)
-  CardView cardSiteMap;
-  @BindView(R.id.imgUserProfile)
-  CircleImageView imgUserProfile;
-  @BindView(R.id.progressBar)
-  CircularProgressBar progressBar;
 
   @OnClick(R.id.cardTask)
   public void openTask() {
@@ -123,7 +136,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   @OnClick(R.id.cardSiteMap)
   public void openMessage() {
-    Intent intent = new Intent(MainDashboardActivity.this, UserListActivity.class);
+    Intent intent = new Intent(MainDashboardActivity.this, ChatDashboardActivity.class);
     startActivity(intent);
   }
 
@@ -212,7 +225,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //                }
 //            });
       SmartLocation.with(this).location()
-                    .oneFix()
+          .oneFix()
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
