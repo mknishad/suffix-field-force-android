@@ -68,13 +68,13 @@ public class RosterManagementActivity extends AppCompatActivity {
                   Drawable drawable = null;
                   Typeface typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/circulate.ttf");
                   if (status.toUpperCase().contains("R")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorTheme, 16);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.color_green, 20);
                   } else if (status.toUpperCase().contains("D")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 16);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 20);
                   } else if (status.toUpperCase().contains("OFF")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 16);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 20);
                   } else if (status.toUpperCase().contains("N")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 16);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 20);
                   }
 
                   SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

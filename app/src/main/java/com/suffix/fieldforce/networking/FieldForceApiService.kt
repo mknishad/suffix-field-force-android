@@ -180,7 +180,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String
   ): Deferred<RequisitionResponse>
 
-  @POST("FFMS/api/getUserBillDetails.jsp")
+  @POST("FFMS/api/getUserItemRequisitionDetails.jsp")
   fun getRequisitionDetailsAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,

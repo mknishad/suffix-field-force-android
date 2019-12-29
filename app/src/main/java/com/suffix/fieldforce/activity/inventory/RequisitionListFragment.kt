@@ -53,8 +53,8 @@ class RequisitionListFragment : Fragment() {
 
   private fun setupRecyclerView() {
     adapter = RequisitionListAdapter(RequisitionListener { requisition ->
-      val detailsIntent = Intent(activity, RequisitionDetailsActivity::class.java)
-      detailsIntent.putExtra(Constants.REQUISITION_ID, requisition.itemRequisitionId)
+      val detailsIntent = Intent(context, RequisitionDetailsActivity::class.java)
+      detailsIntent.putExtra(Constants.REQUISITION_ID, requisition.itemRequisitionId.toString())
       startActivity(detailsIntent)
     })
     binding.recyclerView.adapter = adapter

@@ -40,6 +40,7 @@ class RequisitionDetailsActivity : AppCompatActivity() {
     requisitionId = intent.getStringExtra(Constants.REQUISITION_ID)
     observeRequisitionDetails()
     observeMessage()
+    viewModel.getRequisitionDetails(requisitionId)
   }
 
   private fun setupToolbar() {
