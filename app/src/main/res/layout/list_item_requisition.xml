@@ -9,6 +9,10 @@
     <variable
         name="requisition"
         type="com.suffix.fieldforce.model.Requisition" />
+
+    <variable
+        name="clickListener"
+        type="com.suffix.fieldforce.activity.inventory.RequisitionListener" />
   </data>
 
   <androidx.cardview.widget.CardView
@@ -20,24 +24,26 @@
         style="@style/Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{() -> clickListener.onClick(requisition)}">
 
       <TextView
-          android:id="@+id/inventoryIdTextView"
+          android:id="@+id/billDescriptionTextView"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:layout_marginEnd="16dp"
-          android:text="@{requisition.id}"
-          android:textSize="12sp"
-          app:layout_constraintEnd_toStartOf="@+id/quantityTextView"
+          android:text="@{requisition.description}"
+          android:textColor="@color/colorAquaDark"
+          android:textSize="16sp"
+          app:layout_constraintEnd_toStartOf="@+id/statusTextView"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          tools:text="R0001" />
+          tools:text="Project Enigma" />
 
       <TextView
-          android:id="@+id/quantityTextView"
+          android:id="@+id/statusTextView"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="8dp"
@@ -45,28 +51,27 @@
           android:layout_marginBottom="8dp"
           android:paddingStart="4dp"
           android:paddingEnd="4dp"
-          android:text="@{requisition.status}"
-          android:textSize="12sp"
+          android:textColor="@color/colorWhite"
+          android:textSize="16sp"
+          app:billStatus="@{requisition.status}"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          tools:text="Approved" />
+          tools:background="@drawable/bg_status" />
 
       <TextView
-          android:id="@+id/inventoryNameTextView"
-          android:layout_width="0dp"
+          android:id="@+id/dateTextView"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="8dp"
           android:layout_marginTop="4dp"
           android:layout_marginBottom="8dp"
-          android:layout_marginEnd="16dp"
-          android:text="@{requisition.inventories.toString()}"
+          android:text="@{requisition.itemRequisitionDate}"
           android:textSize="12sp"
-          app:layout_constraintEnd_toStartOf="@+id/quantityTextView"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/inventoryIdTextView"
-          tools:text="CAT5 Cable 2 box\nConnector 2 box" />
+          app:layout_constraintTop_toBottomOf="@id/billDescriptionTextView"
+          tools:text="1 July, 2020" />
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.cardview.widget.CardView>
 </layout>

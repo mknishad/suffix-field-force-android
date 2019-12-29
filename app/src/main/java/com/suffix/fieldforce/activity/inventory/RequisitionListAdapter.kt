@@ -13,14 +13,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RequisitionListAdapter() :
+class RequisitionListAdapter(private val clickListener: RequisitionListener) :
   ListAdapter<Requisition, RecyclerView.ViewHolder>(RequisitionDiffCallback()) {
 
   override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
     when (holder) {
       is RequisitionViewHolder -> {
-        val inventoryItem = getItem(position) as Requisition
-        holder.bind(inventoryItem)
+        val item = getItem(position) as Requisition
+        holder.bind(item, clickListener)
       }
     }
   }
@@ -41,8 +41,9 @@ class RequisitionListAdapter() :
 
 class RequisitionViewHolder private constructor(private val binding: ListItemRequisitionBinding) :
   RecyclerView.ViewHolder(binding.root) {
-  fun bind(item: Requisition) {
+  fun bind(item: Requisition, clickListener: RequisitionListener) {
     binding.requisition = item
+    binding.clickListener = clickListener
     binding.executePendingBindings()
   }
 
@@ -64,7 +65,7 @@ class RequisitionViewHolder private constructor(private val binding: ListItemReq
  */
 class RequisitionDiffCallback : DiffUtil.ItemCallback<Requisition>() {
   override fun areItemsTheSame(oldItem: Requisition, newItem: Requisition): Boolean {
-    return oldItem.id == newItem.id
+    return oldItem.itemRequisitionId == newItem.itemRequisitionId
   }
 
   @SuppressLint("DiffUtilEquals")
@@ -73,3 +74,6 @@ class RequisitionDiffCallback : DiffUtil.ItemCallback<Requisition>() {
   }
 }
 
+class RequisitionListener(val clickListener: (requisition: Requisition) -> Unit) {
+  fun onClick(requisition: Requisition) = clickListener(requisition)
+}

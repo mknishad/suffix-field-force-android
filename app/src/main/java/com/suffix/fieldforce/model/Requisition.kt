@@ -5,7 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Requisition(
-  var id: String?,
-  var inventories: List<Inventory>,
-  var status: String
+  var itemRequisitionDate: String?,
+  var description: String?,
+  var itemRequisitionId: Int?,
+  var status: String?
 ) : Parcelable
