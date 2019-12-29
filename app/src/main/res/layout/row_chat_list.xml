@@ -7,35 +7,47 @@
     android:background="@android:color/white"
     android:padding="10dp">
 
-  <com.facebook.drawee.view.SimpleDraweeView
-      android:id="@+id/imgUserLogo"
-      android:layout_width="40dp"
-      android:layout_height="40dp"
-      fresco:placeholderImage="@drawable/consultant" />
+  <androidx.cardview.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
-  <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_toRightOf="@+id/imgUserLogo"
-      android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Mohammad Solaiman"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+      <com.facebook.drawee.view.SimpleDraweeView
+          android:id="@+id/imgUserLogo"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          fresco:placeholderImage="@drawable/consultant" />
 
-    <TextView
-        android:id="@+id/txtUserLastMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="You : Hellow"
-        android:textSize="10sp" />
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_toRightOf="@+id/imgUserLogo"
+          android:orientation="vertical">
 
-  </LinearLayout>
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Mohammad Solaiman"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtUserLastMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="You : Hellow"
+            android:textSize="10sp" />
+
+      </LinearLayout>
+
+    </RelativeLayout>
+
+  </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
