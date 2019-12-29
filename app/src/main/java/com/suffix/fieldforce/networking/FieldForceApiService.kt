@@ -179,4 +179,13 @@ interface FieldForceApiService {
     @Query("lat") lat: String,
     @Query("lng") lng: String
   ): Deferred<RequisitionResponse>
+
+  @POST("FFMS/api/getUserBillDetails.jsp")
+  fun getRequisitionDetailsAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String,
+    @Query("itemRequisitionId") itemRequisitionId: String
+  ): Deferred<BillDetailsResponse>
 }
