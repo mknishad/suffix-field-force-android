@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.FragmentRequisitionListBinding
-import com.suffix.fieldforce.model.Requisition
+import com.suffix.fieldforce.viewmodel.RequisitionListViewModel
+import org.jetbrains.anko.design.snackbar
 
 /**
  * A simple [Fragment] subclass.
@@ -18,6 +21,7 @@ import com.suffix.fieldforce.model.Requisition
 class RequisitionListFragment : Fragment() {
 
   private lateinit var binding: FragmentRequisitionListBinding
+  private lateinit var viewModel: RequisitionListViewModel
   private lateinit var adapter: RequisitionListAdapter
 
   override fun onCreateView(
@@ -31,6 +35,8 @@ class RequisitionListFragment : Fragment() {
       container,
       false
     )
+    viewModel = ViewModelProviders.of(activity!!).get(RequisitionListViewModel::class.java)
+    binding.viewModel = viewModel
     binding.lifecycleOwner = this
 
     init()
@@ -40,6 +46,8 @@ class RequisitionListFragment : Fragment() {
 
   private fun init() {
     setupRecyclerView()
+    observeRequisitionList()
+    observeMessage()
   }
 
   private fun setupRecyclerView() {
@@ -47,17 +55,21 @@ class RequisitionListFragment : Fragment() {
       Toast.makeText(activity, requisition.description, Toast.LENGTH_SHORT).show()
     })
     binding.recyclerView.adapter = adapter
+  }
 
-    val requisitions = listOf(
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P"),
-      Requisition("1230", "inventories", 1, "P")
-    )
+  private fun observeRequisitionList() {
+    viewModel.requisitionList.observe(this, Observer {
+      it.let {
+        adapter.callSubmitList(it)
+      }
+    })
+  }
 
-    adapter.callSubmitList(requisitions)
+  private fun observeMessage() {
+    viewModel.message.observe(this, Observer {
+      it.let {
+        binding.recyclerView.snackbar(it)
+      }
+    })
   }
 }

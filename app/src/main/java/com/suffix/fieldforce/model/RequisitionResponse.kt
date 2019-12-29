@@ -7,6 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class RequisitionResponse(
   @Json(name = "ResponseCode") var responseCode: String,
-  @Json(name = "ResponseData") var responseData: ItemRequisitionObj,
+  @Json(name = "ResponseData") var responseData: RequisitionResponseData,
   @Json(name = "ResponseText") var responseText: String
 ) : Parcelable
