@@ -16,7 +16,7 @@ class InventoryListViewModel(application: Application) : BaseViewModel(applicati
     get() = _inventoryList
 
   init {
-    //getInventoryList()
+    getInventoryList()
   }
 
   private fun getInventoryList() {
