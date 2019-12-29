@@ -7,18 +7,29 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.adapter.BillApproveListAdapter
 import com.suffix.fieldforce.databinding.ActivityRequisitionDetailsBinding
+import com.suffix.fieldforce.util.Constants
+import com.suffix.fieldforce.viewmodel.RequisitionDetailsViewModel
+import org.jetbrains.anko.design.snackbar
 
 class RequisitionDetailsActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityRequisitionDetailsBinding
+  private lateinit var viewModel: RequisitionDetailsViewModel
   private lateinit var adapter: BillApproveListAdapter
+  private lateinit var requisitionId: String
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_requisition_details)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_requisition_details)
+    viewModel = ViewModelProviders.of(this).get(RequisitionDetailsViewModel::class.java)
+    binding.viewModel = viewModel
+    binding.lifecycleOwner = this
 
     init()
   }
@@ -26,6 +37,9 @@ class RequisitionDetailsActivity : AppCompatActivity() {
   private fun init() {
     setupToolbar()
     setupRecyclerView()
+    requisitionId = intent.getStringExtra(Constants.REQUISITION_ID)
+    observeRequisitionDetails()
+    observeMessage()
   }
 
   private fun setupToolbar() {
@@ -50,5 +64,21 @@ class RequisitionDetailsActivity : AppCompatActivity() {
   private fun setupRecyclerView() {
     adapter = BillApproveListAdapter()
     binding.recyclerView.adapter = adapter
+  }
+
+  private fun observeRequisitionDetails() {
+    viewModel.requisitionDetails.observe(this, Observer {
+      it.let {
+        adapter.callSubmitList(it.billApproveObj.billApproveList)
+      }
+    })
+  }
+
+  private fun observeMessage() {
+    viewModel.message.observe(this, Observer { message ->
+      message?.let {
+        binding.scrollView.snackbar(it)
+      }
+    })
   }
 }

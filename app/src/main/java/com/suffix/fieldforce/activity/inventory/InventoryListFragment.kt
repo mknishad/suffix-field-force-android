@@ -34,7 +34,7 @@ class InventoryListFragment : Fragment() {
       container,
       false
     )
-    viewModel = ViewModelProviders.of(this).get(InventoryListViewModel::class.java)
+    viewModel = ViewModelProviders.of(activity!!).get(InventoryListViewModel::class.java)
     binding.viewModel = viewModel
     binding.lifecycleOwner = this
 

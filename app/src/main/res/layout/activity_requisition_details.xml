@@ -10,7 +10,7 @@
 
     <variable
         name="viewModel"
-        type="com.suffix.fieldforce.viewmodel.BillDetailsViewModel" />
+        type="com.suffix.fieldforce.viewmodel.RequisitionDetailsViewModel" />
   </data>
 
   <LinearLayout
@@ -61,7 +61,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billId) ? viewModel.billDetails.billListObj.bills[0].advanceBillId : viewModel.billDetails.billListObj.bills[0].billId}" />
+                android:text="@{TextUtils.isEmpty(viewModel.requisitionDetails.billListObj.bills[0].billId) ? viewModel.requisitionDetails.billListObj.bills[0].advanceBillId : viewModel.requisitionDetails.billListObj.bills[0].billId}" />
           </LinearLayout>
 
           <LinearLayout
@@ -88,7 +88,7 @@
                   android:id="@+id/txtStatus"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@{viewModel.billDetails.billListObj.bills[0].status}"
+                  android:text="@{viewModel.requisitionDetails.billListObj.bills[0].status}"
                   android:textAlignment="center"
                   android:textColor="@color/green" />
             </LinearLayout>
@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billDate) ? viewModel.billDetails.billListObj.bills[0].advanceBillDate : viewModel.billDetails.billListObj.bills[0].billDate}" />
+                android:text="@{TextUtils.isEmpty(viewModel.requisitionDetails.billListObj.bills[0].billDate) ? viewModel.requisitionDetails.billListObj.bills[0].advanceBillDate : viewModel.requisitionDetails.billListObj.bills[0].billDate}" />
           </LinearLayout>
 
           <LinearLayout
@@ -137,7 +137,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billListObj.bills[0].description}" />
+                android:text="@{viewModel.requisitionDetails.billListObj.bills[0].description}" />
           </LinearLayout>
         </LinearLayout>
 
@@ -201,7 +201,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[0].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[0].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -224,7 +224,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[1].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[1].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -247,7 +247,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[2].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[2].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -270,7 +270,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[3].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[3].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -293,7 +293,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[4].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[4].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -316,7 +316,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[5].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[5].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 
@@ -339,7 +339,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
-                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[6].billAmount}"
+                android:text="@{viewModel.requisitionDetails.billDetailsObj.billDetailsList[6].billAmount}"
                 android:textAlignment="textEnd" />
           </LinearLayout>
 

@@ -1,17 +1,18 @@
 package com.suffix.fieldforce.activity.inventory
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.FragmentRequisitionListBinding
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.RequisitionListViewModel
 import org.jetbrains.anko.design.snackbar
 
@@ -52,7 +53,9 @@ class RequisitionListFragment : Fragment() {
 
   private fun setupRecyclerView() {
     adapter = RequisitionListAdapter(RequisitionListener { requisition ->
-      Toast.makeText(activity, requisition.description, Toast.LENGTH_SHORT).show()
+      val detailsIntent = Intent(activity, RequisitionDetailsActivity::class.java)
+      detailsIntent.putExtra(Constants.REQUISITION_ID, requisition.itemRequisitionId)
+      startActivity(detailsIntent)
     })
     binding.recyclerView.adapter = adapter
   }

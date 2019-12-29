@@ -18,4 +18,5 @@ object Constants {
   const val EXPENSE = "expense"
   const val ADVANCE = "advance"
   const val ONLINE = "online"
+  const val REQUISITION_ID = "requisition-id"
 }
