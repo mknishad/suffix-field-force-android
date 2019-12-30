@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="100dp"
-    android:layout_marginTop="2dp">
+    android:layout_marginTop="5dp">
 
   <TextView
       android:id="@+id/msg"
@@ -26,4 +26,15 @@
       android:layout_alignParentRight="true"
       android:src="@drawable/consultant"
       android:visibility="gone" />
+
+  <TextView
+      android:id="@+id/txtSeen"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/msg"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_marginRight="5dp"
+      android:textSize="10sp"/>
+
 </RelativeLayout>

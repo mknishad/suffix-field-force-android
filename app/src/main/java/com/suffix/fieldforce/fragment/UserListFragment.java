@@ -1,11 +1,13 @@
-package com.suffix.fieldforce.activity.chat;
+package com.suffix.fieldforce.fragment;
+
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,37 +30,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserListActivity extends AppCompatActivity {
+public class UserListFragment extends Fragment {
 
   @BindView(R.id.recyclerViewUser)
   RecyclerView recyclerViewUser;
-
-  @BindView(R.id.toolBarTitle)
-  TextView toolBarTitle;
 
   @BindView(R.id.progress)
   LottieAnimationView progress;
 
   private APIInterface apiInterface;
-
   private List<ModelUserList> modelUserLists;
   private FieldForcePreferences preferences;
   private UserAdapter adapter;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_user_list);
-    ButterKnife.bind(this);
-
-    setActionBar();
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    View view =  inflater.inflate(R.layout.fragment_single_chat, container, false);
+    ButterKnife.bind(this,view);
 
     modelUserLists = new ArrayList<>();
-    preferences = new FieldForcePreferences(this);
+    preferences = new FieldForcePreferences(getContext());
 
     recyclerViewUser.setHasFixedSize(true);
-    recyclerViewUser.setLayoutManager(new LinearLayoutManager(UserListActivity.this));
-    adapter = new UserAdapter(UserListActivity.this, modelUserLists);
+    recyclerViewUser.setLayoutManager(new LinearLayoutManager(getContext()));
+    adapter = new UserAdapter(getContext(), modelUserLists);
     recyclerViewUser.setAdapter(adapter);
 
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -73,25 +69,13 @@ public class UserListActivity extends AppCompatActivity {
       public void onResponse(Call<ModelUser> call, Response<ModelUser> response) {
         if (response.isSuccessful()) {
           try {
-
-            modelUserLists.clear();
-
-            List<ModelUserList> lists = new ArrayList<>();
             ModelUser modelUser = response.body();
-
-            lists = modelUser.getResponseData();
-
-            for (ModelUserList model : lists) {
-              if (model.getEmpOfficeId() != preferences.getUser().getUserId()) {
-                modelUserLists.add(model);
-              }
-            }
-
+            modelUserLists.clear();
+            modelUserLists = modelUser.responseData;
             adapter.setData(modelUserLists);
-
-          } catch (Exception e) {
-            Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-          } finally {
+          }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+          }finally {
             progress.setVisibility(View.GONE);
           }
         }
@@ -99,13 +83,12 @@ public class UserListActivity extends AppCompatActivity {
 
       @Override
       public void onFailure(Call<ModelUser> call, Throwable t) {
-        Toast.makeText(UserListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
         progress.setVisibility(View.GONE);
       }
     });
+
+    return view;
   }
 
-  private void setActionBar() {
-    toolBarTitle.setText("USER LIST");
-  }
 }

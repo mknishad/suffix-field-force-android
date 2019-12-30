@@ -19,7 +19,6 @@
       android:usesCleartextTraffic="true">
     <activity android:name=".activity.chat.ChatDashboardActivity"></activity>
     <activity android:name=".activity.chat.MessageActivity" />
-    <activity android:name=".activity.chat.UserListActivity" />
     <activity android:name=".activity.inventory.InventoryDashboardActivity" />
     <activity android:name=".activity.roster.RosterManagementActivity" />
     <activity android:name=".activity.bill.BillDashboardActivity" />

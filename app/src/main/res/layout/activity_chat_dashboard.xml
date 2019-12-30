@@ -12,45 +12,117 @@
       style="@style/Widget.Design.TabLayout"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      app:tabBackground="@color/colorMintLight"
+      app:tabBackground="@color/colorMintDark"
       app:tabIndicatorColor="@color/colorWhite"
       app:tabIndicatorHeight="@dimen/padding_1"
       app:tabSelectedTextColor="@color/colorWhite"
       app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
       app:tabTextColor="@color/transparent" />
 
+<!--  <View-->
+<!--      android:id="@+id/separator"-->
+<!--      android:layout_width="fill_parent"-->
+<!--      android:layout_height="1dip"-->
+<!--      android:layout_above="@+id/bottom"-->
+<!--      android:background="@color/black_overlay"-->
+<!--      />-->
+
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
       android:paddingTop="@dimen/padding_10"
-      android:paddingBottom="@dimen/padding_10"
-      >
+      android:paddingBottom="@dimen/padding_10">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/consultant" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/layout_margin_10">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/consultant" />
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:layout_width="@dimen/card_height_50"
+          android:layout_height="@dimen/card_height_50"
+          android:src="@drawable/avatarone" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/consultant" />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Marina"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/consultant" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/layout_margin_10">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:layout_width="@dimen/card_height_50"
+          android:layout_height="@dimen/card_height_50"
+          android:src="@drawable/avatartwo" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Mahmud"/>
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/consultant" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/layout_margin_10">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:layout_width="@dimen/card_height_50"
+          android:layout_height="@dimen/card_height_50"
+          android:src="@drawable/avatarthree" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Morshed"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/layout_margin_10">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:layout_width="@dimen/card_height_50"
+          android:layout_height="@dimen/card_height_50"
+          android:src="@drawable/avatarfour" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Rabbi"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:layout_width="@dimen/card_height_50"
+          android:layout_height="@dimen/card_height_50"
+          android:src="@drawable/avatarfive" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Fahad"/>
+
+    </LinearLayout>
 
   </LinearLayout>
 

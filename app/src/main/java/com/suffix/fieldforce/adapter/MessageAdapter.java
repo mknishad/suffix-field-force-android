@@ -5,12 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.Chats;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
@@ -34,11 +39,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_left, parent, false);
 
-      return new MessageAdapter.ViewHolder(view);
+      return new ViewHolder(view);
     } else {
       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right, parent, false);
 
-      return new MessageAdapter.ViewHolder(view);
+      return new ViewHolder(view);
 
     }
 
@@ -59,6 +64,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     Chats chats = mChats.get(position);
     holder.text.setText(chats.getMessage());
 
+    if (position == (mChats.size() - 1)) {
+      if (chats.getIsseen()) {
+        holder.txtSeen.setText("Seen");
+      } else {
+        holder.txtSeen.setText("Delivered");
+      }
+    } else {
+      holder.txtSeen.setVisibility(View.GONE);
+    }
+
   }
 
   @Override
@@ -69,10 +84,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
   public class ViewHolder extends RecyclerView.ViewHolder {
 
     TextView text;
+    TextView txtSeen;
 
     public ViewHolder(View itemView) {
       super(itemView);
       text = itemView.findViewById(R.id.msg);
+      txtSeen = itemView.findViewById(R.id.txtSeen);
     }
   }
 }
