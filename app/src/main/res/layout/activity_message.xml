@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_whitetranssparent">
+    android:background="@color/lightgray">
 
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/appbar"
@@ -28,15 +28,14 @@
             android:id="@+id/imgProfilePicture"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            fresco:placeholderImage="@drawable/consultant"
             android:layout_gravity="center"
-            />
+            fresco:placeholderImage="@drawable/consultant" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:orientation="vertical"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
           <TextView
               android:id="@+id/txtUserName"
@@ -67,11 +66,20 @@
       android:id="@+id/recyclerViewChat"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_above="@+id/bottom"
+      android:layout_above="@+id/separator"
       android:layout_below="@+id/appbar"
       android:layout_marginTop="1dp"
       android:layout_marginBottom="-1dp"
       tools:listitem="@layout/chat_item_right" />
+
+  <View
+      android:id="@+id/separator"
+      android:layout_width="fill_parent"
+      android:layout_height="1dip"
+      android:layout_above="@+id/bottom"
+      android:background="@color/black_overlay"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      />
 
   <RelativeLayout
       android:id="@+id/bottom"
@@ -85,31 +93,31 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
+        android:padding="5dp"
         android:src="@drawable/ic_attach_file"
-        android:tint="@color/colorMint"
-        android:padding="5dp" />
+        android:tint="@color/colorMint" />
 
     <EditText
         android:id="@+id/txtMessageInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imgAttachment"
         android:layout_toLeftOf="@+id/imgMessageSend"
+        android:layout_toRightOf="@+id/imgAttachment"
         android:background="@drawable/only_border_mint"
         android:hint="@string/type_a_message"
+        android:padding="8dp"
         android:textColor="@color/darkGray"
-        android:textSize="15dp"
-        android:padding="8dp" />
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/imgMessageSend"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
+        android:padding="5dp"
         android:src="@drawable/ic_send"
-        android:tint="@color/colorMint"
-        android:padding="5dp" />
+        android:tint="@color/colorMint" />
   </RelativeLayout>
 
 </RelativeLayout>

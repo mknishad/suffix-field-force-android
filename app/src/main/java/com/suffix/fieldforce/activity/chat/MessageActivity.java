@@ -70,13 +70,15 @@ public class MessageActivity extends AppCompatActivity {
   SimpleDraweeView imgProfilePicture;
 
   private Uri uri;
-  private DatabaseReference ref;
   private List<Chats> mchats;
   private MessageAdapter messageAdapter;
   private FieldForcePreferences preferences;
   private User currentUser;
   private String receiverId;
   private String receiverName;
+
+  private DatabaseReference ref;
+  private ValueEventListener seenListener;
 
   @OnClick(R.id.imgAttachment)
   public void attach() {
@@ -123,8 +125,33 @@ public class MessageActivity extends AppCompatActivity {
         }
       }
     });
-
     readMessage();
+    seenMessage();
+  }
+
+  public void seenMessage() {
+    ref = FirebaseDatabase.getInstance().getReference("chats");
+    seenListener = ref.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+          Chats chats = snapshot.getValue(Chats.class);
+
+          if (chats.getReceiver_id().equals(currentUser.getUserId()) && chats.getSender_id().equals(receiverId)) {
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("isseen", true);
+            snapshot.getRef().updateChildren(hashMap);
+          }
+
+        }
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
   }
 
   public void sendMessage(String message) {
@@ -137,6 +164,7 @@ public class MessageActivity extends AppCompatActivity {
     hashMap.put("receiver_id", receiverId);
     hashMap.put("receiver", receiverName);
     hashMap.put("message", message);
+    hashMap.put("isseen", false);
 
     ref.child("chats").push().setValue(hashMap);
     readMessage();
@@ -167,6 +195,17 @@ public class MessageActivity extends AppCompatActivity {
 
       }
     });
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    ref.removeEventListener(seenListener);
   }
 
   @Override

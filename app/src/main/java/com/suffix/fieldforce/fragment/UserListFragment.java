@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SingleChatFragment extends Fragment {
+public class UserListFragment extends Fragment {
 
   @BindView(R.id.recyclerViewUser)
   RecyclerView recyclerViewUser;

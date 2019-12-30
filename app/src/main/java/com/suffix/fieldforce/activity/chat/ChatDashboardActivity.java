@@ -8,8 +8,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.ChatDashboardViewPagerAdapter;
+import com.suffix.fieldforce.fragment.ChatListFragment;
 import com.suffix.fieldforce.fragment.MultipleChatFragment;
-import com.suffix.fieldforce.fragment.SingleChatFragment;
+import com.suffix.fieldforce.fragment.UserListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +35,9 @@ public class ChatDashboardActivity extends AppCompatActivity {
 
   private void setupViewPager(ViewPager viewpager) {
     ChatDashboardViewPagerAdapter adapter = new ChatDashboardViewPagerAdapter(getSupportFragmentManager());
-    adapter.addFragment(new SingleChatFragment(), "Chat");
+    adapter.addFragment(new ChatListFragment(), "Chat");
     adapter.addFragment(new MultipleChatFragment(), "Group Chat");
+    adapter.addFragment(new UserListFragment(), "All Users");
     viewpager.setAdapter(adapter);
     viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
       @Override
