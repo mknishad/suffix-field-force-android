@@ -17,4 +17,15 @@ public class ModelUser {
     @Expose
     public String responseText;
 
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public List<ModelUserList> getResponseData() {
+        return responseData;
+    }
+
+    public String getResponseText() {
+        return responseText;
+    }
 }

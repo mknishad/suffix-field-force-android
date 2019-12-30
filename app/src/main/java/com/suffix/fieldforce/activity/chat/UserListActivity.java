@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.UserAdapter;
@@ -72,13 +73,25 @@ public class UserListActivity extends AppCompatActivity {
       public void onResponse(Call<ModelUser> call, Response<ModelUser> response) {
         if (response.isSuccessful()) {
           try {
-            ModelUser modelUser = response.body();
+
             modelUserLists.clear();
-            modelUserLists = modelUser.responseData;
+
+            List<ModelUserList> lists = new ArrayList<>();
+            ModelUser modelUser = response.body();
+
+            lists = modelUser.getResponseData();
+
+            for (ModelUserList model : lists) {
+              if (model.getEmpOfficeId() != preferences.getUser().getUserId()) {
+                modelUserLists.add(model);
+              }
+            }
+
             adapter.setData(modelUserLists);
-          }catch (Exception e){
+
+          } catch (Exception e) {
             Toast.makeText(UserListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-          }finally {
+          } finally {
             progress.setVisibility(View.GONE);
           }
         }
