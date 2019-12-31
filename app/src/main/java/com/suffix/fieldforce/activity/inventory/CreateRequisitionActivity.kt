@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
@@ -34,6 +35,9 @@ class CreateRequisitionActivity : BaseActivity() {
   private lateinit var textInputLayouts: MutableList<TextInputLayout>
   private lateinit var linearLayout: LinearLayout
 
+  private lateinit var textInputLayouts1: MutableList<TextInputLayout>
+  private lateinit var linearLayout1: LinearLayout
+
   private var inventoryList = ArrayList<InventoryItem>()
 
   private var mDay: Int = 0
@@ -51,12 +55,16 @@ class CreateRequisitionActivity : BaseActivity() {
   }
 
   private fun init() {
+    linearLayout1 = LinearLayout(applicationContext)
     linearLayout = LinearLayout(applicationContext)
+    linearLayout1.orientation = LinearLayout.VERTICAL
     linearLayout.orientation = LinearLayout.VERTICAL
+    textInputLayouts1 = mutableListOf()
     textInputLayouts = mutableListOf()
     inventoryList = intent.getParcelableArrayListExtra(Constants.INVENTORY_LIST)
 
     setupToolbar()
+    addTaskIdLayout()
     addDateLayout()
     addInventoryTypesLayout()
     addButton()
@@ -81,6 +89,16 @@ class CreateRequisitionActivity : BaseActivity() {
     }
   }
 
+  fun addTaskIdLayout() {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = "Task Id"
+    linearLayout1.addView(view)
+    textInputLayouts1.add(layout)
+    binding.scrollView1.addView(linearLayout1)
+  }
+
   private fun addDateLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_bill_input_layout, null)
@@ -102,7 +120,7 @@ class CreateRequisitionActivity : BaseActivity() {
     }
     linearLayout.addView(view)
     textInputLayouts.add(layout)
-    binding.scrollView.addView(linearLayout)
+    binding.scrollView2.addView(linearLayout)
   }
 
   private fun addInventoryTypesLayout() {
@@ -159,6 +177,15 @@ class CreateRequisitionActivity : BaseActivity() {
     )
     datePickerDialog.show()
     //viewModel.datePickerShown()
+  }
+
+  fun addAnotherTaskLayout(view: View) {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = "Task Id"
+    linearLayout1.addView(view)
+    textInputLayouts1.add(layout)
   }
 
   /*private fun submitBill() {
