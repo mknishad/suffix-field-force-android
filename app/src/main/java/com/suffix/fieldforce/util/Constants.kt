@@ -19,4 +19,5 @@ object Constants {
   const val ADVANCE = "advance"
   const val ONLINE = "online"
   const val REQUISITION_ID = "requisition-id"
+  const val INVENTORY_LIST = "inventory-list"
 }

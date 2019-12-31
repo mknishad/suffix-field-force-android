@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.activity.inventory
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.FragmentInventoryListBinding
+import com.suffix.fieldforce.model.InventoryItem
+import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.InventoryListViewModel
 import org.jetbrains.anko.design.snackbar
 
@@ -22,6 +25,8 @@ class InventoryListFragment : Fragment() {
   private lateinit var binding: FragmentInventoryListBinding
   private lateinit var viewModel: InventoryListViewModel
   private lateinit var adapter: InventoryListAdapter
+
+  private var inventoryList = ArrayList<InventoryItem>()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +51,7 @@ class InventoryListFragment : Fragment() {
   private fun init() {
     setupRecyclerView()
     observeInventoryList()
+    observeOpenCreateRequisition()
     observeMessage()
   }
 
@@ -58,6 +64,19 @@ class InventoryListFragment : Fragment() {
     viewModel.inventoryList.observe(this, Observer {
       it.let {
         adapter.callSubmitList(it)
+        inventoryList = ArrayList(it)
+      }
+    })
+  }
+
+  private fun observeOpenCreateRequisition() {
+    viewModel.eventOpenCreateRequisition.observe(this, Observer {
+      if (it) {
+        if (inventoryList.isNotEmpty()) {
+          val requisitionIntent = Intent(context, CreateRequisitionActivity::class.java)
+          requisitionIntent.putExtra(Constants.INVENTORY_LIST, inventoryList)
+          startActivity(requisitionIntent)
+        }
       }
     })
   }

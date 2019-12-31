@@ -15,6 +15,10 @@ class InventoryListViewModel(application: Application) : BaseViewModel(applicati
   val inventoryList: LiveData<List<InventoryItem>>
     get() = _inventoryList
 
+  private val _eventOpenCreateRequisition = MutableLiveData<Boolean>()
+  val eventOpenCreateRequisition: LiveData<Boolean>
+    get() = _eventOpenCreateRequisition
+
   init {
     getInventoryList()
   }
@@ -43,5 +47,9 @@ class InventoryListViewModel(application: Application) : BaseViewModel(applicati
         progress.value = false
       }
     }
+  }
+
+  fun openCreateRequisition() {
+    _eventOpenCreateRequisition.value = true
   }
 }
