@@ -17,7 +17,8 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".activity.chat.ChatDashboardActivity"></activity>
+    <activity android:name=".activity.inventory.CreateRequisitionActivity"></activity>
+    <activity android:name=".activity.chat.ChatDashboardActivity" />
     <activity android:name=".activity.chat.MessageActivity" />
     <activity android:name=".activity.inventory.InventoryDashboardActivity" />
     <activity android:name=".activity.roster.RosterManagementActivity" />
