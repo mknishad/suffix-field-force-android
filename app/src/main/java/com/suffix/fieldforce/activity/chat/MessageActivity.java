@@ -167,6 +167,25 @@ public class MessageActivity extends AppCompatActivity {
     hashMap.put("isseen", false);
 
     ref.child("chats").push().setValue(hashMap);
+
+    final DatabaseReference chatListReference = FirebaseDatabase.getInstance().getReference("Chatlist")
+        .child(currentUser.getUserId())
+        .child(receiverId);
+
+    chatListReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if(!dataSnapshot.exists()){
+          chatListReference.child("id").setValue(receiverId);
+        }
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+
+      }
+    });
+
     readMessage();
   }
 
