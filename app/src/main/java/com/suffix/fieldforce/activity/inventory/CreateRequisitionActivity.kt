@@ -9,6 +9,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -24,6 +25,7 @@ import com.suffix.fieldforce.model.InventoryItem
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.CreateRequisitionViewModel
 import org.jetbrains.anko.debug
+import org.jetbrains.anko.design.snackbar
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,8 +34,8 @@ class CreateRequisitionActivity : BaseActivity() {
   private lateinit var binding: ActivityCreateRequisitionBinding
   private lateinit var viewModel: CreateRequisitionViewModel
 
-  private lateinit var textInputLayouts: MutableList<TextInputLayout>
-  private lateinit var linearLayout: LinearLayout
+  private lateinit var textInputLayouts2: MutableList<TextInputLayout>
+  private lateinit var linearLayout2: LinearLayout
 
   private lateinit var textInputLayouts1: MutableList<TextInputLayout>
   private lateinit var linearLayout1: LinearLayout
@@ -43,6 +45,8 @@ class CreateRequisitionActivity : BaseActivity() {
   private var mDay: Int = 0
   private var mMonth: Int = 0
   private var mYear: Int = 0
+
+  private var taskIdNumber = 1
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -56,11 +60,11 @@ class CreateRequisitionActivity : BaseActivity() {
 
   private fun init() {
     linearLayout1 = LinearLayout(applicationContext)
-    linearLayout = LinearLayout(applicationContext)
+    linearLayout2 = LinearLayout(applicationContext)
     linearLayout1.orientation = LinearLayout.VERTICAL
-    linearLayout.orientation = LinearLayout.VERTICAL
+    linearLayout2.orientation = LinearLayout.VERTICAL
     textInputLayouts1 = mutableListOf()
-    textInputLayouts = mutableListOf()
+    textInputLayouts2 = mutableListOf()
     inventoryList = intent.getParcelableArrayListExtra(Constants.INVENTORY_LIST)
 
     setupToolbar()
@@ -118,9 +122,9 @@ class CreateRequisitionActivity : BaseActivity() {
       }
       return@setOnTouchListener false
     }
-    linearLayout.addView(view)
-    textInputLayouts.add(layout)
-    binding.scrollView2.addView(linearLayout)
+    linearLayout2.addView(view)
+    textInputLayouts2.add(layout)
+    binding.scrollView2.addView(linearLayout2)
   }
 
   private fun addInventoryTypesLayout() {
@@ -130,8 +134,8 @@ class CreateRequisitionActivity : BaseActivity() {
       val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
       layout.hint = inventory.productName
       layout.tag = inventory.productInvId
-      linearLayout.addView(view)
-      textInputLayouts.add(layout)
+      linearLayout2.addView(view)
+      textInputLayouts2.add(layout)
     }
   }
 
@@ -152,7 +156,7 @@ class CreateRequisitionActivity : BaseActivity() {
       //submitBill()
     }
 
-    linearLayout.addView(button)
+    linearLayout2.addView(button)
   }
 
   private fun showDatePicker() {
@@ -172,7 +176,7 @@ class CreateRequisitionActivity : BaseActivity() {
         debug("onDateSet: dateOfBirth = $date")
         /*viewModel.dob.value =
             BuddyUtil.convertToUtc(BuddyUtil.createDate(mYear, mMonth, mDay))*/
-        textInputLayouts[0].editText?.setText(date)
+        textInputLayouts2[0].editText?.setText(date)
       }, mYear, mMonth, mDay
     )
     datePickerDialog.show()
@@ -186,6 +190,30 @@ class CreateRequisitionActivity : BaseActivity() {
     layout.hint = "Task Id"
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
+    taskIdNumber++
+  }
+
+  private fun submitRequisition() {
+    var taskIdList = ArrayList<String>()
+    var date: String
+
+    if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
+      linearLayout1.snackbar("Enter Task Id")
+      return
+    } else {
+      for (i in 0 until taskIdNumber) {
+        if (!TextUtils.isEmpty(textInputLayouts1[i].editText?.text.toString())) {
+          taskIdList.add(textInputLayouts1[i].editText?.text.toString())
+        }
+      }
+    }
+
+    if (TextUtils.isEmpty(textInputLayouts2[0].editText?.text.toString())) {
+      linearLayout2.snackbar("Select Date")
+      return
+    } else {
+      date = textInputLayouts2[0].editText?.text.toString()
+    }
   }
 
   /*private fun submitBill() {
