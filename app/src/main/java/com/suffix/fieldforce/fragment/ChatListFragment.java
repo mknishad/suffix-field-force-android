@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,16 +21,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.UserAdapter;
 import com.suffix.fieldforce.model.ModelChatList;
+import com.suffix.fieldforce.model.ModelUser;
 import com.suffix.fieldforce.model.ModelUserList;
 import com.suffix.fieldforce.model.User;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
+import com.suffix.fieldforce.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatListFragment extends Fragment {
 
@@ -89,6 +96,43 @@ public class ChatListFragment extends Fragment {
   }
 
   private void chatList() {
+
+    apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    Call<ModelUser> call = apiInterface.getUserList(
+        Constants.INSTANCE.KEY,
+        preferences.getUser().getUserId(),
+        String.valueOf(preferences.getLocation().getLatitude()),
+        String.valueOf(preferences.getLocation().getLongitude()));
+
+    call.enqueue(new Callback<ModelUser>() {
+      @Override
+      public void onResponse(Call<ModelUser> call, Response<ModelUser> response) {
+        if (response.isSuccessful()) {
+          try {
+            ModelUser modelUser = response.body();
+            modelUserLists.clear();
+            modelUserLists = modelUser.responseData;
+//            for(ModelUserList modelUserList : modelUserLists){
+//              if(modelUserList.getEmpOfficeId().equals(modelChatList.getId())){
+//                modelChatLists.add(modelChatList);
+//              }
+//            }
+            adapter.setData(modelUserLists);
+          }catch (Exception e){
+            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+          }finally {
+            progress.setVisibility(View.GONE);
+          }
+        }
+      }
+
+      @Override
+      public void onFailure(Call<ModelUser> call, Throwable t) {
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        progress.setVisibility(View.GONE);
+      }
+    });
+
     ref = FirebaseDatabase.getInstance().getReference("Users");
     ref.addValueEventListener(new ValueEventListener() {
       @Override
