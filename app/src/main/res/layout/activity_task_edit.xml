@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/lightgray"
     tools:context=".activity.task.TaskEditActivity">
 
   <include
@@ -14,20 +15,20 @@
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginLeft="@dimen/layout_margin_5"
       android:layout_marginTop="@dimen/layout_margin_5"
       >
 
     <LinearLayout
         android:id="@+id/layoutStatus"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/only_border_mint">
+        android:background="@drawable/only_border_mint"
+        android:layout_margin="@dimen/layout_margin_5">
 
       <Spinner
           android:id="@+id/spinnerStatus"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height_45"
           android:drawSelectorOnTop="true"
           android:entries="@array/spinnerItems"
           android:padding="@dimen/padding_5" />

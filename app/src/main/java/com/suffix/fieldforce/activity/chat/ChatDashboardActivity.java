@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity.chat;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -23,6 +24,12 @@ public class ChatDashboardActivity extends AppCompatActivity {
   @BindView(R.id.viewpager)
   ViewPager viewpager;
 
+  private int[] tabIcons = {
+      R.drawable.singlechat,
+      R.drawable.group,
+      R.drawable.member
+  };
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,6 +38,9 @@ public class ChatDashboardActivity extends AppCompatActivity {
 
     setupViewPager(viewpager);
     tab.setupWithViewPager(viewpager);
+    tab.getTabAt(0).setIcon(tabIcons[0]);
+    tab.getTabAt(1).setIcon(tabIcons[1]);
+    tab.getTabAt(2).setIcon(tabIcons[2]);
   }
 
   private void setupViewPager(ViewPager viewpager) {

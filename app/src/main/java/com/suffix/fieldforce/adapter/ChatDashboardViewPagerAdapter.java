@@ -29,11 +29,11 @@ public class ChatDashboardViewPagerAdapter extends FragmentPagerAdapter {
     return fragments.size();
   }
 
-  @Nullable
-  @Override
-  public CharSequence getPageTitle(int position) {
-    return titles.get(position);
-  }
+//  @Nullable
+//  @Override
+//  public CharSequence getPageTitle(int position) {
+//    return titles.get(position);
+//  }
 
   public void addFragment(Fragment fragment, String title){
     fragments.add(fragment);

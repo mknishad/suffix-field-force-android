@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorLavanderDark"
+                android:padding="@dimen/padding_5"
                 android:text="@{`Approve User Name : ` + billApprove.approveEmpName}"
                 android:textColor="@color/color_white" />
 
@@ -32,18 +33,21 @@
                 android:id="@+id/txtBillId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
                 android:text="@{`Bill Approve Id : ` + billApprove.billApproveId}" />
 
             <TextView
                 android:id="@+id/txtUserId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
                 android:text="@{`Approve User Id : ` + billApprove.approveEmpId}" />
 
             <TextView
                 android:id="@+id/txtApproveDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
                 android:text="@{`Approve Date : ` + billApprove.approveDate}"
                 android:textColor="@color/orange" />
 

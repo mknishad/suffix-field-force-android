@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/lightgray"
     tools:context=".activity.bill.BillDetailsActivity">
 
   <data>
@@ -50,8 +51,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/colorBlueJeansDark"
+                android:padding="@dimen/padding_5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorBlueJeansDark"
+                android:padding="@dimen/padding_5" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="Bill No" />
 
             <TextView
@@ -60,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billId) ? viewModel.billDetails.billListObj.bills[0].advanceBillId : viewModel.billDetails.billListObj.bills[0].billId}" />
           </LinearLayout>
 
@@ -74,20 +95,20 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="Status" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2">
+                android:background="@drawable/border_box_blue">
 
               <TextView
                   android:id="@+id/txtStatus"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
+                  android:padding="@dimen/padding_5"
                   android:text="@{viewModel.billDetails.billListObj.bills[0].status}"
                   android:textAlignment="center"
                   android:textColor="@color/green" />
@@ -104,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="Bill Date" />
 
             <TextView
@@ -113,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billDate) ? viewModel.billDetails.billListObj.bills[0].advanceBillDate : viewModel.billDetails.billListObj.bills[0].billDate}" />
           </LinearLayout>
 
@@ -127,7 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="Description" />
 
             <TextView
@@ -136,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border_box_blue"
-                android:padding="@dimen/padding_2"
+                android:padding="@dimen/padding_5"
                 android:text="@{viewModel.billDetails.billListObj.bills[0].description}" />
           </LinearLayout>
         </LinearLayout>

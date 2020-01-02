@@ -19,7 +19,6 @@ class SplashActivity : BaseActivity() {
       window.decorView.systemUiVisibility =
         View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
-
     Handler().postDelayed({
       if (preferences.isFirstTimeLaunch()) {
         startActivity<WelcomeActivity>()
