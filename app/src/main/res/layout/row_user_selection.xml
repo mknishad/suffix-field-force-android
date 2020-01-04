@@ -4,9 +4,9 @@
     android:id="@+id/layoutItem"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:layout_marginTop="@dimen/layout_margin_1"
     android:background="@android:color/white"
-    android:padding="10dp"
-    android:layout_marginTop="@dimen/layout_margin_1">
+    android:padding="10dp">
 
   <androidx.cardview.widget.CardView
       android:layout_width="match_parent"
@@ -37,16 +37,16 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtUserLastMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="You : Hellow"
-            android:textSize="10sp" />
-
       </LinearLayout>
 
+      <CheckBox
+          android:id="@+id/checkbox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:buttonTint="@color/orange"
+          />
     </RelativeLayout>
 
   </androidx.cardview.widget.CardView>

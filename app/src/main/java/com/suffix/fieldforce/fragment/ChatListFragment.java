@@ -46,13 +46,14 @@ public class ChatListFragment extends Fragment {
   @BindView(R.id.progress)
   LottieAnimationView progress;
 
-  private APIInterface apiInterface = null;
-  private DatabaseReference ref = null;
-  private List<ModelUserList> modelUserLists = null;
-  private List<ModelChatList> modelChatLists = null;
-  private FieldForcePreferences preferences = null;
-  private UserAdapter adapter = null;
-  private User currentUser = null;
+  private APIInterface apiInterface           = null;
+  private DatabaseReference reference         = null;
+  private List<ModelUserList> modelUserLists  = null;
+  private List<ModelChatList> modelChatLists  = null;
+  private FieldForcePreferences preferences   = null;
+  private UserAdapter adapter                 = null;
+  private User currentUser                    = null;
+
   private ValueEventListener valueEventListener;
 
   @Override
@@ -62,18 +63,18 @@ public class ChatListFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
     ButterKnife.bind(this, view);
 
-    preferences = new FieldForcePreferences(getContext());
-    currentUser = preferences.getUser();
-    modelUserLists = new ArrayList<>();
-    modelChatLists = new ArrayList<>();
+    preferences     = new FieldForcePreferences(getContext());
+    currentUser     = preferences.getUser();
+    modelUserLists  = new ArrayList<>();
+    modelChatLists  = new ArrayList<>();
+    adapter         = new UserAdapter(getContext(), modelUserLists);
 
     recyclerViewUser.setHasFixedSize(true);
     recyclerViewUser.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapter = new UserAdapter(getContext(), modelUserLists);
     recyclerViewUser.setAdapter(adapter);
 
-    ref = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUserId());
-    valueEventListener = ref.addValueEventListener(new ValueEventListener() {
+    reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUserId());
+    valueEventListener = reference.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         modelChatLists.clear();
@@ -88,7 +89,7 @@ public class ChatListFragment extends Fragment {
 
       @Override
       public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -96,6 +97,8 @@ public class ChatListFragment extends Fragment {
   }
 
   private void chatList() {
+
+    Toast.makeText(getContext(), "Get Chat List", Toast.LENGTH_SHORT).show();
 
     modelUserLists.clear();
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -141,6 +144,6 @@ public class ChatListFragment extends Fragment {
   @Override
   public void onPause() {
     super.onPause();
-    ref.removeEventListener(valueEventListener);
+    reference.removeEventListener(valueEventListener);
   }
 }

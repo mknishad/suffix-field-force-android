@@ -4,8 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightgray"
     tools:context=".fragment.MultipleChatFragment">
 
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerViewUser"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      tools:listitem="@layout/row_chat_list" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/btnCreate"

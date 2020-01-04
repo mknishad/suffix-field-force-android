@@ -3,9 +3,7 @@ package com.suffix.fieldforce.activity.chat;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.ChatDashboardViewPagerAdapter;
@@ -38,6 +36,10 @@ public class ChatDashboardActivity extends AppCompatActivity {
 
     setupViewPager(viewpager);
     tab.setupWithViewPager(viewpager);
+    setTabIcon(tab);
+  }
+
+  private void setTabIcon(TabLayout tab) {
     tab.getTabAt(0).setIcon(tabIcons[0]);
     tab.getTabAt(1).setIcon(tabIcons[1]);
     tab.getTabAt(2).setIcon(tabIcons[2]);
