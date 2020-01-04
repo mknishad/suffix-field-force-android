@@ -21,9 +21,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.databinding.ActivityCreateRequisitionBinding
-import com.suffix.fieldforce.model.InventoryItem
-import com.suffix.fieldforce.model.TaskIdData
-import com.suffix.fieldforce.model.TaskIdObj
+import com.suffix.fieldforce.model.*
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.CreateRequisitionViewModel
 import org.jetbrains.anko.debug
@@ -73,6 +71,7 @@ class CreateRequisitionActivity : BaseActivity() {
     addTaskIdLayout()
     addDateLayout()
     addInventoryTypesLayout()
+    addRemarksLayout()
     addButton()
   }
 
@@ -139,6 +138,16 @@ class CreateRequisitionActivity : BaseActivity() {
       linearLayout2.addView(view)
       textInputLayouts2.add(layout)
     }
+  }
+
+  private fun addRemarksLayout() {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = getString(R.string.remarks)
+    layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
+    linearLayout2.addView(view)
+    textInputLayouts2.add(layout)
   }
 
   private fun addButton() {
@@ -219,7 +228,28 @@ class CreateRequisitionActivity : BaseActivity() {
       date = textInputLayouts2[0].editText?.text.toString()
     }
 
+    var itemRequisitionDataObjList = mutableListOf<ItemRequisitionDataObj>()
+    for (i in 1 until textInputLayouts2.size - 2) {
+      val itemRequisitionDataObj =
+        if (TextUtils.isEmpty(textInputLayouts2[i].editText?.text.toString())) {
+          ItemRequisitionDataObj(
+            0,
+            textInputLayouts2[i].editText?.tag.toString().toInt()
+          )
+        } else {
+          ItemRequisitionDataObj(
+            textInputLayouts2[i].editText?.text.toString().toInt(),
+            textInputLayouts2[i].editText?.tag.toString().toInt()
+          )
+        }
+      itemRequisitionDataObjList.add(itemRequisitionDataObj)
+    }
 
+    val itemRequisitionData = ItemRequisitionData(
+      date,
+      itemRequisitionDataObjList,
+      textInputLayouts2[textInputLayouts2.size - 1].editText?.text.toString()
+    )
   }
 
   /*private fun submitBill() {
