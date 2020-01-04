@@ -22,6 +22,8 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
 import com.suffix.fieldforce.databinding.ActivityCreateRequisitionBinding
 import com.suffix.fieldforce.model.InventoryItem
+import com.suffix.fieldforce.model.TaskIdData
+import com.suffix.fieldforce.model.TaskIdObj
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.CreateRequisitionViewModel
 import org.jetbrains.anko.debug
@@ -194,7 +196,8 @@ class CreateRequisitionActivity : BaseActivity() {
   }
 
   private fun submitRequisition() {
-    var taskIdList = ArrayList<String>()
+    var taskIdObjList = mutableListOf<TaskIdObj>()
+    var taskIdData: TaskIdData
     var date: String
 
     if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
@@ -203,9 +206,10 @@ class CreateRequisitionActivity : BaseActivity() {
     } else {
       for (i in 0 until taskIdNumber) {
         if (!TextUtils.isEmpty(textInputLayouts1[i].editText?.text.toString())) {
-          taskIdList.add(textInputLayouts1[i].editText?.text.toString())
+          taskIdObjList.add(TaskIdObj(textInputLayouts1[i].editText?.text.toString().toInt()))
         }
       }
+      var taskIdData = TaskIdData(taskIdObjList)
     }
 
     if (TextUtils.isEmpty(textInputLayouts2[0].editText?.text.toString())) {
@@ -214,6 +218,8 @@ class CreateRequisitionActivity : BaseActivity() {
     } else {
       date = textInputLayouts2[0].editText?.text.toString()
     }
+
+
   }
 
   /*private fun submitBill() {
