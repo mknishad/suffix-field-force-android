@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -36,6 +37,7 @@ class CreateRequisitionActivity : BaseActivity() {
 
   private lateinit var textInputLayouts2: MutableList<TextInputLayout>
   private lateinit var linearLayout2: LinearLayout
+  private lateinit var checkBox: CheckBox
 
   private lateinit var textInputLayouts1: MutableList<TextInputLayout>
   private lateinit var linearLayout1: LinearLayout
@@ -63,6 +65,7 @@ class CreateRequisitionActivity : BaseActivity() {
     linearLayout2 = LinearLayout(applicationContext)
     linearLayout1.orientation = LinearLayout.VERTICAL
     linearLayout2.orientation = LinearLayout.VERTICAL
+    checkBox = CheckBox(applicationContext)
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
     inventoryList = intent.getParcelableArrayListExtra(Constants.INVENTORY_LIST)
@@ -72,7 +75,15 @@ class CreateRequisitionActivity : BaseActivity() {
     addDateLayout()
     addInventoryTypesLayout()
     addRemarksLayout()
+    addCheckBox()
     addButton()
+    observeMessage()
+  }
+
+  private fun observeMessage() {
+    viewModel.message.observe(this, androidx.lifecycle.Observer {
+      binding.scrollView2.snackbar(it)
+    })
   }
 
   private fun setupToolbar() {
@@ -99,6 +110,7 @@ class CreateRequisitionActivity : BaseActivity() {
     val view = inflater.inflate(R.layout.item_bill_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task Id"
+    //layout.editText?.setText("123")
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     binding.scrollView1.addView(linearLayout1)
@@ -135,6 +147,8 @@ class CreateRequisitionActivity : BaseActivity() {
       val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
       layout.hint = inventory.productName
       layout.tag = inventory.productInvId
+      layout.editText?.inputType = InputType.TYPE_CLASS_NUMBER
+      //layout.editText?.setText("1")
       linearLayout2.addView(view)
       textInputLayouts2.add(layout)
     }
@@ -148,6 +162,19 @@ class CreateRequisitionActivity : BaseActivity() {
     layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
     linearLayout2.addView(view)
     textInputLayouts2.add(layout)
+  }
+
+  private fun addCheckBox() {
+    val params = LinearLayout.LayoutParams(
+      LinearLayout.LayoutParams.MATCH_PARENT,
+      LinearLayout.LayoutParams.WRAP_CONTENT
+    )
+    params.setMargins(16, 16, 16, 0)
+
+    checkBox.text = getString(R.string.urgent)
+    checkBox.textSize = 16f
+    checkBox.layoutParams = params
+    linearLayout2.addView(checkBox)
   }
 
   private fun addButton() {
@@ -164,7 +191,7 @@ class CreateRequisitionActivity : BaseActivity() {
     button.background = getDrawable(R.drawable.bg_button)
     button.layoutParams = params
     button.setOnClickListener {
-      //submitBill()
+      submitRequisition()
     }
 
     linearLayout2.addView(button)
@@ -218,7 +245,7 @@ class CreateRequisitionActivity : BaseActivity() {
           taskIdObjList.add(TaskIdObj(textInputLayouts1[i].editText?.text.toString().toInt()))
         }
       }
-      var taskIdData = TaskIdData(taskIdObjList)
+      taskIdData = TaskIdData(taskIdObjList)
     }
 
     if (TextUtils.isEmpty(textInputLayouts2[0].editText?.text.toString())) {
@@ -239,7 +266,7 @@ class CreateRequisitionActivity : BaseActivity() {
         } else {
           ItemRequisitionDataObj(
             textInputLayouts2[i].editText?.text.toString().toInt(),
-            textInputLayouts2[i].editText?.tag.toString().toInt()
+            textInputLayouts2[i].tag.toString().toInt()
           )
         }
       itemRequisitionDataObjList.add(itemRequisitionDataObj)
@@ -250,6 +277,14 @@ class CreateRequisitionActivity : BaseActivity() {
       itemRequisitionDataObjList,
       textInputLayouts2[textInputLayouts2.size - 1].editText?.text.toString()
     )
+
+    val priority: String = if (checkBox.isChecked) {
+      "1"
+    } else {
+      "0"
+    }
+
+    viewModel.createRequisition(taskIdData, itemRequisitionData, priority)
   }
 
   /*private fun submitBill() {
