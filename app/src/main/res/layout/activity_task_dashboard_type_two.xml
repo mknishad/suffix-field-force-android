@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/lightgray">
 
   <include
       android:id="@+id/toolBar"
@@ -38,7 +39,7 @@
       android:layout_alignParentBottom="true"
       android:layout_marginRight="16dp"
       android:layout_marginBottom="16dp"
-      android:backgroundTint="@color/colorTheme"
+      android:backgroundTint="@color/colorMintDark"
       android:src="@drawable/ic_add_white_24dp"
       app:backgroundTint="@color/backgroundcolor" />
 

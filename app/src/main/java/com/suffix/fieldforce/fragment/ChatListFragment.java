@@ -46,49 +46,50 @@ public class ChatListFragment extends Fragment {
   @BindView(R.id.progress)
   LottieAnimationView progress;
 
-  private APIInterface apiInterface             = null;
-  private DatabaseReference ref                 = null;
-  private ValueEventListener seenListener       = null;
-  private List<ModelUserList> modelUserLists    = null;
-  private List<ModelChatList> modelChatLists    = null;
-  private FieldForcePreferences preferences     = null;
-  private UserAdapter adapter                   = null;
-  private User currentUser                      = null;
-  private String receiverId                     = null;
-  private String receiverName                   = null;
+  private APIInterface apiInterface           = null;
+  private DatabaseReference reference         = null;
+  private List<ModelUserList> modelUserLists  = null;
+  private List<ModelChatList> modelChatLists  = null;
+  private FieldForcePreferences preferences   = null;
+  private UserAdapter adapter                 = null;
+  private User currentUser                    = null;
+
+  private ValueEventListener valueEventListener;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
     View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
-    ButterKnife.bind(this,view);
+    ButterKnife.bind(this, view);
 
-    preferences = new FieldForcePreferences(getContext());
-    currentUser = preferences.getUser();
-    modelUserLists = new ArrayList<>();
-    modelChatLists = new ArrayList<>();
+    preferences     = new FieldForcePreferences(getContext());
+    currentUser     = preferences.getUser();
+    modelUserLists  = new ArrayList<>();
+    modelChatLists  = new ArrayList<>();
+    adapter         = new UserAdapter(getContext(), modelUserLists);
 
     recyclerViewUser.setHasFixedSize(true);
     recyclerViewUser.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapter = new UserAdapter(getContext(), modelUserLists);
     recyclerViewUser.setAdapter(adapter);
 
-    ref = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUserId());
-    ref.addValueEventListener(new ValueEventListener() {
+    reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(currentUser.getUserId());
+    valueEventListener = reference.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        modelUserLists.clear();
-        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-          ModelUserList modelUserList = snapshot.getValue(ModelUserList.class);
-          modelUserLists.add(modelUserList);
+        modelChatLists.clear();
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+          ModelChatList modelChatList = snapshot.getValue(ModelChatList.class);
+          modelChatLists.add(modelChatList);
         }
-        chatList();
+        if (modelChatLists.size() > 0) {
+          chatList();
+        }
       }
 
       @Override
       public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -97,30 +98,35 @@ public class ChatListFragment extends Fragment {
 
   private void chatList() {
 
+    Toast.makeText(getContext(), "Get Chat List", Toast.LENGTH_SHORT).show();
+
+    modelUserLists.clear();
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
-    Call<ModelUser> call = apiInterface.getUserList(
+
+    Call<ModelUser> getUserList = apiInterface.getUserList(
         Constants.INSTANCE.KEY,
         preferences.getUser().getUserId(),
         String.valueOf(preferences.getLocation().getLatitude()),
         String.valueOf(preferences.getLocation().getLongitude()));
 
-    call.enqueue(new Callback<ModelUser>() {
+    getUserList.enqueue(new Callback<ModelUser>() {
       @Override
       public void onResponse(Call<ModelUser> call, Response<ModelUser> response) {
         if (response.isSuccessful()) {
           try {
             ModelUser modelUser = response.body();
-            modelUserLists.clear();
-            modelUserLists = modelUser.responseData;
-//            for(ModelUserList modelUserList : modelUserLists){
-//              if(modelUserList.getEmpOfficeId().equals(modelChatList.getId())){
-//                modelChatLists.add(modelChatList);
-//              }
-//            }
+            List<ModelUserList> userListsData = modelUser.getResponseData();
+            for (ModelUserList modelUserList : userListsData) {
+              for (ModelChatList modelChatList : modelChatLists) {
+                if (modelUserList.getEmpOfficeId().equals(modelChatList.getId())) {
+                  modelUserLists.add(modelUserList);
+                }
+              }
+            }
             adapter.setData(modelUserLists);
-          }catch (Exception e){
+          } catch (Exception e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-          }finally {
+          } finally {
             progress.setVisibility(View.GONE);
           }
         }
@@ -130,29 +136,14 @@ public class ChatListFragment extends Fragment {
       public void onFailure(Call<ModelUser> call, Throwable t) {
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
         progress.setVisibility(View.GONE);
-      }
-    });
-
-    ref = FirebaseDatabase.getInstance().getReference("Users");
-    ref.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        modelChatLists.clear();
-        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-          ModelChatList modelChatList = snapshot.getValue(ModelChatList.class);
-          for(ModelUserList modelUserList : modelUserLists){
-            if(modelUserList.getEmpOfficeId().equals(modelChatList.getId())){
-              modelChatLists.add(modelChatList);
-            }
-          }
-        }
-      }
-
-      @Override
-      public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        call.cancel();
       }
     });
   }
 
+  @Override
+  public void onPause() {
+    super.onPause();
+    reference.removeEventListener(valueEventListener);
+  }
 }

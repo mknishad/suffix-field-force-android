@@ -1,9 +1,11 @@
 package com.suffix.fieldforce.retrofitapi;
 
 import com.suffix.fieldforce.model.AssignedTask;
+import com.suffix.fieldforce.model.ChatGroupMemberDataObj;
 import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
+import com.suffix.fieldforce.model.ModelGroupChat;
 import com.suffix.fieldforce.model.ModelUser;
 import com.suffix.fieldforce.model.ModelUserList;
 import com.suffix.fieldforce.model.RosterScheduleModel;
@@ -13,6 +15,7 @@ import com.suffix.fieldforce.model.Ticketstatus;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -146,5 +149,25 @@ public interface APIInterface {
         @Field("userId") String userId,
         @Field("lat") String lat,
         @Field("lng") String lng
+    );
+
+    @FormUrlEncoded
+    @POST("FFMS/api/getChatGroupList.jsp")
+    Call<ModelGroupChat> getChatGroupList(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng
+    );
+
+    @FormUrlEncoded
+    @POST("FFMS/api/addChatGroup.jsp")
+    Call<ResponseBody> addChatGroup(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng,
+        @Field("chatGroupMemberData") List<ChatGroupMemberDataObj> chatGroupMemberDataObj,
+        @Field("chatGroupName") String chatGroupName
     );
 }

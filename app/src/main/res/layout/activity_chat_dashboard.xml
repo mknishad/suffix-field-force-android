@@ -12,34 +12,35 @@
       style="@style/Widget.Design.TabLayout"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      app:tabBackground="@color/colorMintDark"
-      app:tabIndicatorColor="@color/colorWhite"
+      app:tabBackground="@color/colorWhite"
+      app:tabIndicatorColor="@color/colorMintDark"
       app:tabIndicatorHeight="@dimen/padding_1"
       app:tabSelectedTextColor="@color/colorWhite"
       app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
       app:tabTextColor="@color/transparent" />
 
-<!--  <View-->
-<!--      android:id="@+id/separator"-->
-<!--      android:layout_width="fill_parent"-->
-<!--      android:layout_height="1dip"-->
-<!--      android:layout_above="@+id/bottom"-->
-<!--      android:background="@color/black_overlay"-->
-<!--      />-->
+  <!--  <View-->
+  <!--      android:id="@+id/separator"-->
+  <!--      android:layout_width="fill_parent"-->
+  <!--      android:layout_height="1dip"-->
+  <!--      android:layout_above="@+id/bottom"-->
+  <!--      android:background="@color/black_overlay"-->
+  <!--      />-->
 
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
       android:paddingTop="@dimen/padding_10"
-      android:paddingBottom="@dimen/padding_10">
+      android:paddingBottom="@dimen/padding_10"
+      android:visibility="gone">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/layout_margin_10"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/layout_margin_10">
+        android:orientation="vertical">
 
       <de.hdodenhof.circleimageview.CircleImageView
           android:layout_width="@dimen/card_height_50"
@@ -49,15 +50,16 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Marina"/>
+          android:text="Marina" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/layout_margin_10"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/layout_margin_10">
+        android:orientation="vertical">
 
       <de.hdodenhof.circleimageview.CircleImageView
           android:layout_width="@dimen/card_height_50"
@@ -67,15 +69,16 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Mahmud"/>
+          android:text="Mahmud" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/layout_margin_10"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/layout_margin_10">
+        android:orientation="vertical">
 
       <de.hdodenhof.circleimageview.CircleImageView
           android:layout_width="@dimen/card_height_50"
@@ -85,15 +88,16 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Morshed"/>
+          android:text="Morshed" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/layout_margin_10"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginRight="@dimen/layout_margin_10">
+        android:orientation="vertical">
 
       <de.hdodenhof.circleimageview.CircleImageView
           android:layout_width="@dimen/card_height_50"
@@ -103,9 +107,10 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Rabbi"/>
+          android:text="Rabbi" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,7 +125,7 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Fahad"/>
+          android:text="Fahad" />
 
     </LinearLayout>
 

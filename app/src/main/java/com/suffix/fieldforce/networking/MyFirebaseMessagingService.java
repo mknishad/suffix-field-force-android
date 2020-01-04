@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import androidx.core.app.NotificationCompat;
@@ -14,6 +15,7 @@ import com.suffix.fieldforce.R;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    private Uri uri = null;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -25,6 +27,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(String title, String body) {
+        uri = Uri.parse("android.resource://"+getPackageName()+"/raw/notification_sound.mp3");
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "com.suffix.fieldforce";
 

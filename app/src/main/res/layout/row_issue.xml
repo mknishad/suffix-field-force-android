@@ -16,9 +16,9 @@
       android:layout_alignParentStart="true"
       android:layout_alignParentLeft="true"
       android:background="@color/colorAqua"
-      android:paddingLeft="@dimen/padding_2"
+      android:paddingLeft="@dimen/padding_5"
       android:paddingTop="@dimen/padding_1"
-      android:paddingRight="@dimen/padding_2"
+      android:paddingRight="@dimen/padding_5"
       android:paddingBottom="@dimen/padding_1"
       android:text="SUFFIX-12"
       android:textColor="@android:color/white" />
@@ -29,7 +29,8 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="@dimen/layout_margin_5"
       android:layout_toRightOf="@id/ticketCode"
-      android:text="This is a demo issue for pre defense" />
+      android:text="This is a demo issue for pre defense"
+      android:textStyle="bold" />
 
   <TextView
       android:id="@+id/ticketStatusText"
