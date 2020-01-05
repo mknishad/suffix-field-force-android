@@ -2,6 +2,7 @@ package com.suffix.fieldforce.activity.inventory
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.Color
@@ -16,6 +17,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
@@ -173,6 +175,8 @@ class CreateRequisitionActivity : BaseActivity() {
 
     checkBox.text = getString(R.string.urgent)
     checkBox.textSize = 16f
+    checkBox.setTextColor(Color.GRAY)
+    checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
     checkBox.layoutParams = params
     linearLayout2.addView(checkBox)
   }
@@ -286,84 +290,4 @@ class CreateRequisitionActivity : BaseActivity() {
 
     viewModel.createRequisition(taskIdData, itemRequisitionData, priority)
   }
-
-  /*private fun submitBill() {
-    val billType: String = when (spinner.selectedItemPosition) {
-      0 -> {
-        spinner.snackbar("Select Bill Type")
-        return
-      }
-      1 -> Constants.EXPENSE
-      else -> Constants.ADVANCE
-    }
-
-    val date: String
-
-    if (TextUtils.isEmpty(textInputLayouts[0].editText?.text.toString())) {
-      linearLayout.snackbar("Select Date")
-      return
-    } else {
-      date = textInputLayouts[0].editText?.text.toString()
-    }
-
-    val billDataObj = mutableListOf<Bill>()
-    for (i in 3 until textInputLayouts.size - 2) {
-      val billAmount: Double =
-        if (TextUtils.isEmpty(textInputLayouts[i].editText?.text.toString())) {
-          0.0
-        } else {
-          textInputLayouts[i].editText?.text.toString().toDouble()
-        }
-
-      val bill = Bill(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        billAmount,
-        textInputLayouts[i].tag.toString().toInt(),
-        null
-      )
-      billDataObj.add(bill)
-    }
-
-    val billData = BillData(
-      date,
-      billDataObj,
-      textInputLayouts[textInputLayouts.size - 1].editText?.text.toString()
-    )
-
-    val priority: String = if (checkBox.isChecked) {
-      "1"
-    } else {
-      "0"
-    }
-
-    if (billType.equals(Constants.EXPENSE, true)) {
-      viewModel.submitBillWithAdvanceId(
-        Constants.KEY,
-        preferences.getUser().userId,
-        preferences.getLocation().latitude.toString(),
-        preferences.getLocation().longitude.toString(),
-        billData,
-        encodedImage,
-        taskId,
-        priority
-      )
-    } else {
-      viewModel.submitAdvanceBill(
-        Constants.KEY,
-        preferences.getUser().userId,
-        preferences.getLocation().latitude.toString(),
-        preferences.getLocation().longitude.toString(),
-        billData,
-        encodedImage,
-        taskId,
-        priority
-      )
-    }
-  }*/
 }
