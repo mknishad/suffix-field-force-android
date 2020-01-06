@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity.bill
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,6 +28,7 @@ import com.suffix.fieldforce.util.Utils
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -40,6 +43,8 @@ class AddBillActivity : BaseActivity() {
   private lateinit var spinner: Spinner
   private lateinit var checkBox: CheckBox
   private lateinit var taskId: String
+  private lateinit var taskIdObjList: List<TaskIdObj>
+  private lateinit var taskIdData: TaskIdData
 
   private var encodedImage = ""
 
@@ -69,6 +74,8 @@ class AddBillActivity : BaseActivity() {
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
     taskId = intent.getStringExtra(Constants.TASK_ID)
+    taskIdObjList = mutableListOf(TaskIdObj(taskId.toInt()))
+    taskIdData = TaskIdData(taskIdObjList)
 
     setupToolbar()
     observeBillTypes()
@@ -238,6 +245,8 @@ class AddBillActivity : BaseActivity() {
 
     checkBox.text = getString(R.string.urgent)
     checkBox.textSize = 16f
+    checkBox.setTextColor(Color.GRAY)
+    checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
     checkBox.layoutParams = params
     linearLayout2.addView(checkBox)
   }
@@ -339,7 +348,7 @@ class AddBillActivity : BaseActivity() {
         preferences.getLocation().longitude.toString(),
         billData,
         encodedImage,
-        taskId,
+        taskIdData,
         priority
       )
     } else {
@@ -350,7 +359,7 @@ class AddBillActivity : BaseActivity() {
         preferences.getLocation().longitude.toString(),
         billData,
         encodedImage,
-        taskId,
+        taskIdData,
         priority
       )
     }
@@ -359,6 +368,7 @@ class AddBillActivity : BaseActivity() {
   private fun observeAddBillResponse() {
     viewModel.addBillResponse.observe(this, Observer {
       if (it.responseCode.equals("1", true)) {
+        toast(it.responseText)
         finish()
       } else {
         binding.scrollView2.snackbar(it.responseText)
