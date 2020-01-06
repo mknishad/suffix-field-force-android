@@ -82,7 +82,9 @@ class ExpenseBillFragment : Fragment() {
   private fun observeShowAddBills() {
     viewModel.eventShowAddBills.observe(this, Observer {
       if (it) {
-        activity?.startActivity<AddBillActivity>()
+        activity?.startActivity<AddBillActivity>(
+          Constants.TASK_ID to ""
+        )
         viewModel.addBillsShown()
       }
     })

@@ -57,7 +57,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
     key: String, userId: String, lat: String, lng: String, billData: BillData,
     encodedImage: String, taskId: String, priority: String
   ) {
-    var advanceId: String = "0"
+    var advanceId = "0"
     coroutineScope.launch {
       try {
         val advanceIdDeferred = FieldForceApi.retrofitService.getTaskWiseAdvanceIdAsync(

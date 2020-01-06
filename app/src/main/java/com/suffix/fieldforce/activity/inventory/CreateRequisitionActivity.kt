@@ -37,12 +37,11 @@ class CreateRequisitionActivity : BaseActivity() {
   private lateinit var binding: ActivityCreateRequisitionBinding
   private lateinit var viewModel: CreateRequisitionViewModel
 
+  private lateinit var textInputLayouts1: MutableList<TextInputLayout>
+  private lateinit var linearLayout1: LinearLayout
   private lateinit var textInputLayouts2: MutableList<TextInputLayout>
   private lateinit var linearLayout2: LinearLayout
   private lateinit var checkBox: CheckBox
-
-  private lateinit var textInputLayouts1: MutableList<TextInputLayout>
-  private lateinit var linearLayout1: LinearLayout
 
   private var inventoryList = ArrayList<InventoryItem>()
 
@@ -64,8 +63,8 @@ class CreateRequisitionActivity : BaseActivity() {
 
   private fun init() {
     linearLayout1 = LinearLayout(applicationContext)
-    linearLayout2 = LinearLayout(applicationContext)
     linearLayout1.orientation = LinearLayout.VERTICAL
+    linearLayout2 = LinearLayout(applicationContext)
     linearLayout2.orientation = LinearLayout.VERTICAL
     checkBox = CheckBox(applicationContext)
     textInputLayouts1 = mutableListOf()
@@ -107,7 +106,7 @@ class CreateRequisitionActivity : BaseActivity() {
     }
   }
 
-  fun addTaskIdLayout() {
+  private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_bill_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
