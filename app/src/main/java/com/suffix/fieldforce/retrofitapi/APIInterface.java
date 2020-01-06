@@ -7,7 +7,6 @@ import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.ModelGroupChat;
 import com.suffix.fieldforce.model.ModelUser;
-import com.suffix.fieldforce.model.ModelUserList;
 import com.suffix.fieldforce.model.RosterScheduleModel;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.model.TaskEntry;
@@ -167,7 +166,7 @@ public interface APIInterface {
         @Field("userId") String userId,
         @Field("lat") String lat,
         @Field("lng") String lng,
-        @Field("chatGroupMemberData") List<ChatGroupMemberDataObj> chatGroupMemberDataObj,
+        @Field("chatGroupMemberData") String chatGroupMemberDataObj,
         @Field("chatGroupName") String chatGroupName
     );
 }

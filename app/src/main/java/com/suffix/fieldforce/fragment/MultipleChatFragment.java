@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.adapter.GroupListAdapter;
 import com.suffix.fieldforce.dialog.UserSelectionDialog;
@@ -59,6 +60,7 @@ public class MultipleChatFragment extends Fragment {
                            Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_multiple_chat, container, false);
     ButterKnife.bind(this,view);
+    Toast.makeText(getContext(), "GroupChat Frament", Toast.LENGTH_SHORT).show();
 
     preferences = new FieldForcePreferences(getContext());
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -92,7 +94,7 @@ public class MultipleChatFragment extends Fragment {
   }
 
   private void getGroupList() {
-    Toast.makeText(getContext(), "Get Group", Toast.LENGTH_SHORT).show();
+
     Call<ModelGroupChat> call = apiInterface.getChatGroupList(
         Constants.INSTANCE.KEY,
         preferences.getUser().getUserId(),
@@ -106,7 +108,6 @@ public class MultipleChatFragment extends Fragment {
           ModelGroupChat modelGroupChat = response.body();
           List<GroupChatInfo> groupChatInfos = modelGroupChat.responseData.getChatGroupObj().getResponseData();
           adapter.setData(groupChatInfos);
-          Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
         } else {
 
         }
@@ -120,8 +121,10 @@ public class MultipleChatFragment extends Fragment {
     });
   }
 
-  private void createNewGroup(String groupName, List<ChatGroupMemberDataObj> chatGroupMemberDataObj) {
-    Toast.makeText(getContext(), "Create Group", Toast.LENGTH_SHORT).show();
+  private void createNewGroup(String groupName, List<ChatGroupMemberDataObj> object) {
+    Gson gson = new Gson();
+    String chatGroupMemberDataObj = gson.toJson(object);
+    //Toast.makeText(getContext(), "Create Group", Toast.LENGTH_SHORT).show();
     Call<ResponseBody> addChatGroup = apiInterface.addChatGroup(
         Constants.INSTANCE.KEY,
         preferences.getUser().getUserId(),

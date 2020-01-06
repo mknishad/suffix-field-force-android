@@ -48,6 +48,7 @@ public class UserListFragment extends Fragment {
                            Bundle savedInstanceState) {
     View view =  inflater.inflate(R.layout.fragment_single_chat, container, false);
     ButterKnife.bind(this,view);
+    Toast.makeText(getContext(), "UserList Frament", Toast.LENGTH_SHORT).show();
 
     modelUserLists = new ArrayList<>();
     preferences = new FieldForcePreferences(getContext());

@@ -62,6 +62,7 @@ public class ChatListFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
     ButterKnife.bind(this, view);
+    Toast.makeText(getContext(), "ChatList Frament", Toast.LENGTH_SHORT).show();
 
     preferences     = new FieldForcePreferences(getContext());
     currentUser     = preferences.getUser();
@@ -97,8 +98,6 @@ public class ChatListFragment extends Fragment {
   }
 
   private void chatList() {
-
-    Toast.makeText(getContext(), "Get Chat List", Toast.LENGTH_SHORT).show();
 
     modelUserLists.clear();
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
