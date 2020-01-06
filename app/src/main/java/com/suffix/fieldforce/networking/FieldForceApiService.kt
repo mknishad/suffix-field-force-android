@@ -81,7 +81,7 @@ interface FieldForceApiService {
     @Query("lat") lat: String,
     @Query("lng") lng: String,
     @Query("billData") billData: String,
-    @Query("taskId") taskId: String,
+    @Query("taskIdData") taskIdData: String,
     @Field("imageString") imageString: String,
     @Query("advanceId") advanceId: String,
     @Query("priority") priority: String
@@ -96,7 +96,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String,
     @Query("billData") billData: String,
     @Field("imageString") imageString: String,
-    @Query("taskId") taskId: String,
+    @Query("taskIdData") taskIdData: String,
     @Query("priority") priority: String
   ): Deferred<AddBillResponse>
 
@@ -189,4 +189,15 @@ interface FieldForceApiService {
     @Query("lng") lng: String,
     @Query("itemRequisitionId") itemRequisitionId: String
   ): Deferred<BillDetailsResponse>
+
+  @POST("FFMS/api/itemRequisition.jsp")
+  fun createRequisitionAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String,
+    @Query("taskIdData") taskIdData: String,
+    @Query("itemRequisitionData") itemRequisitionData: String,
+    @Query("priority") priority: String
+  ): Deferred<CreateRequisitionResponse>
 }

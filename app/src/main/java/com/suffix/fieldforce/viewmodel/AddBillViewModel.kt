@@ -8,6 +8,7 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.model.AddBillResponse
 import com.suffix.fieldforce.model.BillData
 import com.suffix.fieldforce.model.BillType
+import com.suffix.fieldforce.model.TaskIdData
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
@@ -55,9 +56,10 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
 
   fun submitBillWithAdvanceId(
     key: String, userId: String, lat: String, lng: String, billData: BillData,
-    encodedImage: String, taskId: String, priority: String
+    encodedImage: String, taskIdData: TaskIdData, priority: String
   ) {
-    var advanceId: String = "0"
+    var advanceId = "0"
+    val taskIdDataJson = Gson().toJson(taskIdData)
     coroutineScope.launch {
       try {
         val advanceIdDeferred = FieldForceApi.retrofitService.getTaskWiseAdvanceIdAsync(
@@ -65,7 +67,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
           userId,
           lat,
           lng,
-          taskId
+          taskIdDataJson
         )
 
         progress.value = true
@@ -81,15 +83,16 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
         error(e.message, e)
       }
 
-      submitBill(key, userId, lat, lng, billData, taskId, encodedImage, advanceId, priority)
+      submitBill(key, userId, lat, lng, billData, taskIdData, encodedImage, advanceId, priority)
     }
   }
 
   private fun submitBill(
     key: String, userId: String, lat: String, lng: String, billData: BillData,
-    taskId: String, encodedImage: String, advanceId: String, priority: String
+    taskIdData: TaskIdData, encodedImage: String, advanceId: String, priority: String
   ) {
     val billDataJson = Gson().toJson(billData)
+    val taskIdDataJson = Gson().toJson(taskIdData)
 
     coroutineScope.launch {
       try {
@@ -99,7 +102,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
           lat,
           lng,
           billDataJson,
-          taskId,
+          taskIdDataJson,
           encodedImage,
           advanceId,
           priority
@@ -123,9 +126,10 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
 
   fun submitAdvanceBill(
     key: String, userId: String, lat: String, lng: String, billData: BillData, encodedImage: String,
-    taskId: String, priority: String
+    taskIdData: TaskIdData, priority: String
   ) {
     val billDataJson = Gson().toJson(billData)
+    val taskIdDataJson = Gson().toJson(taskIdData)
 
     coroutineScope.launch {
       try {
@@ -136,7 +140,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
           lng,
           billDataJson,
           encodedImage,
-          taskId,
+          taskIdDataJson,
           priority
         )
 

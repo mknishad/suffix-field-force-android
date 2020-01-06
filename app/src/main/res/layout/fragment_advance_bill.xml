@@ -137,7 +137,6 @@
             android:backgroundTint="@color/colorRed"
             android:onClick="@{() -> viewModel.showAddBills()}"
             android:src="@drawable/ic_add_white_24dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

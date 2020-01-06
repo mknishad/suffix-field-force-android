@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class InventoryItem(
-  var productId: Int?,
-  var stockQuantity: Double?,
-  var productInvId: Int?,
-  var productName: String?
+  var productId: Int,
+  var stockQuantity: Double,
+  var productInvId: Int,
+  var productName: String
 ) : Parcelable

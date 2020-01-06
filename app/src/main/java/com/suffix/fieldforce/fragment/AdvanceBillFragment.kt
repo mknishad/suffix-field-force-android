@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.bill.AddBillActivity
 import com.suffix.fieldforce.activity.bill.BillDetailsActivity
 import com.suffix.fieldforce.adapter.AdvanceBillsAdapter
 import com.suffix.fieldforce.adapter.BillsListener
@@ -57,7 +58,7 @@ class AdvanceBillFragment : Fragment() {
 
     observeBillsDashboard()
     observeMessage()
-    //observeShowAddBills()
+    observeShowAddBills()
   }
 
   private fun observeBillsDashboard() {
@@ -76,12 +77,14 @@ class AdvanceBillFragment : Fragment() {
     })
   }
 
-  /*private fun observeShowAddBills() {
+  private fun observeShowAddBills() {
       viewModel.eventShowAddBills.observe(this, Observer {
           if (it) {
-              activity?.startActivity<AddBillActivity>()
+              activity?.startActivity<AddBillActivity>(
+                Constants.TASK_ID to ""
+              )
               viewModel.addBillsShown()
           }
       })
-  }*/
+  }
 }
