@@ -107,7 +107,7 @@ class CreateRequisitionActivity : BaseActivity() {
     }
   }
 
-  fun addTaskIdLayout() {
+  private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_bill_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
