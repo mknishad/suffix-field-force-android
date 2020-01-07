@@ -62,7 +62,8 @@
         android:windowSoftInputMode="stateHidden" />
     <activity
         android:name=".activity.bill.AddBillActivity"
-        android:screenOrientation="portrait" />
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="stateHidden" />
     <activity
         android:name=".activity.TaskDetailsActivity"
         android:screenOrientation="portrait" />

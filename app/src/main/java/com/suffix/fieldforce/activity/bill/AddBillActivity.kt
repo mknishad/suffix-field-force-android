@@ -74,8 +74,17 @@ class AddBillActivity : BaseActivity() {
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
     taskId = intent.getStringExtra(Constants.TASK_ID)
-    taskIdObjList = mutableListOf(TaskIdObj(taskId.toInt()))
-    taskIdData = TaskIdData(taskIdObjList)
+    /*taskIdObjList = mutableListOf(TaskIdObj(taskId.toInt()))
+    taskIdData = TaskIdData(taskIdObjList)*/
+
+    addSpinner()
+    if (TextUtils.isEmpty(taskId)) {
+      addTaskIdLayout()
+    } else {
+      binding.newTaskButton.visibility = View.GONE
+    }
+    addDateLayout()
+    addImagePickerLayout()
 
     setupToolbar()
     observeBillTypes()
@@ -104,20 +113,12 @@ class AddBillActivity : BaseActivity() {
 
   private fun observeBillTypes() {
     viewModel.billTypes.observe(this, Observer {
-      if (textInputLayouts2.size == 0) {
-        addSpinner()
-        if (TextUtils.isEmpty(taskId)) {
-          addTaskIdLayout()
-        } else {
-          binding.newTaskButton.visibility = View.GONE
-        }
-        addDateLayout()
-        addImagePickerLayout()
+      //if (textInputLayouts2.size == 0) {
         addBillTypesLayout(it)
         addRemarksLayout()
         addCheckBox()
         addButton()
-      }
+      //}
     })
   }
 
@@ -275,15 +276,20 @@ class AddBillActivity : BaseActivity() {
     var taskIdObjList = mutableListOf<TaskIdObj>()
     var taskIdData: TaskIdData
 
-    if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
-      linearLayout1.snackbar("Enter Task Id")
-      return
-    } else {
-      for (i in 0 until taskIdNumber) {
-        if (!TextUtils.isEmpty(textInputLayouts1[i].editText?.text.toString())) {
-          taskIdObjList.add(TaskIdObj(textInputLayouts1[i].editText?.text.toString().toInt()))
+    if (TextUtils.isEmpty(taskId)) {
+      if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
+        linearLayout1.snackbar("Enter Task Id")
+        return
+      } else {
+        for (i in 0 until taskIdNumber) {
+          if (!TextUtils.isEmpty(textInputLayouts1[i].editText?.text.toString())) {
+            taskIdObjList.add(TaskIdObj(textInputLayouts1[i].editText?.text.toString().toInt()))
+          }
         }
+        taskIdData = TaskIdData(taskIdObjList)
       }
+    } else {
+      taskIdObjList.add(TaskIdObj(taskId.toInt()))
       taskIdData = TaskIdData(taskIdObjList)
     }
 
