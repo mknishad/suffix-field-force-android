@@ -108,7 +108,7 @@ class CreateRequisitionActivity : BaseActivity() {
 
   private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task Id"
     //layout.editText?.setText("123")
@@ -226,7 +226,7 @@ class CreateRequisitionActivity : BaseActivity() {
 
   fun addAnotherTaskLayout(view: View) {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task Id"
     linearLayout1.addView(view)
