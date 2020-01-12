@@ -14,6 +14,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -23,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
+import com.suffix.fieldforce.adapter.SearchTaskAdapter
 import com.suffix.fieldforce.databinding.ActivityCreateRequisitionBinding
 import com.suffix.fieldforce.model.*
 import com.suffix.fieldforce.util.Constants
@@ -111,7 +113,52 @@ class CreateRequisitionActivity : BaseActivity() {
     val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task Id"
-    //layout.editText?.setText("123")
+    (layout.editText as AutoCompleteTextView).setAdapter(
+      SearchTaskAdapter(
+        this, R.layout.list_item_search_task, mutableListOf<Task>(
+          Task(
+            "Test Task 1",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "111",
+            null,
+            null
+          ),
+          Task(
+            "Test Task 2",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "222",
+            null,
+            null
+          )
+        )
+      )
+    )
+    (layout.editText as AutoCompleteTextView).setOnItemClickListener { parent, view, position, id ->
+      val task = parent.getItemAtPosition(position) as Task
+      (layout.editText as AutoCompleteTextView).setText(task.ticketId)
+    }
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     binding.scrollView1.addView(linearLayout1)
@@ -175,7 +222,8 @@ class CreateRequisitionActivity : BaseActivity() {
     checkBox.text = getString(R.string.urgent)
     checkBox.textSize = 16f
     checkBox.setTextColor(Color.GRAY)
-    checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
+    checkBox.buttonTintList =
+      ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
     checkBox.layoutParams = params
     linearLayout2.addView(checkBox)
   }
