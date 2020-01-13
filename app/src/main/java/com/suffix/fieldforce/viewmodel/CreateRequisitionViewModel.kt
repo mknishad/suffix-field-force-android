@@ -20,8 +20,8 @@ class CreateRequisitionViewModel(application: Application) : BaseViewModel(appli
   val createRequisitionResponse: LiveData<CreateRequisitionResponse>
     get() = _createRequisitionResponse
 
-  private val _taskList = MutableLiveData<ArrayList<Task>>()
-  val taskList: LiveData<ArrayList<Task>>
+  private val _taskList = MutableLiveData<List<Task>>()
+  val taskList: LiveData<List<Task>>
     get() = _taskList
 
   init {

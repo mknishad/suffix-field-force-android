@@ -95,7 +95,7 @@ class CreateRequisitionActivity : BaseActivity() {
   private fun observeTaskList() {
     viewModel.taskList.observe(this, androidx.lifecycle.Observer {
       it.let {
-        taskList = it
+        taskList = ArrayList(it)
         for (a in autoCompleteTVList) {
           setupAutoCompleteTextView(a)
         }
@@ -254,10 +254,10 @@ class CreateRequisitionActivity : BaseActivity() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-    layout.hint = "Task Id"
-    autoCompleteTVList.add(layout as AutoCompleteTextView)
+    layout.hint = "Task"
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
     if (taskList.isNotEmpty()) {
-      setupAutoCompleteTextView(layout as AutoCompleteTextView)
+      setupAutoCompleteTextView(layout.editText as AutoCompleteTextView)
     }
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
