@@ -139,6 +139,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
     startActivity(intent);
   }
 
+  @OnClick(R.id.cardHistory)
+  public void openNewDashboard() {
+    Intent intent = new Intent(MainDashboardActivity.this, MainDashboardActivityTypeTwo.class);
+    startActivity(intent);
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

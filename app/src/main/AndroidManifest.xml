@@ -17,8 +17,10 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
+    <activity android:name=".activity.home.MainDashboardActivityTypeTwo"></activity>
     <activity android:name=".activity.inventory.RequisitionDetailsActivity" />
-    <activity android:name=".activity.inventory.CreateRequisitionActivity"
+    <activity
+        android:name=".activity.inventory.CreateRequisitionActivity"
         android:windowSoftInputMode="stateHidden" />
     <activity android:name=".activity.chat.ChatDashboardActivity" />
     <activity android:name=".activity.chat.MessageActivity" />
