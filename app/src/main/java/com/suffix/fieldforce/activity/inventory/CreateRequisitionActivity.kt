@@ -46,6 +46,8 @@ class CreateRequisitionActivity : BaseActivity() {
   private lateinit var checkBox: CheckBox
 
   private var inventoryList = ArrayList<InventoryItem>()
+  private var taskList = ArrayList<Task>()
+  private var autoCompleteTVList = ArrayList<AutoCompleteTextView>()
 
   private var mDay: Int = 0
   private var mMonth: Int = 0
@@ -81,11 +83,23 @@ class CreateRequisitionActivity : BaseActivity() {
     addCheckBox()
     addButton()
     observeMessage()
+    observeTaskList()
   }
 
   private fun observeMessage() {
     viewModel.message.observe(this, androidx.lifecycle.Observer {
       binding.scrollView2.snackbar(it)
+    })
+  }
+
+  private fun observeTaskList() {
+    viewModel.taskList.observe(this, androidx.lifecycle.Observer {
+      it.let {
+        taskList = it
+        for (a in autoCompleteTVList) {
+          setupAutoCompleteTextView(a)
+        }
+      }
     })
   }
 
@@ -108,57 +122,21 @@ class CreateRequisitionActivity : BaseActivity() {
     }
   }
 
+  private fun setupAutoCompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
+    val adapter = SearchTaskAdapter(this, R.layout.list_item_search_task, taskList)
+    autoCompleteTextView.setAdapter(adapter)
+    autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+      val task = parent.getItemAtPosition(position) as Task
+      autoCompleteTextView.setText(task.ticketId)
+    }
+  }
+
   private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-    layout.hint = "Task Id"
-    (layout.editText as AutoCompleteTextView).setAdapter(
-      SearchTaskAdapter(
-        this, R.layout.list_item_search_task, mutableListOf<Task>(
-          Task(
-            "Test Task 1",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "111",
-            null,
-            null
-          ),
-          Task(
-            "Test Task 2",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "222",
-            null,
-            null
-          )
-        )
-      )
-    )
-    (layout.editText as AutoCompleteTextView).setOnItemClickListener { parent, view, position, id ->
-      val task = parent.getItemAtPosition(position) as Task
-      (layout.editText as AutoCompleteTextView).setText(task.ticketId)
-    }
+    layout.hint = "Task"
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     binding.scrollView1.addView(linearLayout1)
@@ -277,6 +255,10 @@ class CreateRequisitionActivity : BaseActivity() {
     val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task Id"
+    autoCompleteTVList.add(layout as AutoCompleteTextView)
+    if (taskList.isNotEmpty()) {
+      setupAutoCompleteTextView(layout as AutoCompleteTextView)
+    }
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     taskIdNumber++

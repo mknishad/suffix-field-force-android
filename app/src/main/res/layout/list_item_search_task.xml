@@ -10,15 +10,25 @@
       android:id="@+id/taskTitleText"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      tools:text="123123"
+      tools:text="Test Task"
+      android:textSize="16sp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
   <TextView
-      android:id="@+id/taskIdText"
+      android:id="@+id/taskDescriptionText"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       tools:text="Test Task"
       app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@id/taskTitleText" />
+  <TextView
+      android:id="@+id/taskDateTextView"
+      tools:text="2019-10-10"
+      app:layout_constraintTop_toBottomOf="@id/taskDescriptionText"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

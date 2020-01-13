@@ -118,6 +118,7 @@ public class RosterManagementActivity extends AppCompatActivity {
                   events.add(new EventDay(calender, drawable));
                 }
                 calendarView.setEvents(events);
+                calendarView.notifyAll();
               }
             }
           }

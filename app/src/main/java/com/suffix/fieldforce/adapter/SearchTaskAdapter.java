@@ -42,10 +42,12 @@ public class SearchTaskAdapter extends ArrayAdapter<Task> {
         view = inflater.inflate(resourceId, parent, false);
       }
       Task task = getItem(position);
-      TextView taskIdText = (TextView) view.findViewById(R.id.taskIdText);
       TextView taskTitleText = view.findViewById(R.id.taskTitleText);
-      taskIdText.setText(task.getTicketId());
+      TextView taskDescriptionText = view.findViewById(R.id.taskDescriptionText);
+      TextView taskDateText = view.findViewById(R.id.taskDateTextView);
       taskTitleText.setText(task.getTicketTitle());
+      taskDescriptionText.setText(task.getTicketDesc());
+      taskDateText.setText(task.getAddDate());
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -86,7 +88,9 @@ public class SearchTaskAdapter extends ArrayAdapter<Task> {
       if (charSequence != null) {
         suggestions.clear();
         for (Task task : tempItems) {
-          if (task.getTicketTitle().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
+          if (task.getTicketTitle().toLowerCase().startsWith(charSequence.toString().toLowerCase())
+          || task.getTicketDesc().toLowerCase().startsWith(charSequence.toString().toLowerCase())
+          || task.getAddDate().toLowerCase().startsWith(charSequence.toString().toLowerCase())) {
             suggestions.add(task);
           }
         }
