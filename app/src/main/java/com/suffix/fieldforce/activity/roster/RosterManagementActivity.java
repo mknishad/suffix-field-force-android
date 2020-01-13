@@ -69,7 +69,7 @@ public class RosterManagementActivity extends AppCompatActivity {
   private void prepareRosterCalender(Calendar currentDate) {
 
     String year = String.valueOf(currentDate.get(Calendar.YEAR));
-    String month = String.valueOf(currentDate.get(Calendar.MONTH));
+    String month = String.valueOf(currentDate.get(Calendar.MONTH)+1);
 
     Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
         new FieldForcePreferences(this).getUser().getUserId(),
@@ -118,7 +118,6 @@ public class RosterManagementActivity extends AppCompatActivity {
                   events.add(new EventDay(calender, drawable));
                 }
                 calendarView.setEvents(events);
-                calendarView.notifyAll();
               }
             }
           }
