@@ -81,18 +81,20 @@
 
         </com.github.florent37.materialtextfield.MaterialTextField>
 
-        <Button
+        <TextView
             android:id="@+id/log_btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_marginTop="@dimen/layout_margin_40"
             android:background="@drawable/border_white"
-            android:paddingLeft="@dimen/layout_margin_10"
-            android:paddingRight="@dimen/layout_margin_10"
+            android:paddingLeft="80dp"
+            android:paddingRight="80dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="Login"
             android:textColor="@android:color/white"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout

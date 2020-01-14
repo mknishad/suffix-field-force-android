@@ -19,6 +19,10 @@ public class GroupChatInfo {
   @Expose
   public String chatGroupIcon;
 
+  public GroupChatInfo(String chatGroupName) {
+    this.chatGroupName = chatGroupName;
+  }
+
   public String getChatGroupId() {
     return chatGroupId;
   }

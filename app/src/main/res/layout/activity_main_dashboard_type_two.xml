@@ -9,7 +9,7 @@
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/app_bar"
       android:layout_width="match_parent"
-      android:layout_height="250dp"
+      android:layout_height="280dp"
       android:background="@color/colorMintLight"
       android:fitsSystemWindows="true"
       android:theme="@style/AppTheme.NoActionBar">
@@ -65,7 +65,7 @@
         android:id="@+id/txtUserAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JUNIOR SOFTWARE ENGINEER"
+        android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:textColor="@color/color_white"
         android:textSize="8sp" />
 

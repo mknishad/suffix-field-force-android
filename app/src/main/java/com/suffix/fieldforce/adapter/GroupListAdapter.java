@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.chat.GroupMessageActivity;
 import com.suffix.fieldforce.activity.chat.MessageActivity;
 import com.suffix.fieldforce.model.GroupChatInfo;
 import com.suffix.fieldforce.model.ModelGroupChat;
@@ -38,7 +39,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Vide
   @Override
   public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_chat_list, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_group_list, parent, false);
     return new VideoViewHolder(view);
   }
 
@@ -48,16 +49,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Vide
     GroupChatInfo modelGroupChat = modelGroupChats.get(position);
     holder.txtUserName.setText(modelGroupChat.getChatGroupName());
 
-//    holder.itemView.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        Intent intent = new Intent(mcontext, MessageActivity.class);
-//        intent.putExtra("EMPLOYEE_NAME", model.getEmpName());
-//        intent.putExtra("EMPLOYEE_IMAGE", model.getPictureLink());
-//        intent.putExtra("EMPLOYEE_ID", model.getEmpOfficeId());
-//        mcontext.startActivity(intent);
-//      }
-//    });
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent intent = new Intent(mcontext, GroupMessageActivity.class);
+        intent.putExtra("GROUP_NAME", modelGroupChat.getChatGroupName());
+        mcontext.startActivity(intent);
+      }
+    });
   }
 
   public void setData(List<GroupChatInfo> modelGroupChats) {

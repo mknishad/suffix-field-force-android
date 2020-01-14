@@ -48,7 +48,7 @@ public class UserListFragment extends Fragment {
                            Bundle savedInstanceState) {
     View view =  inflater.inflate(R.layout.fragment_single_chat, container, false);
     ButterKnife.bind(this,view);
-    Toast.makeText(getContext(), "UserList Frament", Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getContext(), "UserList Frament", Toast.LENGTH_SHORT).show();
 
     modelUserLists = new ArrayList<>();
     preferences = new FieldForcePreferences(getContext());
@@ -62,8 +62,8 @@ public class UserListFragment extends Fragment {
     Call<ModelUser> call = apiInterface.getUserList(
         Constants.INSTANCE.KEY,
         preferences.getUser().getUserId(),
-        String.valueOf(preferences.getLocation().getLatitude()),
-        String.valueOf(preferences.getLocation().getLongitude()));
+        "",
+        "");
 
     call.enqueue(new Callback<ModelUser>() {
       @Override

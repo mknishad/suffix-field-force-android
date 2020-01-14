@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.log_input_password)
     EditText logInputPassword;
     @BindView(R.id.log_btn_login)
-    Button logBtnLogin;
+    TextView logBtnLogin;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 

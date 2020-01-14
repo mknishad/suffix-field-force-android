@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -101,8 +102,8 @@ public class UserSelectionDialog extends DialogFragment {
     Call<ModelUser> call = apiInterface.getUserList(
         Constants.INSTANCE.KEY,
         preferences.getUser().getUserId(),
-        String.valueOf(preferences.getLocation().getLatitude()),
-        String.valueOf(preferences.getLocation().getLongitude()));
+        "0",
+        "0");
 
     call.enqueue(new Callback<ModelUser>() {
       @Override

@@ -106,7 +106,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private static final String TAG = "MainDashboardActivity";
 
-  private final String ENTRY_TYPE_IN  = "I";
+  private final String ENTRY_TYPE_IN = "I";
   private final String ENTRY_TYPE_OUT = "O";
 
   private static int REQUEST_CHECK_SETTINGS = 1000;
@@ -143,7 +143,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         openInventory();
         break;
       case R.id.layoutChat:
-        //openMessage();
+        openMessage();
         break;
       case R.id.layoutSiteMap:
         break;
@@ -461,7 +461,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
             attendanceEntry.enqueue(new Callback<LocationResponse>() {
               @Override
               public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                   LocationResponse locationResponse = response.body();
                   Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
                 }
@@ -510,7 +510,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
             attendanceEntry.enqueue(new Callback<LocationResponse>() {
               @Override
               public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                   LocationResponse locationResponse = response.body();
                   Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
                 }

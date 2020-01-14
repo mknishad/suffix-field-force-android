@@ -11,4 +11,8 @@ public class ChatGroupMemberDataObj {
   public ChatGroupMemberDataObj(String groupMemberId) {
     this.groupMemberId = groupMemberId;
   }
+
+  public String getGroupMemberId() {
+    return groupMemberId;
+  }
 }

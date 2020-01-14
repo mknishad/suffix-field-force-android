@@ -40,6 +40,7 @@ public class RosterManagementActivity extends AppCompatActivity {
 
   private APIInterface apiInterface;
   private List<EventDay> events;
+  private Typeface typeface;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class RosterManagementActivity extends AppCompatActivity {
 
     events = new ArrayList<>();
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
     prepareRosterCalender(calendarView.getCurrentPageDate());
 
     calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
@@ -69,7 +71,8 @@ public class RosterManagementActivity extends AppCompatActivity {
   private void prepareRosterCalender(Calendar currentDate) {
 
     String year = String.valueOf(currentDate.get(Calendar.YEAR));
-    String month = String.valueOf(currentDate.get(Calendar.MONTH)+1);
+    String month = String.valueOf(currentDate.get(Calendar.MONTH) + 1);
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
         new FieldForcePreferences(this).getUser().getUserId(),
@@ -94,18 +97,16 @@ public class RosterManagementActivity extends AppCompatActivity {
                   String status = d.getStatus();
 
                   Drawable drawable = null;
-                  Typeface typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
                   if (status.toUpperCase().contains("R")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.color_green, 20);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorMintLight, 18);
                   } else if (status.toUpperCase().contains("D")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 20);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 18);
                   } else if (status.toUpperCase().contains("OFF")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 20);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 18);
                   } else if (status.toUpperCase().contains("N")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 20);
+                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 18);
                   }
 
-                  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                   Date date = null;
                   try {
                     date = formatter.parse(stringDate);
