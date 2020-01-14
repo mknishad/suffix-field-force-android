@@ -125,6 +125,7 @@ class CreateRequisitionActivity : BaseActivity() {
   private fun setupAutoCompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
     val adapter = SearchTaskAdapter(this, R.layout.list_item_search_task, taskList)
     autoCompleteTextView.setAdapter(adapter)
+    autoCompleteTextView.threshold = 1
     autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
       val task = parent.getItemAtPosition(position) as Task
       autoCompleteTextView.setText(task.ticketId)
@@ -133,7 +134,7 @@ class CreateRequisitionActivity : BaseActivity() {
 
   private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task"
     autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
@@ -172,7 +173,7 @@ class CreateRequisitionActivity : BaseActivity() {
       val view = inflater.inflate(R.layout.item_bill_input_layout, null)
       val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
       layout.hint = inventory.productName
-      layout.tag = inventory.productInvId
+      layout.editText?.tag = inventory.productInvId
       layout.editText?.inputType = InputType.TYPE_CLASS_NUMBER
       //layout.editText?.setText("1")
       linearLayout2.addView(view)
@@ -252,7 +253,7 @@ class CreateRequisitionActivity : BaseActivity() {
 
   fun addAnotherTaskLayout(view: View) {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_inventory_input_layout, null)
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = "Task"
     autoCompleteTVList.add(layout.editText as AutoCompleteTextView)

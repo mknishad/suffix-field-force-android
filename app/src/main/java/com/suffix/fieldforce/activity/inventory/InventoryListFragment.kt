@@ -82,9 +82,9 @@ class InventoryListFragment : Fragment() {
   }
 
   private fun observeMessage() {
-    viewModel.message.observe(this, Observer {
-      it.let {
-        binding.recyclerView.snackbar(it)
+    viewModel.message.observe(this, Observer { message ->
+      message.let {
+        binding.recyclerView.snackbar(message)
       }
     })
   }
