@@ -28,8 +28,7 @@
           android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize"
           app:layout_collapseMode="pin"
-          app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-          app:title="MOHAMMAD SOLAIMAN" />
+          app:title="MOHAMMAD SOLAIMAN"/>
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -40,6 +39,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="@dimen/layout_margin_20"
+      android:layout_marginBottom="@dimen/layout_margin_20"
       android:gravity="center_horizontal"
       android:orientation="vertical">
 
@@ -52,20 +52,22 @@
         android:src="@drawable/consultant" />
 
     <TextView
+        android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_margin_20"
+        android:layout_marginTop="@dimen/layout_margin_10"
         android:text="MOHAMMAD SOLAIMAN"
         android:textColor="@color/color_white"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txtUserAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="JUNIOR SOFTWARE ENGINEER"
         android:textColor="@color/color_white"
-        android:textSize="12sp" />
+        android:textSize="8sp" />
 
   </LinearLayout>
 
@@ -85,6 +87,7 @@
         android:weightSum="3">
 
       <LinearLayout
+          android:id="@+id/layoutAttendance"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -98,7 +101,7 @@
             android:layout_marginTop="@dimen/layout_margin_10"
             android:background="@drawable/round_green_light"
             android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_alarm"
+            android:src="@drawable/ic_person"
             android:tint="@color/colorWhite" />
 
         <TextView
@@ -112,6 +115,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutExit"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -182,6 +186,7 @@
         android:weightSum="3">
 
       <LinearLayout
+          android:id="@+id/layoutTask"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -210,6 +215,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutRoster"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -238,6 +244,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutBilling"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -273,6 +280,7 @@
         android:weightSum="3">
 
       <LinearLayout
+          android:id="@+id/layoutInventory"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -287,7 +295,7 @@
             android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_violet_very_light"
             android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_hotel"
+            android:src="@drawable/ic_developer"
             android:tint="@color/colorWhite" />
 
         <TextView
@@ -301,6 +309,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutChat"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginRight="@dimen/layout_margin_10"
@@ -329,6 +338,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutSiteMap"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -350,7 +360,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
             android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="Calendar"
+            android:text="SITE MAP"
             android:textAlignment="center"
             android:textSize="12sp" />
       </LinearLayout>
