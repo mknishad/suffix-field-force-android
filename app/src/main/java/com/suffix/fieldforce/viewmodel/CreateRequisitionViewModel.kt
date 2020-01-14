@@ -32,7 +32,7 @@ class CreateRequisitionViewModel(application: Application) : BaseViewModel(appli
     progress.value = true
     coroutineScope.launch {
       try {
-        val getTaskListDeferred = FieldForceApi.retrofitService.getRequisitionSearchTaskAsync(
+        val getTaskListDeferred = FieldForceApi.retrofitService.getTaskListForRequisitionAsync(
           Constants.KEY,
           preferences.getUser().userId,
           preferences.getLocation().latitude.toString(),

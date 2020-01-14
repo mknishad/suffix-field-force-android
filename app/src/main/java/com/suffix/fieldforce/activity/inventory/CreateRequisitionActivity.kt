@@ -143,6 +143,20 @@ class CreateRequisitionActivity : BaseActivity() {
     binding.scrollView1.addView(linearLayout1)
   }
 
+  fun addAnotherTaskLayout(view: View) {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = "Task"
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
+    if (taskList.isNotEmpty()) {
+      setupAutoCompleteTextView(layout.editText as AutoCompleteTextView)
+    }
+    linearLayout1.addView(view)
+    textInputLayouts1.add(layout)
+    taskIdNumber++
+  }
+
   private fun addDateLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflater.inflate(R.layout.item_bill_input_layout, null)
@@ -249,20 +263,6 @@ class CreateRequisitionActivity : BaseActivity() {
     )
     datePickerDialog.show()
     //viewModel.datePickerShown()
-  }
-
-  fun addAnotherTaskLayout(view: View) {
-    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_task_input_layout, null)
-    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-    layout.hint = "Task"
-    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
-    if (taskList.isNotEmpty()) {
-      setupAutoCompleteTextView(layout.editText as AutoCompleteTextView)
-    }
-    linearLayout1.addView(view)
-    textInputLayouts1.add(layout)
-    taskIdNumber++
   }
 
   private fun submitRequisition() {

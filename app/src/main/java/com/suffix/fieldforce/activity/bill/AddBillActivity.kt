@@ -21,6 +21,7 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
+import com.suffix.fieldforce.adapter.SearchTaskAdapter
 import com.suffix.fieldforce.databinding.ActivityAddBillBinding
 import com.suffix.fieldforce.model.*
 import com.suffix.fieldforce.util.Constants
@@ -47,6 +48,8 @@ class AddBillActivity : BaseActivity() {
   private lateinit var taskIdData: TaskIdData
 
   private var encodedImage = ""
+  private var taskList = ArrayList<Task>()
+  private var autoCompleteTVList = ArrayList<AutoCompleteTextView>()
 
   private var mDay: Int = 0
   private var mMonth: Int = 0
@@ -77,6 +80,7 @@ class AddBillActivity : BaseActivity() {
     /*taskIdObjList = mutableListOf(TaskIdObj(taskId.toInt()))
     taskIdData = TaskIdData(taskIdObjList)*/
 
+    setupToolbar()
     addSpinner()
     if (TextUtils.isEmpty(taskId)) {
       addTaskIdLayout()
@@ -85,8 +89,7 @@ class AddBillActivity : BaseActivity() {
     }
     addDateLayout()
     addImagePickerLayout()
-
-    setupToolbar()
+    observeTaskList()
     observeBillTypes()
     observeAddBillResponse()
     observeMessage()
@@ -109,6 +112,27 @@ class AddBillActivity : BaseActivity() {
     } else {
       binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
     }
+  }
+
+  private fun setupAutoCompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
+    val adapter = SearchTaskAdapter(this, R.layout.list_item_search_task, taskList)
+    autoCompleteTextView.setAdapter(adapter)
+    autoCompleteTextView.threshold = 1
+    autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+      val task = parent.getItemAtPosition(position) as Task
+      autoCompleteTextView.setText(task.ticketId)
+    }
+  }
+
+  private fun observeTaskList() {
+    viewModel.taskList.observe(this, androidx.lifecycle.Observer {
+      it.let {
+        taskList = ArrayList(it)
+        for (a in autoCompleteTVList) {
+          setupAutoCompleteTextView(a)
+        }
+      }
+    })
   }
 
   private fun observeBillTypes() {
@@ -149,10 +173,10 @@ class AddBillActivity : BaseActivity() {
 
   private fun addTaskIdLayout() {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-    layout.hint = "Task Id"
-    //layout.editText?.setText("123")
+    layout.hint = "Task"
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     binding.scrollView1.addView(linearLayout1)
@@ -160,9 +184,13 @@ class AddBillActivity : BaseActivity() {
 
   fun addAnotherTaskLayout(view: View) {
     val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val view = inflater.inflate(R.layout.item_bill_input_layout, null)
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
-    layout.hint = "Task Id"
+    layout.hint = "Task"
+    if (taskList.isNotEmpty()) {
+      setupAutoCompleteTextView(layout.editText as AutoCompleteTextView)
+    }
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
     linearLayout1.addView(view)
     textInputLayouts1.add(layout)
     taskIdNumber++
@@ -275,6 +303,7 @@ class AddBillActivity : BaseActivity() {
   private fun  submitBill() {
     var taskIdObjList = mutableListOf<TaskIdObj>()
     var taskIdData: TaskIdData
+    val date: String
 
     if (TextUtils.isEmpty(taskId)) {
       if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
@@ -302,7 +331,6 @@ class AddBillActivity : BaseActivity() {
       else -> Constants.ADVANCE
     }
 
-    val date: String
     if (TextUtils.isEmpty(textInputLayouts2[0].editText?.text.toString())) {
       linearLayout2.snackbar("Select Date")
       return
@@ -311,7 +339,7 @@ class AddBillActivity : BaseActivity() {
     }
 
     val billDataObj = mutableListOf<Bill>()
-    for (i in 3 until textInputLayouts2.size - 2) {
+    for (i in 2 until textInputLayouts2.size - 1) {
       val billAmount: Double =
         if (TextUtils.isEmpty(textInputLayouts2[i].editText?.text.toString())) {
           0.0
@@ -375,7 +403,7 @@ class AddBillActivity : BaseActivity() {
     viewModel.addBillResponse.observe(this, Observer {
       if (it.responseCode.equals("1", true)) {
         toast(it.responseText)
-        finish()
+        //finish()
       } else {
         binding.scrollView2.snackbar(it.responseText)
       }
