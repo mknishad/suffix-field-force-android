@@ -150,5 +150,8 @@ dependencies {
 
   //Fresco
   implementation 'com.facebook.fresco:fresco:2.0.0'
+
+  // Material Dialog Library
+  implementation 'com.shreyaspatil:MaterialDialog:2.0'
 }
 apply plugin: 'com.google.gms.google-services'

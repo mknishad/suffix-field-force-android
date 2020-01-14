@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -33,6 +34,8 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
@@ -41,7 +44,11 @@ import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
+import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+import com.suffix.fieldforce.retrofitapi.APIClient;
+import com.suffix.fieldforce.retrofitapi.APIInterface;
+import com.suffix.fieldforce.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,10 @@ import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainDashboardActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
@@ -94,6 +105,10 @@ public class MainDashboardActivity extends AppCompatActivity implements
   LinearLayout layoutSiteMap;
 
   private static final String TAG = "MainDashboardActivity";
+
+  private final String ENTRY_TYPE_IN  = "I";
+  private final String ENTRY_TYPE_OUT = "O";
+
   private static int REQUEST_CHECK_SETTINGS = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
   private static final long UPDATE_INTERVAL = 10 * 1000;
@@ -104,13 +119,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private GoogleApiClient mGoogleApiClient;
 
   private FieldForcePreferences preferences;
+  private APIInterface apiInterface;
 
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
+        geoAttendance();
         break;
       case R.id.layoutExit:
+        geoExit();
         break;
       case R.id.layoutTask:
         openTask();
@@ -125,7 +143,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         openInventory();
         break;
       case R.id.layoutChat:
-        openMessage();
+        //openMessage();
         break;
       case R.id.layoutSiteMap:
         break;
@@ -143,6 +161,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void init() {
     preferences = new FieldForcePreferences(this);
+    apiInterface = APIClient.getApiClient().create(APIInterface.class);
     txtUserName.setText(preferences.getUser().getUserName());
 
     initProgressBar();
@@ -153,6 +172,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }
 
     buildGoogleApiClient();
+    getDeviceLocation("");
     //initLocationSettings();
   }
 
@@ -230,7 +250,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                     public void onAddressResolved(Location location, List<Address> list) {
 
                       if (BuildConfig.DEBUG) {
-                        Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
                       }
 
                       if (list.size() > 0) {
@@ -242,7 +262,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                           addressElements.add(result.getAddressLine(i));
                         }
                         if (BuildConfig.DEBUG) {
-                          Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
+                          //Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
                         }
                         builder.append(TextUtils.join(", ", addressElements));
                         txtUserAddress.setText(builder.toString());
@@ -418,6 +438,104 @@ public class MainDashboardActivity extends AppCompatActivity implements
     Log.i(TAG, "Removing location updates");
     LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
         getPendingIntent());
+  }
+
+  @SuppressLint("RestrictedApi")
+  private void geoAttendance() {
+    Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+        Constants.INSTANCE.KEY,
+        preferences.getUser().getUserId(),
+        String.valueOf(preferences.getLocation().getLatitude()),
+        String.valueOf(preferences.getLocation().getLongitude()),
+        ENTRY_TYPE_IN
+    );
+
+    BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+        .setTitle("ENTRY?")
+        .setMessage("Are you sure want to make attendance?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            goOnline();
+            attendanceEntry.enqueue(new Callback<LocationResponse>() {
+              @Override
+              public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                if(response.isSuccessful()){
+                  LocationResponse locationResponse = response.body();
+                  Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
+                }
+              }
+
+              @Override
+              public void onFailure(Call<LocationResponse> call, Throwable t) {
+                Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                call.cancel();
+              }
+            });
+            dialogInterface.dismiss();
+          }
+        })
+        .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
+            dialogInterface.dismiss();
+          }
+        })
+        .build();
+
+    // Show Dialog
+    mBottomSheetDialog.show();
+  }
+
+  @SuppressLint("RestrictedApi")
+  private void geoExit() {
+    Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+        Constants.INSTANCE.KEY,
+        preferences.getUser().getUserId(),
+        String.valueOf(preferences.getLocation().getLatitude()),
+        String.valueOf(preferences.getLocation().getLongitude()),
+        ENTRY_TYPE_OUT
+    );
+
+    BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+        .setTitle("EXIT?")
+        .setMessage("Are you sure want to exit?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            goOffline();
+            attendanceEntry.enqueue(new Callback<LocationResponse>() {
+              @Override
+              public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                if(response.isSuccessful()){
+                  LocationResponse locationResponse = response.body();
+                  Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
+                }
+              }
+
+              @Override
+              public void onFailure(Call<LocationResponse> call, Throwable t) {
+                Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                call.cancel();
+              }
+            });
+            dialogInterface.dismiss();
+          }
+        })
+        .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
+            dialogInterface.dismiss();
+          }
+        })
+        .build();
+
+    // Show Dialog
+    mBottomSheetDialog.show();
   }
 
   public void openTask() {
