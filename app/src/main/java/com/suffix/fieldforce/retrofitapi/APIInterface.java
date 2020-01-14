@@ -23,6 +23,15 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
+    @POST("FFMS/api/attendanceEntry.jsp")
+    Call<LocationResponse> attendanceEntry(
+        @Query("key") String key,
+        @Query("userId") String userId,
+        @Query("lat") String lat,
+        @Query("lng") String lng,
+        @Query("entryType") String entryType
+    );
+
     @POST("FFMS/api/geoLocationEntry.jsp")
     Call<LocationResponse> sendGeoLocationAsync(
         @Query("key") String key,

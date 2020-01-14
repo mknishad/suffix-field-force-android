@@ -94,7 +94,7 @@ public class RosterManagementActivity extends AppCompatActivity {
                   String status = d.getStatus();
 
                   Drawable drawable = null;
-                  Typeface typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/circulate.ttf");
+                  Typeface typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
                   if (status.toUpperCase().contains("R")) {
                     drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.color_green, 20);
                   } else if (status.toUpperCase().contains("D")) {
