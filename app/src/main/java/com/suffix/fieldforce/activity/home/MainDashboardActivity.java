@@ -41,6 +41,7 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
+import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
@@ -172,7 +173,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }
 
     buildGoogleApiClient();
-    getDeviceLocation("");
+    getDeviceLocation(new LocationListener() {
+      @Override
+      public void onLocationUpdate(Location location) {
+
+      }
+    },"");
     //initLocationSettings();
   }
 
@@ -221,7 +227,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //    });
   }
 
-  private void getDeviceLocation(String text) {
+  private void getDeviceLocation(LocationListener locationListener, String text) {
     try {
 //            Task task = fusedLocationProviderClient.getLastLocation();
 //            task.addOnCompleteListener(task1 -> {
@@ -243,7 +249,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
             public void onLocationUpdated(Location location) {
 
               preferences.putLocation(location);
-
+              locationListener.onLocationUpdate(location);
               SmartLocation.with(MainDashboardActivity.this).geocoding()
                   .reverse(location, new OnReverseGeocodingListener() {
                     @Override
@@ -284,7 +290,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //    progressBar.setProgress(0f);
 //    progressBar.setProgressAnimationDuration(1000);
 //    progressBar.setProgress(100f);
-    getDeviceLocation("Entered : ");
+    //getDeviceLocation("Entered : ");
     requestLocationUpdates();
 //    txtUserStatus.setText(getResources().getString(R.string.entered));
 //    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.green));
@@ -297,7 +303,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
 //    progressBar.setProgressAnimationDuration(1000);
 //    progressBar.setProgress(100f);
-    getDeviceLocation("Exit : ");
+    //getDeviceLocation("Exit : ");
     removeLocationUpdates();
 //    txtUserStatus.setText(getResources().getString(R.string.exit));
 //    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
@@ -442,13 +448,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   @SuppressLint("RestrictedApi")
   private void geoAttendance() {
-    Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
-        Constants.INSTANCE.KEY,
-        preferences.getUser().getUserId(),
-        String.valueOf(preferences.getLocation().getLatitude()),
-        String.valueOf(preferences.getLocation().getLongitude()),
-        ENTRY_TYPE_IN
-    );
 
     BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
         .setTitle("ENTRY?")
@@ -457,22 +456,38 @@ public class MainDashboardActivity extends AppCompatActivity implements
         .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int which) {
-            goOnline();
-            attendanceEntry.enqueue(new Callback<LocationResponse>() {
+            getDeviceLocation(new LocationListener() {
               @Override
-              public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                if (response.isSuccessful()) {
-                  LocationResponse locationResponse = response.body();
-                  Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
-                }
-              }
+              public void onLocationUpdate(Location location) {
 
-              @Override
-              public void onFailure(Call<LocationResponse> call, Throwable t) {
-                Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                call.cancel();
+                requestLocationUpdates();
+                preferences.putOnline(true);
+
+                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+                    Constants.INSTANCE.KEY,
+                    preferences.getUser().getUserId(),
+                    String.valueOf(location.getLatitude()),
+                    String.valueOf(location.getLongitude()),
+                    ENTRY_TYPE_IN
+                );
+                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+                  @Override
+                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                    if (response.isSuccessful()) {
+                      LocationResponse locationResponse = response.body();
+                      Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
+                    }
+                  }
+
+                  @Override
+                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                    Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    call.cancel();
+                  }
+                });
               }
-            });
+            },"ENTERED : ");
+
             dialogInterface.dismiss();
           }
         })
@@ -491,13 +506,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   @SuppressLint("RestrictedApi")
   private void geoExit() {
-    Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
-        Constants.INSTANCE.KEY,
-        preferences.getUser().getUserId(),
-        String.valueOf(preferences.getLocation().getLatitude()),
-        String.valueOf(preferences.getLocation().getLongitude()),
-        ENTRY_TYPE_OUT
-    );
 
     BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
         .setTitle("EXIT?")
@@ -506,22 +514,39 @@ public class MainDashboardActivity extends AppCompatActivity implements
         .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialogInterface, int which) {
-            goOffline();
-            attendanceEntry.enqueue(new Callback<LocationResponse>() {
-              @Override
-              public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                if (response.isSuccessful()) {
-                  LocationResponse locationResponse = response.body();
-                  Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
-                }
-              }
 
+            getDeviceLocation(new LocationListener() {
               @Override
-              public void onFailure(Call<LocationResponse> call, Throwable t) {
-                Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                call.cancel();
+              public void onLocationUpdate(Location location) {
+                requestLocationUpdates();
+                preferences.putOnline(true);
+
+                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+                    Constants.INSTANCE.KEY,
+                    preferences.getUser().getUserId(),
+                    String.valueOf(preferences.getLocation().getLatitude()),
+                    String.valueOf(preferences.getLocation().getLongitude()),
+                    ENTRY_TYPE_OUT
+                );
+
+                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+                  @Override
+                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                    if (response.isSuccessful()) {
+                      LocationResponse locationResponse = response.body();
+                      Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
+                    }
+                  }
+
+                  @Override
+                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                    Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    call.cancel();
+                  }
+                });
+
               }
-            });
+            },"EXIT : ");
             dialogInterface.dismiss();
           }
         })
