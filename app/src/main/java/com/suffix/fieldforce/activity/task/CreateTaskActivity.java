@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,6 +33,7 @@ import com.suffix.fieldforce.model.DistrictData;
 import com.suffix.fieldforce.model.DistrictInfo;
 import com.suffix.fieldforce.model.TaskEntry;
 import com.suffix.fieldforce.model.ThanaInfo;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
@@ -95,6 +95,8 @@ public class CreateTaskActivity extends AppCompatActivity {
     private String strDistrictId;
     private String strThanaId;
 
+    private FieldForcePreferences preferences;
+
     private String[] priorityList = new String[]{"Low", "Medium", "High"};
     private String[] districtList;
     private String[] thanaList;
@@ -119,6 +121,8 @@ public class CreateTaskActivity extends AppCompatActivity {
         setActionBar();
         initDistrictThana();
         verifyStoragePermissions(this);
+
+        preferences = new FieldForcePreferences(this);
 
         waitingDialog = new SpotsDialog(CreateTaskActivity.this, R.style.Custom);
 
@@ -289,7 +293,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
         Call<TaskEntry> taskEntry = apiInterface.taskEntry(
             Constants.KEY,
-            Constants.USER_ID,
+            preferences.getUser().getUserId(),
                 String.valueOf(location.getLatitude()),
                 String.valueOf(location.getLongitude()),
                 "1",

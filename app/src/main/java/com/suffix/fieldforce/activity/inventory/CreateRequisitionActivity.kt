@@ -45,7 +45,7 @@ class CreateRequisitionActivity : BaseActivity() {
   private lateinit var linearLayout2: LinearLayout
   private lateinit var checkBox: CheckBox
 
-  private var inventoryList = ArrayList<InventoryItem>()
+  private var inventoryList = java.util.ArrayList<InventoryItem>()
   private var taskList = ArrayList<Task>()
   private var autoCompleteTVList = ArrayList<AutoCompleteTextView>()
 
@@ -73,7 +73,8 @@ class CreateRequisitionActivity : BaseActivity() {
     checkBox = CheckBox(applicationContext)
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
-    inventoryList = intent.getParcelableArrayListExtra(Constants.INVENTORY_LIST)
+    val b = intent.getBundleExtra(Constants.BUNDLE)
+    inventoryList = b.getParcelableArrayList<InventoryItem>(Constants.INVENTORY_LIST)!!
 
     setupToolbar()
     addTaskIdLayout()

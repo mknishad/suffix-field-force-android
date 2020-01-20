@@ -44,8 +44,6 @@ class AddBillActivity : BaseActivity() {
   private lateinit var spinner: Spinner
   private lateinit var checkBox: CheckBox
   private lateinit var taskId: String
-  private lateinit var taskIdObjList: List<TaskIdObj>
-  private lateinit var taskIdData: TaskIdData
 
   private var encodedImage = ""
   private var taskList = ArrayList<Task>()
@@ -77,8 +75,6 @@ class AddBillActivity : BaseActivity() {
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
     taskId = intent.getStringExtra(Constants.TASK_ID)
-    /*taskIdObjList = mutableListOf(TaskIdObj(taskId.toInt()))
-    taskIdData = TaskIdData(taskIdObjList)*/
 
     setupToolbar()
     addSpinner()

@@ -26,7 +26,7 @@ class InventoryListFragment : Fragment() {
   private lateinit var viewModel: InventoryListViewModel
   private lateinit var adapter: InventoryListAdapter
 
-  private var inventoryList = ArrayList<InventoryItem>()
+  private var inventoryList = java.util.ArrayList<InventoryItem>()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -73,8 +73,11 @@ class InventoryListFragment : Fragment() {
     viewModel.eventOpenCreateRequisition.observe(this, Observer {
       if (it) {
         if (inventoryList.isNotEmpty()) {
+          val b = Bundle()
+          b.putParcelableArrayList(Constants.INVENTORY_LIST, inventoryList)
+
           val requisitionIntent = Intent(context, CreateRequisitionActivity::class.java)
-          requisitionIntent.putExtra(Constants.INVENTORY_LIST, inventoryList)
+          requisitionIntent.putExtra(Constants.BUNDLE, b)
           startActivity(requisitionIntent)
         }
       }
