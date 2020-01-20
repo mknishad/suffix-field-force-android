@@ -63,7 +63,6 @@ import io.nlopez.smartlocation.SmartLocation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainDashboardActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
@@ -112,7 +111,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private static int REQUEST_CHECK_SETTINGS = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-  private static final long UPDATE_INTERVAL = 10 * 1000;
+  private static final long UPDATE_INTERVAL = 10 * 60 * 1000;
   private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
   private static final long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
 
@@ -178,7 +177,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
       public void onLocationUpdate(Location location) {
 
       }
-    },"");
+    }, "");
     //initLocationSettings();
   }
 
@@ -486,7 +485,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   }
                 });
               }
-            },"ENTERED : ");
+            }, "ENTERED : ");
 
             dialogInterface.dismiss();
           }
@@ -546,7 +545,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                 });
 
               }
-            },"EXIT : ");
+            }, "EXIT : ");
             dialogInterface.dismiss();
           }
         })
