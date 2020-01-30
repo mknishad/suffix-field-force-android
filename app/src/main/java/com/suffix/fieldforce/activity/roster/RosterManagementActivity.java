@@ -74,6 +74,10 @@ public class RosterManagementActivity extends AppCompatActivity {
     String month = String.valueOf(currentDate.get(Calendar.MONTH) + 1);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+    if(month.trim().length() == 1){
+      month = "0"+month;
+    }
+
     Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
         new FieldForcePreferences(this).getUser().getUserId(),
         "23.789847",

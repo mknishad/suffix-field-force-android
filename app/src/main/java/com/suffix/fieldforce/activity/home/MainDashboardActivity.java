@@ -44,6 +44,7 @@ import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
+import com.suffix.fieldforce.activity.transport.TransportRequasitionActivity;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -146,6 +147,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         openMessage();
         break;
       case R.id.layoutSiteMap:
+        openSiteMap();
         break;
     }
   }
@@ -587,8 +589,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
     startActivity(intent);
   }
 
-  public void openNewDashboard() {
-    Intent intent = new Intent(MainDashboardActivity.this, MainDashboardActivityTypeTwo.class);
+  private void openSiteMap() {
+    Intent intent = new Intent(MainDashboardActivity.this, TransportRequasitionActivity.class);
     startActivity(intent);
   }
+
 }

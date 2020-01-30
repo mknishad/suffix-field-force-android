@@ -96,7 +96,6 @@ public class PreviewTaskActivity extends AppCompatActivity {
         imgDrawer.setImageResource(R.drawable.ic_arrow_back);
         imgMap.setImageResource(R.drawable.ic_edit);
         toolBarTitle.setText("Preview Task");
-
     }
 
     @OnClick(R.id.imgMap)

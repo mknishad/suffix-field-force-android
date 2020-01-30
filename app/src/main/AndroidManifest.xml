@@ -17,8 +17,8 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".activity.chat.GroupMessageActivity"></activity>
-    <activity android:name=".activity.home.MainDashboardActivityTypeTwo" />
+    <activity android:name=".activity.transport.TransportRequasitionActivity"></activity>
+    <activity android:name=".activity.chat.GroupMessageActivity" />
     <activity android:name=".activity.inventory.RequisitionDetailsActivity" />
     <activity
         android:name=".activity.inventory.CreateRequisitionActivity"

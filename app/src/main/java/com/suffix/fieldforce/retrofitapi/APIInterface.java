@@ -7,6 +7,7 @@ import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.model.LoginResponse;
 import com.suffix.fieldforce.model.ModelGroupChat;
 import com.suffix.fieldforce.model.ModelUser;
+import com.suffix.fieldforce.model.Project;
 import com.suffix.fieldforce.model.RosterScheduleModel;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.model.TaskEntry;
@@ -14,6 +15,7 @@ import com.suffix.fieldforce.model.Ticketstatus;
 
 import java.util.List;
 
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -177,5 +179,31 @@ public interface APIInterface {
         @Field("lng") String lng,
         @Field("chatGroupMemberData") String chatGroupMemberDataObj,
         @Field("chatGroupName") String chatGroupName
+    );
+
+    @FormUrlEncoded
+    @POST("FFMS/api/getProjectList.jsp")
+    Call<Project> getProjectList(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng
+    );
+
+    @FormUrlEncoded
+    @POST("FFMS/api/postTransportRequisition.jsp")
+    Call<ResponseBody> postTransportRequisition(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng,
+        @Field("projectId") String projectId,
+        @Field("regMaintenance") String regMaintenance,
+        @Field("survey") String survey,
+        @Field("clientConnectivity") String clientConnectivity,
+        @Field("implementation") String implementation,
+        @Field("startTime") String startTime,
+        @Field("endTime") String endTime,
+        @Field("remark") String remark
     );
 }
