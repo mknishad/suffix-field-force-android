@@ -10,4 +10,12 @@ public class ProjectData {
   @SerializedName("projectTitle")
   @Expose
   public String projectTitle;
+
+  public String getProjectId() {
+    return projectId;
+  }
+
+  public String getProjectTitle() {
+    return projectTitle;
+  }
 }

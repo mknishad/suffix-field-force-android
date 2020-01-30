@@ -38,6 +38,7 @@ public class RosterManagementActivity extends AppCompatActivity {
   @BindView(R.id.calendarView)
   CalendarView calendarView;
 
+  private FieldForcePreferences preferences;
   private APIInterface apiInterface;
   private List<EventDay> events;
   private Typeface typeface;
@@ -49,6 +50,7 @@ public class RosterManagementActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     events = new ArrayList<>();
+    preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
     typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
     prepareRosterCalender(calendarView.getCurrentPageDate());
@@ -80,8 +82,8 @@ public class RosterManagementActivity extends AppCompatActivity {
 
     Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
         new FieldForcePreferences(this).getUser().getUserId(),
-        "23.789847",
-        "90.402321",
+        String.valueOf(preferences.getLocation().getLatitude()),
+        String.valueOf(preferences.getLocation().getLongitude()),
         year,
         month);
 

@@ -158,6 +158,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_main_dashboard_type_two);
     ButterKnife.bind(this);
 
+    toolbar.setVisibility(View.GONE);
     init();
   }
 

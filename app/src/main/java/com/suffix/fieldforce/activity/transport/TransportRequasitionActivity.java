@@ -2,7 +2,12 @@ package com.suffix.fieldforce.activity.transport;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,23 +15,28 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.Project;
+import com.suffix.fieldforce.model.ProjectData;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,6 +76,8 @@ public class TransportRequasitionActivity extends AppCompatActivity {
   private APIInterface apiInterface;
   private final Calendar myCalendar = Calendar.getInstance();
   private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
+
+  private List<ProjectData> projectDatas = new ArrayList<>();
 
   private String strProjectId = null;
   private String strRegMaintenance = null;
@@ -113,13 +125,13 @@ public class TransportRequasitionActivity extends AppCompatActivity {
       public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
         String HH = String.valueOf(selectedHour);
         String MM = String.valueOf(selectedMinute);
-        if(selectedHour < 10){
-          HH = "0"+HH;
+        if (selectedHour < 10) {
+          HH = "0" + HH;
         }
-        if(selectedMinute < 10){
-          MM = "0"+MM;
+        if (selectedMinute < 10) {
+          MM = "0" + MM;
         }
-        startTime.setText( HH + ":" + MM + ":00");
+        startTime.setText(HH + ":" + MM + ":00");
       }
     }, hour, minute, true);//Yes 24 hour time
     mTimePicker.setTitle("Select Time");
@@ -137,13 +149,13 @@ public class TransportRequasitionActivity extends AppCompatActivity {
       public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
         String HH = String.valueOf(selectedHour);
         String MM = String.valueOf(selectedMinute);
-        if(selectedHour < 10){
-          HH = "0"+HH;
+        if (selectedHour < 10) {
+          HH = "0" + HH;
         }
-        if(selectedMinute < 10){
-          MM = "0"+MM;
+        if (selectedMinute < 10) {
+          MM = "0" + MM;
         }
-        endTime.setText( HH + ":" + MM + ":00");
+        endTime.setText(HH + ":" + MM + ":00");
       }
     }, hour, minute, true);//Yes 24 hour time
     mTimePicker.setTitle("Select Time");
@@ -151,14 +163,16 @@ public class TransportRequasitionActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.btnSubmit)
-  public void submit(){
-    strRegMaintenance = (checkboxRegMaintenance.isSelected()? "1" : "0");
-    strSurvey =  (checkboxSurvey.isSelected()? "1" : "0");
-    strClientConnectivity =  (checkboxClientConnectivity.isSelected()? "1" : "0");
-    strImplementation =  (checkboxImplementation.isSelected()? "1" : "0");
-    strStartTime = startDate.getText().toString()+" "+startTime.getText().toString();
-    strEndTime = endDate.getText().toString()+" "+endTime.getText().toString();
-    strRemark = null;
+  public void submit() {
+    strRegMaintenance = (checkboxRegMaintenance.isSelected() ? "1" : "0");
+    strSurvey = (checkboxSurvey.isSelected() ? "1" : "0");
+    strClientConnectivity = (checkboxClientConnectivity.isSelected() ? "1" : "0");
+    strImplementation = (checkboxImplementation.isSelected() ? "1" : "0");
+    strStartTime = startDate.getText().toString() + " " + startTime.getText().toString();
+    strEndTime = endDate.getText().toString() + " " + endTime.getText().toString();
+    strRemark = remarks.getText().toString();
+
+    createRequasition();
   }
 
   @Override
@@ -170,7 +184,6 @@ public class TransportRequasitionActivity extends AppCompatActivity {
 
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
-
     getProject();
   }
 
@@ -183,6 +196,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     imgDrawer.setImageResource(R.drawable.ic_arrow_back);
     imgMap.setImageResource(R.drawable.ic_edit);
     toolBarTitle.setText("Transport Requasition");
+    imgMap.setVisibility(View.GONE);
   }
 
   DatePickerDialog.OnDateSetListener startDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -217,9 +231,11 @@ public class TransportRequasitionActivity extends AppCompatActivity {
 
   private void getProject() {
 
+    String userId = preferences.getUser().getUserId();
+
     Call<Project> getProjectList = apiInterface.getProjectList(
         Constants.KEY,
-        preferences.getUser().getUserId(),
+        userId,
         String.valueOf(preferences.getLocation().getLatitude()),
         String.valueOf(preferences.getLocation().getLongitude())
     );
@@ -227,11 +243,79 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     getProjectList.enqueue(new Callback<Project>() {
       @Override
       public void onResponse(Call<Project> call, Response<Project> response) {
+        if (response.isSuccessful()) {
+          projectDatas = response.body().responseData;
 
+          String[] projectName = new String[projectDatas.size()];
+
+          for (int i = 0; i < projectDatas.size(); i++) {
+            projectName[i] = projectDatas.get(i).projectTitle;
+          }
+
+          project.setAdapter(new ArrayAdapter<>(
+              getApplicationContext(),
+              R.layout.dropdown_menu_popup_item,
+              projectName));
+
+          project.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+              project.showDropDown();
+              return false;
+            }
+          });
+
+          project.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              strProjectId = projectDatas.get(position).getProjectId();
+            }
+          });
+
+        }
       }
 
       @Override
       public void onFailure(Call<Project> call, Throwable t) {
+        Toast.makeText(TransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        project.setAdapter(null);
+        call.cancel();
+      }
+    });
+
+  }
+
+  private void createRequasition() {
+
+    String userId = preferences.getUser().getUserId();
+
+    Call<ResponseBody> postTransportRequisition = apiInterface.postTransportRequisition(
+        Constants.KEY,
+        userId,
+        String.valueOf(preferences.getLocation().getLatitude()),
+        String.valueOf(preferences.getLocation().getLongitude()),
+        strProjectId,
+        strRegMaintenance,
+        strSurvey,
+        strClientConnectivity,
+        strImplementation,
+        strStartTime,
+        strEndTime,
+        strRemark
+    );
+
+    postTransportRequisition.enqueue(new Callback<ResponseBody>() {
+      @Override
+      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if(response.isSuccessful()){
+          Toast.makeText(TransportRequasitionActivity.this, "Transport Requasition Addedd Successfully", Toast.LENGTH_SHORT).show();
+          back();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<ResponseBody> call, Throwable t) {
+        Toast.makeText(TransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         call.cancel();
       }
     });
