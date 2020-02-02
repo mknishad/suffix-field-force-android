@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -41,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TransportRequasitionActivity extends AppCompatActivity {
+public class CreateTransportRequasitionActivity extends AppCompatActivity {
 
   @BindView(R.id.imgMap)
   ImageView imgMap;
@@ -125,7 +124,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
     int minute = mcurrentTime.get(Calendar.MINUTE);
     TimePickerDialog mTimePicker;
-    mTimePicker = new TimePickerDialog(TransportRequasitionActivity.this, new TimePickerDialog.OnTimeSetListener() {
+    mTimePicker = new TimePickerDialog(CreateTransportRequasitionActivity.this, new TimePickerDialog.OnTimeSetListener() {
       @Override
       public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
         String HH = String.valueOf(selectedHour);
@@ -149,7 +148,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
     int minute = mcurrentTime.get(Calendar.MINUTE);
     TimePickerDialog mTimePicker;
-    mTimePicker = new TimePickerDialog(TransportRequasitionActivity.this, new TimePickerDialog.OnTimeSetListener() {
+    mTimePicker = new TimePickerDialog(CreateTransportRequasitionActivity.this, new TimePickerDialog.OnTimeSetListener() {
       @Override
       public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
         String HH = String.valueOf(selectedHour);
@@ -287,7 +286,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
       @Override
       public void onFailure(Call<Project> call, Throwable t) {
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(TransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateTransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         project.setAdapter(null);
         call.cancel();
       }
@@ -319,14 +318,14 @@ public class TransportRequasitionActivity extends AppCompatActivity {
       @Override
       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         if (response.isSuccessful()) {
-          Toast.makeText(TransportRequasitionActivity.this, "Transport Requasition Addedd Successfully", Toast.LENGTH_SHORT).show();
+          Toast.makeText(CreateTransportRequasitionActivity.this, "Transport Requasition Addedd Successfully", Toast.LENGTH_SHORT).show();
           back();
         }
       }
 
       @Override
       public void onFailure(Call<ResponseBody> call, Throwable t) {
-        Toast.makeText(TransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateTransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         call.cancel();
       }
     });

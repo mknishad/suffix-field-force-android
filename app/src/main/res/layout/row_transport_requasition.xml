@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginRight="2dp"
+    android:background="@android:color/white"
+    android:padding="@dimen/padding_2">
+
+  <TextView
+      android:id="@+id/txtTransportRequasitionStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_centerVertical="true"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      android:background="@drawable/border_mint"
+      android:paddingLeft="@dimen/padding_4"
+      android:paddingTop="@dimen/padding_1"
+      android:paddingRight="@dimen/padding_4"
+      android:paddingBottom="2dp"
+      android:text="online"
+      android:textColor="@android:color/white"
+      android:textSize="10sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/txtTransportRequasitionStatus"
+        android:layout_alignParentStart="true">
+
+      <TextView
+          android:id="@+id/txtId"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginTop="@dimen/layout_margin_5"
+          android:text="Dr. Solaiman"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/txtStartDateTime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/ticketStatusText"
+          android:layout_alignParentEnd="true"
+          android:layout_marginTop="4dp"
+          android:layout_marginLeft="5dp"
+          android:background="@drawable/border_levender"
+          android:paddingLeft="@dimen/padding_4"
+          android:paddingTop="@dimen/padding_1"
+          android:paddingRight="@dimen/padding_4"
+          android:paddingBottom="2dp"
+          android:text="10 June, 2019"
+          android:textColor="@android:color/white"
+          android:textSize="10sp" />
+
+      <TextView
+          android:id="@+id/txtEndDateTime"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/ticketStatusText"
+          android:layout_alignParentEnd="true"
+          android:layout_marginTop="4dp"
+          android:layout_marginLeft="5dp"
+          android:background="@drawable/border_orange"
+          android:paddingLeft="@dimen/padding_4"
+          android:paddingTop="@dimen/padding_1"
+          android:paddingRight="@dimen/padding_4"
+          android:paddingBottom="2dp"
+          android:text="10 June, 2019"
+          android:textColor="@android:color/white"
+          android:textSize="10sp" />
+    </LinearLayout>
+
+</RelativeLayout>

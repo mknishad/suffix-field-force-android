@@ -6,11 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".activity.transport.TransportRequasitionListActivity">
 
+  <include
+      android:id="@+id/toolBar"
+    layout="@layout/toolbar"/>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/toolBar"
+      tools:listitem="@layout/row_transport_requasition"/>
+
   <ProgressBar
       android:id="@+id/progressBar"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerInParent="true"
       android:visibility="gone" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/buttonCreate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginRight="16dp"
+      android:layout_marginBottom="16dp"
+      android:backgroundTint="@color/colorMintDark"
+      android:src="@drawable/ic_add_white_24dp"
+      app:backgroundTint="@color/backgroundcolor"
+      app:borderWidth="0dp"/>
+
 
 </RelativeLayout>

@@ -12,6 +12,7 @@ import com.suffix.fieldforce.model.RosterScheduleModel;
 import com.suffix.fieldforce.model.SendPushTokenResponse;
 import com.suffix.fieldforce.model.TaskEntry;
 import com.suffix.fieldforce.model.Ticketstatus;
+import com.suffix.fieldforce.model.TransportListRequasition;
 
 import java.util.List;
 
@@ -184,6 +185,16 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("FFMS/api/getProjectList.jsp")
     Call<Project> getProjectList(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("lat") String lat,
+        @Field("lng") String lng
+    );
+
+
+    @FormUrlEncoded
+    @POST("FFMS/api/getTransportRequisitionList.jsp")
+    Call<TransportListRequasition> getTransportRequisitionList(
         @Field("key") String key,
         @Field("userId") String userId,
         @Field("lat") String lat,
