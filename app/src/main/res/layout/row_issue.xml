@@ -28,6 +28,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="@dimen/layout_margin_5"
+      android:paddingTop="@dimen/padding_1"
       android:layout_toRightOf="@id/ticketCode"
       android:text="This is a demo issue for pre defense"
       android:textStyle="bold" />
@@ -66,7 +67,7 @@
 
   <LinearLayout
       android:layout_width="wrap_content"
-      android:layout_height="40dp"
+      android:layout_height="wrap_content"
       android:layout_below="@+id/ticketCode"
       android:layout_alignParentStart="true"
       android:layout_toLeftOf="@+id/ticketStartDate"
@@ -75,7 +76,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProjectIcon"
         android:layout_width="@dimen/layout_height_20"
-        android:layout_height="@dimen/layout_height_30"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
         android:src="@drawable/consultant" />
 
     <LinearLayout

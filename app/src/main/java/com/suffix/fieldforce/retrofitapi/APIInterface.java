@@ -204,6 +204,7 @@ public interface APIInterface {
         @Field("implementation") String implementation,
         @Field("startTime") String startTime,
         @Field("endTime") String endTime,
+        @Field("destination") String destination,
         @Field("remark") String remark
     );
 }

@@ -2,7 +2,6 @@ package com.suffix.fieldforce.activity.transport;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -69,8 +69,12 @@ public class TransportRequasitionActivity extends AppCompatActivity {
   TextInputEditText endTime;
   @BindView(R.id.remarks)
   TextInputEditText remarks;
+  @BindView(R.id.destination)
+  TextInputEditText destination;
+  @BindView(R.id.progressBar)
+  ProgressBar progressBar;
   @BindView(R.id.btnSubmit)
-  Button btnSubmit;
+  TextView btnSubmit;
 
   private FieldForcePreferences preferences;
   private APIInterface apiInterface;
@@ -86,6 +90,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
   private String strImplementation = null;
   private String strStartTime = null;
   private String strEndTime = null;
+  private String strDestination = null;
   private String strRemark = null;
 
   @OnClick(R.id.imgDrawer)
@@ -170,6 +175,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     strImplementation = (checkboxImplementation.isSelected() ? "1" : "0");
     strStartTime = startDate.getText().toString() + " " + startTime.getText().toString();
     strEndTime = endDate.getText().toString() + " " + endTime.getText().toString();
+    strDestination = destination.getText().toString();
     strRemark = remarks.getText().toString();
 
     createRequasition();
@@ -184,6 +190,8 @@ public class TransportRequasitionActivity extends AppCompatActivity {
 
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
+
+    progressBar.setVisibility(View.VISIBLE);
     getProject();
   }
 
@@ -243,6 +251,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
     getProjectList.enqueue(new Callback<Project>() {
       @Override
       public void onResponse(Call<Project> call, Response<Project> response) {
+        progressBar.setVisibility(View.GONE);
         if (response.isSuccessful()) {
           projectDatas = response.body().responseData;
 
@@ -277,6 +286,7 @@ public class TransportRequasitionActivity extends AppCompatActivity {
 
       @Override
       public void onFailure(Call<Project> call, Throwable t) {
+        progressBar.setVisibility(View.GONE);
         Toast.makeText(TransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         project.setAdapter(null);
         call.cancel();
@@ -301,13 +311,14 @@ public class TransportRequasitionActivity extends AppCompatActivity {
         strImplementation,
         strStartTime,
         strEndTime,
+        strDestination,
         strRemark
     );
 
     postTransportRequisition.enqueue(new Callback<ResponseBody>() {
       @Override
       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-        if(response.isSuccessful()){
+        if (response.isSuccessful()) {
           Toast.makeText(TransportRequasitionActivity.this, "Transport Requasition Addedd Successfully", Toast.LENGTH_SHORT).show();
           back();
         }

@@ -230,6 +230,26 @@
             android:layout_marginEnd="8dp">
 
           <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/destination"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="DESTINATION"
+              android:paddingStart="15dp"
+              android:paddingTop="15dp"
+              android:paddingBottom="15dp"
+              android:textSize="15sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp">
+
+          <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/remarks"
               android:layout_width="match_parent"
               android:layout_height="100dp"
@@ -246,17 +266,27 @@
     </androidx.core.widget.NestedScrollView>
   </LinearLayout>
 
-  <Button
+  <TextView
       android:id="@+id/btnSubmit"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginEnd="8dp"
-      android:background="@drawable/border_green"
-      android:padding="5dp"
+      android:layout_gravity="center"
+      android:layout_marginLeft="40dp"
+      android:layout_marginBottom="18dp"
+      android:layout_marginRight="40dp"
+      android:background="@drawable/blue_fill__rounded_color"
+      android:gravity="center"
+      android:paddingTop="14dp"
+      android:paddingBottom="14dp"
       android:text="SUBMIT"
-      android:textColor="@color/color_white" />
+      android:textColor="#ffffff"/>
+
+  <ProgressBar
+      android:id="@+id/progressBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:visibility="gone" />
 
 </RelativeLayout>

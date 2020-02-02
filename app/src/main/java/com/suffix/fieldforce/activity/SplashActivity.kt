@@ -26,7 +26,7 @@ class SplashActivity : BaseActivity() {
       } else {
         try {
           val user = preferences.getUser()
-          startActivity<MainDashboardActivity>()
+          startActivity<LoginActivity>()
         } catch (e: Exception) {
           startActivity<LoginActivity>()
         }

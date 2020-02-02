@@ -53,7 +53,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
     @BindView(R.id.txtStatusTitle)
     TextView txtStatusTitle;
     @BindView(R.id.btnStartBill)
-    Button btnStartBill;
+    TextView btnStartBill;
 
     private String ticketId;
 
@@ -88,7 +88,6 @@ public class PreviewTaskActivity extends AppCompatActivity {
 //        spannableString.setSpan(clearSpan, 7, spannableString.length(), 0);
 //        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        holder.txtStartAddress.setText(spannableString);
-
 
     }
 

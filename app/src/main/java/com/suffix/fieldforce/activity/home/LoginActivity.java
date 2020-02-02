@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_type_two);
+        setContentView(R.layout.activity_login_type_one);
         ButterKnife.bind(this);
 
         preferences = new FieldForcePreferences(this);
