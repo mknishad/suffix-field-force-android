@@ -34,17 +34,18 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.shreyaspatil.MaterialDialog.AbstractDialog;
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
+import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
-import com.suffix.fieldforce.activity.transport.CreateTransportRequasitionActivity;
 import com.suffix.fieldforce.activity.transport.TransportRequasitionListActivity;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.model.LocationResponse;
@@ -106,6 +107,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutSiteMap)
   LinearLayout layoutSiteMap;
 
+  @BindView(R.id.layoutGIS)
+  LinearLayout layoutGIS;
+
   private static final String TAG = "MainDashboardActivity";
 
   private final String ENTRY_TYPE_IN = "I";
@@ -123,7 +127,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private FieldForcePreferences preferences;
   private APIInterface apiInterface;
 
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -149,6 +153,10 @@ public class MainDashboardActivity extends AppCompatActivity implements
         break;
       case R.id.layoutSiteMap:
         openTR();
+        break;
+
+        case R.id.layoutGIS:
+        openGIS();
         break;
     }
   }
@@ -593,6 +601,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void openTR() {
     Intent intent = new Intent(MainDashboardActivity.this, TransportRequasitionListActivity.class);
+    startActivity(intent);
+  }
+
+  private void openGIS() {
+    Intent intent = new Intent(MainDashboardActivity.this, CreateGISDataActivity.class);
     startActivity(intent);
   }
 

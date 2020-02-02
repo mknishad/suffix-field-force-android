@@ -261,26 +261,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/blue_fill__rounded_color"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="SUBMIT"
+            android:textColor="#ffffff"/>
+
       </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
   </LinearLayout>
-
-  <TextView
-      android:id="@+id/btnSubmit"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_gravity="center"
-      android:layout_marginLeft="40dp"
-      android:layout_marginBottom="18dp"
-      android:layout_marginRight="40dp"
-      android:background="@drawable/blue_fill__rounded_color"
-      android:gravity="center"
-      android:paddingTop="14dp"
-      android:paddingBottom="14dp"
-      android:text="SUBMIT"
-      android:textColor="#ffffff"/>
 
   <ProgressBar
       android:id="@+id/progressBar"

@@ -218,4 +218,21 @@ public interface APIInterface {
         @Field("destination") String destination,
         @Field("remark") String remark
     );
+
+    @FormUrlEncoded
+    @POST("FFMS/api/postGISDataCollection.jsp")
+    Call<ResponseBody> postGISDataCollection(
+        @Field("key") String key,
+        @Field("userId") String userId,
+        @Field("linkName") String linkName,
+        @Field("siteAAddress") String siteAAddress,
+        @Field("siteBAddress") String siteBAddress,
+        @Field("siteALat") String siteALat,
+        @Field("siteALng") String siteALng,
+        @Field("siteBLat") String siteBLat,
+        @Field("siteBLng") String siteBLng,
+        @Field("tjbInfoData") String tjbInfoData,
+        @Field("overHeadDistance") String overHeadDistance,
+        @Field("underGroundDistance") String underGroundDistance
+    );
 }

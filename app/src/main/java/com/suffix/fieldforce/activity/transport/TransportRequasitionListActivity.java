@@ -68,6 +68,7 @@ public class TransportRequasitionListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_transport_requasition_list);
     ButterKnife.bind(this);
+    setActionBar();
 
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -75,10 +76,24 @@ public class TransportRequasitionListActivity extends AppCompatActivity {
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
     transportRequasitionListAdapter = new TransportRequasitionListAdapter(this, new ArrayList<>());
+    recyclerView.setAdapter(transportRequasitionListAdapter);
 
     progressBar.setVisibility(View.VISIBLE);
 
     getTransportRequasitionList();
+  }
+
+  @Override
+  protected void onPause() {
+    if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+      progressBar.setVisibility(View.GONE);
+    }
+    super.onPause();
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
   }
 
   @Override
@@ -108,9 +123,12 @@ public class TransportRequasitionListActivity extends AppCompatActivity {
       @Override
       public void onResponse(Call<TransportListRequasition> call, Response<TransportListRequasition> response) {
 
-        progressBar.setVisibility(View.GONE);
+        if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+          progressBar.setVisibility(View.GONE);
+        }
 
         if (response.isSuccessful()) {
+          transportListRequasitionData.clear();
           TransportListRequasition transportListRequasition = response.body();
           transportListRequasitionData = transportListRequasition.getResponseData();
           transportRequasitionListAdapter.setData(transportListRequasitionData);
@@ -119,7 +137,9 @@ public class TransportRequasitionListActivity extends AppCompatActivity {
 
       @Override
       public void onFailure(Call<TransportListRequasition> call, Throwable t) {
-        progressBar.setVisibility(View.GONE);
+        if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+          progressBar.setVisibility(View.GONE);
+        }
         Toast.makeText(TransportRequasitionListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         call.cancel();
       }

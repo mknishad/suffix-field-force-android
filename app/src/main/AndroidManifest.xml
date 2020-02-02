@@ -17,7 +17,8 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".activity.transport.TransportRequasitionListActivity"></activity>
+    <activity android:name=".activity.gis.CreateGISDataActivity"></activity>
+    <activity android:name=".activity.transport.TransportRequasitionListActivity" />
     <activity android:name=".activity.transport.CreateTransportRequasitionActivity" />
     <activity android:name=".activity.chat.GroupMessageActivity" />
     <activity android:name=".activity.inventory.RequisitionDetailsActivity" />

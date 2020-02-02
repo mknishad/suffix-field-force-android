@@ -39,6 +39,11 @@ public class TransportRequasitionListAdapter extends RecyclerView.Adapter<Transp
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final TransportListRequasitionData data = transportListRequasitionData.get(position);
+
+    holder.txtId.setText("ID : "+data.getId());
+    holder.txtTransportRequasitionStatus.setText(data.getStatus());
+    holder.txtStartDateTime.setText(data.getStartTime());
+    holder.txtEndDateTime.setText(data.getEndTime());
   }
 
   @Override

@@ -80,7 +80,7 @@ public class CreateTransportRequasitionActivity extends AppCompatActivity {
   private final Calendar myCalendar = Calendar.getInstance();
   private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd");
 
-  private List<ProjectData> projectDatas = new ArrayList<>();
+  private List<ProjectData> projectDatas = new ArrayList<ProjectData>();
 
   private String strProjectId = null;
   private String strRegMaintenance = null;
@@ -168,10 +168,10 @@ public class CreateTransportRequasitionActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnSubmit)
   public void submit() {
-    strRegMaintenance = (checkboxRegMaintenance.isSelected() ? "1" : "0");
-    strSurvey = (checkboxSurvey.isSelected() ? "1" : "0");
-    strClientConnectivity = (checkboxClientConnectivity.isSelected() ? "1" : "0");
-    strImplementation = (checkboxImplementation.isSelected() ? "1" : "0");
+    strRegMaintenance = (checkboxRegMaintenance.isChecked() ? "1" : "0");
+    strSurvey = (checkboxSurvey.isChecked() ? "1" : "0");
+    strClientConnectivity = (checkboxClientConnectivity.isChecked() ? "1" : "0");
+    strImplementation = (checkboxImplementation.isChecked() ? "1" : "0");
     strStartTime = startDate.getText().toString() + " " + startTime.getText().toString();
     strEndTime = endDate.getText().toString() + " " + endTime.getText().toString();
     strDestination = destination.getText().toString();
@@ -189,9 +189,22 @@ public class CreateTransportRequasitionActivity extends AppCompatActivity {
 
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
-
+    project.setAdapter(null);
     progressBar.setVisibility(View.VISIBLE);
     getProject();
+  }
+
+  @Override
+  protected void onPause() {
+    if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+      progressBar.setVisibility(View.GONE);
+    }
+    super.onPause();
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
   }
 
   @Override
@@ -250,7 +263,9 @@ public class CreateTransportRequasitionActivity extends AppCompatActivity {
     getProjectList.enqueue(new Callback<Project>() {
       @Override
       public void onResponse(Call<Project> call, Response<Project> response) {
-        progressBar.setVisibility(View.GONE);
+        if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+          progressBar.setVisibility(View.GONE);
+        }
         if (response.isSuccessful()) {
           projectDatas = response.body().responseData;
 
@@ -285,7 +300,9 @@ public class CreateTransportRequasitionActivity extends AppCompatActivity {
 
       @Override
       public void onFailure(Call<Project> call, Throwable t) {
-        progressBar.setVisibility(View.GONE);
+        if(progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
+          progressBar.setVisibility(View.GONE);
+        }
         Toast.makeText(CreateTransportRequasitionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         project.setAdapter(null);
         call.cancel();
