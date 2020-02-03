@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.gis.CreateGISDataActivity">
+    tools:context=".activity.gis.CreateGISDataActivity"
+    android:background="@color/backgroundcolor">
 
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
@@ -259,7 +260,9 @@
           android:layout_height="wrap_content"
           android:padding="@dimen/padding_5"
           tools:listitem="@layout/row_tjb"
-          tools:itemCount="3"/>
+          tools:itemCount="3"
+          android:background="@drawable/border_box_blue"
+          />
 
     </LinearLayout>
 
