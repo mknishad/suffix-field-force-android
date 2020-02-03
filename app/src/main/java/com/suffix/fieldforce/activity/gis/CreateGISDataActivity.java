@@ -65,6 +65,8 @@ public class CreateGISDataActivity extends AppCompatActivity {
   RecyclerView recyclerView;
   @BindView(R.id.layoutButton)
   LinearLayout layoutButton;
+  @BindView(R.id.layoutTJB)
+  LinearLayout layoutTJB;
   @BindView(R.id.btnAddTJB)
   TextView btnAddTJB;
   @BindView(R.id.btnSubmit)
@@ -103,6 +105,10 @@ public class CreateGISDataActivity extends AppCompatActivity {
       public void onSubmit(TJBInfoData tjbInfoData) {
         tjbInfoDataObj.add(tjbInfoData);
         tjbAdapter.setData(tjbInfoDataObj);
+
+        if(layoutTJB.getVisibility() != View.VISIBLE){
+          layoutTJB.setVisibility(View.VISIBLE);
+        }
       }
     });
     dialog.show(getSupportFragmentManager(), "TJB");
