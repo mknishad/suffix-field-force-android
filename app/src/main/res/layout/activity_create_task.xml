@@ -255,7 +255,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/border_mint"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 />
 

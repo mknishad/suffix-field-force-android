@@ -115,6 +115,7 @@ dependencies {
 
   //butterknife
   implementation 'com.jakewharton:butterknife:10.2.0'
+  implementation 'com.google.android.gms:play-services-maps:17.0.0'
   kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 
   //lottie
@@ -153,5 +154,8 @@ dependencies {
 
   // Material Dialog Library
   implementation 'com.shreyaspatil:MaterialDialog:2.0'
+
+  //Location Picker
+  implementation 'com.github.shivpujan12:LocationPicker:v1.2'
 }
 apply plugin: 'com.google.gms.google-services'

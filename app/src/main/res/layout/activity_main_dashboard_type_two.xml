@@ -28,7 +28,7 @@
           android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize"
           app:layout_collapseMode="pin"
-          app:title="MOHAMMAD SOLAIMAN"/>
+          app:title="MOHAMMAD SOLAIMAN" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -70,6 +70,210 @@
         android:textSize="8sp" />
 
   </LinearLayout>
+
+  <androidx.core.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/backgroundcolor"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/layout_margin_20"
+          android:layout_marginRight="@dimen/layout_margin_20"
+          android:weightSum="3">
+
+        <LinearLayout
+            android:id="@+id/layoutTask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/layout_margin_10"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_violet_dark"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_work"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="TASK"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutRoster"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/layout_margin_10"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_sky_light"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_date_range"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="ROSTER"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutBilling"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_orange_light"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_monetization"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="BILLING"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/layout_margin_20"
+          android:layout_marginRight="@dimen/layout_margin_20"
+          android:weightSum="3">
+
+        <LinearLayout
+            android:id="@+id/layoutInventory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/layout_margin_10"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_violet_very_light"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_developer"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="INVENTORY"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutGIS"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/layout_margin_10"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_green_dark"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_local_hospital"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="GIS"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSiteMap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_20"
+              android:background="@drawable/round_pink_dark"
+              android:padding="@dimen/padding_10"
+              android:src="@drawable/ic_bus"
+              android:tint="@color/colorWhite" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/layout_margin_10"
+              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:text="TRANSPORT"
+              android:textAlignment="center"
+              android:textSize="12sp" />
+        </LinearLayout>
+      </LinearLayout>
+
+    </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
 
   <RelativeLayout
       android:id="@+id/card"
@@ -143,6 +347,7 @@
       </LinearLayout>
 
       <LinearLayout
+          android:id="@+id/layoutChat"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_weight="1"
@@ -156,7 +361,7 @@
             android:layout_weight="2"
             android:background="@drawable/round_violet_light"
             android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_local_hospital"
+            android:src="@drawable/ic_chat"
             android:tint="@color/colorWhite" />
 
         <TextView
@@ -164,208 +369,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_5"
             android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="Request \nMeeting Leave"
+            android:text="CHAT"
             android:textAlignment="center"
             android:textSize="12sp" />
       </LinearLayout>
     </LinearLayout>
   </RelativeLayout>
-
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginTop="60dp"
-      android:orientation="vertical"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_margin_20"
-        android:layout_marginRight="@dimen/layout_margin_20"
-        android:weightSum="3">
-
-      <LinearLayout
-          android:id="@+id/layoutTask"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_violet_dark"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_work"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="TASK"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/layoutRoster"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_sky_light"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_date_range"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="ROSTER"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/layoutBilling"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_orange_light"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_monetization"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="BILLING"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_margin_20"
-        android:layout_marginRight="@dimen/layout_margin_20"
-        android:weightSum="3">
-
-      <LinearLayout
-          android:id="@+id/layoutInventory"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_violet_very_light"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_developer"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="INVENTORY"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/layoutChat"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_green_dark"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_chat"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="CHAT"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/layoutSiteMap"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:background="@drawable/shadow_background"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_pink_dark"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_date_range"
-            android:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="SITE MAP"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-    </LinearLayout>
-
-  </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

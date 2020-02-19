@@ -53,7 +53,7 @@ public class PreviewTaskActivity extends AppCompatActivity {
     @BindView(R.id.txtStatusTitle)
     TextView txtStatusTitle;
     @BindView(R.id.btnStartBill)
-    Button btnStartBill;
+    TextView btnStartBill;
 
     private String ticketId;
 
@@ -89,14 +89,12 @@ public class PreviewTaskActivity extends AppCompatActivity {
 //        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        holder.txtStartAddress.setText(spannableString);
 
-
     }
 
     private void setActionBar() {
         imgDrawer.setImageResource(R.drawable.ic_arrow_back);
         imgMap.setImageResource(R.drawable.ic_edit);
         toolBarTitle.setText("Preview Task");
-
     }
 
     @OnClick(R.id.imgMap)

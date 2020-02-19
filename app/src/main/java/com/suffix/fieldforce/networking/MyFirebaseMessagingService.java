@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private Uri uri = Uri.parse("android.resource://"+getPackageName()+"/raw/notification_sound.mp3");
+    //private Uri uri = Uri.parse("android.resource://"+getPackageName()+"/raw/notification_sound.mp3");
     private String NOTIFICATION_CHANNEL_ID = "com.suffix.fieldforce";
     private Class cls;
 
