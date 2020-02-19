@@ -22,6 +22,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private Uri uri = Uri.parse("android.resource://"+getPackageName()+"/raw/notification_sound.mp3");
     private String NOTIFICATION_CHANNEL_ID = "com.suffix.fieldforce";
+    private Class cls;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -30,6 +31,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String imageUri = remoteMessage.getData().get("image");
         String title = remoteMessage.getData().get("title");
         String action = remoteMessage.getData().get("click_action");
+        try {
+            cls = Class.forName(remoteMessage.getData().get("class_name"));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             showNotification(title, message);
@@ -42,7 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), cls);
         notificationIntent.putExtra("BODY", body);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notificationIntent.setAction(Intent.ACTION_MAIN);
