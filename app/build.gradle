@@ -157,5 +157,8 @@ dependencies {
 
   //Location Picker
   implementation 'com.github.shivpujan12:LocationPicker:v1.2'
+
+  //Calligraphy
+  implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -94,13 +95,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 try {
-                    if (response.body().getResponseCode().equalsIgnoreCase("1")) {
-                        User user = response.body().getResponseData();
-                        preferences.putUser(user);
-                        startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
-                        finish();
-                    } else {
-                        Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
+                    if(response.isSuccessful()) {
+                        if (response.body().getResponseCode().equalsIgnoreCase("1")) {
+                            User user = response.body().getResponseData();
+                            preferences.putUser(user);
+                            startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
+                            finish();
+
+                        } else {
+                            Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "onResponse: " + e.getMessage(), e);
