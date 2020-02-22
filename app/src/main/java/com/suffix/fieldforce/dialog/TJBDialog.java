@@ -31,8 +31,8 @@ public class TJBDialog extends DialogFragment {
   TextInputEditText txtBCoreId;
   @BindView(R.id.txtBCore)
   TextInputEditText txtBCore;
-  @BindView(R.id.btnAddTJB)
-  TextView btnAddTJB;
+  @BindView(R.id.btnCancel)
+  TextView btnCancel;
   @BindView(R.id.btnSubmit)
   TextView btnSubmit;
   @BindView(R.id.layoutButton)
@@ -42,6 +42,11 @@ public class TJBDialog extends DialogFragment {
 
   public void setTjbDialogListener(TJBDialogListener tjbDialogListener) {
     this.tjbDialogListener = tjbDialogListener;
+  }
+
+  @OnClick(R.id.btnCancel)
+  public void cancel(){
+    dismiss();
   }
 
   @OnClick(R.id.btnSubmit)
