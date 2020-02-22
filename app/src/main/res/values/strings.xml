@@ -111,4 +111,6 @@
   <string name="add_another_task_id">Add Another Task Id</string>
   <string name="title_activity_maps">Map</string>
 
+  <string name="two_decimal_places">%.2f</string>
+
 </resources>
