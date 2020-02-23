@@ -21,7 +21,7 @@
     <color name="colorLavander">#AC92EC</color>
     <color name="colorLavanderDark">#967ADC</color>
     <color name="colorMint">#128ADD</color>
-    <color name="colorMintLight">#1587D6</color>
+    <color name="colorMintLight">#319AE0</color>
     <color name="colorMintDark">#0F81D0</color>
     <color name="colorMinttwo">#48CFAD</color>
     <color name="colorMintLighttwo">#52E2BE</color>
@@ -43,10 +43,10 @@
     <color name="color_green">#48a158</color>
     <color name="color_red">#F44336</color>
     <color name="color_yellow">#ffff00</color>
-    <color name="transparent">#D8D8D8</color>
+    <color name="transparent">#BDBDBD</color>
     <color name="darkGray">#555555</color>
     <color name="lightGray">#AAAAAA</color>
-    <color name="very_lightGray">#999999</color>
+    <color name="very_lightGray">#E7E5E5</color>
     <color name="color_black">#000000</color>
     <color name="color_report">#AAFFA726</color>
     <color name="color_task">#AAB769C6</color>

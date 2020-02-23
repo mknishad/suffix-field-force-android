@@ -7,6 +7,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Task(
   var ticketTitle: String?,
+  var ticketDesc: String?,
+  var addDate: String?,
+  var ticketId: String?,
   var consumerAddress: String?,
   var consumerThana: String?,
   var ticketRemark: String?,
@@ -19,7 +22,6 @@ data class Task(
   var ticketStatusText: String?,
   @Json(name = "ticketCateroryTitle") var ticketCategoryTitle: String?,
   var ticketCode: String?,
-  var ticketId: String?,
   var consumerMobile: String?,
   var consumerName: String?
 ) : Parcelable

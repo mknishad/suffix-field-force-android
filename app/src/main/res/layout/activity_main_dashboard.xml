@@ -460,7 +460,7 @@
                 app:backgroundStrokeWidth="2dp"
                 app:drawBackgroundStroke="true"
                 app:foregroundStrokeCap="butt"
-                app:foregroundStrokeColor="@color/colorGrass"
+                app:foregroundStrokeColor="@color/green"
                 app:foregroundStrokeWidth="5dp"
                 app:indeterminate="false"
                 app:indeterminateRotationAnimationDuration="1200"

@@ -48,7 +48,7 @@ object FieldForceApi {
 
 interface FieldForceApiService {
 
-  @POST("FFMS/api/geoLocationEntry.jsp")
+  @POST("geoLocationEntry.jsp")
   fun sendGeoLocationAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -56,7 +56,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String
   ): Deferred<LocationResponse>
 
-  @POST("FFMS/api/getBillType.jsp")
+  @POST("getBillType.jsp")
   fun getBillTypeAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -64,7 +64,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String
   ): Deferred<BillTypeResponse>
 
-  @POST("FFMS/api/getUserAdvanceIdTaskWise.jsp")
+  @POST("getUserAdvanceIdTaskWise.jsp")
   fun getTaskWiseAdvanceIdAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -74,21 +74,21 @@ interface FieldForceApiService {
   ): Deferred<AdvanceIdResponse>
 
   @FormUrlEncoded
-  @POST("FFMS/api/billEntry.jsp")
+  @POST("billEntry.jsp")
   fun addBillAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
     @Query("lat") lat: String,
     @Query("lng") lng: String,
     @Query("billData") billData: String,
-    @Query("taskId") taskId: String,
+    @Query("taskIdData") taskIdData: String,
     @Field("imageString") imageString: String,
     @Query("advanceId") advanceId: String,
     @Query("priority") priority: String
   ): Deferred<AddBillResponse>
 
   @FormUrlEncoded
-  @POST("FFMS/api/advanceBillEntry.jsp")
+  @POST("advanceBillEntry.jsp")
   fun addAdvanceBillAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -96,11 +96,11 @@ interface FieldForceApiService {
     @Query("lng") lng: String,
     @Query("billData") billData: String,
     @Field("imageString") imageString: String,
-    @Query("taskId") taskId: String,
+    @Query("taskIdData") taskIdData: String,
     @Query("priority") priority: String
   ): Deferred<AddBillResponse>
 
-  @POST("FFMS/api/getUserBillList.jsp")
+  @POST("getUserBillList.jsp")
   fun getExpenseBillListAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -108,7 +108,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String
   ): Deferred<BillDashboardResponse>
 
-  @POST("FFMS/api/getUserAdvanceBillList.jsp")
+  @POST("getUserAdvanceBillList.jsp")
   fun getAdvanceBillListAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -116,7 +116,7 @@ interface FieldForceApiService {
     @Query("lng") lng: String
   ): Deferred<BillDashboardResponse>
 
-  @POST("FFMS/api/getUserBillDetails.jsp")
+  @POST("getUserBillDetails.jsp")
   fun getBillDetailsAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -125,7 +125,7 @@ interface FieldForceApiService {
     @Query("billId") billId: String
   ): Deferred<BillDetailsResponse>
 
-  @POST("FFMS/api/getUserAdvanceBillDetails.jsp")
+  @POST("getUserAdvanceBillDetails.jsp")
   fun getAdvanceBillDetailsAsync(
     @Query("key") key: String,
     @Query("userId") userId: String,
@@ -134,34 +134,86 @@ interface FieldForceApiService {
     @Query("advanceBillId") advanceBillId: String
   ): Deferred<BillDetailsResponse>
 
-  @POST("FFMS/api/technicianSummaryInfo.jsp")
+  @POST("technicianSummaryInfo.jsp")
   fun getTaskDashboardAsync(
     @Query("regTechId") regTechId: String
   ): Deferred<List<TaskDashboardResponse>>
 
-  @POST("FFMS/api/assignTicketList.jsp")
+  @POST("assignTicketList.jsp")
   fun getAssignedTaskListAsync(
     @Query("regTechId") regTechId: String
   ): Deferred<List<TaskListResponse>>
 
-  @POST("FFMS/api/acceptedTicketList.jsp")
+  @POST("acceptedTicketList.jsp")
   fun getAcceptedTaskListAsync(
     @Query("regTechId") regTechId: String
   ): Deferred<List<TaskListResponse>>
 
-  @POST("FFMS/api/completedTicketList.jsp")
+  @POST("completedTicketList.jsp")
   fun getCompletedTaskListAsync(
     @Query("regTechId") regTechId: String
   ): Deferred<List<TaskListResponse>>
 
-  @POST("FFMS/api/inprogressTicketList.jsp")
+  @POST("inprogressTicketList.jsp")
   fun getInProgressTaskListAsync(
     @Query("regTechId") regTechId: String
   ): Deferred<List<TaskListResponse>>
 
-  @POST("FFMS/api/tickeDetailsInfo.jsp")
+  @POST("tickeDetailsInfo.jsp")
   fun getTaskDetailsAsync(
     @Query("regTechId") regTechId: String,
     @Query("ticketId") ticketId: String
   ): Deferred<List<TaskDetailsResponse>>
+
+  @POST("getItemList.jsp")
+  fun getInventoryItemListAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String
+  ): Deferred<InventoryItemResponse>
+
+  @POST("getUserItemRequisitionList.jsp")
+  fun getRequisitionListAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String
+  ): Deferred<RequisitionResponse>
+
+  @POST("getUserItemRequisitionDetails.jsp")
+  fun getRequisitionDetailsAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String,
+    @Query("itemRequisitionId") itemRequisitionId: String
+  ): Deferred<BillDetailsResponse>
+
+  @POST("itemRequisition.jsp")
+  fun createRequisitionAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String,
+    @Query("taskIdData") taskIdData: String,
+    @Query("itemRequisitionData") itemRequisitionData: String,
+    @Query("priority") priority: String
+  ): Deferred<CreateRequisitionResponse>
+
+  @POST("getTaskListForItemRequisition.jsp")
+  fun getTaskListForRequisitionAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String
+  ): Deferred<SearchTaskResponse>
+
+  @POST("getTaskListForBill.jsp")
+  fun getTaskListForBillAsync(
+    @Query("key") key: String,
+    @Query("userId") userId: String,
+    @Query("lat") lat: String,
+    @Query("lng") lng: String
+  ): Deferred<SearchTaskResponse>
 }

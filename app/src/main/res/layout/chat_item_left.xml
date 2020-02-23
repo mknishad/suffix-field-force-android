@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp">
+
+  <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/logo"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:layout_marginLeft="10dp"
+      android:src="@drawable/consultant" />
+
+  <TextView
+      android:id="@+id/msg"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layout_margin_5"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      android:layout_toRightOf="@+id/logo"
+      android:background="@drawable/chat_background_left"
+      android:gravity="start"
+      android:padding="8dp"
+      android:text="Good Morning"
+      android:textColor="@color/color_midtranssparent" />
+
+  <TextView
+      android:id="@+id/txtSeen"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/msg"
+      android:layout_alignRight="@+id/msg"
+      android:textSize="10sp"
+      />
+</RelativeLayout>

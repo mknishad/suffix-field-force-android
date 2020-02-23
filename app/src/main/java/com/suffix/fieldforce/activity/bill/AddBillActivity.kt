@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity.bill
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +11,9 @@ import android.text.InputType
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,15 +21,15 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
+import com.suffix.fieldforce.adapter.SearchTaskAdapter
 import com.suffix.fieldforce.databinding.ActivityAddBillBinding
-import com.suffix.fieldforce.model.Bill
-import com.suffix.fieldforce.model.BillData
-import com.suffix.fieldforce.model.BillType
+import com.suffix.fieldforce.model.*
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.util.Utils
 import com.suffix.fieldforce.viewmodel.AddBillViewModel
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -34,18 +37,23 @@ class AddBillActivity : BaseActivity() {
 
   private lateinit var binding: ActivityAddBillBinding
   private lateinit var viewModel: AddBillViewModel
-
-  private lateinit var textInputLayouts: MutableList<TextInputLayout>
-  private lateinit var linearLayout: LinearLayout
+  private lateinit var textInputLayouts1: MutableList<TextInputLayout>
+  private lateinit var linearLayout1: LinearLayout
+  private lateinit var textInputLayouts2: MutableList<TextInputLayout>
+  private lateinit var linearLayout2: LinearLayout
   private lateinit var spinner: Spinner
   private lateinit var checkBox: CheckBox
   private lateinit var taskId: String
 
   private var encodedImage = ""
+  private var taskList = ArrayList<Task>()
+  private var autoCompleteTVList = ArrayList<AutoCompleteTextView>()
 
   private var mDay: Int = 0
   private var mMonth: Int = 0
   private var mYear: Int = 0
+
+  private var taskIdNumber = 1
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -58,14 +66,26 @@ class AddBillActivity : BaseActivity() {
   }
 
   private fun init() {
-    linearLayout = LinearLayout(applicationContext)
+    linearLayout1 = LinearLayout(applicationContext)
+    linearLayout1.orientation = LinearLayout.VERTICAL
+    linearLayout2 = LinearLayout(applicationContext)
+    linearLayout2.orientation = LinearLayout.VERTICAL
     spinner = Spinner(applicationContext)
     checkBox = CheckBox(applicationContext)
-    linearLayout.orientation = LinearLayout.VERTICAL
-    textInputLayouts = mutableListOf()
+    textInputLayouts1 = mutableListOf()
+    textInputLayouts2 = mutableListOf()
     taskId = intent.getStringExtra(Constants.TASK_ID)
 
     setupToolbar()
+    addSpinner()
+    if (TextUtils.isEmpty(taskId)) {
+      addTaskIdLayout()
+    } else {
+      binding.newTaskButton.visibility = View.GONE
+    }
+    addDateLayout()
+    addImagePickerLayout()
+    observeTaskList()
     observeBillTypes()
     observeAddBillResponse()
     observeMessage()
@@ -90,17 +110,35 @@ class AddBillActivity : BaseActivity() {
     }
   }
 
+  private fun setupAutoCompleteTextView(autoCompleteTextView: AutoCompleteTextView) {
+    val adapter = SearchTaskAdapter(this, R.layout.list_item_search_task, taskList)
+    autoCompleteTextView.setAdapter(adapter)
+    autoCompleteTextView.threshold = 1
+    autoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
+      val task = parent.getItemAtPosition(position) as Task
+      autoCompleteTextView.setText(task.ticketId)
+    }
+  }
+
+  private fun observeTaskList() {
+    viewModel.taskList.observe(this, androidx.lifecycle.Observer {
+      it.let {
+        taskList = ArrayList(it)
+        for (a in autoCompleteTVList) {
+          setupAutoCompleteTextView(a)
+        }
+      }
+    })
+  }
+
   private fun observeBillTypes() {
     viewModel.billTypes.observe(this, Observer {
-      if (textInputLayouts.size == 0) {
-        addSpinner()
-        addDateLayout()
-        addImagePickerLayout()
+      //if (textInputLayouts2.size == 0) {
         addBillTypesLayout(it)
         addRemarksLayout()
         addCheckBox()
         addButton()
-      }
+      //}
     })
   }
 
@@ -125,8 +163,33 @@ class AddBillActivity : BaseActivity() {
     spinner.setBackgroundResource(R.drawable.bg_spinner)
     spinner.adapter = spinnerArrayAdapter
 
-    linearLayout.addView(spinner)
-    binding.scrollView.addView(linearLayout)
+    linearLayout2.addView(spinner)
+    binding.scrollView2.addView(linearLayout2)
+  }
+
+  private fun addTaskIdLayout() {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = "Task"
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
+    linearLayout1.addView(view)
+    textInputLayouts1.add(layout)
+    binding.scrollView1.addView(linearLayout1)
+  }
+
+  fun addAnotherTaskLayout(view: View) {
+    val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val view = inflater.inflate(R.layout.item_task_input_layout, null)
+    val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
+    layout.hint = "Task"
+    if (taskList.isNotEmpty()) {
+      setupAutoCompleteTextView(layout.editText as AutoCompleteTextView)
+    }
+    autoCompleteTVList.add(layout.editText as AutoCompleteTextView)
+    linearLayout1.addView(view)
+    textInputLayouts1.add(layout)
+    taskIdNumber++
   }
 
   private fun addDateLayout() {
@@ -148,8 +211,8 @@ class AddBillActivity : BaseActivity() {
       }
       return@setOnTouchListener false
     }
-    linearLayout.addView(view)
-    textInputLayouts.add(layout)
+    linearLayout2.addView(view)
+    textInputLayouts2.add(layout)
   }
 
   private fun addImagePickerLayout() {
@@ -171,8 +234,8 @@ class AddBillActivity : BaseActivity() {
       }
       return@setOnTouchListener false
     }
-    linearLayout.addView(view)
-    textInputLayouts.add(layout)
+    linearLayout2.addView(view)
+    textInputLayouts2.add(layout)
   }
 
   private fun addBillTypesLayout(billTypes: List<BillType>) {
@@ -183,8 +246,8 @@ class AddBillActivity : BaseActivity() {
       val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
       layout.hint = billType.billShortName
       layout.tag = billType.billTypeId
-      linearLayout.addView(view)
-      textInputLayouts.add(layout)
+      linearLayout2.addView(view)
+      textInputLayouts2.add(layout)
     }
   }
 
@@ -194,8 +257,8 @@ class AddBillActivity : BaseActivity() {
     val layout = view.findViewById(R.id.layoutAmount) as TextInputLayout
     layout.hint = getString(R.string.remarks)
     layout.editText?.inputType = InputType.TYPE_CLASS_TEXT
-    linearLayout.addView(view)
-    textInputLayouts.add(layout)
+    linearLayout2.addView(view)
+    textInputLayouts2.add(layout)
   }
 
   private fun addCheckBox() {
@@ -207,8 +270,10 @@ class AddBillActivity : BaseActivity() {
 
     checkBox.text = getString(R.string.urgent)
     checkBox.textSize = 16f
+    checkBox.setTextColor(Color.GRAY)
+    checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
     checkBox.layoutParams = params
-    linearLayout.addView(checkBox)
+    linearLayout2.addView(checkBox)
   }
 
   private fun addButton() {
@@ -228,10 +293,31 @@ class AddBillActivity : BaseActivity() {
       submitBill()
     }
 
-    linearLayout.addView(button)
+    linearLayout2.addView(button)
   }
 
-  private fun submitBill() {
+  private fun  submitBill() {
+    var taskIdObjList = mutableListOf<TaskIdObj>()
+    var taskIdData: TaskIdData
+    val date: String
+
+    if (TextUtils.isEmpty(taskId)) {
+      if (TextUtils.isEmpty(textInputLayouts1[0].editText?.text.toString())) {
+        linearLayout1.snackbar("Enter Task Id")
+        return
+      } else {
+        for (i in 0 until taskIdNumber) {
+          if (!TextUtils.isEmpty(textInputLayouts1[i].editText?.text.toString())) {
+            taskIdObjList.add(TaskIdObj(textInputLayouts1[i].editText?.text.toString().toInt()))
+          }
+        }
+        taskIdData = TaskIdData(taskIdObjList)
+      }
+    } else {
+      taskIdObjList.add(TaskIdObj(taskId.toInt()))
+      taskIdData = TaskIdData(taskIdObjList)
+    }
+
     val billType: String = when (spinner.selectedItemPosition) {
       0 -> {
         spinner.snackbar("Select Bill Type")
@@ -241,22 +327,20 @@ class AddBillActivity : BaseActivity() {
       else -> Constants.ADVANCE
     }
 
-    val date: String
-
-    if (TextUtils.isEmpty(textInputLayouts[0].editText?.text.toString())) {
-      linearLayout.snackbar("Select Date")
+    if (TextUtils.isEmpty(textInputLayouts2[0].editText?.text.toString())) {
+      linearLayout2.snackbar("Select Date")
       return
     } else {
-      date = textInputLayouts[0].editText?.text.toString()
+      date = textInputLayouts2[0].editText?.text.toString()
     }
 
     val billDataObj = mutableListOf<Bill>()
-    for (i in 3 until textInputLayouts.size - 2) {
+    for (i in 2 until textInputLayouts2.size - 1) {
       val billAmount: Double =
-        if (TextUtils.isEmpty(textInputLayouts[i].editText?.text.toString())) {
+        if (TextUtils.isEmpty(textInputLayouts2[i].editText?.text.toString())) {
           0.0
         } else {
-          textInputLayouts[i].editText?.text.toString().toDouble()
+          textInputLayouts2[i].editText?.text.toString().toDouble()
         }
 
       val bill = Bill(
@@ -268,7 +352,7 @@ class AddBillActivity : BaseActivity() {
         null,
         null,
         billAmount,
-        textInputLayouts[i].tag.toString().toInt(),
+        textInputLayouts2[i].tag.toString().toInt(),
         null
       )
       billDataObj.add(bill)
@@ -277,7 +361,7 @@ class AddBillActivity : BaseActivity() {
     val billData = BillData(
       date,
       billDataObj,
-      textInputLayouts[textInputLayouts.size - 1].editText?.text.toString()
+      textInputLayouts2[textInputLayouts2.size - 1].editText?.text.toString()
     )
 
     val priority: String = if (checkBox.isChecked) {
@@ -294,7 +378,7 @@ class AddBillActivity : BaseActivity() {
         preferences.getLocation().longitude.toString(),
         billData,
         encodedImage,
-        taskId,
+        taskIdData,
         priority
       )
     } else {
@@ -305,7 +389,7 @@ class AddBillActivity : BaseActivity() {
         preferences.getLocation().longitude.toString(),
         billData,
         encodedImage,
-        taskId,
+        taskIdData,
         priority
       )
     }
@@ -314,9 +398,10 @@ class AddBillActivity : BaseActivity() {
   private fun observeAddBillResponse() {
     viewModel.addBillResponse.observe(this, Observer {
       if (it.responseCode.equals("1", true)) {
-        finish()
+        toast(it.responseText)
+        //finish()
       } else {
-        binding.scrollView.snackbar(it.responseText)
+        binding.scrollView2.snackbar(it.responseText)
       }
     })
   }
@@ -324,7 +409,7 @@ class AddBillActivity : BaseActivity() {
   private fun observeMessage() {
     viewModel.message.observe(this, Observer { message ->
       message?.let {
-        binding.scrollView.snackbar(it)
+        binding.scrollView2.snackbar(it)
       }
     })
   }
@@ -346,7 +431,7 @@ class AddBillActivity : BaseActivity() {
         debug("onDateSet: dateOfBirth = $date")
         /*viewModel.dob.value =
             BuddyUtil.convertToUtc(BuddyUtil.createDate(mYear, mMonth, mDay))*/
-        textInputLayouts[0].editText?.setText(date)
+        textInputLayouts2[0].editText?.setText(date)
       }, mYear, mMonth, mDay
     )
     datePickerDialog.show()
@@ -357,7 +442,7 @@ class AddBillActivity : BaseActivity() {
     if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
       val images = ImagePicker.getImages(data)
       val image = ImagePicker.getFirstImageOrNull(data)
-      textInputLayouts[1].editText?.setText(image.path)
+      textInputLayouts2[1].editText?.setText(image.path)
 
       val bitmap = BitmapFactory.decodeFile(image.path)
       val baos = ByteArrayOutputStream()

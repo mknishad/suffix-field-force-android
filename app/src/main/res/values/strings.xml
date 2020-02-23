@@ -64,6 +64,7 @@
   <string name="bill_image">Bill Image</string>
 
   <string-array name="spinnerItems">
+    <item>Click here to select</item>
     <item>Open</item>
     <item>In Progress</item>
     <item>Close</item>
@@ -98,4 +99,18 @@
   </plurals>
 
   <string name="default_channel">Default channel</string>
+
+  <string name="type_a_message">Type a message...</string>
+  <string name="action_profile">Profile</string>
+  <string name="action_block">Block</string>
+  <string name="requisition_details">Requisition Details</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="create_requisition">Create Requisition</string>
+  <string name="add_another_task_id">Add Another Task Id</string>
+  <string name="title_activity_maps">Map</string>
+
+  <string name="two_decimal_places">%.2f</string>
+
 </resources>

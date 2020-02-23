@@ -2,7 +2,6 @@ package com.suffix.fieldforce.util
 
 object Constants {
   const val KEY = "8nISwP/XyofOfhAyenjYZjWW1B92H0Yrg9LSvhPvGKo=|yc515zEKZEfMXIKyTuEMYg=="
-  const val USER_ID = "BLA0010"
   const val LOCATION = "location"
   const val BILL_ID = "billId"
   const val TASK_TYPE = "task-type"
@@ -18,4 +17,7 @@ object Constants {
   const val EXPENSE = "expense"
   const val ADVANCE = "advance"
   const val ONLINE = "online"
+  const val REQUISITION_ID = "requisition-id"
+  const val INVENTORY_LIST = "inventory-list"
+  const val BUNDLE = "bundle"
 }

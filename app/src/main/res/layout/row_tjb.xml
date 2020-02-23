@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/layout_margin_2"
+    android:background="@drawable/only_border"
+    android:orientation="vertical">
+
+  <TextView
+      android:id="@+id/txtAddress"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/colorLavanderDark"
+      android:text="GULSHAN"
+      android:textAlignment="center"
+      android:textColor="@color/color_white" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:weightSum="2">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="FROM"
+          android:textAlignment="center"
+          android:textColor="@color/color_black"
+          android:textSize="12sp" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_weight="1"
+            android:text="Core Id : " />
+
+        <TextView
+            android:id="@+id/txtFCoreId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorLavanderDark"
+            android:paddingLeft="@dimen/padding_4"
+            android:paddingRight="@dimen/padding_4"
+            android:text="C-101-010"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="10sp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_weight="1"
+            android:text="Core : " />
+
+        <TextView
+            android:id="@+id/txtFCore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorLavanderDark"
+            android:paddingLeft="@dimen/padding_4"
+            android:paddingRight="@dimen/padding_4"
+            android:text="10"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="10sp" />
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/lightGray" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="TO"
+          android:textAlignment="center"
+          android:textColor="@color/color_black"
+          android:textSize="12sp" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_weight="1"
+            android:text="Core Id : " />
+
+        <TextView
+            android:id="@+id/txtTCoreId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorLavanderDark"
+            android:paddingLeft="@dimen/padding_4"
+            android:paddingRight="@dimen/padding_4"
+            android:text="C-101-010"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="10sp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_5"
+            android:layout_weight="1"
+            android:text="Core : " />
+
+        <TextView
+            android:id="@+id/txtTCore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorLavanderDark"
+            android:paddingLeft="@dimen/padding_4"
+            android:paddingRight="@dimen/padding_4"
+            android:text="10"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="10sp" />
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>

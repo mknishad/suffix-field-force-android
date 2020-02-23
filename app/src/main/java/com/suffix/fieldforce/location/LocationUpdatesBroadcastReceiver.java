@@ -27,6 +27,7 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.location.LocationResult;
 import com.suffix.fieldforce.model.LocationResponse;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 import com.suffix.fieldforce.retrofitapi.APIClient;
 import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
@@ -77,7 +78,7 @@ public class LocationUpdatesBroadcastReceiver extends BroadcastReceiver {
             APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
             Call<LocationResponse> call = apiInterface.sendGeoLocation(
                 Constants.KEY,
-                Constants.USER_ID,
+                new FieldForcePreferences(context).getUser().getUserId(),
                 String.valueOf(locations.get(0).getLatitude()),
                 String.valueOf(locations.get(0).getLongitude()));
             call.enqueue(new Callback<LocationResponse>() {

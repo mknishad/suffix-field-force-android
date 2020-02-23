@@ -21,10 +21,10 @@ android {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8682/FFMSAPI/api/\"")
     }
     debug {
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/\"")
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8682/FFMSAPI/api/\"")
     }
   }
 
@@ -69,6 +69,7 @@ dependencies {
   implementation 'devlight.io:navigationtabbar:1.2.5'
 
   //firebase
+  implementation 'com.google.firebase:firebase-database:19.2.0'
   implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
   // kotlin co-routines
@@ -114,6 +115,7 @@ dependencies {
 
   //butterknife
   implementation 'com.jakewharton:butterknife:10.2.0'
+  implementation 'com.google.android.gms:play-services-maps:17.0.0'
   kapt 'com.jakewharton:butterknife-compiler:10.2.0'
 
   //lottie
@@ -128,7 +130,7 @@ dependencies {
   //material text
   implementation 'com.github.florent37:materialtextfield:1.0.7'
 
-  // Image Pikcer
+  // Image Picker
   implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
 
   //AppCrash
@@ -146,5 +148,17 @@ dependencies {
 
   //Material Calender View
   implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+  //Fresco
+  implementation 'com.facebook.fresco:fresco:2.0.0'
+
+  // Material Dialog Library
+  implementation 'com.shreyaspatil:MaterialDialog:2.0'
+
+  //Location Picker
+  implementation 'com.github.shivpujan12:LocationPicker:v1.2'
+
+  //Calligraphy
+  implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

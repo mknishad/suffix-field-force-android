@@ -35,12 +35,11 @@
           android:layout_marginTop="8dp"
           android:layout_marginEnd="16dp"
           android:text="@{bill.description}"
-          android:textColor="@color/colorAquaDark"
           android:textSize="16sp"
           app:layout_constraintEnd_toStartOf="@+id/statusTextView"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          tools:text="Project Enigma" />
+          tools:text="Project Enigma"/>
 
       <TextView
           android:id="@+id/statusTextView"
@@ -52,7 +51,7 @@
           android:paddingStart="4dp"
           android:paddingEnd="4dp"
           android:textColor="@color/colorWhite"
-          android:textSize="16sp"
+          android:textSize="12sp"
           app:billStatus="@{bill.status}"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
@@ -67,11 +66,17 @@
           android:layout_marginTop="4dp"
           android:layout_marginBottom="8dp"
           android:text="@{bill.billDate}"
-          android:textSize="12sp"
+          android:paddingLeft="@dimen/padding_10"
+          android:paddingTop="@dimen/padding_1"
+          android:paddingRight="@dimen/padding_10"
+          android:paddingBottom="2dp"
+          tools:text="10 June, 2019"
+          android:textColor="@android:color/white"
+          android:textSize="10sp"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@id/billDescriptionTextView"
-          tools:text="1 July, 2020" />
+          android:background="@drawable/border_levender"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.cardview.widget.CardView>
 </layout>

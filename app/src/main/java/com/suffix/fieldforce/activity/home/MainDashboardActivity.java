@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -14,16 +15,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -33,14 +34,25 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.shreyaspatil.MaterialDialog.AbstractDialog;
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
+import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
+import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
+import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
+import com.suffix.fieldforce.activity.transport.TransportRequasitionListActivity;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
+import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+import com.suffix.fieldforce.retrofitapi.APIClient;
+import com.suffix.fieldforce.retrofitapi.APIInterface;
+import com.suffix.fieldforce.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +60,64 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainDashboardActivity extends AppCompatActivity implements
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
 
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+
+  @BindView(R.id.imgUserProfile)
+  ImageView imgUserProfile;
+
+  @BindView(R.id.txtUserName)
+  TextView txtUserName;
+
+  @BindView(R.id.txtUserAddress)
+  TextView txtUserAddress;
+
+  @BindView(R.id.layoutAttendance)
+  LinearLayout layoutAttendance;
+
+  @BindView(R.id.layoutExit)
+  LinearLayout layoutExit;
+
+  @BindView(R.id.layoutTask)
+  LinearLayout layoutTask;
+
+  @BindView(R.id.layoutRoster)
+  LinearLayout layoutRoster;
+
+  @BindView(R.id.layoutBilling)
+  LinearLayout layoutBilling;
+
+  @BindView(R.id.layoutInventory)
+  LinearLayout layoutInventory;
+
+  @BindView(R.id.layoutChat)
+  LinearLayout layoutChat;
+
+  @BindView(R.id.layoutSiteMap)
+  LinearLayout layoutSiteMap;
+
+  @BindView(R.id.layoutGIS)
+  LinearLayout layoutGIS;
+
   private static final String TAG = "MainDashboardActivity";
+
+  private final String ENTRY_TYPE_IN = "I";
+  private final String ENTRY_TYPE_OUT = "O";
+
   private static int REQUEST_CHECK_SETTINGS = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-  private static final long UPDATE_INTERVAL = 10 * 1000;
+  private static final long UPDATE_INTERVAL = 10 * 60 * 1000;
   private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
   private static final long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
 
@@ -68,69 +125,55 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private GoogleApiClient mGoogleApiClient;
 
   private FieldForcePreferences preferences;
+  private APIInterface apiInterface;
 
-  @BindView(R.id.imgDrawer)
-  ImageView imgDrawer;
-  @BindView(R.id.imgActivation)
-  ImageView imgActivation;
-  @BindView(R.id.txtUserName)
-  TextView txtUserName;
-  @BindView(R.id.txtUserStatus)
-  TextView txtUserStatus;
-  @BindView(R.id.txtUserAddress)
-  TextView txtUserAddress;
-  @BindView(R.id.cardTask)
-  CardView cardTask;
-  @BindView(R.id.cardBills)
-  CardView cardBills;
-  @BindView(R.id.cardRosterManagement)
-  CardView cardRosterManagement;
-  @BindView(R.id.cardHistory)
-  CardView cardHistory;
-  @BindView(R.id.cardInventory)
-  CardView cardInventory;
-  @BindView(R.id.cardSiteMap)
-  CardView cardSiteMap;
-  @BindView(R.id.imgUserProfile)
-  CircleImageView imgUserProfile;
-  @BindView(R.id.progressBar)
-  CircularProgressBar progressBar;
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS})
+  public void onViewClicked(View view) {
+    switch (view.getId()) {
+      case R.id.layoutAttendance:
+        geoAttendance();
+        break;
+      case R.id.layoutExit:
+        geoExit();
+        break;
+      case R.id.layoutTask:
+        openTask();
+        break;
+      case R.id.layoutRoster:
+        openRoster();
+        break;
+      case R.id.layoutBilling:
+        openBills();
+        break;
+      case R.id.layoutInventory:
+        openInventory();
+        break;
+      case R.id.layoutChat:
+        openMessage();
+        break;
+      case R.id.layoutSiteMap:
+        openTR();
+        break;
 
-  @OnClick(R.id.cardTask)
-  public void openTask() {
-    Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
-    startActivity(intent);
-  }
-
-  @OnClick(R.id.cardRosterManagement)
-  public void openRoster() {
-    Intent intent = new Intent(MainDashboardActivity.this, RosterManagementActivity.class);
-    startActivity(intent);
-  }
-
-  @OnClick(R.id.cardBills)
-  public void openBills() {
-    Intent intent = new Intent(MainDashboardActivity.this, BillDashboardActivity.class);
-    startActivity(intent);
-  }
-
-  @OnClick(R.id.cardInventory)
-  public void openInventory() {
-    Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
-    startActivity(intent);
+        case R.id.layoutGIS:
+        openGIS();
+        break;
+    }
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main_dashboard);
+    setContentView(R.layout.activity_main_dashboard_type_two);
     ButterKnife.bind(this);
 
+    toolbar.setVisibility(View.GONE);
     init();
   }
 
   private void init() {
     preferences = new FieldForcePreferences(this);
+    apiInterface = APIClient.getApiClient().create(APIInterface.class);
     txtUserName.setText(preferences.getUser().getUserName());
 
     initProgressBar();
@@ -141,6 +184,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }
 
     buildGoogleApiClient();
+    getDeviceLocation(new LocationListener() {
+      @Override
+      public void onLocationUpdate(Location location) {
+
+      }
+    }, "");
     //initLocationSettings();
   }
 
@@ -179,17 +228,17 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void initProgressBar() {
-    progressBar.setOnClickListener(v -> {
-      initLocationSettings();
-      /*if (preferences.getOnline()) {
-        goOffline();
-      } else {
-        goOnline();
-      }*/
-    });
+//    progressBar.setOnClickListener(v -> {
+//      initLocationSettings();
+//      /*if (preferences.getOnline()) {
+//        goOffline();
+//      } else {
+//        goOnline();
+//      }*/
+//    });
   }
 
-  private void getDeviceLocation(String text) {
+  private void getDeviceLocation(LocationListener locationListener, String text) {
     try {
 //            Task task = fusedLocationProviderClient.getLastLocation();
 //            task.addOnCompleteListener(task1 -> {
@@ -205,20 +254,20 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //                }
 //            });
       SmartLocation.with(this).location()
-//                    .oneFix()
+          .oneFix()
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
 
               preferences.putLocation(location);
-
+              locationListener.onLocationUpdate(location);
               SmartLocation.with(MainDashboardActivity.this).geocoding()
                   .reverse(location, new OnReverseGeocodingListener() {
                     @Override
                     public void onAddressResolved(Location location, List<Address> list) {
 
                       if (BuildConfig.DEBUG) {
-                        Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
                       }
 
                       if (list.size() > 0) {
@@ -230,7 +279,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                           addressElements.add(result.getAddressLine(i));
                         }
                         if (BuildConfig.DEBUG) {
-                          Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
+                          //Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
                         }
                         builder.append(TextUtils.join(", ", addressElements));
                         txtUserAddress.setText(builder.toString());
@@ -247,40 +296,36 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void goOnline() {
-    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorTransparentTheme));
-    progressBar.setProgressAnimationDuration(1000);
-    progressBar.setProgress(0f);
-    progressBar.setProgressAnimationDuration(1000);
-    progressBar.setProgress(100f);
-    getDeviceLocation("Entered : ");
+//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.green));
+//    progressBar.setProgressAnimationDuration(1000);
+//    progressBar.setProgress(0f);
+//    progressBar.setProgressAnimationDuration(1000);
+//    progressBar.setProgress(100f);
+    //getDeviceLocation("Entered : ");
     requestLocationUpdates();
-    txtUserStatus.setText(getResources().getString(R.string.entered));
-    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrassDark));
+//    txtUserStatus.setText(getResources().getString(R.string.entered));
+//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.green));
     preferences.putOnline(true);
   }
 
   private void goOffline() {
-    progressBar.setProgressAnimationDuration(1000);
-    progressBar.setProgress(0f);
-    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
-    progressBar.setProgressAnimationDuration(1000);
-    progressBar.setProgress(100f);
-    getDeviceLocation("Exit : ");
+//    progressBar.setProgressAnimationDuration(1000);
+//    progressBar.setProgress(0f);
+//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
+//    progressBar.setProgressAnimationDuration(1000);
+//    progressBar.setProgress(100f);
+    //getDeviceLocation("Exit : ");
     removeLocationUpdates();
-    txtUserStatus.setText(getResources().getString(R.string.exit));
-    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
+//    txtUserStatus.setText(getResources().getString(R.string.exit));
+//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
     preferences.putOnline(false);
   }
 
   private void createLocationRequest() {
     mLocationRequest = new LocationRequest();
     mLocationRequest.setInterval(UPDATE_INTERVAL);
-    // Sets the fastest rate for active location updates. This interval is exact, and your
-    // application will never receive updates faster than this value.
     mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
     mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    // Sets the maximum time when batched location updates are delivered. Updates may be
-    // delivered sooner than this interval.
     mLocationRequest.setMaxWaitTime(MAX_WAIT_TIME);
   }
 
@@ -339,8 +384,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
         ActivityCompat.shouldShowRequestPermissionRationale(this,
             Manifest.permission.ACCESS_FINE_LOCATION);
 
-    // Provide an additional rationale to the user. This would happen if the user denied the
-    // request previously, but didn't check the "Don't ask again" checkbox.
     if (shouldProvideRationale) {
       Log.i(TAG, "Displaying permission rationale to provide additional context.");
       Snackbar.make(
@@ -359,9 +402,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
           .show();
     } else {
       Log.i(TAG, "Requesting permission");
-      // Request permission. It's possible this can be auto answered if device policy
-      // sets the permission in a given state or the user denied the permission
-      // previously and checked "Never ask again".
       ActivityCompat.requestPermissions(MainDashboardActivity.this,
           new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
           REQUEST_PERMISSIONS_REQUEST_CODE);
@@ -374,25 +414,10 @@ public class MainDashboardActivity extends AppCompatActivity implements
     Log.i(TAG, "onRequestPermissionResult");
     if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
       if (grantResults.length <= 0) {
-        // If user interaction was interrupted, the permission request is cancelled and you
-        // receive empty arrays.
         Log.i(TAG, "User interaction was cancelled.");
       } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        // Permission was granted. Kick off the process of building and connecting
-        // GoogleApiClient.
         buildGoogleApiClient();
       } else {
-        // Permission denied.
-
-        // Notify the user via a SnackBar that they have rejected a core permission for the
-        // app, which makes the Activity useless. In a real app, core permissions would
-        // typically be best requested during a welcome-screen flow.
-
-        // Additionally, it is important to remember that a permission might have been
-        // rejected without asking the user for permission (device policy or "Never ask
-        // again" prompts). Therefore, a user interface affordance is typically implemented
-        // when permissions are denied. Otherwise, your app could appear unresponsive to
-        // touches or interactions which have required permissions.
         Snackbar.make(
             findViewById(R.id.userRelativeLayout),
             R.string.permission_denied_explanation,
@@ -431,4 +456,157 @@ public class MainDashboardActivity extends AppCompatActivity implements
     LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
         getPendingIntent());
   }
+
+  @SuppressLint("RestrictedApi")
+  private void geoAttendance() {
+
+    BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+        .setTitle("ENTRY?")
+        .setMessage("Are you sure want to make attendance?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            getDeviceLocation(new LocationListener() {
+              @Override
+              public void onLocationUpdate(Location location) {
+
+                requestLocationUpdates();
+                preferences.putOnline(true);
+
+                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+                    Constants.INSTANCE.KEY,
+                    preferences.getUser().getUserId(),
+                    String.valueOf(location.getLatitude()),
+                    String.valueOf(location.getLongitude()),
+                    ENTRY_TYPE_IN
+                );
+                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+                  @Override
+                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                    if (response.isSuccessful()) {
+                      LocationResponse locationResponse = response.body();
+                      Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
+                    }
+                  }
+
+                  @Override
+                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                    Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    call.cancel();
+                  }
+                });
+              }
+            }, "ENTERED : ");
+
+            dialogInterface.dismiss();
+          }
+        })
+        .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
+            dialogInterface.dismiss();
+          }
+        })
+        .build();
+
+    // Show Dialog
+    mBottomSheetDialog.show();
+  }
+
+  @SuppressLint("RestrictedApi")
+  private void geoExit() {
+
+    BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+        .setTitle("EXIT?")
+        .setMessage("Are you sure want to exit?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+
+            getDeviceLocation(new LocationListener() {
+              @Override
+              public void onLocationUpdate(Location location) {
+                requestLocationUpdates();
+                preferences.putOnline(true);
+
+                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
+                    Constants.INSTANCE.KEY,
+                    preferences.getUser().getUserId(),
+                    String.valueOf(preferences.getLocation().getLatitude()),
+                    String.valueOf(preferences.getLocation().getLongitude()),
+                    ENTRY_TYPE_OUT
+                );
+
+                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+                  @Override
+                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                    if (response.isSuccessful()) {
+                      LocationResponse locationResponse = response.body();
+                      Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
+                    }
+                  }
+
+                  @Override
+                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                    Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    call.cancel();
+                  }
+                });
+
+              }
+            }, "EXIT : ");
+            dialogInterface.dismiss();
+          }
+        })
+        .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int which) {
+            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
+            dialogInterface.dismiss();
+          }
+        })
+        .build();
+
+    // Show Dialog
+    mBottomSheetDialog.show();
+  }
+
+  public void openTask() {
+    Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
+    startActivity(intent);
+  }
+
+  public void openRoster() {
+    Intent intent = new Intent(MainDashboardActivity.this, RosterManagementActivity.class);
+    startActivity(intent);
+  }
+
+  public void openBills() {
+    Intent intent = new Intent(MainDashboardActivity.this, BillDashboardActivity.class);
+    startActivity(intent);
+  }
+
+  public void openInventory() {
+    Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
+    startActivity(intent);
+  }
+
+  public void openMessage() {
+    Intent intent = new Intent(MainDashboardActivity.this, ChatDashboardActivity.class);
+    startActivity(intent);
+  }
+
+  private void openTR() {
+    Intent intent = new Intent(MainDashboardActivity.this, TransportRequasitionListActivity.class);
+    startActivity(intent);
+  }
+
+  private void openGIS() {
+    Intent intent = new Intent(MainDashboardActivity.this, CreateGISDataActivity.class);
+    startActivity(intent);
+  }
+
 }

@@ -6,6 +6,11 @@
 
   <data>
 
+    <import type="android.view.View" />
+
+    <variable
+        name="viewModel"
+        type="com.suffix.fieldforce.viewmodel.RequisitionListViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,24 +29,26 @@
         tools:listitem="@layout/list_item_requisition" />
 
     <ProgressBar
-        android:visibility="gone"
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="@{viewModel.progress ? View.VISIBLE : View.GONE}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:visibility="gone"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/colorRed"
+        android:backgroundTint="@color/color_green"
         android:src="@drawable/ic_add_white_24dp"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

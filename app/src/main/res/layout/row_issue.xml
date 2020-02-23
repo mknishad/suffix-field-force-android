@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,102 +9,101 @@
     android:background="@android:color/white"
     android:padding="@dimen/padding_2">
 
-    <TextView
-        android:id="@+id/ticketCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:background="@color/colorRed"
-        android:paddingLeft="@dimen/padding_2"
-        android:paddingRight="@dimen/padding_2"
-        android:paddingTop="@dimen/padding_1"
-        android:paddingBottom="@dimen/padding_1"
-        android:text="SUFFIX-12"
-        android:textColor="@android:color/white" />
+  <TextView
+      android:id="@+id/ticketCode"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentLeft="true"
+      android:background="@color/colorAqua"
+      android:paddingLeft="@dimen/padding_5"
+      android:paddingTop="@dimen/padding_1"
+      android:paddingRight="@dimen/padding_5"
+      android:paddingBottom="@dimen/padding_1"
+      android:text="SUFFIX-12"
+      android:textColor="@android:color/white" />
 
-    <TextView
-        android:id="@+id/ticketTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ticketCode"
-        android:padding="4dp"
-        android:text="This is a demo issue for pre defense" />
+  <TextView
+      android:id="@+id/ticketTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/layout_margin_5"
+      android:paddingTop="@dimen/padding_1"
+      android:layout_toRightOf="@id/ticketCode"
+      android:text="This is a demo issue for pre defense"
+      android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/ticketStatusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ticketCode"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/layout_margin_5"
-        android:background="@drawable/border_mint"
-        android:paddingLeft="@dimen/padding_4"
-        android:paddingTop="@dimen/padding_1"
-        android:paddingRight="@dimen/padding_4"
-        android:paddingBottom="2dp"
-        android:text="Not Started"
-        android:textColor="@android:color/white"
-        android:textSize="10sp" />
+  <TextView
+      android:id="@+id/ticketStatusText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/ticketCode"
+      android:layout_alignParentEnd="true"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      android:background="@drawable/border_mint"
+      android:paddingLeft="@dimen/padding_4"
+      android:paddingTop="@dimen/padding_1"
+      android:paddingRight="@dimen/padding_4"
+      android:paddingBottom="2dp"
+      android:text="Not Started"
+      android:textColor="@android:color/white"
+      android:textSize="10sp" />
 
-    <TextView
-        android:id="@+id/ticketStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ticketStatusText"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/border_levender"
-        android:paddingLeft="@dimen/padding_4"
-        android:paddingTop="@dimen/padding_1"
-        android:paddingRight="@dimen/padding_4"
-        android:paddingBottom="2dp"
-        android:text="10 June, 2019"
-        android:textColor="@android:color/white"
-        android:textSize="10sp" />
+  <TextView
+      android:id="@+id/ticketStartDate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/ticketStatusText"
+      android:layout_alignParentEnd="true"
+      android:layout_marginTop="4dp"
+      android:background="@drawable/border_levender"
+      android:paddingLeft="@dimen/padding_4"
+      android:paddingTop="@dimen/padding_1"
+      android:paddingRight="@dimen/padding_4"
+      android:paddingBottom="2dp"
+      android:text="10 June, 2019"
+      android:textColor="@android:color/white"
+      android:textSize="10sp" />
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/ticketCode"
+      android:layout_alignParentStart="true"
+      android:layout_toLeftOf="@+id/ticketStartDate"
+      android:paddingRight="@dimen/padding_2">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProjectIcon"
+        android:layout_width="@dimen/layout_height_20"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/consultant" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ticketCode"
-        android:layout_toLeftOf="@+id/ticketStartDate"
-        android:layout_alignParentStart="true"
-        android:gravity="start"
-        android:paddingRight="@dimen/padding_2"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imgProjectIcon"
-            android:layout_width="@dimen/layout_height_20"
-            android:layout_height="@dimen/layout_height_30"
-            android:src="@drawable/consultant" />
+      <TextView
+          android:id="@+id/consumerName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="10dp"
+          android:layout_marginTop="@dimen/layout_margin_5"
+          android:text="Dr. Solaiman"
+          android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:id="@+id/consumerName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="@dimen/layout_margin_5"
-                android:text="Dr. Solaiman"
-                android:textColor="@color/colorMinttwo"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:id="@+id/consumerAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Dhaka\nDhaka"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:textSize="10sp"
-                />
-        </LinearLayout>
-
+      <TextView
+          android:id="@+id/consumerAddress"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="10dp"
+          android:inputType="textMultiLine|textNoSuggestions"
+          android:text="Dhaka\nDhaka"
+          android:textSize="10sp" />
     </LinearLayout>
+
+  </LinearLayout>
 
 </RelativeLayout>

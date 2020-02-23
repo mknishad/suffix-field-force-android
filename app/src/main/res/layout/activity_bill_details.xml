@@ -2,413 +2,415 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/lightgray"
     tools:context=".activity.bill.BillDetailsActivity">
 
-    <data>
+  <data>
 
-        <import type="android.text.TextUtils" />
+    <import type="android.text.TextUtils" />
 
-        <variable
-            name="viewModel"
-            type="com.suffix.fieldforce.viewmodel.BillDetailsViewModel" />
-    </data>
+    <variable
+        name="viewModel"
+        type="com.suffix.fieldforce.viewmodel.BillDetailsViewModel" />
+  </data>
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/ToolbarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ScrollView
-            android:id="@+id/scrollView"
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/border_box_blue"
+            android:padding="@dimen/padding_2">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Type"
+                android:textColor="@android:color/white"
+                android:background="@color/colorBlueJeans"
+                android:padding="@dimen/padding_5" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Description"
+                android:textColor="@android:color/white"
+                android:background="@color/colorBlueJeansDark"
+                android:padding="@dimen/padding_5" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="Bill No" />
+
+            <TextView
+                android:id="@+id/txtBillNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billId) ? viewModel.billDetails.billListObj.bills[0].advanceBillId : viewModel.billDetails.billListObj.bills[0].billId}" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="Status" />
 
             <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+              <TextView
+                  android:id="@+id/txtStatus"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="@dimen/padding_5"
+                  android:text="@{viewModel.billDetails.billListObj.bills[0].status}"
+                  android:textAlignment="center"
+                  android:textColor="@color/green" />
+            </LinearLayout>
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="Bill Date" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billDate) ? viewModel.billDetails.billListObj.bills[0].advanceBillDate : viewModel.billDetails.billListObj.bills[0].billDate}" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_5"
+                android:text="@{viewModel.billDetails.billListObj.bills[0].description}" />
+          </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_bill_approve" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:orientation="vertical"
+            android:background="@drawable/border_box_blue"
+            android:padding="@dimen/padding_2">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorBlueJeans"
+                android:padding="@dimen/padding_2"
+                android:text="Name"
+                android:textColor="@color/color_white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorBlueJeansDark"
+                android:padding="@dimen/padding_2"
+                android:text="Amount"
+                android:textAlignment="textEnd"
+                android:textColor="@color/color_white" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Mobile Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[0].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Conveyance Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[1].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Food Allowance" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[2].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Hotel Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[3].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Customer Intertainment Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[4].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Fuel Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[5].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="Photocopy Bill" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[6].billAmount}"
+                android:textAlignment="textEnd" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:visibility="gone"
+              android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/padding_2"
+                android:textAlignment="textEnd"
+                android:textColor="@color/green" />
+          </LinearLayout>
+
+          <com.google.android.material.textfield.TextInputLayout
+              style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="16dp"
+              android:layout_marginTop="16dp"
+              android:layout_marginEnd="16dp"
+              android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtRemarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:focusable="false"
+                android:hint="Remarks"
+                android:inputType="date" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_10"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_2">
+          </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="@dimen/layout_margin_10"
+              android:gravity="center_horizontal"
+              android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Bill No" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="@dimen/padding_2"
+                android:background="@color/green"
+                android:text="Approve"
+                android:textColor="@color/color_white" />
 
-                        <TextView
-                            android:id="@+id/txtBillNo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billId) ? viewModel.billDetails.billListObj.bills[0].advanceBillId : viewModel.billDetails.billListObj.bills[0].billId}" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Status" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2">
-
-                            <TextView
-                                android:id="@+id/txtStatus"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@{viewModel.billDetails.billListObj.bills[0].status}"
-                                android:textAlignment="center"
-                                android:textColor="@color/green" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Bill Date" />
-
-                        <TextView
-                            android:id="@+id/txtDate"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billDate) ? viewModel.billDetails.billListObj.bills[0].advanceBillDate : viewModel.billDetails.billListObj.bills[0].billDate}" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_box_blue"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/padding_2"
-                            android:text="Description" />
-
-                        <TextView
-                            android:id="@+id/txtDescription"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billListObj.bills[0].description}" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_10"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_bill_approve"
-                    android:padding="@dimen/padding_2"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_10"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_2">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@color/colorBlueJeans"
-                            android:padding="@dimen/padding_2"
-                            android:text="Name"
-                            android:textColor="@color/color_white" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@color/colorBlueJeansDark"
-                            android:padding="@dimen/padding_2"
-                            android:text="Amount"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/color_white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Mobile Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[0].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Conveyance Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[1].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Food Allowance" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[2].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Hotel Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[3].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Customer Intertainment Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[4].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Fuel Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[5].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="Photocopy Bill" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/border_box_blue"
-                            android:padding="@dimen/padding_2"
-                            android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[6].billAmount}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/padding_2"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/green" />
-                    </LinearLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtRemarks"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:hint="Remarks"
-                            android:inputType="date" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/layout_margin_10"
-                        android:gravity="center_horizontal"
-                        android:visibility="gone">
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginRight="@dimen/padding_2"
-                            android:background="@color/green"
-                            android:text="Approve"
-                            android:textColor="@color/color_white" />
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@color/red"
-                            android:text="Reject"
-                            android:textColor="@color/color_white" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/red"
+                android:text="Reject"
+                android:textColor="@color/color_white" />
+          </LinearLayout>
+        </LinearLayout>
+      </LinearLayout>
+    </ScrollView>
+  </LinearLayout>
 </layout>

@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.model.AddBillResponse
-import com.suffix.fieldforce.model.BillData
-import com.suffix.fieldforce.model.BillType
+import com.suffix.fieldforce.model.*
 import com.suffix.fieldforce.networking.FieldForceApi
 import com.suffix.fieldforce.util.Constants
 import kotlinx.coroutines.launch
@@ -22,12 +20,44 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
   val addBillResponse: LiveData<AddBillResponse>
     get() = _addBillResponse
 
+  private val _taskList = MutableLiveData<List<Task>>()
+  val taskList: LiveData<List<Task>>
+    get() = _taskList
+
   private val _eventAddBill = MutableLiveData<Boolean>()
   val eventAddBill: LiveData<Boolean>
     get() = _eventAddBill
 
   init {
     getBillTypes()
+    getTaskList()
+  }
+
+  private fun getTaskList() {
+    progress.value = true
+    coroutineScope.launch {
+      try {
+        val getTaskListDeferred = FieldForceApi.retrofitService.getTaskListForBillAsync(
+          Constants.KEY,
+          preferences.getUser().userId,
+          preferences.getLocation().latitude.toString(),
+          preferences.getLocation().longitude.toString()
+        )
+
+        val result = getTaskListDeferred.await()
+        if (result.responseCode == "1") {
+          _taskList.value = result.responseData
+          progress.value = false
+        } else {
+          message.value = result.responseText
+        }
+      } catch (e: Exception) {
+        error(e.message, e)
+        progress.value = false
+        message.value =
+          getApplication<Application>().resources.getString(R.string.something_went_wrong)
+      }
+    }
   }
 
   private fun getBillTypes() {
@@ -55,17 +85,18 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
 
   fun submitBillWithAdvanceId(
     key: String, userId: String, lat: String, lng: String, billData: BillData,
-    encodedImage: String, taskId: String, priority: String
+    encodedImage: String, taskIdData: TaskIdData, priority: String
   ) {
-    var advanceId: String = "0"
-    coroutineScope.launch {
+    var advanceId = "0"
+    val taskIdDataJson = Gson().toJson(taskIdData)
+    /*coroutineScope.launch {
       try {
         val advanceIdDeferred = FieldForceApi.retrofitService.getTaskWiseAdvanceIdAsync(
           key,
           userId,
           lat,
           lng,
-          taskId
+          taskIdDataJson
         )
 
         progress.value = true
@@ -80,16 +111,16 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
       } catch (e: Exception) {
         error(e.message, e)
       }
-
-      submitBill(key, userId, lat, lng, billData, taskId, encodedImage, advanceId, priority)
-    }
+    }*/
+    submitBill(key, userId, lat, lng, billData, taskIdData, encodedImage, advanceId, priority)
   }
 
   private fun submitBill(
     key: String, userId: String, lat: String, lng: String, billData: BillData,
-    taskId: String, encodedImage: String, advanceId: String, priority: String
+    taskIdData: TaskIdData, encodedImage: String, advanceId: String, priority: String
   ) {
     val billDataJson = Gson().toJson(billData)
+    val taskIdDataJson = Gson().toJson(taskIdData)
 
     coroutineScope.launch {
       try {
@@ -99,7 +130,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
           lat,
           lng,
           billDataJson,
-          taskId,
+          taskIdDataJson,
           encodedImage,
           advanceId,
           priority
@@ -123,9 +154,10 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
 
   fun submitAdvanceBill(
     key: String, userId: String, lat: String, lng: String, billData: BillData, encodedImage: String,
-    taskId: String, priority: String
+    taskIdData: TaskIdData, priority: String
   ) {
     val billDataJson = Gson().toJson(billData)
+    val taskIdDataJson = Gson().toJson(taskIdData)
 
     coroutineScope.launch {
       try {
@@ -136,7 +168,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
           lng,
           billDataJson,
           encodedImage,
-          taskId,
+          taskIdDataJson,
           priority
         )
 

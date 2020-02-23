@@ -5,75 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/lightgray"
     tools:context=".activity.task.TaskEditActivity">
 
-    <include
-        android:id="@+id/toolBar"
-        layout="@layout/toolbar" />
+  <include
+      android:id="@+id/toolBar"
+      layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/layout_margin_5"
-        android:layout_marginTop="@dimen/layout_margin_5"
-        android:padding="@dimen/layout_margin_5"
-        >
-
-        <TextView
-            android:layout_width="@dimen/layout_margin_40"
-            android:layout_height="wrap_content"
-            android:text="Status"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:paddingRight="@dimen/layout_margin_5"
-            android:paddingTop="@dimen/layout_margin_5"
-            android:textAlignment="textStart"
-            />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      >
 
     <LinearLayout
         android:id="@+id/layoutStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/only_border_mint">
-        <Spinner
-            android:id="@+id/spinnerStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="true"
-            android:entries="@array/spinnerItems"
-            android:padding="@dimen/padding_5"
-            />
-    </LinearLayout>
-</LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin_5"
-        android:padding="@dimen/layout_margin_5">
+        android:background="@drawable/only_border_mint"
+        android:layout_margin="@dimen/layout_margin_5">
 
-        <TextView
-            android:layout_width="@dimen/layout_margin_40"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:paddingRight="@dimen/layout_margin_5"
-            android:text="Comment"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_height_45"
-            android:background="@drawable/only_border_mint">
-
-        <EditText
-            android:id="@+id/txtIssueRemark"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:inputType="textMultiLine"
-            />
-        </LinearLayout>
+      <Spinner
+          android:id="@+id/spinnerStatus"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height_45"
+          android:drawSelectorOnTop="true"
+          android:entries="@array/spinnerItems"
+          android:padding="@dimen/padding_5" />
     </LinearLayout>
+  </LinearLayout>
+
+  <LinearLayout
+      android:id="@+id/layoutComment"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/layout_margin_5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height_80"
+        android:background="@drawable/only_border_mint">
+
+      <EditText
+          android:id="@+id/txtIssueRemark"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginLeft="@dimen/layout_margin_5"
+          android:background="@null"
+          android:hint="Comment"
+          android:inputType="textMultiLine" />
+    </LinearLayout>
+  </LinearLayout>
 </LinearLayout>

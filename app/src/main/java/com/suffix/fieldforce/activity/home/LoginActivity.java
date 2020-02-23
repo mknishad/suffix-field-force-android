@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.log_input_password)
     EditText logInputPassword;
     @BindView(R.id.log_btn_login)
-    Button logBtnLogin;
+    TextView logBtnLogin;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_type_two);
+        setContentView(R.layout.activity_login_type_one);
         ButterKnife.bind(this);
 
         preferences = new FieldForcePreferences(this);
@@ -93,13 +95,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 try {
-                    if (response.body().getResponseCode().equalsIgnoreCase("1")) {
-                        User user = response.body().getResponseData();
-                        preferences.putUser(user);
-                        startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
-                        finish();
-                    } else {
-                        Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
+                    if(response.isSuccessful()) {
+                        if (response.body().getResponseCode().equalsIgnoreCase("1")) {
+                            User user = response.body().getResponseData();
+                            preferences.putUser(user);
+                            startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
+                            finish();
+
+                        } else {
+                            Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "onResponse: " + e.getMessage(), e);

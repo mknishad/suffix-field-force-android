@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutItem"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@android:color/white"
+    android:padding="10dp"
+    android:layout_marginTop="@dimen/layout_margin_1">
+
+  <androidx.cardview.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <com.facebook.drawee.view.SimpleDraweeView
+          android:id="@+id/imgUserLogo"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          fresco:placeholderImage="@drawable/consultant" />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_toRightOf="@+id/imgUserLogo"
+          android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Mohammad Solaiman"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtUserLastMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="You : Hellow"
+            android:textSize="10sp" />
+
+      </LinearLayout>
+
+    </RelativeLayout>
+
+  </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

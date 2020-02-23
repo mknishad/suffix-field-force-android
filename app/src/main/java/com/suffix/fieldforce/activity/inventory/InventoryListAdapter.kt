@@ -7,19 +7,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.suffix.fieldforce.databinding.ListItemInventoryBinding
-import com.suffix.fieldforce.model.Inventory
+import com.suffix.fieldforce.model.InventoryItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class InventoryListAdapter() :
-  ListAdapter<Inventory, RecyclerView.ViewHolder>(InventoryDiffCallback()) {
+class InventoryListAdapter :
+  ListAdapter<InventoryItem, RecyclerView.ViewHolder>(InventoryDiffCallback()) {
 
   override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
     when (holder) {
       is InventoryViewHolder -> {
-        val inventoryItem = getItem(position) as Inventory
+        val inventoryItem = getItem(position) as InventoryItem
         holder.bind(inventoryItem)
       }
     }
@@ -29,7 +29,7 @@ class InventoryListAdapter() :
     return InventoryViewHolder.from(parent)
   }
 
-  fun callSubmitList(list: List<Inventory>?) {
+  fun callSubmitList(list: List<InventoryItem>?) {
     val adapterScope = CoroutineScope(Dispatchers.Default)
     adapterScope.launch {
       withContext(Dispatchers.Main) {
@@ -41,8 +41,8 @@ class InventoryListAdapter() :
 
 class InventoryViewHolder private constructor(private val binding: ListItemInventoryBinding) :
   RecyclerView.ViewHolder(binding.root) {
-  fun bind(item: Inventory) {
-    binding.inventory = item
+  fun bind(item: InventoryItem) {
+    binding.inventoryItem = item
     binding.executePendingBindings()
   }
 
@@ -62,14 +62,13 @@ class InventoryViewHolder private constructor(private val binding: ListItemInven
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class InventoryDiffCallback : DiffUtil.ItemCallback<Inventory>() {
-  override fun areItemsTheSame(oldItem: Inventory, newItem: Inventory): Boolean {
-    return oldItem.id == newItem.id
+class InventoryDiffCallback : DiffUtil.ItemCallback<InventoryItem>() {
+  override fun areItemsTheSame(oldItem: InventoryItem, newItem: InventoryItem): Boolean {
+    return oldItem.productInvId == newItem.productInvId
   }
 
   @SuppressLint("DiffUtilEquals")
-  override fun areContentsTheSame(oldItem: Inventory, newItem: Inventory): Boolean {
+  override fun areContentsTheSame(oldItem: InventoryItem, newItem: InventoryItem): Boolean {
     return oldItem == newItem
   }
 }
-
