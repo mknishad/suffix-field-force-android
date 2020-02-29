@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,7 +89,11 @@ public class RosterManagementActivity extends AppCompatActivity {
   private void prepareRosterCalender(Calendar currentDate) {
 
     String year = String.valueOf(currentDate.get(Calendar.YEAR));
-    String month = String.valueOf(currentDate.get(Calendar.MONTH) + 1);
+    String month = String.valueOf(currentDate.get(Calendar.MONTH)+1);
+    Log.d("month:", month);
+    if(month.length() == 1){
+      month = "0"+month;
+    }
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     if (month.trim().length() == 1) {

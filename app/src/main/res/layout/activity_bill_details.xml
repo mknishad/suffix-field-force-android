@@ -38,8 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
             android:orientation="vertical"
+            android:background="@drawable/border_box_blue"
             android:padding="@dimen/padding_2">
 
           <LinearLayout
@@ -51,13 +51,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorBlueJeansDark"
+                android:text="Type"
+                android:textColor="@android:color/white"
+                android:background="@color/colorBlueJeans"
                 android:padding="@dimen/padding_5" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Description"
+                android:textColor="@android:color/white"
                 android:background="@color/colorBlueJeansDark"
                 android:padding="@dimen/padding_5" />
           </LinearLayout>
@@ -71,7 +75,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="Bill No" />
 
@@ -80,7 +83,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billId) ? viewModel.billDetails.billListObj.bills[0].advanceBillId : viewModel.billDetails.billListObj.bills[0].billId}" />
           </LinearLayout>
@@ -94,15 +96,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="Status" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border_box_blue">
+                android:layout_weight="1">
 
               <TextView
                   android:id="@+id/txtStatus"
@@ -124,7 +124,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="Bill Date" />
 
@@ -133,7 +132,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="@{TextUtils.isEmpty(viewModel.billDetails.billListObj.bills[0].billDate) ? viewModel.billDetails.billListObj.bills[0].advanceBillDate : viewModel.billDetails.billListObj.bills[0].billDate}" />
           </LinearLayout>
@@ -141,7 +139,6 @@
           <LinearLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@drawable/border_box_blue"
               android:weightSum="2">
 
             <TextView
@@ -156,7 +153,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_5"
                 android:text="@{viewModel.billDetails.billListObj.bills[0].description}" />
           </LinearLayout>
@@ -167,7 +163,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
-            android:padding="@dimen/padding_2"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_bill_approve" />
 
@@ -176,6 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
             android:orientation="vertical"
+            android:background="@drawable/border_box_blue"
             android:padding="@dimen/padding_2">
 
           <LinearLayout
@@ -212,7 +208,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Mobile Bill" />
 
@@ -220,7 +215,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[0].billAmount}"
                 android:textAlignment="textEnd" />
@@ -235,7 +229,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Conveyance Bill" />
 
@@ -243,7 +236,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[1].billAmount}"
                 android:textAlignment="textEnd" />
@@ -258,7 +250,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Food Allowance" />
 
@@ -266,7 +257,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[2].billAmount}"
                 android:textAlignment="textEnd" />
@@ -281,7 +271,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Hotel Bill" />
 
@@ -289,7 +278,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[3].billAmount}"
                 android:textAlignment="textEnd" />
@@ -304,7 +292,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Customer Intertainment Bill" />
 
@@ -312,7 +299,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[4].billAmount}"
                 android:textAlignment="textEnd" />
@@ -327,7 +313,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Fuel Bill" />
 
@@ -335,7 +320,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[5].billAmount}"
                 android:textAlignment="textEnd" />
@@ -350,7 +334,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="Photocopy Bill" />
 
@@ -358,7 +341,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/border_box_blue"
                 android:padding="@dimen/padding_2"
                 android:text="@{viewModel.billDetails.billDetailsObj.billDetailsList[6].billAmount}"
                 android:textAlignment="textEnd" />

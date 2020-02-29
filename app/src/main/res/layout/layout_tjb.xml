@@ -171,22 +171,18 @@
       android:layout_height="wrap_content"
       android:weightSum="2"
       android:layout_marginTop="@dimen/layout_margin_10"
-      android:layout_marginRight="@dimen/layout_margin_10"
-      android:layout_marginLeft="@dimen/layout_margin_10"
-      android:layout_marginBottom="@dimen/layout_margin_10"
       android:layout_alignParentBottom="true">
 
     <TextView
-        android:id="@+id/btnAddTJB"
+        android:id="@+id/btnCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="CANCEL"
         android:textColor="@color/backgroundcolor"
         android:textAlignment="center"
-        android:layout_marginRight="@dimen/layout_margin_5"
         android:padding="@dimen/padding_5"
-        android:background="@drawable/border_red"
+        android:background="@color/colorRed"
         android:textSize="20sp"/>
 
     <TextView
@@ -198,7 +194,7 @@
         android:textColor="@color/backgroundcolor"
         android:textAlignment="center"
         android:padding="@dimen/padding_5"
-        android:background="@drawable/border_green"
+        android:background="@color/colorTransparentTheme"
         android:textSize="20sp"/>
 
   </LinearLayout>

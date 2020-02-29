@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 
 public interface APIInterface {
 
-    @POST("FFMS/api/attendanceEntry.jsp")
+    @POST("attendanceEntry.jsp")
     Call<LocationResponse> attendanceEntry(
         @Query("key") String key,
         @Query("userId") String userId,
@@ -35,7 +35,7 @@ public interface APIInterface {
         @Query("entryType") String entryType
     );
 
-    @POST("FFMS/api/geoLocationEntry.jsp")
+    @POST("geoLocationEntry.jsp")
     Call<LocationResponse> sendGeoLocationAsync(
         @Query("key") String key,
         @Query("userId") String userId,
@@ -43,30 +43,30 @@ public interface APIInterface {
         @Query("lng") String lng
     );
 
-    @POST("FFMS/api/getDistrictThanaInfo.jsp")
+    @POST("getDistrictThanaInfo.jsp")
     Call<List<DistrictData>> getDistrictThanaInfo();
 
-    @POST("FFMS/api/assignTicketList.jsp")
+    @POST("assignTicketList.jsp")
     Call<List<AssignedTask>> assignTicketList(
             @Query("regTechId") String regTechId
     );
 
-    @POST("FFMS/api/acceptedTicketList.jsp")
+    @POST("acceptedTicketList.jsp")
     Call<List<AssignedTask>> acceptedTicketList(
             @Query("regTechId") String regTechId
     );
 
-    @POST("FFMS/api/completedTicketList.jsp")
+    @POST("completedTicketList.jsp")
     Call<List<AssignedTask>> completedTicketList(
             @Query("regTechId") String regTechId
     );
 
-    @POST("FFMS/api/inprogressTicketList.jsp")
+    @POST("inprogressTicketList.jsp")
     Call<List<AssignedTask>> inprogressTicketList(
             @Query("regTechId") String regTechId
     );
 
-    @POST("FFMS/api/ticketOpenInfo.jsp")
+    @POST("ticketOpenInfo.jsp")
     Call<List<Ticketstatus>> ticketOpenInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
@@ -75,7 +75,7 @@ public interface APIInterface {
             @Query("lng") String lng
     );
 
-    @POST("FFMS/api/ticketInprogressInfo.jsp")
+    @POST("ticketInprogressInfo.jsp")
     Call<List<Ticketstatus>> ticketInprogressInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
@@ -84,7 +84,7 @@ public interface APIInterface {
             @Query("lng") String lng
     );
 
-    @POST("FFMS/api/ticketCloseInfo.jsp")
+    @POST("ticketCloseInfo.jsp")
     Call<List<Ticketstatus>> ticketCloseInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId,
@@ -93,14 +93,14 @@ public interface APIInterface {
             @Query("lng") String lng
     );
 
-    @POST("FFMS/api/tickeDetailsInfo.jsp")
+    @POST("tickeDetailsInfo.jsp")
     Call<List<AssignedTask>> getTickeDetailsInfo(
             @Query("regTechId") String regTechId,
             @Query("ticketId") String ticketId
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/taskEntry.jsp")
+    @POST("taskEntry.jsp")
     Call<TaskEntry> taskEntry(
             @Field("key") String key,
             @Field("userId") String userId,
@@ -120,7 +120,7 @@ public interface APIInterface {
             @Field("consumerMobileNumber") String consumerMobileNumber
     );
 
-    @POST("FFMS/api/geoLocationEntry.jsp")
+    @POST("geoLocationEntry.jsp")
     Call<LocationResponse> sendGeoLocation(
             @Query("key") String key,
             @Query("userId") String userId,
@@ -128,7 +128,7 @@ public interface APIInterface {
             @Query("lng") String lng
     );
 
-    @POST("FFMS/api/login.jsp")
+    @POST("login.jsp")
     Call<LoginResponse> login(
             @Query("key") String key,
             @Query("userId") String userId,
@@ -136,14 +136,14 @@ public interface APIInterface {
             @Query("deviceId") String deviceId
     );
 
-    @POST("FFMS/api/userDeviceInfoSet.jsp")
+    @POST("userDeviceInfoSet.jsp")
     Call<SendPushTokenResponse> sendPushToken(
             @Query("key") String key,
             @Query("userId") String userId,
             @Query("deviceId") String deviceId
     );
 
-    @POST("FFMS/api/getUserRosterSchedule.jsp")
+    @POST("getUserRosterSchedule.jsp")
     Call<RosterScheduleModel> getUserRosterSchedule(
         @Query("key") String key,
         @Query("userId") String userId,
@@ -154,7 +154,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/getUserList.jsp")
+    @POST("getUserList.jsp")
     Call<ModelUser> getUserList(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -163,7 +163,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/getChatGroupList.jsp")
+    @POST("getChatGroupList.jsp")
     Call<ModelGroupChat> getChatGroupList(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -172,7 +172,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/addChatGroup.jsp")
+    @POST("addChatGroup.jsp")
     Call<ResponseBody> addChatGroup(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -183,7 +183,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/getProjectList.jsp")
+    @POST("getProjectList.jsp")
     Call<Project> getProjectList(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -193,7 +193,7 @@ public interface APIInterface {
 
 
     @FormUrlEncoded
-    @POST("FFMS/api/getTransportRequisitionList.jsp")
+    @POST("getTransportRequisitionList.jsp")
     Call<TransportListRequasition> getTransportRequisitionList(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -202,7 +202,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/postTransportRequisition.jsp")
+    @POST("postTransportRequisition.jsp")
     Call<ResponseBody> postTransportRequisition(
         @Field("key") String key,
         @Field("userId") String userId,
@@ -220,7 +220,7 @@ public interface APIInterface {
     );
 
     @FormUrlEncoded
-    @POST("FFMS/api/postGISDataCollection.jsp")
+    @POST("postGISDataCollection.jsp")
     Call<ResponseBody> postGISDataCollection(
         @Field("key") String key,
         @Field("userId") String userId,

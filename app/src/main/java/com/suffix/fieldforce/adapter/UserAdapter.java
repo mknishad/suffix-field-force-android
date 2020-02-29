@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolder> {
 
@@ -44,11 +45,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolde
   public void onBindViewHolder(final VideoViewHolder holder, int position) {
 
     ModelUserList model = modelUserLists.get(position);
+
     if (!TextUtils.isEmpty(model.getPictureLink().trim())) {
       uri = Uri.parse(model.getPictureLink());
       holder.txtUserName.setText(model.getEmpName());
       try {
-        //holder.imgUserLogo.setImageURI(uri);
+        holder.imgUserLogo.setImageURI(uri);
       } catch (Exception e) {
         Log.d("USER LOGO ----> ", uri.getPath());
       }
@@ -89,7 +91,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.VideoViewHolde
 
     public VideoViewHolder(View itemView) {
       super(itemView);
-      txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
+      ButterKnife.bind(this,itemView);
     }
   }
 }

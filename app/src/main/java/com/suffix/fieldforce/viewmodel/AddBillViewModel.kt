@@ -89,7 +89,7 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
   ) {
     var advanceId = "0"
     val taskIdDataJson = Gson().toJson(taskIdData)
-    coroutineScope.launch {
+    /*coroutineScope.launch {
       try {
         val advanceIdDeferred = FieldForceApi.retrofitService.getTaskWiseAdvanceIdAsync(
           key,
@@ -111,9 +111,8 @@ class AddBillViewModel(application: Application) : BaseViewModel(application) {
       } catch (e: Exception) {
         error(e.message, e)
       }
-
-      submitBill(key, userId, lat, lng, billData, taskIdData, encodedImage, advanceId, priority)
-    }
+    }*/
+    submitBill(key, userId, lat, lng, billData, taskIdData, encodedImage, advanceId, priority)
   }
 
   private fun submitBill(

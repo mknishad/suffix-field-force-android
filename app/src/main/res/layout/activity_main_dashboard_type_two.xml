@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_margin_10"
         android:text="MOHAMMAD SOLAIMAN"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -66,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="YOUR LOCATION WILL BE APPEARED HERE"
+        android:fontFamily="@font/montserrat"
         android:textColor="@color/color_white"
         android:textSize="8sp" />
 
@@ -313,7 +315,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_5"
             android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="GEO \nAttendance"
+            android:text="GEO \nATTENDANCE"
             android:textAlignment="center"
             android:textSize="12sp" />
       </LinearLayout>
@@ -341,7 +343,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_5"
             android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="GEO \nExit"
+            android:text="GEO \nEXIT"
             android:textAlignment="center"
             android:textSize="12sp" />
       </LinearLayout>

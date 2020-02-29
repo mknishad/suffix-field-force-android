@@ -33,6 +33,9 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
 
   private fun getBillDashboard() {
     progress.value = true
+    /*SmartLocation.with(getApplication()).location()
+      .oneFix()
+      .start { location ->*/
     coroutineScope.launch {
       try {
         val getBillDashboardDeferred = FieldForceApi.retrofitService.getExpenseBillListAsync(
@@ -40,6 +43,8 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
           preferences.getUser().userId,
           preferences.getLocation().latitude.toString(),
           preferences.getLocation().longitude.toString()
+          /*location.latitude.toString(),
+          location.longitude.toString()*/
         )
 
         val result = getBillDashboardDeferred.await()
@@ -55,6 +60,7 @@ class ExpenseBillViewModel(application: Application) : BaseViewModel(application
         message.value =
           getApplication<Application>().resources.getString(R.string.something_went_wrong)
       }
+      //}
     }
   }
 }
