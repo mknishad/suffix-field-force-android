@@ -42,6 +42,10 @@ public class RosterManagementActivity extends AppCompatActivity {
   private APIInterface apiInterface;
   private List<EventDay> events;
   private Typeface typeface;
+  private Drawable drawableR = null;
+  private Drawable drawableD = null;
+  private Drawable drawableO = null;
+  private Drawable drawableN = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,17 @@ public class RosterManagementActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
     typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
+
+
+    drawableR = CalendarUtils.getDrawableText(RosterManagementActivity.this, "R", typeface, R.color.colorMintLight, 18);
+
+    drawableD = CalendarUtils.getDrawableText(RosterManagementActivity.this, "D", typeface, R.color.colorFlowerDark, 18);
+
+    drawableO = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 18);
+
+    drawableN = CalendarUtils.getDrawableText(RosterManagementActivity.this, "N", typeface, R.color.colorLavanderDark, 18);
+
+
     prepareRosterCalender(calendarView.getCurrentPageDate());
 
     calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
@@ -76,8 +91,8 @@ public class RosterManagementActivity extends AppCompatActivity {
     String month = String.valueOf(currentDate.get(Calendar.MONTH) + 1);
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    if(month.trim().length() == 1){
-      month = "0"+month;
+    if (month.trim().length() == 1) {
+      month = "0" + month;
     }
 
     Call<RosterScheduleModel> call = apiInterface.getUserRosterSchedule(Constants.KEY,
@@ -98,19 +113,20 @@ public class RosterManagementActivity extends AppCompatActivity {
               List<RosterScheduleDateModel> data = r.getResponseData();
               if (data.size() > 0) {
                 events.clear();
+                Drawable drawable = null;
                 for (RosterScheduleDateModel d : data) {
                   String stringDate = d.getCalendarDate();
                   String status = d.getStatus();
+                  drawable = null;
 
-                  Drawable drawable = null;
                   if (status.toUpperCase().contains("R")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorMintLight, 18);
+                    drawable = drawableR;
                   } else if (status.toUpperCase().contains("D")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorFlowerDark, 18);
+                    drawable = drawableD;
                   } else if (status.toUpperCase().contains("OFF")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 18);
+                    drawable = drawableO;
                   } else if (status.toUpperCase().contains("N")) {
-                    drawable = CalendarUtils.getDrawableText(RosterManagementActivity.this, status, typeface, R.color.colorLavanderDark, 18);
+                    drawable = drawableN;
                   }
 
                   Date date = null;
