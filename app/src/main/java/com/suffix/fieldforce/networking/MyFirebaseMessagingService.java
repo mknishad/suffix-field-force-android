@@ -7,16 +7,20 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.MainActivity;
-
-import java.util.Random;
+import com.suffix.fieldforce.activity.bill.BillDetailsActivity;
+import com.suffix.fieldforce.activity.home.LoginActivity;
+import com.suffix.fieldforce.activity.home.MainDashboardActivity;
+import com.suffix.fieldforce.activity.task.PreviewTaskActivity;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -27,28 +31,43 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        String id = remoteMessage.getData().get("id");
         String message = remoteMessage.getData().get("message");
-        String imageUri = remoteMessage.getData().get("image");
         String title = remoteMessage.getData().get("title");
-        String action = remoteMessage.getData().get("click_action");
-        try {
-            cls = Class.forName(remoteMessage.getData().get("class_name"));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        String activityName = remoteMessage.getData().get("activity_name");
 
         try {
-            showNotification(title, message);
+            if(!TextUtils.isEmpty(activityName)) {
+                showNotification(id, title, message, activityName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void showNotification(String title, String body) {
+    private void showNotification(String id, String title, String body, String activityName) {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent notificationIntent = null;
 
-        Intent notificationIntent = new Intent(getApplicationContext(), cls);
+        if(new FieldForcePreferences(getApplicationContext()).getUser() != null) {
+            switch (activityName) {
+                case "task":
+                    notificationIntent = new Intent(getApplicationContext(), PreviewTaskActivity.class);
+                    notificationIntent.putExtra("ID",id);
+                    break;
+                case "bill":
+                    notificationIntent = new Intent(getApplicationContext(), BillDetailsActivity.class);
+                    notificationIntent.putExtra("ID",id);
+                    break;
+                default:
+                    notificationIntent = new Intent(getApplicationContext(), MainDashboardActivity.class);
+                    break;
+            }
+        }else {
+            notificationIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        }
+
         notificationIntent.putExtra("BODY", body);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notificationIntent.setAction(Intent.ACTION_MAIN);
