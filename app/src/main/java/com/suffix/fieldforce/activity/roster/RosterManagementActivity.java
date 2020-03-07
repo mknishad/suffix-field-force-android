@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,6 +75,7 @@ public class RosterManagementActivity extends AppCompatActivity {
     calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
       @Override
       public void onChange() {
+        calendarView.setSwipeEnabled(false);
         prepareRosterCalender(calendarView.getCurrentPageDate());
       }
     });
@@ -81,6 +83,7 @@ public class RosterManagementActivity extends AppCompatActivity {
     calendarView.setOnForwardPageChangeListener(new OnCalendarPageChangeListener() {
       @Override
       public void onChange() {
+        calendarView.setSwipeEnabled(false);
         prepareRosterCalender(calendarView.getCurrentPageDate());
       }
     });
@@ -148,14 +151,20 @@ public class RosterManagementActivity extends AppCompatActivity {
                 calendarView.setEvents(events);
               }
             }
+            calendarView.setSwipeEnabled(true);
+          }else {
+            calendarView.setSwipeEnabled(true);
           }
         } catch (Exception e) {
+          calendarView.setSwipeEnabled(true);
           e.printStackTrace();
         }
       }
 
       @Override
       public void onFailure(Call<RosterScheduleModel> call, Throwable t) {
+        Toast.makeText(RosterManagementActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        calendarView.setSwipeEnabled(true);
         call.cancel();
       }
     });
