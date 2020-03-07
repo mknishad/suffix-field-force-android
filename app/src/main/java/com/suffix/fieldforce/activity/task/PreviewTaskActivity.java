@@ -2,7 +2,6 @@ package com.suffix.fieldforce.activity.task;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,15 +78,6 @@ public class PreviewTaskActivity extends AppCompatActivity {
             txtTicketStatus.setText(assignTaskItem.getTicketStatusText());
             ticketId = assignTaskItem.getTicketId();
         }
-
-//        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-//        SpannableString spannableString = new SpannableString(" START  " + startAddress);
-//        Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#2e7d32"));
-//        Object clearSpan = new BackgroundColorSpan(Color.TRANSPARENT);
-//        spannableString.setSpan(bgGreenSpan, 0, 7, 0);
-//        spannableString.setSpan(clearSpan, 7, spannableString.length(), 0);
-//        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        holder.txtStartAddress.setText(spannableString);
 
     }
 
