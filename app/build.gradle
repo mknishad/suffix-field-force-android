@@ -17,11 +17,31 @@ android {
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
+
+  signingConfigs {
+    config {
+      storeFile file('../keystore/field-force-key.jks')
+      keyAlias = 'suffix'
+      storePassword 'fieldf0rce'
+      keyPassword 'fieldf0rce'
+    }
+  }
+
   buildTypes {
     release {
-      minifyEnabled false
+      signingConfig signingConfigs.config
+      minifyEnabled true
+      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
       buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8682/FFMSAPI/api/\"")
+
+      applicationVariants.all { variant ->
+        def date = new Date();
+        def formattedDate = date.format('yyyy-MM-dd')
+        variant.outputs.all {
+          outputFileName = "FieldForce_${variant.buildType.name}_${defaultConfig.versionName}_${formattedDate}.apk"
+        }
+      }
     }
     debug {
       buildConfigField("String", "BASE_URL", "\"http://192.168.0.117:8084/FFMS/api/\"")
