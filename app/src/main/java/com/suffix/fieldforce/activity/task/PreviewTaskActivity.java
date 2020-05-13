@@ -2,21 +2,30 @@ package com.suffix.fieldforce.activity.task;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.AddBillActivity;
 import com.suffix.fieldforce.model.AssignTaskItem;
+import com.suffix.fieldforce.model.AssignedTask;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
+import com.suffix.fieldforce.retrofitapi.APIClient;
+import com.suffix.fieldforce.retrofitapi.APIInterface;
 import com.suffix.fieldforce.util.Constants;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PreviewTaskActivity extends AppCompatActivity {
 
@@ -56,6 +65,8 @@ public class PreviewTaskActivity extends AppCompatActivity {
     TextView btnStartBill;
 
     private String ticketId;
+    APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    private FieldForcePreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,32 +74,25 @@ public class PreviewTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview_task);
         ButterKnife.bind(this);
 
+        preferences = new FieldForcePreferences(PreviewTaskActivity.this);
+
         setActionBar();
 
         if (getIntent().hasExtra("MODEL")) {
             AssignTaskItem assignTaskItem = getIntent().getParcelableExtra("MODEL");
-            ticketTitle.setText(assignTaskItem.getTicketTitle());
-            ticketCateroryTitle.setText(assignTaskItem.getTicketCateroryTitle());
-            consumerName.setText(assignTaskItem.getConsumerName());
-            deviceName.setText(assignTaskItem.getDeviceName());
-            consumerAddress.setText(assignTaskItem.getConsumerAddress());
-            consumerDistrict.setText(assignTaskItem.getConsumerDistrict());
-            consumerThana.setText(assignTaskItem.getConsumerThana());
-            consumerMobile.setText(assignTaskItem.getConsumerMobile());
-            ticketStatusText.setText(assignTaskItem.getTicketStatusText());
-            txtTicketStatus.setText(assignTaskItem.getTicketStatusText());
-            ticketId = assignTaskItem.getTicketId();
+            prepareData(assignTaskItem);
         }
 
-//        APIInterface apiInterface = APIClient.getApiClient().create(APIInterface.class);
-//        SpannableString spannableString = new SpannableString(" START  " + startAddress);
-//        Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#2e7d32"));
-//        Object clearSpan = new BackgroundColorSpan(Color.TRANSPARENT);
-//        spannableString.setSpan(bgGreenSpan, 0, 7, 0);
-//        spannableString.setSpan(clearSpan, 7, spannableString.length(), 0);
-//        spannableString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        holder.txtStartAddress.setText(spannableString);
+        if(getIntent().hasExtra("ID")){
+            ticketId = getIntent().getStringExtra("ID");
 
+            try {
+                getTask();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private void setActionBar() {
@@ -117,5 +121,46 @@ public class PreviewTaskActivity extends AppCompatActivity {
             intent.putExtra(Constants.TASK_ID, ticketId);
             startActivity(intent);
         }
+    }
+
+    private void prepareData(AssignTaskItem assignTaskItem) {
+        ticketTitle.setText(assignTaskItem.getTicketTitle());
+        ticketCateroryTitle.setText(assignTaskItem.getTicketCateroryTitle());
+        consumerName.setText(assignTaskItem.getConsumerName());
+        deviceName.setText(assignTaskItem.getDeviceName());
+        consumerAddress.setText(assignTaskItem.getConsumerAddress());
+        consumerDistrict.setText(assignTaskItem.getConsumerDistrict());
+        consumerThana.setText(assignTaskItem.getConsumerThana());
+        consumerMobile.setText(assignTaskItem.getConsumerMobile());
+        ticketStatusText.setText(assignTaskItem.getTicketStatusText());
+        txtTicketStatus.setText(assignTaskItem.getTicketStatusText());
+        ticketId = assignTaskItem.getTicketId();
+    }
+
+    private void getTask() {
+
+        Call<List<AssignedTask>> getTickeDetailsInfo = apiInterface.getTickeDetailsInfo(
+            Constants.KEY,
+            preferences.getUser().getUserId(),
+            ticketId
+        );
+
+        getTickeDetailsInfo.enqueue(new Callback<List<AssignedTask>>() {
+            @Override
+            public void onResponse(Call<List<AssignedTask>> call, Response<List<AssignedTask>> response) {
+                if(response.isSuccessful()){
+                    prepareData(response.body().get(0).getResponseData().get(0));
+                }else {
+                    Toast.makeText(PreviewTaskActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AssignedTask>> call, Throwable t) {
+                    call.cancel();
+                Toast.makeText(PreviewTaskActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

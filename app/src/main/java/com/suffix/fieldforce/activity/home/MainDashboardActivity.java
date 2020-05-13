@@ -6,12 +6,15 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +37,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.shreyaspatil.MaterialDialog.AbstractDialog;
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
@@ -282,7 +284,19 @@ public class MainDashboardActivity extends AppCompatActivity implements
                           //Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
                         }
                         builder.append(TextUtils.join(", ", addressElements));
-                        txtUserAddress.setText(builder.toString());
+
+                        SpannableString spannableString =  new SpannableString(builder.toString());
+
+                        if(text.length()>0) {
+                          if(text.toLowerCase().contains("entered")) {
+                            Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#6CBD6E"));
+                            spannableString.setSpan(bgGreenSpan, 0, text.length() - 3, 0);
+                          }else{
+                            Object bgRed = new BackgroundColorSpan(Color.parseColor("#DA4453"));
+                            spannableString.setSpan(bgRed, 0, text.length() - 3, 0);
+                          }
+                        }
+                        txtUserAddress.setText(spannableString);
                       } else {
                         txtUserAddress.setText("No Address Found");
                       }
@@ -497,7 +511,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   }
                 });
               }
-            }, "ENTERED : ");
+            }, " ENTERED  : ");
 
             dialogInterface.dismiss();
           }
@@ -557,7 +571,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                 });
 
               }
-            }, "EXIT : ");
+            }, " EXIT  : ");
             dialogInterface.dismiss();
           }
         })
