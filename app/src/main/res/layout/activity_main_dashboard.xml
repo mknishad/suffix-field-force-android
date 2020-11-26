@@ -42,8 +42,7 @@
                 android:paddingTop="10dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="10dp"
-                android:src="@drawable/ic_notifications"
-                android:tint="@android:color/holo_orange_light" />
+                android:src="@drawable/ic_notification"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

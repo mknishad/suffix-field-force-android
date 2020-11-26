@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
@@ -9,7 +10,7 @@
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/app_bar"
       android:layout_width="match_parent"
-      android:layout_height="280dp"
+      android:layout_height="300dp"
       android:background="@color/colorMintLight"
       android:fitsSystemWindows="true"
       android:theme="@style/AppTheme.NoActionBar">
@@ -28,14 +29,14 @@
           android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize"
           app:layout_collapseMode="pin"
-          app:title="MOHAMMAD SOLAIMAN" />
+          app:title="" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
   </com.google.android.material.appbar.AppBarLayout>
 
   <LinearLayout
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="@dimen/layout_margin_20"
@@ -43,12 +44,25 @@
       android:gravity="center_horizontal"
       android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+      <ImageView
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:src="@drawable/ic_notification"
+          android:layout_alignParentRight="true"
+          app:tint="@android:color/white"
+          android:layout_marginRight="@dimen/layout_margin_15"/>
+
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/imgUserProfile"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/layout_margin_20"
         android:src="@drawable/consultant" />
 
     <TextView
@@ -56,8 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_margin_10"
-        android:text="USER NAME"
         android:fontFamily="@font/montserrat"
+        android:text="শরিফ (ডিস লাইন)"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -66,10 +80,11 @@
         android:id="@+id/txtUserAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:fontFamily="@font/montserrat"
+        android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:textColor="@color/color_white"
-        android:textSize="8sp" />
+        android:textSize="8sp"
+        android:visibility="gone" />
 
   </LinearLayout>
 
@@ -82,7 +97,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="80dp"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -91,7 +107,7 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/layout_margin_20"
           android:layout_marginRight="@dimen/layout_margin_20"
-          android:weightSum="3">
+          android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/layoutTask"
@@ -104,51 +120,50 @@
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_width="60dp"
+              android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_violet_dark"
+              android:background="@drawable/round_violet_very_light"
               android:padding="@dimen/padding_10"
-              android:src="@drawable/ic_work"
-              android:tint="@color/colorWhite" />
+              android:src="@drawable/ic_cart"
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
-              android:text="TASK"
+              android:text="সেল"
               android:textAlignment="center"
-              android:textSize="12sp" />
+              android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layoutRoster"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_margin_10"
             android:layout_weight="1"
             android:background="@drawable/shadow_background"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_width="60dp"
+              android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_sky_light"
               android:padding="@dimen/padding_10"
               android:src="@drawable/ic_date_range"
-              android:tint="@color/colorWhite" />
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
-              android:text="ROSTER"
+              android:text="মেমো"
               android:textAlignment="center"
-              android:textSize="12sp" />
+              android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -158,7 +173,8 @@
             android:layout_weight="1"
             android:background="@drawable/shadow_background"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
           <ImageView
               android:layout_width="wrap_content"
@@ -167,7 +183,7 @@
               android:background="@drawable/round_orange_light"
               android:padding="@dimen/padding_10"
               android:src="@drawable/ic_monetization"
-              android:tint="@color/colorWhite" />
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
@@ -185,7 +201,7 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="@dimen/layout_margin_20"
           android:layout_marginRight="@dimen/layout_margin_20"
-          android:weightSum="3">
+          android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/layoutInventory"
@@ -198,51 +214,50 @@
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_width="60dp"
+              android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_violet_very_light"
+              android:background="@drawable/round_sky_light"
               android:padding="@dimen/padding_10"
-              android:src="@drawable/ic_developer"
-              android:tint="@color/colorWhite" />
+              android:src="@drawable/ic_stock"
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
-              android:text="INVENTORY"
+              android:text="স্টক"
               android:textAlignment="center"
-              android:textSize="12sp" />
+              android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layoutGIS"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_margin_10"
             android:layout_weight="1"
             android:background="@drawable/shadow_background"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              android:layout_width="60dp"
+              android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_green_dark"
+              android:background="@drawable/round_violet_dark"
               android:padding="@dimen/padding_10"
               android:src="@drawable/ic_local_hospital"
-              android:tint="@color/colorWhite" />
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
-              android:text="GIS"
+              android:text="স্লাইড কালেক্ট"
               android:textAlignment="center"
-              android:textSize="12sp" />
+              android:textSize="24sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -252,7 +267,8 @@
             android:layout_weight="1"
             android:background="@drawable/shadow_background"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
           <ImageView
               android:layout_width="wrap_content"
@@ -261,7 +277,7 @@
               android:background="@drawable/round_pink_dark"
               android:padding="@dimen/padding_10"
               android:src="@drawable/ic_bus"
-              android:tint="@color/colorWhite" />
+              app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
@@ -274,14 +290,44 @@
         </LinearLayout>
       </LinearLayout>
 
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/layout_height_80"
+          android:background="@drawable/shadow_background_fill"
+          android:gravity="center"
+          android:layout_marginHorizontal="20dp"
+          android:layout_marginTop="@dimen/layout_margin_20">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_sync"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:paddingVertical="5dp"
+            android:layout_marginRight="@dimen/layout_margin_20"
+            app:tint="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="সেলস ক্লোজিং"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:textSize="32sp" />
+      </LinearLayout>
+
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 
   <RelativeLayout
       android:id="@+id/card"
-      android:layout_width="match_parent"
-      android:layout_height="120dp"
-      android:layout_margin="@dimen/layout_margin_20"
+      android:layout_width="wrap_content"
+      android:layout_height="160dp"
+      android:layout_margin="@dimen/layout_margin_40"
       android:background="@drawable/shadow_background"
       android:gravity="center_vertical"
       app:layout_anchor="@id/app_bar"
@@ -290,35 +336,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3">
+        android:weightSum="2">
 
       <LinearLayout
           android:id="@+id/layoutAttendance"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
           android:layout_weight="1"
           android:gravity="center_horizontal"
           android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_green_light"
             android:padding="@dimen/padding_10"
             android:src="@drawable/ic_person"
-            android:tint="@color/colorWhite" />
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_5"
-            android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="GEO \nATTENDANCE"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_marginBottom="@dimen/layout_margin_20"
+            android:text="ATTENDANCE"
             android:textAlignment="center"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
       </LinearLayout>
+
+      <View
+          android:layout_width="1dp"
+          android:layout_height="match_parent"
+          android:layout_marginVertical="@dimen/layout_height_10"
+          android:background="#412B2B2B" />
 
       <LinearLayout
           android:id="@+id/layoutExit"
@@ -330,22 +381,22 @@
           android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_pink_light"
             android:padding="@dimen/padding_10"
             android:src="@drawable/ic_exit"
-            android:tint="@color/colorWhite" />
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_5"
-            android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="GEO \nEXIT"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_marginBottom="@dimen/layout_margin_20"
+            android:text="EXIT"
             android:textAlignment="center"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
       </LinearLayout>
 
       <LinearLayout
@@ -354,7 +405,8 @@
           android:layout_height="wrap_content"
           android:layout_weight="1"
           android:gravity="center_horizontal"
-          android:orientation="vertical">
+          android:orientation="vertical"
+          android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -364,7 +416,7 @@
             android:background="@drawable/round_violet_light"
             android:padding="@dimen/padding_10"
             android:src="@drawable/ic_chat"
-            android:tint="@color/colorWhite" />
+            app:tint="@color/colorWhite" />
 
         <TextView
             android:layout_width="wrap_content"

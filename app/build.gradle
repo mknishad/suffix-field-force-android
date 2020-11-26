@@ -33,7 +33,7 @@ android {
       minifyEnabled true
       shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8682/FFMSAPI/api/\"")
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/FFMSAPI/api/\"")
 
       applicationVariants.all { variant ->
         def date = new Date();
@@ -44,7 +44,7 @@ android {
       }
     }
     debug {
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8682/FFMS/api/\"")
+      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/FFMS/api/\"")
     }
   }
 

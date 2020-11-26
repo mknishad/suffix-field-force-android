@@ -176,7 +176,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private void init() {
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
-    txtUserName.setText(preferences.getUser().getUserName());
+    //txtUserName.setText(preferences.getUser().getUserName());
 
     initProgressBar();
 

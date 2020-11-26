@@ -51,6 +51,11 @@ public class LoginActivity extends AppCompatActivity {
 
         preferences = new FieldForcePreferences(this);
         apiInterface = APIClient.getApiClient().create(APIInterface.class);
+
+        if(preferences.getUser() != null){
+            startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
+            finish();
+        }
     }
 
     @OnClick(R.id.log_btn_login)
@@ -103,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
 
                         } else {
+
                             Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
                         }
                     }else {
