@@ -180,5 +180,8 @@ dependencies {
 
   //Calligraphy
   implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+  //Table View
+  implementation 'com.github.levitnudi:LegacyTableView:1.4'
 }
 apply plugin: 'com.google.gms.google-services'
