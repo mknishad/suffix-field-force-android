@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/shadow_background"
+    android:padding="10dp">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:paddingHorizontal="10dp">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/fb" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/txtUsername"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Rafsan Rafi"
+          android:textColor="@color/colorMintDark"
+          android:textSize="20sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:id="@+id/txtStorename"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Rafsan Store"
+          android:textColor="@android:color/darker_gray"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_marginHorizontal="20dp"
+      android:background="@android:color/darker_gray"
+      android:layout_marginTop="10dp"/>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:paddingHorizontal="10dp"
+      android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_calendar_black_24dp"
+        app:tint="#C92B2B2B" />
+
+    <TextView
+        android:id="@+id/txtDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="Mon, Jun, 12"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:paddingHorizontal="10dp"
+      android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_location"
+        app:tint="#C92B2B2B"/>
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="Halishahar, Chittagong"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+  </LinearLayout>
+
+  <Button
+      android:id="@+id/btnActive"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="ACTIVATE"
+      android:layout_marginHorizontal="20dp"
+      android:layout_marginTop="10dp"
+      android:layout_marginBottom="15dp"
+      android:background="#2b2b2b"/>
+
+</LinearLayout>
