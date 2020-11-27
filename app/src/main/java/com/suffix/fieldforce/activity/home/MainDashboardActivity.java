@@ -41,7 +41,7 @@ import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.activity.abul.NotificationListActivity;
+import com.suffix.fieldforce.abul.NotificationListActivity;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;

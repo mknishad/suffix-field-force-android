@@ -15,12 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.model.LoginResponse;
-import com.suffix.fieldforce.model.User;
+import com.suffix.fieldforce.abul.api.AbulApiClient;
+import com.suffix.fieldforce.abul.api.AbulApiInterface;
+import com.suffix.fieldforce.abul.model.AbulLoginResponse;
+import com.suffix.fieldforce.abul.model.LoginRequest;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
-import com.suffix.fieldforce.retrofitapi.APIClient;
-import com.suffix.fieldforce.retrofitapi.APIInterface;
-import com.suffix.fieldforce.util.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
   ProgressBar progressBar;
 
   private FieldForcePreferences preferences;
-  private APIInterface apiInterface;
+  private AbulApiInterface apiInterface;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     preferences = new FieldForcePreferences(this);
-    apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
 
     /*if (preferences.getUser() != null) {
       startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
@@ -88,14 +87,53 @@ public class LoginActivity extends AppCompatActivity {
         String newToken = instanceIdResult.getToken();
         Log.i(TAG, "newToken = " + newToken);
         preferences.putPushToken(newToken);
-        callLoginService(userId, password, newToken);
+        loginAbul(userId, password);
+        //callLoginService(userId, password, newToken);
       });
     } else {
-      callLoginService(userId, password, preferences.getPushToken());
+      //callLoginService(userId, password, preferences.getPushToken());
+      loginAbul(userId, password);
     }
   }
 
-  private void callLoginService(String userId, String password, String token) {
+  private void loginAbul(String userId, String password) {
+    LoginRequest loginRequest = new LoginRequest(userId, password);
+    Call<AbulLoginResponse> abulLoginCall = apiInterface.login(loginRequest);
+    abulLoginCall.enqueue(new Callback<AbulLoginResponse>() {
+      @Override
+      public void onResponse(Call<AbulLoginResponse> call, Response<AbulLoginResponse> response) {
+        progressBar.setVisibility(View.GONE);
+        try {
+          if (response.isSuccessful()) {
+            if (response.body().getCode() == 200) {
+              //User user = response.body().getResponseData();
+              //preferences.putUser(user);
+              startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
+              finish();
+            } else {
+              progressBar.setVisibility(View.GONE);
+              Snackbar.make(logBtnLogin, response.body().getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
+          } else {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+          }
+        } catch (Exception e) {
+          progressBar.setVisibility(View.GONE);
+          Log.e(TAG, "onResponse: " + e.getMessage(), e);
+          Snackbar.make(logBtnLogin, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<AbulLoginResponse> call, Throwable t) {
+        Log.e(TAG, "onFailure: ", t);
+        progressBar.setVisibility(View.GONE);
+      }
+    });
+  }
+
+  /*private void callLoginService(String userId, String password, String token) {
     Call<LoginResponse> loginCall = apiInterface.login(Constants.KEY, userId, password, token);
     loginCall.enqueue(new Callback<LoginResponse>() {
       @Override
@@ -129,5 +167,5 @@ public class LoginActivity extends AppCompatActivity {
         Snackbar.make(logBtnLogin, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show();
       }
     });
-  }
+  }*/
 }

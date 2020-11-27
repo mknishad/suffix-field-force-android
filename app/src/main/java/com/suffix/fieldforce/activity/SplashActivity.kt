@@ -25,7 +25,8 @@ class SplashActivity : BaseActivity() {
         preferences.setFirstTimeLaunch(false)
       } else {
         try {
-          val user = preferences.getUser()
+          //val user = preferences.getUser()
+          val user = null
           if (user != null) {
             startActivity<MainDashboardActivity>()
           } else {
