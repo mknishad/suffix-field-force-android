@@ -41,6 +41,7 @@ import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.abul.NotificationListActivity;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
@@ -78,6 +79,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   @BindView(R.id.imgUserProfile)
   ImageView imgUserProfile;
+
+  @BindView(R.id.imgNotification)
+  ImageView imgNotification;
 
   @BindView(R.id.txtUserName)
   TextView txtUserName;
@@ -129,7 +133,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private FieldForcePreferences preferences;
   private APIInterface apiInterface;
 
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -156,9 +160,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
       case R.id.layoutSiteMap:
         openTR();
         break;
-
-        case R.id.layoutGIS:
+      case R.id.layoutGIS:
         openGIS();
+        break;
+      case R.id.imgNotification:
+        openNotification();
         break;
     }
   }
@@ -285,13 +291,13 @@ public class MainDashboardActivity extends AppCompatActivity implements
                         }
                         builder.append(TextUtils.join(", ", addressElements));
 
-                        SpannableString spannableString =  new SpannableString(builder.toString());
+                        SpannableString spannableString = new SpannableString(builder.toString());
 
-                        if(text.length()>0) {
-                          if(text.toLowerCase().contains("entered")) {
+                        if (text.length() > 0) {
+                          if (text.toLowerCase().contains("entered")) {
                             Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#6CBD6E"));
                             spannableString.setSpan(bgGreenSpan, 0, text.length() - 3, 0);
-                          }else{
+                          } else {
                             Object bgRed = new BackgroundColorSpan(Color.parseColor("#DA4453"));
                             spannableString.setSpan(bgRed, 0, text.length() - 3, 0);
                           }
@@ -620,6 +626,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void openGIS() {
     Intent intent = new Intent(MainDashboardActivity.this, CreateGISDataActivity.class);
+    startActivity(intent);
+  }
+
+  private void openNotification() {
+    Intent intent = new Intent(MainDashboardActivity.this, NotificationListActivity.class);
     startActivity(intent);
   }
 

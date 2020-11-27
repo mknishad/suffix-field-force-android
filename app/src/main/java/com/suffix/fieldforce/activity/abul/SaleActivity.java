@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.activity.abul.adapter.CustomArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
