@@ -44,7 +44,7 @@ android {
       }
     }
     debug {
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/FFMS/api/\"")
+      buildConfigField("String", "BASE_URL", "\"http://http://192.168.0.117:8080/api/v1/\"")
     }
   }
 

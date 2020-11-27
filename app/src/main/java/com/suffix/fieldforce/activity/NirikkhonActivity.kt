@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.levitnudi.legacytableview.LegacyTableView
+import com.levitnudi.legacytableview.LegacyTableView.CENTER
+import com.levitnudi.legacytableview.LegacyTableView.ODD
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.databinding.ActivityNirikkhonBinding
 import com.suffix.fieldforce.viewmodel.NirikkhonViewModel
@@ -56,45 +58,57 @@ class NirikkhonActivity : AppCompatActivity() {
   }
 
   private fun setupTableView() {
-    LegacyTableView.insertLegacyTitle("Id", "Name", "Age", "Email")
+    LegacyTableView.insertLegacyTitle("এস,কে,ইউ", "শলাকা", "টাকা")
     //set table contents as string arrays
     LegacyTableView.insertLegacyContent(
-      "2999010",
-      "John Deer",
-      "50",
-      "john@example.com",
-      "332312",
-      "Kennedy F",
-      "33",
-      "ken@example.com",
-      "42343243",
-      "Java Lover",
-      "28",
-      "Jlover@example.com",
-      "4288383",
-      "Mike Tee",
-      "22",
-      "miket@example.com"
+      "AGT 1234",
+      "123",
+      "111",
+      "AGT 1234",
+      "123",
+      "111",
+      "AGT 1234",
+      "123",
+      "111",
+      "AGT 1234",
+      "123",
+      "111",
+      "AGT 1234",
+      "123",
+      "111",
+      "AGT 1234",
+      "123",
+      "111",
+      "মোট",
+      "7456",
+      "666"
     )
 
     binding.tableView.setTitle(LegacyTableView.readLegacyTitle())
     binding.tableView.setContent(LegacyTableView.readLegacyContent())
     //binding.tableView.setFooterText(LegacyTableView.readLegacyTitle())
 
-    binding.tableView.setTableFooterTextSize(0)
+    binding.tableView.setHighlight(ODD)
+    binding.tableView.setBackgroundOddColor("#999999")
+
     //depending on the phone screen size default table scale is 100
     //you can change it using this method
     //legacyTableView.setInitialScale(100);//default initialScale is zero (0)
 
     //if you want a smaller table, change the padding setting
-    binding.tableView.setTablePadding(7)
+    binding.tableView.setTitleTextAlignment(CENTER)
+    binding.tableView.setContentTextAlignment(CENTER)
+    binding.tableView.setTablePadding(16)
+
+    binding.tableView.setHeaderBackgroundLinearGradientBOTTOM("#6D7AE0")
+    binding.tableView.setHeaderBackgroundLinearGradientTOP("#6D7AE0")
 
     //to enable users to zoom in and out:
     //binding.tableView.setZoomEnabled(true)
     //binding.tableView.setShowZoomControls(true)
 
     binding.tableView.setTitleTextSize(40)
-    binding.tableView.setContentTextSize(30)
+    binding.tableView.setContentTextSize(36)
 
     //remember to build your table as the last step
     binding.tableView.build()

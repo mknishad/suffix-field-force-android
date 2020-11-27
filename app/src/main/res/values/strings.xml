@@ -53,6 +53,12 @@
   <string name="ticket_status_text">Ticket Status Text</string>
   <string name="ticket_category_title">Ticket Category Title</string>
   <string name="ticket_code">Ticket Code</string>
+  <string name="print_memo_text">যদি কোন কারণে মেমো প্রিন্ট না হয়, মেমো সেকশন থেকে আবার প্রিন্ট করতে পারবেন।</string>
+  <string name="trade_support">ট্রেড সাপোর্ট</string>
+  <string name="take_picture">ছবি তুলুন</string>
+  <string name="qc">QC</string>
+  <string name="print">প্রিন্ট করুন</string>
+  <string name="total">মোট</string>
 
   <string name="issue_type">Issue Type</string>
   <string name="status">Status</string>

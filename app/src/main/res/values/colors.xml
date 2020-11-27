@@ -84,6 +84,7 @@
     <color name="colorLightGrey">#E1E1E1</color>
     <color name="colorGrey">#999999</color>
 
+    <color name="colorTableTitle">#6D7AE0</color>
 
     <color name="bg_screen1">#3498db</color>
     <color name="bg_screen2">#e74c3c</color>
