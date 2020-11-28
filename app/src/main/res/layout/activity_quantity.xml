@@ -45,7 +45,8 @@
             android:layout_height="0dp"
             android:layout_weight=".75"
             android:background="@drawable/border_mint"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="10dp">
 
           <ImageView
               android:layout_width="wrap_content"
@@ -69,7 +70,8 @@
             android:layout_marginTop="15dp"
             android:layout_weight=".75"
             android:background="@drawable/border_red"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="5dp">
 
           <ImageView
               android:layout_width="wrap_content"
