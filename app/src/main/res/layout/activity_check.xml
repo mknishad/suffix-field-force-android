@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.NirikkhonActivity">
+    tools:context=".akg.activity.CheckActivity">
 
   <data>
 
     <variable
         name="viewModel"
-        type="com.suffix.fieldforce.viewmodel.NirikkhonViewModel" />
+        type="com.suffix.fieldforce.akg.viewmodel.CheckViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout

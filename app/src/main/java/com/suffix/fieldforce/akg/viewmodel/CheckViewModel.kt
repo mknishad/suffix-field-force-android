@@ -1,10 +1,11 @@
-package com.suffix.fieldforce.viewmodel
+package com.suffix.fieldforce.akg.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.suffix.fieldforce.viewmodel.BaseViewModel
 
-class NirikkhonViewModel(application: Application) : BaseViewModel(application) {
+class CheckViewModel(application: Application) : BaseViewModel(application) {
   private val _eventShowPC = MutableLiveData<Boolean>()
   val eventShowPC: LiveData<Boolean>
     get() = _eventShowPC
