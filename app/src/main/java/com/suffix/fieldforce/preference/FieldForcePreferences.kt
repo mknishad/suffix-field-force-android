@@ -64,12 +64,21 @@ class FieldForcePreferences(context: Context) {
   }
 
   fun putLoginResponse(json: String) {
-    editor.putString(Constants.USER, json)
+    editor.putString(Constants.LOGIN_RESPONSE, json)
     editor.apply()
   }
 
   fun getLoginResponse(): String {
-    return preferences.getString(Constants.USER, "").toString()
+    return preferences.getString(Constants.LOGIN_RESPONSE, "").toString()
+  }
+
+  fun putPassword(password: String) {
+    editor.putString(Constants.PASSWORD, password)
+    editor.apply()
+  }
+
+  fun getPassword(): String {
+    return preferences.getString(Constants.PASSWORD, "").toString()
   }
 
   fun putOnline(online: Boolean) {

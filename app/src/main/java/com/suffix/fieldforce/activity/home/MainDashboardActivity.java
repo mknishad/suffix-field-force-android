@@ -37,11 +37,16 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.abul.NotificationListActivity;
+import com.suffix.fieldforce.abul.api.AbulApiClient;
+import com.suffix.fieldforce.abul.api.AbulApiInterface;
+import com.suffix.fieldforce.abul.model.AbulLoginResponse;
+import com.suffix.fieldforce.abul.model.AttendenceRequest;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
@@ -51,11 +56,7 @@ import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
 import com.suffix.fieldforce.activity.transport.TransportRequasitionListActivity;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
-import com.suffix.fieldforce.model.LocationResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
-import com.suffix.fieldforce.retrofitapi.APIClient;
-import com.suffix.fieldforce.retrofitapi.APIInterface;
-import com.suffix.fieldforce.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,8 @@ import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
+import okhttp3.Credentials;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -118,8 +121,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private static final String TAG = "MainDashboardActivity";
 
-  private final String ENTRY_TYPE_IN = "I";
-  private final String ENTRY_TYPE_OUT = "O";
+  private final String ENTRY_TYPE_IN = "i";
+  private final String ENTRY_TYPE_OUT = "o";
 
   private static int REQUEST_CHECK_SETTINGS = 1000;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -131,7 +134,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private GoogleApiClient mGoogleApiClient;
 
   private FieldForcePreferences preferences;
-  private APIInterface apiInterface;
+  private AbulApiInterface apiInterface;
 
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification})
   public void onViewClicked(View view) {
@@ -181,7 +184,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void init() {
     preferences = new FieldForcePreferences(this);
-    apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
     //txtUserName.setText(preferences.getUser().getUserName());
 
     initProgressBar();
@@ -494,26 +497,38 @@ public class MainDashboardActivity extends AppCompatActivity implements
                 requestLocationUpdates();
                 preferences.putOnline(true);
 
-                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
-                    Constants.INSTANCE.KEY,
-                    preferences.getUser().getUserId(),
-                    String.valueOf(location.getLatitude()),
-                    String.valueOf(location.getLongitude()),
-                    ENTRY_TYPE_IN
+                AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+                    AbulLoginResponse.class);
+
+                String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+                    preferences.getPassword());
+
+                Log.d(TAG, "onLocationUpdate: basicAuthorization = " + basicAuthorization);
+
+                AttendenceRequest attendenceRequest = new AttendenceRequest(
+                    System.currentTimeMillis(),
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    ENTRY_TYPE_IN,
+                    loginResponse.getData().getId()
                 );
-                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+
+                Call<ResponseBody> attendanceEntry = apiInterface.attendanceEntry(
+                    basicAuthorization, attendenceRequest);
+
+                attendanceEntry.enqueue(new Callback<ResponseBody>() {
                   @Override
-                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
-                      LocationResponse locationResponse = response.body();
-                      Toast.makeText(MainDashboardActivity.this, "Entered", Toast.LENGTH_SHORT).show();
+                      Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
+                    } else {
+                      Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                   }
 
                   @Override
-                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                  public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    call.cancel();
                   }
                 });
               }
@@ -540,7 +555,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
     BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
         .setTitle("EXIT?")
-        .setMessage("Are you sure want to exit?")
+        .setMessage("Are you sure you want to exit?")
         .setCancelable(false)
         .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
@@ -549,33 +564,43 @@ public class MainDashboardActivity extends AppCompatActivity implements
             getDeviceLocation(new LocationListener() {
               @Override
               public void onLocationUpdate(Location location) {
-                requestLocationUpdates();
-                preferences.putOnline(true);
+                //requestLocationUpdates();
+                preferences.putOnline(false);
 
-                Call<LocationResponse> attendanceEntry = apiInterface.attendanceEntry(
-                    Constants.INSTANCE.KEY,
-                    preferences.getUser().getUserId(),
-                    String.valueOf(preferences.getLocation().getLatitude()),
-                    String.valueOf(preferences.getLocation().getLongitude()),
-                    ENTRY_TYPE_OUT
+                AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+                    AbulLoginResponse.class);
+
+                String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+                    preferences.getPassword());
+
+                Log.d(TAG, "onLocationUpdate: basicAuthorization = " + basicAuthorization);
+
+                AttendenceRequest attendenceRequest = new AttendenceRequest(
+                    System.currentTimeMillis(),
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    ENTRY_TYPE_OUT,
+                    loginResponse.getData().getId()
                 );
 
-                attendanceEntry.enqueue(new Callback<LocationResponse>() {
+                Call<ResponseBody> attendanceEntry = apiInterface.attendanceEntry(
+                    basicAuthorization, attendenceRequest);
+
+                attendanceEntry.enqueue(new Callback<ResponseBody>() {
                   @Override
-                  public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                  public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
-                      LocationResponse locationResponse = response.body();
-                      Toast.makeText(MainDashboardActivity.this, "Entered : ", Toast.LENGTH_SHORT).show();
+                      Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
+                    } else {
+                      Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
                   }
 
                   @Override
-                  public void onFailure(Call<LocationResponse> call, Throwable t) {
+                  public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(MainDashboardActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    call.cancel();
                   }
                 });
-
               }
             }, " EXIT  : ");
             dialogInterface.dismiss();
