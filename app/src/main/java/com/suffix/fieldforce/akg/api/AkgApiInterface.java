@@ -29,6 +29,7 @@ public interface AkgApiInterface {
 
   @GET("invoice/{salesRepId}")
   Call<List<MemoListResponse>> getMemoList(
+      @Header("Aurhorization") String h1,
       @Path("salesRepId") int salesRepId
   );
 }

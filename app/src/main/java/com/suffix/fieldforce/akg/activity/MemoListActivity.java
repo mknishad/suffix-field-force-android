@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,9 +69,15 @@ public class MemoListActivity extends AppCompatActivity {
   }
 
   private void getMemoList() {
-    AbulLoginResponse abulLoginResponse = new Gson().fromJson(preferences.getLoginResponse(), AbulLoginResponse.class);
 
-    Call<List<MemoListResponse>> call = apiInterface.getMemoList(abulLoginResponse.getData().getId());
+    AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AbulLoginResponse.class);
+    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+        preferences.getPassword());
+    Log.d("response",basicAuthorization);
+    Log.d("response",""+loginResponse.getData().getId());
+
+    Call<List<MemoListResponse>> call = apiInterface.getMemoList(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<List<MemoListResponse>>() {
       @Override
       public void onResponse(Call<List<MemoListResponse>> call, Response<List<MemoListResponse>> response) {
