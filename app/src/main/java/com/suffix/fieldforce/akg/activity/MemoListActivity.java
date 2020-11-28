@@ -1,13 +1,13 @@
 package com.suffix.fieldforce.akg.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
@@ -31,7 +31,7 @@ public class MemoListActivity extends AppCompatActivity {
 
   @BindView(R.id.recyclerView)
   RecyclerView recyclerView;
-  
+
   @BindView(R.id.txtTotalMemo)
   TextView txtTotalMemo;
 
@@ -39,7 +39,7 @@ public class MemoListActivity extends AppCompatActivity {
   private AbulApiInterface apiInterface;
   private MemoListAdapter memoListAdapter;
   private List<MemoListResponse> memoListResponse;
-  
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class MemoListActivity extends AppCompatActivity {
 
     preferences = new FieldForcePreferences(this);
     apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
-    
+
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
     memoListAdapter = new MemoListAdapter(this, memoListResponse);
@@ -64,21 +64,21 @@ public class MemoListActivity extends AppCompatActivity {
     });
 
     getMemoList();
-    
+
   }
 
   private void getMemoList() {
     AbulLoginResponse abulLoginResponse = new Gson().fromJson(preferences.getLoginResponse(), AbulLoginResponse.class);
 
-    Call<List<MemoListResponse>> call = apiInterface.getMemoList( abulLoginResponse.getData().getId() );
+    Call<List<MemoListResponse>> call = apiInterface.getMemoList(abulLoginResponse.getData().getId());
     call.enqueue(new Callback<List<MemoListResponse>>() {
       @Override
       public void onResponse(Call<List<MemoListResponse>> call, Response<List<MemoListResponse>> response) {
-        if(response.isSuccessful()){
+        if (response.isSuccessful()) {
           memoListResponse = response.body();
           memoListAdapter.setData(memoListResponse);
-        }else{
-          Log.d("Memo",response.errorBody().toString());
+        } else {
+          Log.d("Memo", response.errorBody().toString());
         }
       }
 

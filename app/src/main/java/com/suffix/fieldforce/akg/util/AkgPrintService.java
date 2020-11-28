@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul.util;
+package com.suffix.fieldforce.akg.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.suffix.fieldforce.R;
 
-public class PrintService {
+public class AkgPrintService {
   private static final String TAG = "PrintUtils";
   private WebView mWebView;
 

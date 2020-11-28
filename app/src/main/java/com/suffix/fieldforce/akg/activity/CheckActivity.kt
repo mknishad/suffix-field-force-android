@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity
+package com.suffix.fieldforce.akg.activity
 
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -14,21 +14,21 @@ import com.levitnudi.legacytableview.LegacyTableView
 import com.levitnudi.legacytableview.LegacyTableView.CENTER
 import com.levitnudi.legacytableview.LegacyTableView.ODD
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.abul.util.PrintService
-import com.suffix.fieldforce.databinding.ActivityNirikkhonBinding
-import com.suffix.fieldforce.viewmodel.NirikkhonViewModel
+import com.suffix.fieldforce.akg.util.AkgPrintService
+import com.suffix.fieldforce.databinding.ActivityCheckBinding
+import com.suffix.fieldforce.akg.viewmodel.CheckViewModel
 
 
-class NirikkhonActivity : AppCompatActivity() {
-  private lateinit var binding: ActivityNirikkhonBinding
-  private lateinit var viewModel: NirikkhonViewModel
+class CheckActivity : AppCompatActivity() {
+  private lateinit var binding: ActivityCheckBinding
+  private lateinit var viewModel: CheckViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_nirikkhon)
+    setContentView(R.layout.activity_check)
 
-    binding = DataBindingUtil.setContentView(this, R.layout.activity_nirikkhon)
-    viewModel = ViewModelProviders.of(this).get(NirikkhonViewModel::class.java)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_check)
+    viewModel = ViewModelProviders.of(this).get(CheckViewModel::class.java)
     binding.viewModel = viewModel
     binding.lifecycleOwner = this
 
@@ -120,6 +120,6 @@ class NirikkhonActivity : AppCompatActivity() {
     val htmlDocument = "<html><body><h1>Test Content</h1><p>Testing, " +
     "testing, testing...</p></body></html>";
 
-    PrintService().doWebViewPrint(this, htmlDocument)
+    AkgPrintService().doWebViewPrint(this, htmlDocument)
   }
 }
