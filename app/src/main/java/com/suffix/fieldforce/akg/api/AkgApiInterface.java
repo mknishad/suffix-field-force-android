@@ -15,7 +15,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface AbulApiInterface {
+public interface AkgApiInterface {
   @POST("login")
   Call<AbulLoginResponse> login(
       @Body LoginRequest loginRequest

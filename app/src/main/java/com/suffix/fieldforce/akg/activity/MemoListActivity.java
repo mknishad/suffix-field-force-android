@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
-import com.suffix.fieldforce.akg.api.AbulApiClient;
-import com.suffix.fieldforce.akg.api.AbulApiInterface;
+import com.suffix.fieldforce.akg.api.AkgApiClient;
+import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -36,7 +36,7 @@ public class MemoListActivity extends AppCompatActivity {
   TextView txtTotalMemo;
 
   private FieldForcePreferences preferences;
-  private AbulApiInterface apiInterface;
+  private AkgApiInterface apiInterface;
   private MemoListAdapter memoListAdapter;
   private List<MemoListResponse> memoListResponse;
 
@@ -49,7 +49,7 @@ public class MemoListActivity extends AppCompatActivity {
     memoListResponse = new ArrayList<>();
 
     preferences = new FieldForcePreferences(this);
-    apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
+    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
