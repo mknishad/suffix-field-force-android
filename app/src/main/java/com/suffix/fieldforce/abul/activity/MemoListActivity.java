@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.abul.adapter.MemoListAdapter;
 import com.suffix.fieldforce.abul.api.AbulApiClient;
 import com.suffix.fieldforce.abul.api.AbulApiInterface;
+import com.suffix.fieldforce.abul.model.AbulLoginResponse;
 import com.suffix.fieldforce.abul.model.MemoListResponse;
 import com.suffix.fieldforce.adapter.TransportRequasitionListAdapter;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -67,10 +69,9 @@ public class MemoListActivity extends AppCompatActivity {
   }
 
   private void getMemoList() {
+    AbulLoginResponse abulLoginResponse = new Gson().fromJson(preferences.getLoginResponse(), AbulLoginResponse.class);
 
-    String userId = preferences.getUser().getUserId();
-
-    Call<List<MemoListResponse>> call = apiInterface.getMemoList( userId );
+    Call<List<MemoListResponse>> call = apiInterface.getMemoList( abulLoginResponse.getData().getId() );
     call.enqueue(new Callback<List<MemoListResponse>>() {
       @Override
       public void onResponse(Call<List<MemoListResponse>> call, Response<List<MemoListResponse>> response) {
