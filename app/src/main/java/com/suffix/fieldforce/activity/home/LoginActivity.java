@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.abul.api.AbulApiClient;
 import com.suffix.fieldforce.abul.api.AbulApiInterface;
@@ -106,7 +107,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
           if (response.isSuccessful()) {
             if (response.body().getCode() == 200) {
-              //User user = response.body().getResponseData();
+              AbulLoginResponse loginResponse = response.body();
+              String loginResponseJson = new Gson().toJson(loginResponse);
+              preferences.putLoginResponse(loginResponseJson);
               //preferences.putUser(user);
               startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
               finish();

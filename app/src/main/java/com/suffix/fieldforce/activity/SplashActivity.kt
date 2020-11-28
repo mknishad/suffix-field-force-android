@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.view.View
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.home.LoginActivity
@@ -25,9 +26,8 @@ class SplashActivity : BaseActivity() {
         preferences.setFirstTimeLaunch(false)
       } else {
         try {
-          //val user = preferences.getUser()
-          val user = null
-          if (user != null) {
+          val loginResponse = preferences.getLoginResponse()
+          if (!TextUtils.isEmpty(loginResponse)) {
             startActivity<MainDashboardActivity>()
           } else {
             startActivity<LoginActivity>()

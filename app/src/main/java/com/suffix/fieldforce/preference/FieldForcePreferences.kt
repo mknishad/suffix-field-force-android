@@ -63,6 +63,15 @@ class FieldForcePreferences(context: Context) {
     return gson.fromJson<User>(json, User::class.java)
   }
 
+  fun putLoginResponse(json: String) {
+    editor.putString(Constants.USER, json)
+    editor.apply()
+  }
+
+  fun getLoginResponse(): String {
+    return preferences.getString(Constants.USER, "").toString()
+  }
+
   fun putOnline(online: Boolean) {
     editor.putBoolean(Constants.ONLINE, online)
     editor.apply()

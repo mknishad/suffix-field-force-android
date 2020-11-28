@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ResponseData {
+  @SerializedName("id")
+  @Expose
+  private String id;
   @SerializedName("userId")
   @Expose
   private String userId;
@@ -19,33 +22,26 @@ public class ResponseData {
   @Override
   public String toString() {
     return "ResponseData{" +
-        "userId='" + userId + '\'' +
+        "id='" + id + '\'' +
+        ", userId='" + userId + '\'' +
         ", password='" + password + '\'' +
         ", globalSettingList=" + globalSettingList +
         '}';
+  }
+
+  public String getId() {
+    return id;
   }
 
   public String getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
   public String getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
   public List<GlobalSettings> getGlobalSettingList() {
     return globalSettingList;
-  }
-
-  public void setGlobalSettingList(List<GlobalSettings> globalSettingList) {
-    this.globalSettingList = globalSettingList;
   }
 }
