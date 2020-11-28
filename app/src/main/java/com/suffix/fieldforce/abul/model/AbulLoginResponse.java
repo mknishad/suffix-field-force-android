@@ -10,6 +10,9 @@ public class AbulLoginResponse {
   @SerializedName("code")
   @Expose
   private int code;
+  @SerializedName("errorMessage")
+  @Expose
+  private String errorMessage;
   @SerializedName("data")
   @Expose
   private ResponseData data;
@@ -19,6 +22,7 @@ public class AbulLoginResponse {
     return "AbulLoginResponse{" +
         "message='" + message + '\'' +
         ", code=" + code +
+        ", errorMessage='" + errorMessage + '\'' +
         ", data=" + data +
         '}';
   }
@@ -45,5 +49,13 @@ public class AbulLoginResponse {
 
   public void setData(ResponseData data) {
     this.data = data;
+  }
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
+
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
   }
 }

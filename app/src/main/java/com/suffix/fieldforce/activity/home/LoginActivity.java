@@ -111,15 +111,12 @@ public class LoginActivity extends AppCompatActivity {
               startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
               finish();
             } else {
-              progressBar.setVisibility(View.GONE);
-              Snackbar.make(logBtnLogin, response.body().getMessage(), Snackbar.LENGTH_SHORT).show();
+              Snackbar.make(logBtnLogin, response.body().getErrorMessage(), Snackbar.LENGTH_SHORT).show();
             }
           } else {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
           }
         } catch (Exception e) {
-          progressBar.setVisibility(View.GONE);
           Log.e(TAG, "onResponse: " + e.getMessage(), e);
           Snackbar.make(logBtnLogin, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show();
         }
@@ -129,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
       public void onFailure(Call<AbulLoginResponse> call, Throwable t) {
         Log.e(TAG, "onFailure: ", t);
         progressBar.setVisibility(View.GONE);
+        Snackbar.make(logBtnLogin, t.getMessage(), Snackbar.LENGTH_SHORT).show();
       }
     });
   }
