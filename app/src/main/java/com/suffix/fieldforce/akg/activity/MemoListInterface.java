@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul.activity;
+package com.suffix.fieldforce.akg.activity;
 
 public interface MemoListInterface {
   public void onItemClick(int position);

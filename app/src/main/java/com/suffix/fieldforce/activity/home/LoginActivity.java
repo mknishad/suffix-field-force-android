@@ -16,10 +16,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.api.AbulApiClient;
-import com.suffix.fieldforce.abul.api.AbulApiInterface;
-import com.suffix.fieldforce.abul.model.AbulLoginResponse;
-import com.suffix.fieldforce.abul.model.LoginRequest;
+import com.suffix.fieldforce.akg.api.AbulApiClient;
+import com.suffix.fieldforce.akg.api.AbulApiInterface;
+import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import butterknife.BindView;

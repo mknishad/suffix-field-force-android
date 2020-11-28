@@ -41,8 +41,9 @@ import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.activity.NotificationListActivity;
-import com.suffix.fieldforce.abul.activity.SaleActivity;
+import com.suffix.fieldforce.akg.activity.MemoListActivity;
+import com.suffix.fieldforce.akg.activity.NotificationListActivity;
+import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
@@ -148,7 +149,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
         openSales();
         break;
       case R.id.layoutRoster:
-        openRoster();
+        //openRoster();
+        openMemo();
         break;
       case R.id.layoutBilling:
         openBills();
@@ -603,6 +605,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   public void openSales() {
     Intent intent = new Intent(MainDashboardActivity.this, SaleActivity.class);
+    startActivity(intent);
+  }
+
+  public void openMemo() {
+    Intent intent = new Intent(MainDashboardActivity.this, MemoListActivity.class);
     startActivity(intent);
   }
 

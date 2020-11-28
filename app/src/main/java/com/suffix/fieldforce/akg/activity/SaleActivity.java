@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul.activity;
+package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -7,7 +7,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

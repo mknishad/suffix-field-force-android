@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/only_border"
+      android:weightSum="3">
+
+    <TextView
+        android:id="@+id/colOne"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:fontFamily="@font/solaimanlipi"
+        android:paddingVertical="5dp"
+        android:text="AGT 4235"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_marginRight="1dp"/>
+
+    <TextView
+        android:id="@+id/colTwo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:fontFamily="@font/solaimanlipi"
+        android:paddingVertical="5dp"
+        android:text="242"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_marginRight="1dp"/>
+
+    <TextView
+        android:id="@+id/colThree"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorWhite"
+        android:fontFamily="@font/solaimanlipi"
+        android:paddingVertical="5dp"
+        android:text="567"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+  </LinearLayout>
+
+</RelativeLayout>

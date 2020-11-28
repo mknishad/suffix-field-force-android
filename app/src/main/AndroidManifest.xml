@@ -21,9 +21,10 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".abul.activity.MemoListActivity"></activity>
-    <activity android:name=".abul.activity.NotificationListActivity" />
-    <activity android:name=".abul.activity.SaleActivity" />
+    <activity android:name=".akg.activity.MemoDetailsActivity"></activity>
+    <activity android:name=".akg.activity.MemoListActivity" />
+    <activity android:name=".akg.activity.NotificationListActivity" />
+    <activity android:name=".akg.activity.SaleActivity" />
     <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

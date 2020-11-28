@@ -1,8 +1,8 @@
-package com.suffix.fieldforce.abul.api;
+package com.suffix.fieldforce.akg.api;
 
-import com.suffix.fieldforce.abul.model.AbulLoginResponse;
-import com.suffix.fieldforce.abul.model.LoginRequest;
-import com.suffix.fieldforce.abul.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.LoginRequest;
+import com.suffix.fieldforce.akg.model.MemoListResponse;
 
 import java.util.List;
 

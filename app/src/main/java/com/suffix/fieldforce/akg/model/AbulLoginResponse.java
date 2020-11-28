@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul.model;
+package com.suffix.fieldforce.akg.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

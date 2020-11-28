@@ -6,10 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
     android:paddingHorizontal="15dp"
     android:paddingVertical="15dp"
-    android:background="@drawable/only_border_mint">
+    android:background="@drawable/shadow_row">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgProjectIcon"
@@ -18,7 +17,8 @@
         android:layout_centerVertical="true"
         android:src="@drawable/consultant"
         android:layout_below="@+id/txtIssueNumber"
-        android:layout_marginRight="@dimen/layout_margin_10"/>
+        android:layout_marginRight="@dimen/layout_margin_10"
+        android:layout_marginBottom="10dp"/>
     <TextView
         android:id="@+id/txtShopName"
         android:layout_width="wrap_content"

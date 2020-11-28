@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul.adapter;
+package com.suffix.fieldforce.akg.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.activity.MemoListInterface;
-import com.suffix.fieldforce.abul.model.MemoListResponse;
+import com.suffix.fieldforce.akg.activity.MemoListInterface;
+import com.suffix.fieldforce.akg.model.MemoListResponse;
 
 
 import java.util.ArrayList;

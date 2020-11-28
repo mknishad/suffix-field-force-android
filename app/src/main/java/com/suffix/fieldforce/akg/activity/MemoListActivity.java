@@ -1,22 +1,21 @@
-package com.suffix.fieldforce.abul.activity;
+package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.adapter.MemoListAdapter;
-import com.suffix.fieldforce.abul.api.AbulApiClient;
-import com.suffix.fieldforce.abul.api.AbulApiInterface;
-import com.suffix.fieldforce.abul.model.AbulLoginResponse;
-import com.suffix.fieldforce.abul.model.MemoListResponse;
-import com.suffix.fieldforce.adapter.TransportRequasitionListAdapter;
+import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
+import com.suffix.fieldforce.akg.api.AbulApiClient;
+import com.suffix.fieldforce.akg.api.AbulApiInterface;
+import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -78,6 +77,8 @@ public class MemoListActivity extends AppCompatActivity {
         if(response.isSuccessful()){
           memoListResponse = response.body();
           memoListAdapter.setData(memoListResponse);
+        }else{
+          Log.d("Memo",response.errorBody().toString());
         }
       }
 
