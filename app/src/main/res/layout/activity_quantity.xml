@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".akg.activity.QuantityActivity">
+
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      style="@style/ToolbarStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:weightSum="3"
+      android:layout_marginTop="20dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="6">
+
+      <ImageView
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="4"
+          android:background="@color/color_white"
+          android:scaleType="centerCrop"
+          android:src="@drawable/cigar" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginHorizontal="10dp"
+          android:layout_weight="1"
+          android:background="@drawable/border_mint"
+          android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_done"
+            app:tint="@color/color_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="OK"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_marginHorizontal="10dp"
+          android:layout_marginTop="15dp"
+          android:layout_weight="1"
+          android:background="@drawable/border_red"
+          android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            app:tint="@color/color_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="CLEAR"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:weightSum="6">
+
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"
+          android:background="@drawable/only_border_mint"
+          android:text="0"
+          android:textAlignment="viewEnd"
+          android:textStyle="bold"
+          android:textSize="34sp"
+          android:paddingHorizontal="10dp"/>
+
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>
