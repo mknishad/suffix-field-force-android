@@ -237,6 +237,7 @@
               android:layout_weight="1"
               android:background="@drawable/shadow_background_fill"
               android:gravity="center"
+              android:onClick="printMemo"
               android:orientation="horizontal">
 
             <ImageView

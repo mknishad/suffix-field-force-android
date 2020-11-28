@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,7 @@ import com.levitnudi.legacytableview.LegacyTableView
 import com.levitnudi.legacytableview.LegacyTableView.CENTER
 import com.levitnudi.legacytableview.LegacyTableView.ODD
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.abul.util.PrintService
 import com.suffix.fieldforce.databinding.ActivityNirikkhonBinding
 import com.suffix.fieldforce.viewmodel.NirikkhonViewModel
 
@@ -112,5 +114,12 @@ class NirikkhonActivity : AppCompatActivity() {
 
     //remember to build your table as the last step
     binding.tableView.build()
+  }
+
+  fun printMemo(view: View) {
+    val htmlDocument = "<html><body><h1>Test Content</h1><p>Testing, " +
+    "testing, testing...</p></body></html>";
+
+    PrintService().doWebViewPrint(this, htmlDocument)
   }
 }
