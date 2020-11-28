@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
               AbulLoginResponse loginResponse = response.body();
               String loginResponseJson = new Gson().toJson(loginResponse);
               preferences.putLoginResponse(loginResponseJson);
+              preferences.putPassword(password);
               //preferences.putUser(user);
               startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
               finish();

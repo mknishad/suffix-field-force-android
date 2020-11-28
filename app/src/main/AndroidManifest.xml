@@ -21,8 +21,10 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".akg.activity.QuantityActivity"></activity>
+
+    <activity android:name=".akg.activity.QuantityActivity"/>
     <activity android:name=".akg.activity.MemoDetailsActivity" />
+    <activity android:name=".activity.NirikkhonActivity" />
     <activity android:name=".akg.activity.MemoListActivity" />
     <activity android:name=".akg.activity.NotificationListActivity" />
     <activity android:name=".akg.activity.SaleActivity" />

@@ -13,6 +13,8 @@ object Constants {
   const val FIRST_TIME = "first-time"
   const val PUSH_TOKEN = "push-token"
   const val USER = "user"
+  const val LOGIN_RESPONSE = "login-response"
+  const val PASSWORD = "password"
   const val BILL_TYPE = "bill-type"
   const val EXPENSE = "expense"
   const val ADVANCE = "advance"

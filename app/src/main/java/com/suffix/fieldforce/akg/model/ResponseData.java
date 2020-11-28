@@ -8,7 +8,7 @@ import java.util.List;
 public class ResponseData {
   @SerializedName("id")
   @Expose
-  private String id;
+  private int id;
   @SerializedName("userId")
   @Expose
   private String userId;
@@ -29,7 +29,7 @@ public class ResponseData {
         '}';
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
