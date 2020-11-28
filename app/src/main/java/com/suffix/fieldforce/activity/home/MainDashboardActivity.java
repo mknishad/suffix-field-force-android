@@ -41,7 +41,8 @@ import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.NotificationListActivity;
+import com.suffix.fieldforce.abul.activity.NotificationListActivity;
+import com.suffix.fieldforce.abul.activity.SaleActivity;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
@@ -143,7 +144,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoExit();
         break;
       case R.id.layoutTask:
-        openTask();
+        //openTask();
+        openSales();
         break;
       case R.id.layoutRoster:
         openRoster();
@@ -596,6 +598,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   public void openTask() {
     Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
+    startActivity(intent);
+  }
+
+  public void openSales() {
+    Intent intent = new Intent(MainDashboardActivity.this, SaleActivity.class);
     startActivity(intent);
   }
 
