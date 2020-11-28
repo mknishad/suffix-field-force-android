@@ -7,12 +7,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.abul.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.activity.abul.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.activity.abul.adapter.SalesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SaleActivity extends AppCompatActivity {
+
+  private SalesAdapter salesAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
