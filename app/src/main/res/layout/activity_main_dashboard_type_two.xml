@@ -71,8 +71,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_margin_10"
-        android:fontFamily="@font/montserrat"
         android:text="শরিফ (ডিস লাইন)"
+        android:fontFamily="@font/solaimanlipi"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -125,7 +125,7 @@
               android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_violet_very_light"
-              android:padding="@dimen/padding_10"
+              android:padding="15dp"
               android:src="@drawable/ic_cart"
               app:tint="@color/colorWhite" />
 
@@ -135,6 +135,7 @@
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
               android:text="সেল"
+              android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
               android:textSize="24sp" />
         </LinearLayout>
@@ -153,7 +154,7 @@
               android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_sky_light"
-              android:padding="@dimen/padding_10"
+              android:padding="15dp"
               android:src="@drawable/ic_date_range"
               app:tint="@color/colorWhite" />
 
@@ -163,6 +164,7 @@
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
               android:text="মেমো"
+              android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
               android:textSize="24sp" />
         </LinearLayout>
@@ -219,7 +221,7 @@
               android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_sky_light"
-              android:padding="@dimen/padding_10"
+              android:padding="15dp"
               android:src="@drawable/ic_stock"
               app:tint="@color/colorWhite" />
 
@@ -229,6 +231,7 @@
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
               android:text="স্টক"
+              android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
               android:textSize="24sp" />
         </LinearLayout>
@@ -247,7 +250,7 @@
               android:layout_height="60dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_violet_dark"
-              android:padding="@dimen/padding_10"
+              android:padding="15dp"
               android:src="@drawable/ic_local_hospital"
               app:tint="@color/colorWhite" />
 
@@ -257,6 +260,7 @@
               android:layout_marginTop="@dimen/layout_margin_10"
               android:layout_marginBottom="@dimen/layout_margin_20"
               android:text="স্লাইড কালেক্ট"
+              android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
               android:textSize="24sp"/>
         </LinearLayout>
@@ -301,7 +305,7 @@
 
         <ImageView
             android:layout_width="32dp"
-            android:layout_height="match_parent"
+            android:layout_height="32dp"
             android:src="@drawable/ic_sync"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
@@ -313,6 +317,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="সেলস ক্লোজিং"
+            android:fontFamily="@font/solaimanlipi"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textAlignment="center"
@@ -350,7 +355,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_green_light"
-            android:padding="@dimen/padding_10"
+            android:padding="15dp"
             android:src="@drawable/ic_person"
             app:tint="@color/colorWhite" />
 
@@ -359,9 +364,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
             android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="ATTENDANCE"
+            android:text="হাজিরা"
+            android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
-            android:textSize="16sp" />
+            android:textSize="24sp" />
       </LinearLayout>
 
       <View
@@ -384,7 +390,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_pink_light"
-            android:padding="@dimen/padding_10"
+            android:padding="15dp"
             android:src="@drawable/ic_exit"
             app:tint="@color/colorWhite" />
 
@@ -393,9 +399,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
             android:layout_marginBottom="@dimen/layout_margin_20"
-            android:text="EXIT"
+            android:text="বাহির"
+            android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
-            android:textSize="16sp" />
+            android:textSize="24sp" />
       </LinearLayout>
 
       <LinearLayout

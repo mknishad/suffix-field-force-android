@@ -47,6 +47,9 @@ import com.suffix.fieldforce.abul.api.AbulApiClient;
 import com.suffix.fieldforce.abul.api.AbulApiInterface;
 import com.suffix.fieldforce.abul.model.AbulLoginResponse;
 import com.suffix.fieldforce.abul.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.activity.MemoListActivity;
+import com.suffix.fieldforce.akg.activity.NotificationListActivity;
+import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
 import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
@@ -146,10 +149,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoExit();
         break;
       case R.id.layoutTask:
-        openTask();
+        //openTask();
+        openSales();
         break;
       case R.id.layoutRoster:
-        openRoster();
+        //openRoster();
+        openMemo();
         break;
       case R.id.layoutBilling:
         openBills();
@@ -621,6 +626,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   public void openTask() {
     Intent intent = new Intent(MainDashboardActivity.this, TaskDashboard.class);
+    startActivity(intent);
+  }
+
+  public void openSales() {
+    Intent intent = new Intent(MainDashboardActivity.this, SaleActivity.class);
+    startActivity(intent);
+  }
+
+  public void openMemo() {
+    Intent intent = new Intent(MainDashboardActivity.this, MemoListActivity.class);
     startActivity(intent);
   }
 

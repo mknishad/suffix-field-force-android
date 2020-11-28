@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.abul;
+package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

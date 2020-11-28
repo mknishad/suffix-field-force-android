@@ -1,4 +1,4 @@
-package com.suffix.fieldforce.activity.abul.adapter;
+package com.suffix.fieldforce.akg.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
