@@ -1,7 +1,10 @@
 package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,17 +40,33 @@ import retrofit2.Response;
 
 public class SaleActivity extends AppCompatActivity {
 
+  @BindView(R.id.layoutKeys)
+  LinearLayout layoutKeys;
+
+  @BindView(R.id.imgDropArrow)
+  ImageView imgDropArrow;
+
   @BindView(R.id.recyclerViewCigrettee)
   RecyclerView recyclerViewCigrettee;
+
+  @BindView(R.id.recyclerViewBidi)
+  RecyclerView recyclerViewBidi;
+
+  @BindView(R.id.recyclerViewMatch)
+  RecyclerView recyclerViewMatch;
 
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
 
+  @OnClick(R.id.imgDropArrow)
+  public void toggleKeyboard(){
+    spinnerUsers.performClick();
+  }
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private ArrayAdapter<StoreModel> spinnerAdapter;
-  private ProductCategoryListAdapter productCategoryListAdapter;
-  private List<CategoryModel> categoryModel;
+  private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +74,35 @@ public class SaleActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sale);
     ButterKnife.bind(this);
 
-    categoryModel = new ArrayList<>();
-
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     spinnerAdapter = new CustomArrayAdapter(this, R.layout.spinner_item, getList());
     spinnerUsers.setAdapter(spinnerAdapter);
 
-    GridLayoutManager manager = new GridLayoutManager(this, 2);
-    recyclerViewCigrettee.setLayoutManager(manager);
-    productCategoryListAdapter = new ProductCategoryListAdapter(this, categoryModel);
-    recyclerViewCigrettee.setAdapter(productCategoryListAdapter);
-
+    manageRecyclerView();
     getAllCategory();
 
+  }
+
+  private void manageRecyclerView() {
+
+    recyclerViewCigrettee.setLayoutManager(getLayoutManager());
+    cigretteListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
+    recyclerViewCigrettee.setAdapter(cigretteListAdapter);
+
+    recyclerViewBidi.setLayoutManager(getLayoutManager());
+    bidiListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
+    recyclerViewBidi.setAdapter(bidiListAdapter);
+
+    recyclerViewMatch.setLayoutManager(getLayoutManager());
+    matchListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
+    recyclerViewMatch.setAdapter(matchListAdapter);
+
+  }
+
+  private RecyclerView.LayoutManager getLayoutManager() {
+    return new GridLayoutManager(this, 2);
   }
 
   private void getAllCategory() {
@@ -84,7 +118,9 @@ public class SaleActivity extends AppCompatActivity {
       public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
         if (response.isSuccessful()) {
           ProductCategory productCategory = response.body();
-          productCategoryListAdapter.setData(productCategory.getCategoryModel());
+          cigretteListAdapter.setData(productCategory.getCigrettee());
+          bidiListAdapter.setData(productCategory.getBidi());
+          matchListAdapter.setData(productCategory.getMatch());
         }
       }
 
