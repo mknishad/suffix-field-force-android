@@ -1,9 +1,12 @@
 package com.suffix.fieldforce.akg.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MemoListResponse {
+public class MemoListResponse implements Parcelable {
 
   @SerializedName("invNo")
   @Expose
@@ -29,6 +32,78 @@ public class MemoListResponse {
   @SerializedName("salesRep")
   @Expose
   private SalesRep salesRep;
+
+  protected MemoListResponse(Parcel in) {
+    invNo = in.readString();
+    if (in.readByte() == 0) {
+      discountAmount = null;
+    } else {
+      discountAmount = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      prevDue = null;
+    } else {
+      prevDue = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      receivedAmount = null;
+    } else {
+      receivedAmount = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      totalAmount = null;
+    } else {
+      totalAmount = in.readInt();
+    }
+    txnDt = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(invNo);
+    if (discountAmount == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(discountAmount);
+    }
+    if (prevDue == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(prevDue);
+    }
+    if (receivedAmount == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(receivedAmount);
+    }
+    if (totalAmount == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(totalAmount);
+    }
+    dest.writeString(txnDt);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<MemoListResponse> CREATOR = new Creator<MemoListResponse>() {
+    @Override
+    public MemoListResponse createFromParcel(Parcel in) {
+      return new MemoListResponse(in);
+    }
+
+    @Override
+    public MemoListResponse[] newArray(int size) {
+      return new MemoListResponse[size];
+    }
+  };
 
   public String getInvNo() {
     return invNo;

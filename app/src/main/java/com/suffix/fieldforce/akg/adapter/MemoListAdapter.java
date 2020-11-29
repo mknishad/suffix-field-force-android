@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.activity.MemoListInterface;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 
 

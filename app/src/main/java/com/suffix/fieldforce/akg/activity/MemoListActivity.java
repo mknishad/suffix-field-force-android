@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
+import com.suffix.fieldforce.akg.adapter.MemoListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
@@ -61,6 +63,11 @@ public class MemoListActivity extends AppCompatActivity {
       @Override
       public void onItemClick(int position) {
         MemoListResponse response = memoListResponse.get(position);
+
+        Intent intent = new Intent(MemoListActivity.this, MemoDetailsActivity.class);
+        intent.putExtra("MEMO_DETAIL", response);
+        startActivity(intent);
+
       }
     });
 
@@ -74,8 +81,6 @@ public class MemoListActivity extends AppCompatActivity {
         AbulLoginResponse.class);
     String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
-    Log.d("response",basicAuthorization);
-    Log.d("response",""+loginResponse.getData().getId());
 
     Call<List<MemoListResponse>> call = apiInterface.getMemoList(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<List<MemoListResponse>>() {

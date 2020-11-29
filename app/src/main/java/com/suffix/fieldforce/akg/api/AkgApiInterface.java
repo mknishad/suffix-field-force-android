@@ -2,6 +2,7 @@ package com.suffix.fieldforce.akg.api;
 
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 
@@ -23,13 +24,19 @@ public interface AkgApiInterface {
 
   @POST("sr-attendance")
   Call<ResponseBody> attendanceEntry(
-      @Header("Aurhorization") String h1,
+      @Header("Authorization") String h1,
       @Body AttendenceRequest attendenceRequest
   );
 
   @GET("invoice/{salesRepId}")
   Call<List<MemoListResponse>> getMemoList(
-      @Header("Aurhorization") String h1,
+      @Header("Authorization") String h1,
       @Path("salesRepId") int salesRepId
+  );
+
+  @GET("invoice-details/{invoiceId}")
+  Call<List<InvoiceDetail>> getMemoDetails(
+      @Header("Authorization") String h1,
+      @Path("invoiceId") int invoiceId
   );
 }
