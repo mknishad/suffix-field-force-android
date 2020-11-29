@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="5dp"
-    android:layout_marginHorizontal="2dp"
-    android:background="@drawable/shadow_row">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical">
+      android:orientation="vertical"
+      android:layout_marginHorizontal="5dp"
+      android:layout_marginBottom="5dp"
+      android:background="@drawable/shadow_row">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -81,10 +81,14 @@
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
         android:text="MARISE"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textAlignment="center"
-        android:textColor="#2b2b2b" />
+        android:textColor="#BC2B2B2B"
+        android:layout_marginTop="-10dp"/>
   </LinearLayout>
 
 </LinearLayout>

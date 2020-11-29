@@ -8,7 +8,7 @@ public class ProductCategory {
 
   @SerializedName("Cigrettee")
   @Expose
-  private List<CategoryModel> categoryModel = null;
+  private List<CategoryModel> cigrettee = null;
   @SerializedName("Bidi")
   @Expose
   private List<CategoryModel> bidi = null;
@@ -16,12 +16,12 @@ public class ProductCategory {
   @Expose
   private List<CategoryModel> match = null;
 
-  public List<CategoryModel> getCategoryModel() {
-    return categoryModel;
+  public List<CategoryModel> getCigrettee() {
+    return cigrettee;
   }
 
-  public void setCategoryModel(List<CategoryModel> categoryModel) {
-    this.categoryModel = categoryModel;
+  public void setCigrettee(List<CategoryModel> cigrettee) {
+    this.cigrettee = cigrettee;
   }
 
   public List<CategoryModel> getBidi() {
@@ -39,5 +39,4 @@ public class ProductCategory {
   public void setMatch(List<CategoryModel> match) {
     this.match = match;
   }
-
 }
