@@ -88,6 +88,7 @@ public class MemoListActivity extends AppCompatActivity {
       public void onResponse(Call<List<MemoListResponse>> call, Response<List<MemoListResponse>> response) {
         if (response.isSuccessful()) {
           memoListResponse = response.body();
+          txtTotalMemo.setText("মোট : "+memoListResponse.size());
           memoListAdapter.setData(memoListResponse);
         } else {
           Log.d("Memo", response.errorBody().toString());
