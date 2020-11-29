@@ -37,7 +37,7 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(context).inflate(R.layout.row_memo_item, parent, false);
+    View view = LayoutInflater.from(context).inflate(R.layout.row_item_sale, parent, false);
     return new ViewHolder(view);
   }
 
@@ -69,12 +69,12 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
     @BindView(R.id.layout)
     RelativeLayout layout;
-    @BindView(R.id.txtShopName)
-    TextView txtShopName;
-    @BindView(R.id.txtCode)
-    TextView txtCode;
-    @BindView(R.id.txtTotal)
-    TextView txtTotal;
+    @BindView(R.id.txtQtyOne)
+    TextView txtQtyOne;
+    @BindView(R.id.txtQtyTwo)
+    TextView txtQtyTwo;
+    @BindView(R.id.txtName)
+    TextView txtName;
 
     public ViewHolder(@NonNull View itemView) {
       super(itemView);
