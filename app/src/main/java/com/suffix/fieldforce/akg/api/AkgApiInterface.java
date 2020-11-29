@@ -5,6 +5,7 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
 
@@ -38,5 +39,10 @@ public interface AkgApiInterface {
   Call<List<InvoiceDetail>> getMemoDetails(
       @Header("Authorization") String h1,
       @Path("invoiceId") int invoiceId
+  );
+
+  @GET("product")
+  Call<ProductCategory> getAllProduct(
+      @Header("Authorization") String h1
   );
 }
