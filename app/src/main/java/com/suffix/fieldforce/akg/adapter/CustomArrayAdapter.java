@@ -50,6 +50,9 @@ public class CustomArrayAdapter extends ArrayAdapter<StoreModel> {
 
     if (position == 0) {//Special style for dropdown header
       //label.setTextColor(context.getResources().getColor(R.color.text_hint_color));
+      name.setTextColor(context.getResources().getColor(R.color.black_overlay));
+      name.setText("SELECT USER");
+      address.setVisibility(View.GONE);
     }
 
     return row;

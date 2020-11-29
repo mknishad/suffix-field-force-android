@@ -60,12 +60,7 @@ public class SaleActivity extends AppCompatActivity {
 
   @OnClick(R.id.imgDropArrow)
   public void toggleKeyboard(){
-    imgDropArrow.setRotation(imgDropArrow.getRotation()+180f);
-    if(layoutKeys.getVisibility() == View.VISIBLE){
-      layoutKeys.setVisibility(View.GONE);
-    }else{
-      layoutKeys.setVisibility(View.VISIBLE);
-    }
+    spinnerUsers.performClick();
   }
 
   private FieldForcePreferences preferences;
