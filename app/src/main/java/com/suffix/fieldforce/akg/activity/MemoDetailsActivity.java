@@ -1,10 +1,17 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +36,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MemoDetailsActivity extends AppCompatActivity {
+
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
 
   @BindView(R.id.recyclerView)
   RecyclerView recyclerView;
@@ -65,6 +75,34 @@ public class MemoDetailsActivity extends AppCompatActivity {
     getMemoBody(memoListResponse);
   }
 
+  private void setupToolbar() {
+    setSupportActionBar(toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+    } else {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
+          BlendMode.SRC_ATOP));
+    } else {
+      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    }
+  }
+
   private void getMemoBody(MemoListResponse memoListResponse) {
 
     int totalQuantity = 0;
@@ -80,7 +118,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     call.enqueue(new Callback<List<InvoiceDetail>>() {
       @Override
       public void onResponse(Call<List<InvoiceDetail>> call, Response<List<InvoiceDetail>> response) {
-        if(response.isSuccessful()){
+        if (response.isSuccessful()) {
           List<InvoiceDetail> invoiceDetails = response.body();
           memoBodyListAdapter.setData(invoiceDetails);
         }
