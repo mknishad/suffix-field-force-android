@@ -16,8 +16,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.api.AbulApiClient;
-import com.suffix.fieldforce.akg.api.AbulApiInterface;
+import com.suffix.fieldforce.akg.api.AkgApiClient;
+import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
   ProgressBar progressBar;
 
   private FieldForcePreferences preferences;
-  private AbulApiInterface apiInterface;
+  private AkgApiInterface apiInterface;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     preferences = new FieldForcePreferences(this);
-    apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
+    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     /*if (preferences.getUser() != null) {
       startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));

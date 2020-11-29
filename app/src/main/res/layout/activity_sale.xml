@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/backgroundcolor"
     tools:context=".akg.activity.SaleActivity">
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="@dimen/layout_height_40"
+      android:layout_height="wrap_content"
       android:layout_marginHorizontal="20dp"
       android:layout_marginTop="20dp"
       android:background="@drawable/spinner_bg"
@@ -20,11 +21,12 @@
     <Spinner
         android:id="@+id/spinnerUsers"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="5.3"
         android:background="@android:color/transparent"
         android:gravity="center"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        tools:listitem="@layout/spinner_item"/>
 
     <View
         android:layout_width="1dp"
@@ -59,9 +61,7 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:background="@drawable/shadow_background"
-          android:orientation="vertical"
-          android:paddingHorizontal="20dp">
+          android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,182 +78,100 @@
               android:layout_height="match_parent"
               android:layout_marginLeft="10dp"
               android:gravity="center"
-              android:text="Cigarate"
+              android:text="Cigrettee"
               android:textColor="#2b2b2b"
               android:textSize="18sp" />
 
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCigrettee"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_item_sale"
+            tools:itemCount="2"/>
+
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2">
+            android:paddingVertical="10dp">
 
-          <LinearLayout
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="10dp"
-              android:layout_weight="1"
-              android:orientation="vertical">
+          <ImageView
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:src="@drawable/fb" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="4dp">
-
-              <RelativeLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/imgCigar"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerInParent="true"
-                    android:padding="2dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/cigar" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/imgCigar"
-                    android:weightSum="2">
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_marginRight="1dp"
-                      android:layout_weight="1"
-                      android:background="@color/colorMintDark"
-                      android:text="34"
-                      android:textAlignment="center"
-                      android:textColor="@android:color/white"
-                      android:textSize="18sp" />
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:background="@color/colorMintDark"
-                      android:text="1400"
-                      android:textAlignment="center"
-                      android:textColor="@android:color/white"
-                      android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/colorMintDark"
-                    android:paddingHorizontal="10dp"
-                    android:text="1200"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-              </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:text="MARISE"
-                android:textAlignment="center"
-                android:textColor="#2b2b2b" />
-          </LinearLayout>
-
-          <LinearLayout
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="4dp">
-
-              <RelativeLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/One"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerInParent="true"
-                    android:padding="2dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/cigar" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/One"
-                    android:weightSum="2">
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_marginRight="1dp"
-                      android:layout_weight="1"
-                      android:background="@color/colorMintDark"
-                      android:text="34"
-                      android:textAlignment="center"
-                      android:textColor="@android:color/white"
-                      android:textSize="18sp" />
-
-                  <TextView
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:background="@color/colorMintDark"
-                      android:text="1400"
-                      android:textAlignment="center"
-                      android:textColor="@android:color/white"
-                      android:textSize="18sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/colorMintDark"
-                    android:paddingHorizontal="10dp"
-                    android:text="1200"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-              </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:text="MARISE"
-                android:textAlignment="center"
-                android:textColor="#2b2b2b" />
-          </LinearLayout>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="10dp"
+              android:gravity="center"
+              android:text="Bidi"
+              android:textColor="#2b2b2b"
+              android:textSize="18sp" />
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewBidi"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_item_sale"
+            tools:itemCount="2"/>
+
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp">
+
+          <ImageView
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:src="@drawable/fb" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:layout_marginLeft="10dp"
+              android:gravity="center"
+              android:text="Match"
+              android:textColor="#2b2b2b"
+              android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMatch"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_item_sale"
+            tools:itemCount="2"/>
 
       </LinearLayout>
 
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:weightSum="2">
+          android:weightSum="2"
+          android:layout_marginVertical="@dimen/layout_margin_20">
 
         <Button
             android:layout_width="0dp"

@@ -6,7 +6,7 @@ import com.suffix.fieldforce.networking.Client;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AbulApiClient {
+public class AkgApiClient {
   private static Retrofit retrofit;
 
   public static Retrofit getApiClient() {

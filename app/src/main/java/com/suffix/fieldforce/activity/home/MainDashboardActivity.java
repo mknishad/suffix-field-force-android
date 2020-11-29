@@ -53,8 +53,8 @@ import com.suffix.fieldforce.activity.transport.TransportRequasitionListActivity
 import com.suffix.fieldforce.akg.activity.MemoListActivity;
 import com.suffix.fieldforce.akg.activity.NotificationListActivity;
 import com.suffix.fieldforce.akg.activity.SaleActivity;
-import com.suffix.fieldforce.akg.api.AbulApiClient;
-import com.suffix.fieldforce.akg.api.AbulApiInterface;
+import com.suffix.fieldforce.akg.api.AkgApiClient;
+import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
@@ -136,7 +136,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private GoogleApiClient mGoogleApiClient;
 
   private FieldForcePreferences preferences;
-  private AbulApiInterface apiInterface;
+  private AkgApiInterface apiInterface;
 
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification})
   public void onViewClicked(View view) {
@@ -188,7 +188,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void init() {
     preferences = new FieldForcePreferences(this);
-    apiInterface = AbulApiClient.getApiClient().create(AbulApiInterface.class);
+    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     //txtUserName.setText(preferences.getUser().getUserName());
 
     initProgressBar();

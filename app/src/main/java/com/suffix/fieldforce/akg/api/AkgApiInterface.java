@@ -2,8 +2,10 @@ package com.suffix.fieldforce.akg.api;
 
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface AbulApiInterface {
+public interface AkgApiInterface {
   @POST("login")
   Call<AbulLoginResponse> login(
       @Body LoginRequest loginRequest
@@ -23,12 +25,24 @@ public interface AbulApiInterface {
 
   @POST("sr-attendance")
   Call<ResponseBody> attendanceEntry(
-      @Header("Aurhorization") String h1,
+      @Header("Authorization") String h1,
       @Body AttendenceRequest attendenceRequest
   );
 
   @GET("invoice/{salesRepId}")
   Call<List<MemoListResponse>> getMemoList(
+      @Header("Authorization") String h1,
       @Path("salesRepId") int salesRepId
+  );
+
+  @GET("invoice-details/{invoiceId}")
+  Call<List<InvoiceDetail>> getMemoDetails(
+      @Header("Authorization") String h1,
+      @Path("invoiceId") int invoiceId
+  );
+
+  @GET("product")
+  Call<ProductCategory> getAllProduct(
+      @Header("Authorization") String h1
   );
 }

@@ -43,7 +43,7 @@
           android:textColor="@color/colorMintLight"
           android:fontFamily="@font/solaimanlipi"
           android:padding="5dp"
-          android:text="মোট : ১২০ " />
+          android:text="মোট : 0 " />
 
     </RelativeLayout>
 

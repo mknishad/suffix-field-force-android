@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:layout_marginHorizontal="2dp"
+    android:background="@drawable/shadow_row">
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgCigar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/cigar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgCigar"
+            android:weightSum="2">
+
+          <TextView
+              android:id="@+id/txtQtyOne"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="1dp"
+              android:layout_weight="1"
+              android:background="@color/colorMintDark"
+              android:text="34"
+              android:textAlignment="center"
+              android:textColor="@android:color/white"
+              android:textSize="18sp" />
+
+          <TextView
+              android:id="@+id/txtQtyTwo"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@color/colorMintDark"
+              android:text="1400"
+              android:textAlignment="center"
+              android:textColor="@android:color/white"
+              android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorMintDark"
+            android:paddingHorizontal="10dp"
+            android:text="1200"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+      </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:text="MARISE"
+        android:textAlignment="center"
+        android:textColor="#2b2b2b" />
+  </LinearLayout>
+
+</LinearLayout>
