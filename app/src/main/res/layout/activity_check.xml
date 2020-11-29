@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".akg.activity.CheckActivity">
 
-  <data>
+  <!--<data>
 
     <variable
         name="viewModel"
         type="com.suffix.fieldforce.akg.viewmodel.CheckViewModel" />
-  </data>
+  </data>-->
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -41,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/solaimanlipi"
             android:text="Rafsan Store"
             android:textColor="@color/colorMintDark"
             android:textSize="24sp"
@@ -54,22 +55,125 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:fontFamily="@font/solaimanlipi"
             android:text="Halishahar, Chattogram"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/storeNameTextView" />
 
-        <com.levitnudi.legacytableview.LegacyTableView
-            android:id="@+id/tableView"
+        <LinearLayout
+            android:id="@+id/tableLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/storeAddressTextView" />
+            app:layout_constraintTop_toBottomOf="@id/storeAddressTextView">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="নাম (প্রোডাক্ট)"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="শলাকা"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="টাকা"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+          </LinearLayout>
+
+          <androidx.recyclerview.widget.RecyclerView
+              android:id="@+id/recyclerView"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              tools:itemCount="6"
+              app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+              tools:listitem="@layout/row_table_item" />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="মোট"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtTotalQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="5"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtTotalAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorMint"
+                android:fontFamily="@font/solaimanlipi"
+                android:paddingVertical="5dp"
+                android:text="1234"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+          </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/tableFooterLayout"
@@ -83,7 +187,7 @@
             android:weightSum="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tableView">
+            app:layout_constraintTop_toBottomOf="@id/tableLayout">
 
           <TextView
               android:id="@+id/totalTextView"
@@ -126,9 +230,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/shadow_background"
+            android:fontFamily="@font/solaimanlipi"
             android:padding="20dp"
             android:text="@string/print_memo_text"
             android:textSize="20sp"
@@ -149,14 +254,14 @@
             app:layout_constraintTop_toBottomOf="@id/printMemoTextView">
 
           <LinearLayout
-              android:visibility="gone"
               android:id="@+id/tradeSupportLayout"
               android:layout_width="0dp"
               android:layout_height="@dimen/layout_height_80"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:layout_weight="1"
               android:background="@drawable/shadow_background_fill"
-              android:gravity="center">
+              android:gravity="center"
+              android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -167,7 +272,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
           </LinearLayout>
-
 
 
           <LinearLayout
@@ -192,6 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_8"
+                android:fontFamily="@font/solaimanlipi"
                 android:gravity="center"
                 android:text="@string/take_picture"
                 android:textAlignment="center"
@@ -222,6 +327,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_8"
+                android:fontFamily="@font/solaimanlipi"
                 android:gravity="center"
                 android:text="@string/print"
                 android:textAlignment="center"
@@ -231,13 +337,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/buttonLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

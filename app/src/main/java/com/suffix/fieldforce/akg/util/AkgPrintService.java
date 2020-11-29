@@ -11,11 +11,28 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.dantsu.escposprinter.EscPosPrinter;
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
 import com.suffix.fieldforce.R;
 
 public class AkgPrintService {
   private static final String TAG = "PrintUtils";
   private WebView mWebView;
+  private Activity mActivity;
+
+  public AkgPrintService(Activity activity) {
+    mActivity = activity;
+  }
+
+  public void print(String memo) {
+    try {
+      EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
+          203, 48f, 32);
+      printer.printFormattedText(memo);
+    } catch (Exception e) {
+      Toast.makeText(mActivity, "Printing filed!", Toast.LENGTH_SHORT).show();
+    }
+  }
 
   public void doWebViewPrint(Activity activity, String htmlDocument) {
     // Create a WebView object specifically for printing

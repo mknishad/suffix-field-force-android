@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.View
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.home.LoginActivity
-import com.suffix.fieldforce.activity.home.MainDashboardActivity
+import com.suffix.fieldforce.akg.activity.CheckActivity
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : BaseActivity() {
@@ -31,7 +31,7 @@ class SplashActivity : BaseActivity() {
           val loginResponse = preferences.getLoginResponse()
           Log.d(TAG, "onCreate: loginResponse = $loginResponse")
           if (!TextUtils.isEmpty(loginResponse)) {
-            startActivity<MainDashboardActivity>()
+            startActivity<CheckActivity>()
           } else {
             startActivity<LoginActivity>()
           }
