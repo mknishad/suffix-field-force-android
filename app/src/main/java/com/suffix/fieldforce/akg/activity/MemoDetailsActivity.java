@@ -60,6 +60,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_memo_details);
     ButterKnife.bind(this);
 
+    setupToolbar();
+
     invoiceDetailList = new ArrayList<>();
 
     preferences = new FieldForcePreferences(this);
