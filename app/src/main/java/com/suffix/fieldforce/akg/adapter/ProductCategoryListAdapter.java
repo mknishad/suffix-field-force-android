@@ -67,8 +67,8 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.layout)
-    RelativeLayout layout;
+//    @BindView(R.id.layout)
+//    RelativeLayout layout;
     @BindView(R.id.txtQtyOne)
     TextView txtQtyOne;
     @BindView(R.id.txtQtyTwo)

@@ -25,7 +25,8 @@
         android:layout_weight="5.3"
         android:background="@android:color/transparent"
         android:gravity="center"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        tools:listitem="@layout/spinner_item"/>
 
     <View
         android:layout_width="1dp"
