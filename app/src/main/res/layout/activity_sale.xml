@@ -49,10 +49,10 @@
   </LinearLayout>
 
   <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-      android:id="@+id/group_choices"
+      android:id="@+id/toggleGroup"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginHorizontal="@dimen/layout_margin_10"
+      android:layout_marginHorizontal="5dp"
       android:layout_marginTop="@dimen/layout_margin_10"
       android:layout_marginBottom="@dimen/layout_margin_10"
       android:background="@drawable/shadow_row"

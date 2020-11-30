@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
 import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
@@ -52,6 +53,9 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.toggleGroupFour)
   MaterialButtonToggleGroup toggleGroupFour;*/
 
+  @BindView(R.id.toggleGroup)
+  SingleSelectToggleGroup toggleGroup;
+
   @BindView(R.id.imgDropArrow)
   ImageView imgDropArrow;
 
@@ -80,6 +84,7 @@ public class SaleActivity extends AppCompatActivity {
   private String basicAuthorization;
 
   private List<CustomerData> customerDataList;
+  private List<CustomerData> filteredCustomerList;
   private ProductCategory productCategory;
 
   @Override
@@ -92,6 +97,7 @@ public class SaleActivity extends AppCompatActivity {
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     customerDataList = new ArrayList<>();
+    filteredCustomerList = new ArrayList<>();
     productCategory = new ProductCategory();
 
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
@@ -103,6 +109,7 @@ public class SaleActivity extends AppCompatActivity {
     getAllCustomer();
     getAllCategory();
     //setupToggleButtons();
+    setupToggleGroup();
   }
 
   private void manageRecyclerView() {
@@ -119,8 +126,143 @@ public class SaleActivity extends AppCompatActivity {
     recyclerViewMatch.setAdapter(matchListAdapter);
   }
 
+  private void setupToggleGroup() {
+    toggleGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+        switch (checkedId) {
+          case R.id.choice_a:
+            filterCustomers("a");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_b:
+            filterCustomers("b");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_c:
+            filterCustomers("c");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_d:
+            filterCustomers("d");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_e:
+            filterCustomers("e");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_f:
+            filterCustomers("f");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_g:
+            filterCustomers("g");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_h:
+            filterCustomers("h");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_i:
+            filterCustomers("i");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_j:
+            filterCustomers("j");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_k:
+            filterCustomers("k");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_l:
+            filterCustomers("l");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_m:
+            filterCustomers("m");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_n:
+            filterCustomers("n");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_o:
+            filterCustomers("o");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_p:
+            filterCustomers("p");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_q:
+            filterCustomers("q");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_r:
+            filterCustomers("r");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_s:
+            filterCustomers("s");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_t:
+            filterCustomers("t");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_u:
+            filterCustomers("u");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_v:
+            filterCustomers("v");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_w:
+            filterCustomers("w");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_x:
+            filterCustomers("x");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_y:
+            filterCustomers("y");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_z:
+            filterCustomers("z");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_all:
+            filterCustomers("all");
+            spinnerUsers.setSelection(0);
+            break;
+        }
+      }
+    });
+  }
+
+  private void filterCustomers(String start) {
+    filteredCustomerList.clear();
+    filteredCustomerList.add(new CustomerData("Select Customer"));
+    if (start.toLowerCase().equalsIgnoreCase("all")) {
+      filteredCustomerList.addAll(customerDataList);
+    } else {
+      for (CustomerData customerData : customerDataList) {
+        if (customerData.getCustomerName().toLowerCase().startsWith(start.toLowerCase())) {
+          filteredCustomerList.add(customerData);
+        }
+      }
+    }
+
+    Log.d(TAG, "filterCustomers: filteredCustomerList = " + filteredCustomerList);
+    spinnerAdapter.notifyDataSetChanged();
+  }
+
   /*private void setupToggleButtons() {
-    *//*toggleGroupOne.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+   *//*toggleGroupOne.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
       @Override
       public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
         if (isChecked) {
@@ -142,7 +284,7 @@ public class SaleActivity extends AppCompatActivity {
       }
     });*//*
 
-    *//*toggleGroupThree.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+   *//*toggleGroupThree.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
       @Override
       public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
         if (isChecked) {
@@ -177,7 +319,11 @@ public class SaleActivity extends AppCompatActivity {
         if (response.isSuccessful()) {
           Log.d(TAG, "onResponse: response.body() = " + response.body());
           customerDataList = response.body();
-          spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, customerDataList);
+          Log.d(TAG, "onResponse: customerDataList = " + customerDataList);
+          filteredCustomerList.clear();
+          filteredCustomerList.add(new CustomerData("Select Customer"));
+          filteredCustomerList.addAll(customerDataList);
+          spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
           spinnerUsers.setAdapter(spinnerAdapter);
         } else {
           System.out.println("error");
