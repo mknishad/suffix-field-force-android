@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -159,8 +160,16 @@ public class QuantityActivity extends AppCompatActivity {
     layoutOk.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (!txtResult.getText().toString().trim().equals("0")){
+        if (!txtResult.getText().toString().trim().equals("0")) {
           categoryModel.setOrderQuantity(txtResult.getText().toString());
+
+          realm.beginTransaction();
+          CategoryModel realmCategory = realm.copyToRealm(categoryModel);
+          realm.commitTransaction();
+
+          Toast.makeText(QuantityActivity.this, "Success", Toast.LENGTH_SHORT).show();
+          onBackPressed();
+
         }
       }
     });
