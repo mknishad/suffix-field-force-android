@@ -2,6 +2,7 @@ package com.suffix.fieldforce.akg.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.activity.QuantityActivity;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
@@ -52,6 +54,7 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     holder.txtQtyTwo.setText(model.getSalesQty().toString());
     holder.txtQtyThree.setText(model.getTotalMemo().toString());
     holder.txtName.setText(model.getProductName());
+    holder.imgCigar.setImageURI(Uri.parse("http://51.79.73.162:8956/salesapi"+model.getProductImage()));
 
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -76,6 +79,8 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
     @BindView(R.id.layoutRow)
     LinearLayout layoutRow;
+    @BindView(R.id.imgCigar)
+    SimpleDraweeView imgCigar;
     @BindView(R.id.txtQtyOne)
     TextView txtQtyOne;
     @BindView(R.id.txtQtyTwo)

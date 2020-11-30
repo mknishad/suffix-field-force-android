@@ -48,6 +48,8 @@ public class CategoryModel {
   @Expose
   private Integer totalMemo;
 
+  private String orderQuantity;
+
   public Integer getProductCatId() {
     return productCatId;
   }
@@ -160,4 +162,11 @@ public class CategoryModel {
     this.totalMemo = totalMemo;
   }
 
+  public String getOrderQuantity() {
+    return orderQuantity;
+  }
+
+  public void setOrderQuantity(String orderQuantity) {
+    this.orderQuantity = orderQuantity;
+  }
 }
