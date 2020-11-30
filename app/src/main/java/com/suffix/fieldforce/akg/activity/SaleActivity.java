@@ -155,12 +155,4 @@ public class SaleActivity extends AppCompatActivity {
     });
 
   }
-
-  private List<StoreModel> getList() {
-    List<StoreModel> myList = new ArrayList<>();
-    for (int i = 1; i <= 10; i++) {
-      myList.add(new StoreModel("Solaiman", "Badda, Dhaka"));
-    }
-    return myList;
-  }
 }

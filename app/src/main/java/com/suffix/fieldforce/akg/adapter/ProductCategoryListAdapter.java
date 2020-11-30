@@ -48,6 +48,11 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final CategoryModel model = categoryModel.get(position);
 
+    holder.txtQtyOne.setText(model.getInHandQty().toString());
+    holder.txtQtyTwo.setText(model.getSalesQty().toString());
+    holder.txtQtyThree.setText(model.getTotalMemo().toString());
+    holder.txtName.setText(model.getProductName());
+
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -75,8 +80,8 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     TextView txtQtyOne;
     @BindView(R.id.txtQtyTwo)
     TextView txtQtyTwo;
-    @BindView(R.id.txtQtThree)
-    TextView txtQtThree;
+    @BindView(R.id.txtQtyThree)
+    TextView txtQtyThree;
     @BindView(R.id.txtName)
     TextView txtName;
 
