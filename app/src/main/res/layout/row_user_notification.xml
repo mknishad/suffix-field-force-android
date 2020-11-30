@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_marginHorizontal="5dp"
     android:background="@drawable/shadow_background"
@@ -14,10 +15,16 @@
       android:layout_marginHorizontal="10dp"
       android:paddingHorizontal="10dp">
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:src="@drawable/fb" />-->
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/imgCigar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/fb" />
+        fresco:placeholderImage="@drawable/cigar" />
 
     <LinearLayout
         android:layout_width="wrap_content"
