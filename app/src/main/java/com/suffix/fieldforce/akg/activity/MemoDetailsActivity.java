@@ -132,6 +132,5 @@ public class MemoDetailsActivity extends AppCompatActivity {
         call.cancel();
       }
     });
-
   }
 }
