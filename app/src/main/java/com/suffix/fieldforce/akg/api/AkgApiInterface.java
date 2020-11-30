@@ -2,6 +2,7 @@ package com.suffix.fieldforce.akg.api;
 
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
@@ -39,10 +40,18 @@ public interface AkgApiInterface {
   Call<List<InvoiceDetail>> getMemoDetails(
       @Header("Authorization") String h1,
       @Path("invoiceId") int invoiceId
+
   );
 
   @GET("product")
   Call<ProductCategory> getAllProduct(
       @Header("Authorization") String h1
+  );
+
+  @GET("sr-customers/{srId}/{status}")
+  Call<List<CustomerData>> getAllCustomer(
+      @Header("Authorization") String h1,
+      @Path("srId") int salesRepId,
+      @Path("status") int status
   );
 }

@@ -8,17 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.StoreModel;
 
 import java.util.List;
 
-public class CustomArrayAdapter extends ArrayAdapter<StoreModel> {
+public class CustomArrayAdapter extends ArrayAdapter<CustomerData> {
 
-  private List<StoreModel> storeModels;
+  private List<CustomerData> storeModels;
   private Context context;
 
   public CustomArrayAdapter(Context context, int resourceId,
-                            List<StoreModel> storeModels) {
+                            List<CustomerData> storeModels) {
     super(context, resourceId, storeModels);
     this.storeModels = storeModels;
     this.context = context;
@@ -37,7 +38,7 @@ public class CustomArrayAdapter extends ArrayAdapter<StoreModel> {
 
   public View getCustomView(int position, View convertView, ViewGroup parent) {
 
-    final StoreModel storeModel = storeModels.get(position);
+    final CustomerData storeModel = storeModels.get(position);
 
     LayoutInflater inflater=(LayoutInflater) context.getSystemService(  Context.LAYOUT_INFLATER_SERVICE );
     View row=inflater.inflate(R.layout.spinner_item, parent, false);
@@ -45,8 +46,8 @@ public class CustomArrayAdapter extends ArrayAdapter<StoreModel> {
     TextView name = row.findViewById(R.id.txtName);
     TextView address = row.findViewById(R.id.txtAddress);
 
-    name.setText(storeModel.getName());
-    address.setText(storeModel.getAddress());
+    name.setText(storeModel.getCustomerName());
+    address.setText(storeModel.getConsumerCode());
 
     if (position == 0) {//Special style for dropdown header
       //label.setTextColor(context.getResources().getColor(R.color.text_hint_color));

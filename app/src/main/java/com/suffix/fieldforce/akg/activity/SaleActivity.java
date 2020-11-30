@@ -22,6 +22,7 @@ import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.StoreModel;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -59,14 +60,16 @@ public class SaleActivity extends AppCompatActivity {
   Spinner spinnerUsers;
 
   @OnClick(R.id.imgDropArrow)
-  public void toggleKeyboard(){
+  public void toggleKeyboard() {
     spinnerUsers.performClick();
   }
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
-  private ArrayAdapter<StoreModel> spinnerAdapter;
+  private ArrayAdapter<CustomerData> spinnerAdapter;
   private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
+  private AbulLoginResponse loginResponse;
+  private String basicAuthorization;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +80,13 @@ public class SaleActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
-    spinnerAdapter = new CustomArrayAdapter(this, R.layout.spinner_item, getList());
-    spinnerUsers.setAdapter(spinnerAdapter);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AbulLoginResponse.class);
+    basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+        preferences.getPassword());
 
     manageRecyclerView();
+    getAllCustomer();
     getAllCategory();
 
   }
@@ -105,12 +111,29 @@ public class SaleActivity extends AppCompatActivity {
     return new GridLayoutManager(this, 2);
   }
 
-  private void getAllCategory() {
+  private void getAllCustomer() {
+    Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
+    call.enqueue(new Callback<List<CustomerData>>() {
+      @Override
+      public void onResponse(Call<List<CustomerData>> call, Response<List<CustomerData>> response) {
+        if (response.isSuccessful()) {
+          List<CustomerData> customerDataList = response.body();
+          spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, customerDataList);
+          spinnerUsers.setAdapter(spinnerAdapter);
+        }else{
+          System.out.println("error");
+        }
+      }
 
-    AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AbulLoginResponse.class);
-    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-        preferences.getPassword());
+      @Override
+      public void onFailure(Call<List<CustomerData>> call, Throwable t) {
+        Toast.makeText(SaleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        call.cancel();
+      }
+    });
+  }
+
+  private void getAllCategory() {
 
     Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization);
     call.enqueue(new Callback<ProductCategory>() {
@@ -134,7 +157,6 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private List<StoreModel> getList() {
-
     List<StoreModel> myList = new ArrayList<>();
     for (int i = 1; i <= 10; i++) {
       myList.add(new StoreModel("Solaiman", "Badda, Dhaka"));
