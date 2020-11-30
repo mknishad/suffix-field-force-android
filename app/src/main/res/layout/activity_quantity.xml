@@ -41,6 +41,7 @@
             android:src="@drawable/cigar" />
 
         <LinearLayout
+            android:id="@+id/layoutOk"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75"
@@ -60,11 +61,12 @@
               android:layout_marginLeft="5dp"
               android:text="OK"
               android:textColor="@android:color/white"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutClear"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
@@ -85,7 +87,7 @@
               android:layout_marginLeft="5dp"
               android:text="CLEAR"
               android:textColor="@android:color/white"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
 
         </LinearLayout>
 
@@ -100,6 +102,7 @@
           android:weightSum="6">
 
         <EditText
+            android:id="@+id/txtResult"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"
@@ -119,6 +122,7 @@
             android:weightSum="2">
 
           <Button
+              android:id="@+id/btnRow00"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="5dp"
@@ -126,6 +130,7 @@
               android:text="+1000" />
 
           <Button
+              android:id="@+id/btnRow01"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -139,6 +144,7 @@
             android:weightSum="2">
 
           <Button
+              android:id="@+id/btnRow10"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="5dp"
@@ -146,6 +152,7 @@
               android:text="+500" />
 
           <Button
+              android:id="@+id/btnRow11"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -159,6 +166,7 @@
             android:weightSum="2">
 
           <Button
+              android:id="@+id/btnRow20"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="5dp"
@@ -166,6 +174,7 @@
               android:text="+200" />
 
           <Button
+              android:id="@+id/btnRow21"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -179,6 +188,7 @@
             android:weightSum="2">
 
           <Button
+              android:id="@+id/btnRow30"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="5dp"
@@ -186,6 +196,7 @@
               android:text="+100" />
 
           <Button
+              android:id="@+id/btnRow31"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -199,6 +210,7 @@
             android:weightSum="2">
 
           <Button
+              android:id="@+id/btnRow40"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_marginRight="5dp"
@@ -206,6 +218,7 @@
               android:text="+20" />
 
           <Button
+              android:id="@+id/btnRow41"
               android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -244,7 +257,7 @@
         android:textAlignment="center"
         android:background="@drawable/border_mint"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:paddingVertical="10dp"
         android:layout_marginHorizontal="@dimen/layout_margin_10"
         android:layout_marginTop="@dimen/layout_margin_20"/>
@@ -255,7 +268,7 @@
         android:textAlignment="center"
         android:background="@drawable/border_mint"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:paddingVertical="10dp"
         android:layout_marginHorizontal="@dimen/layout_margin_10"
         android:layout_marginTop="@dimen/layout_margin_10"/>

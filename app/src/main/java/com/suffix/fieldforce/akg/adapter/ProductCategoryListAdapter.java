@@ -1,9 +1,11 @@
 package com.suffix.fieldforce.akg.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.akg.activity.QuantityActivity;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
 import java.util.ArrayList;
@@ -45,14 +48,13 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final CategoryModel model = categoryModel.get(position);
 
-//    holder.layout.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View v) {
-//        if (memoListInterface != null) {
-//          memoListInterface.onItemClick(position);
-//        }
-//      }
-//    });
+    holder.layoutRow.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(context, QuantityActivity.class);
+        context.startActivity(intent);
+      }
+    });
   }
 
   @Override
@@ -67,12 +69,14 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
-//    @BindView(R.id.layout)
-//    RelativeLayout layout;
+    @BindView(R.id.layoutRow)
+    LinearLayout layoutRow;
     @BindView(R.id.txtQtyOne)
     TextView txtQtyOne;
     @BindView(R.id.txtQtyTwo)
     TextView txtQtyTwo;
+    @BindView(R.id.txtQtThree)
+    TextView txtQtThree;
     @BindView(R.id.txtName)
     TextView txtName;
 
