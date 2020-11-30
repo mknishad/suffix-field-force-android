@@ -1,30 +1,24 @@
 package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
-import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
-import com.suffix.fieldforce.akg.model.StoreModel;
-import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -41,8 +35,22 @@ import retrofit2.Response;
 
 public class SaleActivity extends AppCompatActivity {
 
-  @BindView(R.id.layoutKeys)
+  private static final String TAG = "SaleActivity";
+
+  /*@BindView(R.id.layoutKeys)
   LinearLayout layoutKeys;
+
+  @BindView(R.id.toggleGroupOne)
+  MaterialButtonToggleGroup toggleGroupOne;
+
+  @BindView(R.id.toggleGroupTwo)
+  MaterialButtonToggleGroup toggleGroupTwo;
+
+  @BindView(R.id.toggleGroupThree)
+  MaterialButtonToggleGroup toggleGroupThree;
+
+  @BindView(R.id.toggleGroupFour)
+  MaterialButtonToggleGroup toggleGroupFour;*/
 
   @BindView(R.id.imgDropArrow)
   ImageView imgDropArrow;
@@ -68,8 +76,11 @@ public class SaleActivity extends AppCompatActivity {
   private AkgApiInterface apiInterface;
   private ArrayAdapter<CustomerData> spinnerAdapter;
   private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
-  private AbulLoginResponse loginResponse;
+  private AkgLoginResponse loginResponse;
   private String basicAuthorization;
+
+  private List<CustomerData> customerDataList;
+  private ProductCategory productCategory;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,19 +91,21 @@ public class SaleActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
+    customerDataList = new ArrayList<>();
+    productCategory = new ProductCategory();
+
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AbulLoginResponse.class);
+        AkgLoginResponse.class);
     basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
 
     manageRecyclerView();
     getAllCustomer();
     getAllCategory();
-
+    //setupToggleButtons();
   }
 
   private void manageRecyclerView() {
-
     recyclerViewCigrettee.setLayoutManager(getLayoutManager());
     cigretteListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
     recyclerViewCigrettee.setAdapter(cigretteListAdapter);
@@ -104,8 +117,53 @@ public class SaleActivity extends AppCompatActivity {
     recyclerViewMatch.setLayoutManager(getLayoutManager());
     matchListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
     recyclerViewMatch.setAdapter(matchListAdapter);
-
   }
+
+  /*private void setupToggleButtons() {
+    *//*toggleGroupOne.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+      @Override
+      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        if (isChecked) {
+          toggleGroupTwo.clearChecked();
+          toggleGroupThree.clearChecked();
+          toggleGroupFour.clearChecked();
+        }
+      }
+    });
+
+    toggleGroupTwo.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+      @Override
+      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        if (isChecked) {
+          toggleGroupOne.clearChecked();
+          toggleGroupThree.clearChecked();
+          toggleGroupFour.clearChecked();
+        }
+      }
+    });*//*
+
+    *//*toggleGroupThree.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+      @Override
+      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        if (isChecked) {
+          toggleGroupOne.clearChecked();
+          toggleGroupTwo.clearChecked();
+          toggleGroupFour.clearChecked();
+        }
+      }
+    });
+
+    toggleGroupFour.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+      @Override
+      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+        if (isChecked) {
+          toggleGroupOne.clearChecked();
+          toggleGroupTwo.clearChecked();
+          toggleGroupThree.clearChecked();
+        }
+      }
+    });*//*
+  }*/
 
   private RecyclerView.LayoutManager getLayoutManager() {
     return new GridLayoutManager(this, 2);
@@ -117,10 +175,11 @@ public class SaleActivity extends AppCompatActivity {
       @Override
       public void onResponse(Call<List<CustomerData>> call, Response<List<CustomerData>> response) {
         if (response.isSuccessful()) {
-          List<CustomerData> customerDataList = response.body();
+          Log.d(TAG, "onResponse: response.body() = " + response.body());
+          customerDataList = response.body();
           spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, customerDataList);
           spinnerUsers.setAdapter(spinnerAdapter);
-        }else{
+        } else {
           System.out.println("error");
         }
       }
@@ -134,13 +193,12 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCategory() {
-
     Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization);
     call.enqueue(new Callback<ProductCategory>() {
       @Override
       public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
         if (response.isSuccessful()) {
-          ProductCategory productCategory = response.body();
+          productCategory = response.body();
           cigretteListAdapter.setData(productCategory.getCigrettee());
           bidiListAdapter.setData(productCategory.getBidi());
           matchListAdapter.setData(productCategory.getMatch());
@@ -153,6 +211,5 @@ public class SaleActivity extends AppCompatActivity {
         call.cancel();
       }
     });
-
   }
 }

@@ -20,7 +20,7 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -110,8 +110,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     int totalQuantity = 0;
     int totalAmount = 0;
 
-    AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AbulLoginResponse.class);
+    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
     String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
 

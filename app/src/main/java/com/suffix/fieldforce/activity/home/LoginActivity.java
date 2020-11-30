@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -99,15 +99,15 @@ public class LoginActivity extends AppCompatActivity {
 
   private void loginAbul(String userId, String password) {
     LoginRequest loginRequest = new LoginRequest(userId, password);
-    Call<AbulLoginResponse> abulLoginCall = apiInterface.login(loginRequest);
-    abulLoginCall.enqueue(new Callback<AbulLoginResponse>() {
+    Call<AkgLoginResponse> abulLoginCall = apiInterface.login(loginRequest);
+    abulLoginCall.enqueue(new Callback<AkgLoginResponse>() {
       @Override
-      public void onResponse(Call<AbulLoginResponse> call, Response<AbulLoginResponse> response) {
+      public void onResponse(Call<AkgLoginResponse> call, Response<AkgLoginResponse> response) {
         progressBar.setVisibility(View.GONE);
         try {
           if (response.isSuccessful()) {
             if (response.body().getCode() == 200) {
-              AbulLoginResponse loginResponse = response.body();
+              AkgLoginResponse loginResponse = response.body();
               String loginResponseJson = new Gson().toJson(loginResponse);
               preferences.putLoginResponse(loginResponseJson);
               preferences.putPassword(password);
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
       }
 
       @Override
-      public void onFailure(Call<AbulLoginResponse> call, Throwable t) {
+      public void onFailure(Call<AkgLoginResponse> call, Throwable t) {
         Log.e(TAG, "onFailure: ", t);
         progressBar.setVisibility(View.GONE);
         Snackbar.make(logBtnLogin, t.getMessage(), Snackbar.LENGTH_SHORT).show();
