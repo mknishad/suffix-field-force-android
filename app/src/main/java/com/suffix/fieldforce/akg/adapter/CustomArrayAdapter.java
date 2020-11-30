@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.CustomerData;
-import com.suffix.fieldforce.akg.model.StoreModel;
 
 import java.util.List;
 
@@ -49,12 +48,12 @@ public class CustomArrayAdapter extends ArrayAdapter<CustomerData> {
     name.setText(storeModel.getCustomerName());
     address.setText(storeModel.getConsumerCode());
 
-    if (position == 0) {//Special style for dropdown header
+    /*if (position == 0) {//Special style for dropdown header
       //label.setTextColor(context.getResources().getColor(R.color.text_hint_color));
       name.setTextColor(context.getResources().getColor(R.color.black_overlay));
       name.setText("SELECT USER");
       address.setVisibility(View.GONE);
-    }
+    }*/
 
     return row;
   }

@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,10 +13,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.ButtonKeyValueModel;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.util.AkgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 public class QuantityActivity extends AppCompatActivity {
 
@@ -27,13 +31,25 @@ public class QuantityActivity extends AppCompatActivity {
 
   private List<Button> buttons = new ArrayList<>();
   private List<ButtonKeyValueModel> buttonKeyValue = new ArrayList<>();
+  private CategoryModel categoryModel;
+
+  private Realm realm;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_quantity);
+
     bindViews();
     bindListWithValue();
+
+    realm = Realm.getDefaultInstance();
+
+    //CATEGORY_MODEL
+    if (getIntent().hasExtra("CATEGORY_MODEL")) {
+      categoryModel = getIntent().getParcelableExtra("CATEGORY_MODEL");
+    }
+
   }
 
   private void prepareKeyValues(String type) {
@@ -138,6 +154,23 @@ public class QuantityActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         txtResult.setText("0");
+      }
+    });
+
+    layoutOk.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (!txtResult.getText().toString().trim().equals("0")) {
+          categoryModel.setOrderQuantity(txtResult.getText().toString());
+
+          realm.beginTransaction();
+          CategoryModel realmCategory = realm.copyToRealm(categoryModel);
+          realm.commitTransaction();
+
+          Toast.makeText(QuantityActivity.this, "Success", Toast.LENGTH_SHORT).show();
+          onBackPressed();
+
+        }
       }
     });
   }

@@ -9,6 +9,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -18,9 +19,12 @@ import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
 import com.suffix.fieldforce.akg.model.InvoiceDetail
+import com.suffix.fieldforce.akg.model.product.CategoryModel
 import com.suffix.fieldforce.akg.util.AkgPrintService
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
+import io.realm.Realm
+import io.realm.RealmResults
 import java.util.*
 
 
@@ -43,6 +47,11 @@ class CheckActivity : AppCompatActivity() {
     binding.lifecycleOwner = this
 
     init()
+
+    val realm: Realm = Realm.getDefaultInstance();
+    val result: RealmResults<CategoryModel> = realm.where(CategoryModel::class.java).findAll();
+    Toast.makeText(this@CheckActivity, "Length : "+result.size, Toast.LENGTH_SHORT)
+      .show()
   }
 
   private fun init() {

@@ -1,6 +1,6 @@
 package com.suffix.fieldforce.akg.api;
 
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
@@ -20,7 +20,7 @@ import retrofit2.http.Path;
 
 public interface AkgApiInterface {
   @POST("login")
-  Call<AbulLoginResponse> login(
+  Call<AkgLoginResponse> login(
       @Body LoginRequest loginRequest
   );
 

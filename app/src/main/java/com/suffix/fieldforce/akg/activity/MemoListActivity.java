@@ -16,7 +16,7 @@ import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.MemoListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -77,8 +77,8 @@ public class MemoListActivity extends AppCompatActivity {
 
   private void getMemoList() {
 
-    AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AbulLoginResponse.class);
+    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
     String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
 

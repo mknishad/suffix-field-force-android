@@ -55,7 +55,7 @@ import com.suffix.fieldforce.akg.activity.NotificationListActivity;
 import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -501,8 +501,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                 requestLocationUpdates();
                 preferences.putOnline(true);
 
-                AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-                    AbulLoginResponse.class);
+                AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+                    AkgLoginResponse.class);
 
                 String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
                     preferences.getPassword());
@@ -571,8 +571,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                 //requestLocationUpdates();
                 preferences.putOnline(false);
 
-                AbulLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-                    AbulLoginResponse.class);
+                AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+                    AkgLoginResponse.class);
 
                 String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
                     preferences.getPassword());

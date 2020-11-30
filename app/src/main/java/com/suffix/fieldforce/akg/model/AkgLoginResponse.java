@@ -3,7 +3,7 @@ package com.suffix.fieldforce.akg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AbulLoginResponse {
+public class AkgLoginResponse {
   @SerializedName("message")
   @Expose
   private String message;

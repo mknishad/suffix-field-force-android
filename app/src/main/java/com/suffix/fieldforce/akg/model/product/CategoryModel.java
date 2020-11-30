@@ -1,9 +1,14 @@
 package com.suffix.fieldforce.akg.model.product;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryModel {
+import io.realm.RealmObject;
+
+public class CategoryModel extends RealmObject implements Parcelable {
 
   @SerializedName("productCatId")
   @Expose
@@ -49,6 +54,136 @@ public class CategoryModel {
   private Integer totalMemo;
 
   private String orderQuantity;
+
+  public CategoryModel(){
+
+  };
+
+  protected CategoryModel(Parcel in) {
+    if (in.readByte() == 0) {
+      productCatId = null;
+    } else {
+      productCatId = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      productId = null;
+    } else {
+      productId = in.readInt();
+    }
+    productCode = in.readString();
+    productName = in.readString();
+    productCatName = in.readString();
+    productImage = in.readString();
+    if (in.readByte() == 0) {
+      sellingRate = null;
+    } else {
+      sellingRate = in.readDouble();
+    }
+    if (in.readByte() == 0) {
+      qty1 = null;
+    } else {
+      qty1 = in.readInt();
+    }
+    uom1 = in.readString();
+    if (in.readByte() == 0) {
+      qty2 = null;
+    } else {
+      qty2 = in.readInt();
+    }
+    uom2 = in.readString();
+    if (in.readByte() == 0) {
+      inHandQty = null;
+    } else {
+      inHandQty = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      salesQty = null;
+    } else {
+      salesQty = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      totalMemo = null;
+    } else {
+      totalMemo = in.readInt();
+    }
+    orderQuantity = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    if (productCatId == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(productCatId);
+    }
+    if (productId == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(productId);
+    }
+    dest.writeString(productCode);
+    dest.writeString(productName);
+    dest.writeString(productCatName);
+    dest.writeString(productImage);
+    if (sellingRate == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeDouble(sellingRate);
+    }
+    if (qty1 == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(qty1);
+    }
+    dest.writeString(uom1);
+    if (qty2 == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(qty2);
+    }
+    dest.writeString(uom2);
+    if (inHandQty == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(inHandQty);
+    }
+    if (salesQty == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(salesQty);
+    }
+    if (totalMemo == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(totalMemo);
+    }
+    dest.writeString(orderQuantity);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<CategoryModel> CREATOR = new Creator<CategoryModel>() {
+    @Override
+    public CategoryModel createFromParcel(Parcel in) {
+      return new CategoryModel(in);
+    }
+
+    @Override
+    public CategoryModel[] newArray(int size) {
+      return new CategoryModel[size];
+    }
+  };
 
   public Integer getProductCatId() {
     return productCatId;

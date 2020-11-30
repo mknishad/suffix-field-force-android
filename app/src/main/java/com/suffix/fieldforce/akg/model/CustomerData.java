@@ -23,6 +23,25 @@ public class CustomerData {
   @Expose
   private String consumerCode;
 
+  public CustomerData() {
+  }
+
+  public CustomerData(String customerName) {
+    this.customerName = customerName;
+  }
+
+  @Override
+  public String toString() {
+    return "CustomerData{" +
+        "id=" + id +
+        ", customerName='" + customerName + '\'' +
+        ", mobileNo='" + mobileNo + '\'' +
+        ", tradeLicenseNo='" + tradeLicenseNo + '\'' +
+        ", status='" + status + '\'' +
+        ", consumerCode='" + consumerCode + '\'' +
+        '}';
+  }
+
   public Integer getId() {
     return id;
   }
