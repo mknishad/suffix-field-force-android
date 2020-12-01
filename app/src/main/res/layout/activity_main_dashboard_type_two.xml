@@ -10,7 +10,8 @@
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/app_bar"
       android:layout_width="match_parent"
-      android:layout_height="300dp"
+      android:layout_height="290dp"
+      android:minHeight="280dp"
       android:background="@color/colorMintLight"
       android:fitsSystemWindows="true"
       android:theme="@style/AppTheme.NoActionBar">
@@ -39,7 +40,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:layout_marginTop="@dimen/layout_margin_20"
+      android:layout_marginTop="10dp"
       android:layout_marginBottom="@dimen/layout_margin_20"
       android:gravity="center_horizontal"
       android:orientation="vertical">
@@ -90,41 +91,41 @@
 
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:background="@color/backgroundcolor"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="75dp"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/layout_margin_20"
-          android:layout_marginRight="@dimen/layout_margin_20"
+          android:layout_marginLeft="24dp"
+          android:layout_marginRight="24dp"
           android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/layoutTask"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_margin_10"
+            android:layout_marginEnd="@dimen/layout_margin_10"
             android:layout_weight="1"
             android:background="@drawable/shadow_background"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="60dp"
-              android:layout_height="60dp"
+              android:layout_width="45dp"
+              android:layout_height="45dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_violet_very_light"
-              android:padding="15dp"
+              android:padding="10dp"
               android:src="@drawable/ic_cart"
               app:tint="@color/colorWhite" />
 
@@ -149,11 +150,11 @@
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="60dp"
-              android:layout_height="60dp"
+              android:layout_width="45dp"
+              android:layout_height="45dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_sky_light"
-              android:padding="15dp"
+              android:padding="10dp"
               android:src="@drawable/ic_date_range"
               app:tint="@color/colorWhite" />
 
@@ -201,8 +202,8 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/layout_margin_20"
-          android:layout_marginRight="@dimen/layout_margin_20"
+          android:layout_marginLeft="24dp"
+          android:layout_marginRight="24dp"
           android:weightSum="2">
 
         <LinearLayout
@@ -216,11 +217,11 @@
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="60dp"
-              android:layout_height="60dp"
+              android:layout_width="45dp"
+              android:layout_height="45dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_sky_light"
-              android:padding="15dp"
+              android:padding="10dp"
               android:src="@drawable/ic_stock"
               app:tint="@color/colorWhite" />
 
@@ -245,11 +246,11 @@
             android:orientation="vertical">
 
           <ImageView
-              android:layout_width="60dp"
-              android:layout_height="60dp"
+              android:layout_width="45dp"
+              android:layout_height="45dp"
               android:layout_marginTop="@dimen/layout_margin_20"
               android:background="@drawable/round_violet_dark"
-              android:padding="15dp"
+              android:padding="10dp"
               android:src="@drawable/ic_local_hospital"
               app:tint="@color/colorWhite" />
 
@@ -296,11 +297,13 @@
 
       <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="@dimen/layout_height_80"
+          android:layout_height="75dp"
           android:background="@drawable/shadow_background_fill"
           android:gravity="center"
-          android:layout_marginHorizontal="20dp"
-          android:layout_marginTop="@dimen/layout_margin_20">
+          android:layout_marginHorizontal="25dp"
+          android:layout_marginTop="25dp"
+          android:layout_marginBottom="25dp"
+          >
 
         <ImageView
             android:layout_width="32dp"
@@ -320,7 +323,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textAlignment="center"
-            android:textSize="32sp" />
+            android:textSize="28sp" />
       </LinearLayout>
 
     </LinearLayout>
@@ -329,8 +332,11 @@
   <RelativeLayout
       android:id="@+id/card"
       android:layout_width="wrap_content"
-      android:layout_height="160dp"
-      android:layout_margin="@dimen/layout_margin_40"
+      android:layout_height="150dp"
+      android:layout_marginStart="46dp"
+      android:layout_marginEnd="46dp"
+      android:layout_marginTop="80dp"
+      android:layout_marginBottom="40dp"
       android:background="@drawable/shadow_background"
       android:gravity="center_vertical"
       app:layout_anchor="@id/app_bar"
@@ -350,11 +356,11 @@
           android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
             android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_green_light"
-            android:padding="15dp"
+            android:padding="10dp"
             android:src="@drawable/ic_person"
             app:tint="@color/colorWhite" />
 
@@ -362,7 +368,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
+            android:layout_marginBottom="@dimen/layout_margin_10"
             android:text="হাজিরা"
             android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
@@ -379,17 +385,17 @@
           android:id="@+id/layoutExit"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_marginRight="@dimen/layout_margin_10"
+          android:layout_marginEnd="@dimen/layout_margin_10"
           android:layout_weight="1"
           android:gravity="center_horizontal"
           android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginTop="@dimen/layout_margin_20"
             android:background="@drawable/round_pink_light"
-            android:padding="15dp"
+            android:padding="10dp"
             android:src="@drawable/ic_exit"
             app:tint="@color/colorWhite" />
 
@@ -397,7 +403,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_20"
+            android:layout_marginBottom="@dimen/layout_margin_10"
             android:text="বাহির"
             android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
