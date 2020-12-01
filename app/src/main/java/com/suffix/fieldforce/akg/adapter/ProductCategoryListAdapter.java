@@ -62,12 +62,12 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//        Intent intent = new Intent(context, QuantityActivity.class);
-//        intent.putExtra("CATEGORY_MODEL",model);
-//        context.startActivity(intent);
-        if (productCategoryListInterface != null) {
-          productCategoryListInterface.onItemClick(position);
-        }
+        Intent intent = new Intent(context, QuantityActivity.class);
+        intent.putExtra("CATEGORY_MODEL",model);
+        context.startActivity(intent);
+//        if (productCategoryListInterface != null) {
+//          productCategoryListInterface.onItemClick(position);
+//        }
       }
     });
   }

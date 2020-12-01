@@ -4,4 +4,5 @@ public class AkgConstants {
   public static final String CIGARETTE = "cigarette";
   public static final String BIRI = "biri";
   public static final String MATCH = "match";
+  public static final String CUSTOMER_INFO = "customerInfo";
 }

@@ -1,10 +1,12 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -73,6 +76,20 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
 
+  @BindView(R.id.btnJacai)
+  Button btnJacai;
+
+  @OnClick(R.id.btnJacai)
+  public void gotoCheckout() {
+    if(selectedCustomer != null){
+      Intent intent = new Intent(SaleActivity.this,CheckActivity.class);
+      intent.putExtra(AkgConstants.CUSTOMER_INFO,selectedCustomer);
+      startActivity(intent);
+    }else{
+      Toast.makeText(SaleActivity.this, "You must select a customer first.", Toast.LENGTH_SHORT).show();
+    }
+  }
+
   @OnClick(R.id.imgDropArrow)
   public void toggleKeyboard() {
     spinnerUsers.performClick();
@@ -88,6 +105,7 @@ public class SaleActivity extends AppCompatActivity {
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
   private ProductCategory productCategory;
+  private CustomerData selectedCustomer = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -330,7 +348,7 @@ public class SaleActivity extends AppCompatActivity {
           spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              filteredCustomerList.get(position);
+              selectedCustomer = filteredCustomerList.get(position);
             }
 
             @Override
