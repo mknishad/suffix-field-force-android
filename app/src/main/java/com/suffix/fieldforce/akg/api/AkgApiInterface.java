@@ -43,9 +43,10 @@ public interface AkgApiInterface {
 
   );
 
-  @GET("product")
+  @GET("product/{salesRepId}")
   Call<ProductCategory> getAllProduct(
-      @Header("Authorization") String h1
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
   );
 
   @GET("sr-customers/{srId}/{status}")

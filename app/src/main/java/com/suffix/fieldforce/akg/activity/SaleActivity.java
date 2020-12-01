@@ -371,7 +371,7 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCategory() {
-    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization);
+    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<ProductCategory>() {
       @Override
       public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
