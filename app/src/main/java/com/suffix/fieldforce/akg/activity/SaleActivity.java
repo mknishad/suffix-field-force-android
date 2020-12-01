@@ -327,10 +327,15 @@ public class SaleActivity extends AppCompatActivity {
           filteredCustomerList.addAll(customerDataList);
           spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
           spinnerUsers.setAdapter(spinnerAdapter);
-          spinnerUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
               filteredCustomerList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
           });
         } else {
