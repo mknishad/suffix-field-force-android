@@ -639,17 +639,19 @@
           android:weightSum="2">
 
         <Button
+            android:id="@+id/btnJacai"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Nirikkhon" />
+            android:text="যাচাই" />
 
         <Button
+            android:id="@+id/btnVisited"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nirikkhon" />
+            android:text="ভিসিটেড" />
       </LinearLayout>
 
       <Button

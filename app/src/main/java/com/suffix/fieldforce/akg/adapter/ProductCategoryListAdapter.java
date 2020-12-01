@@ -53,21 +53,21 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
     String imageURL = "http://51.79.73.162:8956/salesapi" + model.getProductImage();
 
-    holder.txtQtyOne.setText(model.getInHandQty().toString());
-    holder.txtQtyTwo.setText(model.getSalesQty().toString());
-    holder.txtQtyThree.setText(model.getTotalMemo().toString());
-    holder.txtName.setText(model.getProductName());
+    holder.txtInHandQt.setText(model.getInHandQty().toString());
+    holder.txtSalesQt.setText(model.getSalesQty().toString());
+    holder.txtTotalMemo.setText(model.getTotalMemo().toString());
+    holder.txtProductCode.setText(model.getProductCode());
     holder.imgCigar.setImageURI(Uri.parse(imageURL));
 
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//        Intent intent = new Intent(context, QuantityActivity.class);
-//        intent.putExtra("CATEGORY_MODEL",model);
-//        context.startActivity(intent);
-        if (productCategoryListInterface != null) {
-          productCategoryListInterface.onItemClick(position);
-        }
+        Intent intent = new Intent(context, QuantityActivity.class);
+        intent.putExtra("CATEGORY_MODEL",model);
+        context.startActivity(intent);
+//        if (productCategoryListInterface != null) {
+//          productCategoryListInterface.onItemClick(position);
+//        }
       }
     });
   }
@@ -88,14 +88,14 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     LinearLayout layoutRow;
     @BindView(R.id.imgCigar)
     SimpleDraweeView imgCigar;
-    @BindView(R.id.txtQtyOne)
-    TextView txtQtyOne;
-    @BindView(R.id.txtQtyTwo)
-    TextView txtQtyTwo;
-    @BindView(R.id.txtQtyThree)
-    TextView txtQtyThree;
-    @BindView(R.id.txtName)
-    TextView txtName;
+    @BindView(R.id.txtInHandQt)
+    TextView txtInHandQt;
+    @BindView(R.id.txtSalesQt)
+    TextView txtSalesQt;
+    @BindView(R.id.txtTotalMemo)
+    TextView txtTotalMemo;
+    @BindView(R.id.txtProductCode)
+    TextView txtProductCode;
 
     public ViewHolder(@NonNull View itemView) {
       super(itemView);

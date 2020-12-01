@@ -1,5 +1,10 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,11 +24,15 @@ import com.suffix.fieldforce.akg.util.AkgConstants;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class QuantityActivity extends AppCompatActivity {
 
-  private Toolbar toolbar;
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+
   private LinearLayout layoutOk;
   private LinearLayout layoutClear;
   private EditText txtResult;
@@ -39,6 +48,9 @@ public class QuantityActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_quantity);
+    ButterKnife.bind(this);
+
+    setupToolbar();
 
     bindViews();
     bindListWithValue();
@@ -50,6 +62,34 @@ public class QuantityActivity extends AppCompatActivity {
       categoryModel = getIntent().getParcelableExtra("CATEGORY_MODEL");
     }
 
+  }
+
+  private void setupToolbar() {
+    setSupportActionBar(toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+    } else {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
+          BlendMode.SRC_ATOP));
+    } else {
+      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    }
   }
 
   private void prepareKeyValues(String type) {
@@ -135,7 +175,6 @@ public class QuantityActivity extends AppCompatActivity {
   }
 
   private void bindViews() {
-    toolbar = findViewById(R.id.toolbar);
     layoutOk = findViewById(R.id.layoutOk);
     layoutClear = findViewById(R.id.layoutClear);
     txtResult = findViewById(R.id.txtResult);
