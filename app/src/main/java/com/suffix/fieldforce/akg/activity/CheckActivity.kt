@@ -69,6 +69,7 @@ class CheckActivity : AppCompatActivity() {
     binding.storeAddressTextView.text = customerData.customerName
 
     setupRecyclerView()
+    setupTotal()
   }
 
   private fun setupToolbar() {
@@ -95,6 +96,18 @@ class CheckActivity : AppCompatActivity() {
     products = realm.where(CategoryModel::class.java).findAll()
     adapter = CategoryListAdapter(this, products)
     binding.recyclerView.adapter = adapter
+  }
+
+  private fun setupTotal() {
+    var quantity = 0
+    var totalAmount = 0.0
+    products.forEach {
+      quantity += it.orderQuantity.toInt()
+      totalAmount += (it.orderQuantity.toInt() * it.sellingRate)
+    }
+
+    binding.txtTotalQuantity.text = quantity.toString()
+    binding.txtTotalAmount.text = totalAmount.toString()
   }
 
   fun printMemo(view: View) {
