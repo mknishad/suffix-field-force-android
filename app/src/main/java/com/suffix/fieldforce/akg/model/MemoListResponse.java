@@ -13,16 +13,16 @@ public class MemoListResponse implements Parcelable {
   private String invNo;
   @SerializedName("discountAmount")
   @Expose
-  private Integer discountAmount;
+  private Double discountAmount;
   @SerializedName("prevDue")
   @Expose
-  private Integer prevDue;
+  private Double prevDue;
   @SerializedName("receivedAmount")
   @Expose
-  private Integer receivedAmount;
+  private Double receivedAmount;
   @SerializedName("totalAmount")
   @Expose
-  private Integer totalAmount;
+  private Double totalAmount;
   @SerializedName("txnDt")
   @Expose
   private String txnDt;
@@ -38,22 +38,22 @@ public class MemoListResponse implements Parcelable {
     if (in.readByte() == 0) {
       discountAmount = null;
     } else {
-      discountAmount = in.readInt();
+      discountAmount = in.readDouble();
     }
     if (in.readByte() == 0) {
       prevDue = null;
     } else {
-      prevDue = in.readInt();
+      prevDue = in.readDouble();
     }
     if (in.readByte() == 0) {
       receivedAmount = null;
     } else {
-      receivedAmount = in.readInt();
+      receivedAmount = in.readDouble();
     }
     if (in.readByte() == 0) {
       totalAmount = null;
     } else {
-      totalAmount = in.readInt();
+      totalAmount = in.readDouble();
     }
     txnDt = in.readString();
   }
@@ -65,25 +65,25 @@ public class MemoListResponse implements Parcelable {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(discountAmount);
+      dest.writeDouble(discountAmount);
     }
     if (prevDue == null) {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(prevDue);
+      dest.writeDouble(prevDue);
     }
     if (receivedAmount == null) {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(receivedAmount);
+      dest.writeDouble(receivedAmount);
     }
     if (totalAmount == null) {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(totalAmount);
+      dest.writeDouble(totalAmount);
     }
     dest.writeString(txnDt);
   }
@@ -113,35 +113,35 @@ public class MemoListResponse implements Parcelable {
     this.invNo = invNo;
   }
 
-  public Integer getDiscountAmount() {
+  public Double getDiscountAmount() {
     return discountAmount;
   }
 
-  public void setDiscountAmount(Integer discountAmount) {
+  public void setDiscountAmount(Double discountAmount) {
     this.discountAmount = discountAmount;
   }
 
-  public Integer getPrevDue() {
+  public Double getPrevDue() {
     return prevDue;
   }
 
-  public void setPrevDue(Integer prevDue) {
+  public void setPrevDue(Double prevDue) {
     this.prevDue = prevDue;
   }
 
-  public Integer getReceivedAmount() {
+  public Double getReceivedAmount() {
     return receivedAmount;
   }
 
-  public void setReceivedAmount(Integer receivedAmount) {
+  public void setReceivedAmount(Double receivedAmount) {
     this.receivedAmount = receivedAmount;
   }
 
-  public Integer getTotalAmount() {
+  public Double getTotalAmount() {
     return totalAmount;
   }
 
-  public void setTotalAmount(Integer totalAmount) {
+  public void setTotalAmount(Double totalAmount) {
     this.totalAmount = totalAmount;
   }
 

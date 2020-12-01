@@ -12,7 +12,7 @@ public class GlobalSettings {
   private String attributeName;
   @SerializedName("attributeValue")
   @Expose
-  private int attributeValue;
+  private String attributeValue;
 
   @Override
   public String toString() {
@@ -39,11 +39,11 @@ public class GlobalSettings {
     this.attributeName = attributeName;
   }
 
-  public int getAttributeValue() {
+  public String getAttributeValue() {
     return attributeValue;
   }
 
-  public void setAttributeValue(int attributeValue) {
+  public void setAttributeValue(String attributeValue) {
     this.attributeValue = attributeValue;
   }
 }
