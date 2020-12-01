@@ -1,6 +1,11 @@
 package com.suffix.fieldforce.akg.activity;
 
 import android.content.Intent;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +64,9 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.toggleGroupFour)
   MaterialButtonToggleGroup toggleGroupFour;*/
 
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+
   @BindView(R.id.toggleGroup)
   SingleSelectToggleGroup toggleGroup;
 
@@ -81,7 +90,8 @@ public class SaleActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnJacai)
   public void gotoCheckout() {
-    if(selectedCustomer != null){
+    if(spinnerUsers.getSelectedItemPosition() > 0){
+      selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
       Intent intent = new Intent(SaleActivity.this,CheckActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO,selectedCustomer);
       startActivity(intent);
@@ -113,6 +123,8 @@ public class SaleActivity extends AppCompatActivity {
     setContentView(R.layout.activity_sale);
     ButterKnife.bind(this);
 
+    setupToolbar();
+
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
@@ -130,6 +142,34 @@ public class SaleActivity extends AppCompatActivity {
     getAllCategory();
     //setupToggleButtons();
     setupToggleGroup();
+  }
+
+  private void setupToolbar() {
+    setSupportActionBar(toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+    } else {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
+          BlendMode.SRC_ATOP));
+    } else {
+      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    }
   }
 
   private void manageRecyclerView() {
@@ -370,7 +410,7 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCategory() {
-    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization);
+    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<ProductCategory>() {
       @Override
       public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {

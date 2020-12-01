@@ -38,10 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="2"
-            android:layout_below="@id/txtName">
+            android:layout_below="@id/txtProductCode">
 
           <TextView
-              android:id="@+id/txtQtyOne"
+              android:id="@+id/txtInHandQt"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_marginRight="1dp"
@@ -53,7 +53,7 @@
               android:textSize="18sp" />
 
           <TextView
-              android:id="@+id/txtQtyTwo"
+              android:id="@+id/txtSalesQt"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_weight="1"
@@ -66,20 +66,20 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtName"
+            android:id="@+id/txtProductCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="MARISE"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#BC2B2B2B"
             android:layout_below="@id/imgCigar"/>
 
         <TextView
-            android:id="@+id/txtQtyThree"
+            android:id="@+id/txtTotalMemo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
