@@ -16,12 +16,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
-import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.NotificationListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.model.AbulLoginResponse;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -37,17 +35,18 @@ import retrofit2.Response;
 
 public class NotificationListActivity extends AppCompatActivity {
 
-  private AkgApiInterface apiInterface;
-  NotificationListAdapter notificationListAdapter;
-  private FieldForcePreferences preferences;
-
   @BindView(R.id.recyclerViewNotification)
   RecyclerView recyclerViewNotification;
   @BindView(R.id.toolbar)
   Toolbar toolbar;
-  private AbulLoginResponse loginResponse;
+
   private String basicAuthorization;
   List<CustomerData> customerDataList;
+
+  private FieldForcePreferences preferences;
+  public AkgApiInterface apiInterface;
+  NotificationListAdapter notificationListAdapter;
+  private AkgLoginResponse loginResponse;
 
 
   @Override
@@ -55,11 +54,12 @@ public class NotificationListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_notififation_list);
     ButterKnife.bind(this);
+
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AbulLoginResponse.class);
+        AkgLoginResponse.class);
     basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
 
