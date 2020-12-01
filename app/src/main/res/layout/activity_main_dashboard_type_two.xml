@@ -41,7 +41,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:layout_marginTop="10dp"
-      android:layout_marginBottom="@dimen/layout_margin_20"
+      android:layout_marginBottom="@dimen/layout_margin_15"
       android:gravity="center_horizontal"
       android:orientation="vertical">
 
@@ -80,12 +80,16 @@
 
     <TextView
         android:id="@+id/txtUserAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
         android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:textColor="@color/color_white"
-        android:textSize="8sp" />
+        android:textSize="10sp"
+        android:textAlignment="center"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginHorizontal="@dimen/layout_margin_10"/>
 
   </LinearLayout>
 
@@ -133,11 +137,11 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="সেল"
               android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -162,11 +166,11 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="মেমো"
               android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -192,7 +196,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="BILLING"
               android:textAlignment="center"
               android:textSize="12sp" />
@@ -229,11 +233,11 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="স্টক"
               android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -258,11 +262,11 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="স্লাইড কালেক্ট"
               android:fontFamily="@font/solaimanlipi"
               android:textAlignment="center"
-              android:textSize="24sp"/>
+              android:textSize="22sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -288,7 +292,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_20"
+              android:layout_marginBottom="@dimen/layout_margin_15"
               android:text="TRANSPORT"
               android:textAlignment="center"
               android:textSize="12sp" />
@@ -332,10 +336,10 @@
   <RelativeLayout
       android:id="@+id/card"
       android:layout_width="wrap_content"
-      android:layout_height="150dp"
+      android:layout_height="130dp"
       android:layout_marginStart="46dp"
       android:layout_marginEnd="46dp"
-      android:layout_marginTop="80dp"
+      android:layout_marginTop="100dp"
       android:layout_marginBottom="40dp"
       android:background="@drawable/shadow_background"
       android:gravity="center_vertical"
@@ -372,7 +376,7 @@
             android:text="হাজিরা"
             android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
       </LinearLayout>
 
       <View
@@ -385,7 +389,6 @@
           android:id="@+id/layoutExit"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
-          android:layout_marginEnd="@dimen/layout_margin_10"
           android:layout_weight="1"
           android:gravity="center_horizontal"
           android:orientation="vertical">
@@ -407,7 +410,7 @@
             android:text="বাহির"
             android:fontFamily="@font/solaimanlipi"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
       </LinearLayout>
 
       <LinearLayout

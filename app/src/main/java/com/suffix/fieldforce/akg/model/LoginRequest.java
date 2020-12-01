@@ -11,7 +11,12 @@ public class LoginRequest {
   @Expose
   private String password;
 
-  public LoginRequest(String userId, String password) {
+  @SerializedName("deviceId")
+  @Expose
+  private String deviceId;
+
+  public LoginRequest(String deviceId, String userId, String password) {
+    this.deviceId = deviceId;
     this.userId = userId;
     this.password = password;
   }
@@ -38,5 +43,13 @@ public class LoginRequest {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public String getDeviceId() {
+    return deviceId;
+  }
+
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
   }
 }
