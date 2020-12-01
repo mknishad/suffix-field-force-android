@@ -9,33 +9,34 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.suffix.fieldforce.R
-import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter
+import com.suffix.fieldforce.akg.adapter.CategoryListAdapter
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
-import com.suffix.fieldforce.akg.model.InvoiceDetail
+import com.suffix.fieldforce.akg.model.CustomerData
 import com.suffix.fieldforce.akg.model.product.CategoryModel
 import com.suffix.fieldforce.akg.util.AkgPrintService
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
 import io.realm.RealmResults
-import java.util.*
 
 
 class CheckActivity : AppCompatActivity() {
   private lateinit var binding: ActivityCheckBinding
   //private lateinit var viewModel: CheckViewModel
 
-  private lateinit var preferences: FieldForcePreferences;
-  private lateinit var apiInterface: AkgApiInterface;
-  private lateinit var memoBodyListAdapter: MemoBodyListAdapter;
-  private lateinit var invoiceDetailList: List<InvoiceDetail>;
+  private lateinit var preferences: FieldForcePreferences
+  private lateinit var apiInterface: AkgApiInterface
+  private lateinit var adapter: CategoryListAdapter
+  private lateinit var customerData: CustomerData
+  private lateinit var products: RealmResults<CategoryModel>
+
+  private var customerId = 0
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -47,11 +48,6 @@ class CheckActivity : AppCompatActivity() {
     binding.lifecycleOwner = this
 
     init()
-
-    val realm: Realm = Realm.getDefaultInstance();
-    val result: RealmResults<CategoryModel> = realm.where(CategoryModel::class.java).findAll();
-    Toast.makeText(this@CheckActivity, "Length : "+result.size, Toast.LENGTH_SHORT)
-      .show()
   }
 
   private fun init() {
@@ -60,9 +56,9 @@ class CheckActivity : AppCompatActivity() {
 
     preferences = FieldForcePreferences(this)
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
-    invoiceDetailList = ArrayList()
-    memoBodyListAdapter = MemoBodyListAdapter(this, invoiceDetailList)
-    binding.recyclerView.adapter = memoBodyListAdapter
+    //customerData = intent.getParcelableExtra(Constants)
+
+    setupRecyclerView()
   }
 
   private fun setupToolbar() {
@@ -82,6 +78,13 @@ class CheckActivity : AppCompatActivity() {
     } else {
       binding.toolbar.navigationIcon?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
     }
+  }
+
+  private fun setupRecyclerView() {
+    val realm: Realm = Realm.getDefaultInstance()
+    products = realm.where(CategoryModel::class.java).findAll()
+    adapter = CategoryListAdapter(this, products)
+    binding.recyclerView.adapter = adapter
   }
 
   fun printMemo(view: View) {
@@ -132,7 +135,8 @@ class CheckActivity : AppCompatActivity() {
       PERMISSION_BLUETOOTH -> {
         // If request is cancelled, the result arrays are empty.
         if ((grantResults.isNotEmpty() &&
-              grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+              grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        ) {
           // Permission is granted. Continue the action or workflow
           // in your app.
           //printMemo()
