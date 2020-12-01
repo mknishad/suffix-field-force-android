@@ -1,19 +1,11 @@
 package com.suffix.fieldforce.akg.util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.print.PrintAttributes;
-import android.print.PrintDocumentAdapter;
-import android.print.PrintJob;
-import android.print.PrintManager;
-import android.util.Log;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
-import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
@@ -49,7 +41,7 @@ public class AkgPrintService {
 
       double totalAmount = 0;
       for (CategoryModel product : products) {
-        int brandLen = product.getProductName().length();
+        int brandLen = product.getProductCode().length();
         int quantityLen = String.valueOf(product.getOrderQuantity()).length();
         double amount = product.getSellingRate() * Double.parseDouble(product.getOrderQuantity());
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
@@ -66,7 +58,7 @@ public class AkgPrintService {
         char[] dots = new char[dotNum];
         Arrays.fill(dots, '-');
 
-        stringBuilder.append("[L]").append(product.getProductName()).append(new String(dots))
+        stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
             .append("[C]").append(product.getOrderQuantity()).append(new String(dots))
             .append("[R]").append(tk).append("\n");
       }
@@ -77,12 +69,7 @@ public class AkgPrintService {
       int totalAmountLen = totalAmountString.length();
       int dotLen = 30 - totalAmountLen - 5;
 
-      int dotNum = 0;
-      if (dotLen > 1) {
-        dotNum = dotLen / 2;
-      }
-
-      char[] dots = new char[dotNum];
+      char[] dots = new char[dotLen];
       Arrays.fill(dots, '-');
 
       stringBuilder.append("[L]TOTAL").append(new String(dots)).append("[R]")
@@ -98,55 +85,6 @@ public class AkgPrintService {
       printer.printFormattedText(stringBuilder.toString());
     } catch (Exception e) {
       Toast.makeText(mActivity, "Printing filed!", Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  public void doWebViewPrint(Activity activity, String htmlDocument) {
-    // Create a WebView object specifically for printing
-    WebView webView = new WebView(activity);
-    webView.setWebViewClient(new WebViewClient() {
-
-      public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        return false;
-      }
-
-      @Override
-      public void onPageFinished(WebView view, String url) {
-        Log.i(TAG, "page finished loading " + url);
-        createWebPrintJob(activity, view);
-        mWebView = null;
-      }
-    });
-
-    // Generate an HTML document on the fly:
-    /*String htmlDocument = "<html><body><h1>Test Content</h1><p>Testing, " +
-        "testing, testing...</p></body></html>";*/
-    webView.loadDataWithBaseURL(null, htmlDocument, "text/HTML", "UTF-8", null);
-
-    // Keep a reference to WebView object until you pass the PrintDocumentAdapter
-    // to the PrintManager
-    mWebView = webView;
-  }
-
-  private void createWebPrintJob(Activity activity, WebView webView) {
-    try {
-      // Get a PrintManager instance
-      PrintManager printManager = (PrintManager) activity.getSystemService(Context.PRINT_SERVICE);
-
-      String jobName = activity.getString(R.string.app_name) + " Document";
-
-      // Get a print adapter instance
-      PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter(jobName);
-
-      // Create a print job with name and adapter instance
-      PrintJob printJob = printManager.print(jobName, printAdapter,
-          new PrintAttributes.Builder().build());
-
-      // Save the job object for later status checking
-      //printJobs.add(printJob);
-    } catch (Exception e) {
-      Log.e(TAG, "createWebPrintJob: ", e);
-      Toast.makeText(activity, "Can't print now!", Toast.LENGTH_SHORT).show();
     }
   }
 }
