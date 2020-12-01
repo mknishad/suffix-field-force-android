@@ -81,7 +81,8 @@ public class SaleActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnJacai)
   public void gotoCheckout() {
-    if(selectedCustomer != null){
+    if(spinnerUsers.getSelectedItemPosition() > 0){
+      selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
       Intent intent = new Intent(SaleActivity.this,CheckActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO,selectedCustomer);
       startActivity(intent);
