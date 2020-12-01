@@ -53,6 +53,7 @@ import com.suffix.fieldforce.activity.transport.TransportRequasitionListActivity
 import com.suffix.fieldforce.akg.activity.MemoListActivity;
 import com.suffix.fieldforce.akg.activity.NotificationListActivity;
 import com.suffix.fieldforce.akg.activity.SaleActivity;
+import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -667,7 +668,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void openGIS() {
-    Intent intent = new Intent(MainDashboardActivity.this, CreateGISDataActivity.class);
+    Intent intent = new Intent(MainDashboardActivity.this, SlideCollectionActivity.class);
     startActivity(intent);
   }
 

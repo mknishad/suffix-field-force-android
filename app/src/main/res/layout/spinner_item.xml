@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Rahman Store"
         android:textColor="@color/colorMint"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"/>
 
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Badda Dhaka"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:layout_marginLeft="10dp"/>
   </LinearLayout>
 
