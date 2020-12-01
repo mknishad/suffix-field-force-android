@@ -1,19 +1,19 @@
 package com.suffix.fieldforce.akg.util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.print.PrintAttributes;
-import android.print.PrintDocumentAdapter;
-import android.print.PrintJob;
-import android.print.PrintManager;
-import android.util.Log;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
-import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
+
+import java.util.Arrays;
+import java.util.Locale;
+
+import io.realm.RealmResults;
 
 public class AkgPrintService {
   private static final String TAG = "PrintUtils";
@@ -24,62 +24,67 @@ public class AkgPrintService {
     mActivity = activity;
   }
 
-  public void print(String memo) {
+  public void print(CustomerData customerData, long currentTimeMillis, AkgLoginResponse loginResponse,
+                    RealmResults<CategoryModel> products, String pricePerPack) {
     try {
+      String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
+
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("[L]").append("Distributor Name").append("\n");
+      stringBuilder.append("[L]").append(customerData.getMobileNo()).append(", ").append(time).append("\n");
+      stringBuilder.append("[L]Memo: ").append(currentTimeMillis).append("\n");
+      stringBuilder.append("[L]SR: ").append("HR Name").append("\n");
+      stringBuilder.append("[L]").append(customerData.getCustomerName()).append("\n");
+      stringBuilder.append("[L]\n");
+      stringBuilder.append("[L]<b>Brand</b>[C]<b>Q.</b>[R]<b>Tk</b>\n");
+      stringBuilder.append("[L]--------------------------------\n");
+
+      double totalAmount = 0;
+      for (CategoryModel product : products) {
+        int brandLen = product.getProductCode().length();
+        int quantityLen = String.valueOf(product.getOrderQuantity()).length();
+        double amount = product.getSellingRate() * Double.parseDouble(product.getOrderQuantity());
+        String tk = String.format(Locale.getDefault(), "%.2f", amount);
+        totalAmount += amount;
+        int tkLen = tk.length();
+        int totalLen = brandLen + quantityLen + tkLen;
+        int dotLen = 30 - totalLen;
+
+        int dotNum = 0;
+        if (dotLen > 1) {
+          dotNum = dotLen / 2;
+        }
+
+        char[] dots = new char[dotNum];
+        Arrays.fill(dots, '-');
+
+        stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
+            .append("[C]").append(product.getOrderQuantity()).append(new String(dots))
+            .append("[R]").append(tk).append("\n");
+      }
+
+      stringBuilder.append("[L]--------------------------------\n");
+
+      String totalAmountString = String.format(Locale.getDefault(), "%.2f", totalAmount);
+      int totalAmountLen = totalAmountString.length();
+      int dotLen = 30 - totalAmountLen - 5;
+
+      char[] dots = new char[dotLen];
+      Arrays.fill(dots, '-');
+
+      stringBuilder.append("[L]TOTAL").append(new String(dots)).append("[R]")
+          .append(totalAmountString).append("\n");
+      stringBuilder.append("[L]\n");
+      stringBuilder.append("[L]Price per pack:\n");
+      stringBuilder.append("[L]").append(pricePerPack).append("\n");
+      stringBuilder.append("[L]\n");
+      stringBuilder.append("[C]Thanks for your purchase!\n");
+
       EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
           203, 48f, 32);
-      printer.printFormattedText(memo);
+      printer.printFormattedText(stringBuilder.toString());
     } catch (Exception e) {
       Toast.makeText(mActivity, "Printing filed!", Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  public void doWebViewPrint(Activity activity, String htmlDocument) {
-    // Create a WebView object specifically for printing
-    WebView webView = new WebView(activity);
-    webView.setWebViewClient(new WebViewClient() {
-
-      public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        return false;
-      }
-
-      @Override
-      public void onPageFinished(WebView view, String url) {
-        Log.i(TAG, "page finished loading " + url);
-        createWebPrintJob(activity, view);
-        mWebView = null;
-      }
-    });
-
-    // Generate an HTML document on the fly:
-    /*String htmlDocument = "<html><body><h1>Test Content</h1><p>Testing, " +
-        "testing, testing...</p></body></html>";*/
-    webView.loadDataWithBaseURL(null, htmlDocument, "text/HTML", "UTF-8", null);
-
-    // Keep a reference to WebView object until you pass the PrintDocumentAdapter
-    // to the PrintManager
-    mWebView = webView;
-  }
-
-  private void createWebPrintJob(Activity activity, WebView webView) {
-    try {
-      // Get a PrintManager instance
-      PrintManager printManager = (PrintManager) activity.getSystemService(Context.PRINT_SERVICE);
-
-      String jobName = activity.getString(R.string.app_name) + " Document";
-
-      // Get a print adapter instance
-      PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter(jobName);
-
-      // Create a print job with name and adapter instance
-      PrintJob printJob = printManager.print(jobName, printAdapter,
-          new PrintAttributes.Builder().build());
-
-      // Save the job object for later status checking
-      //printJobs.add(printJob);
-    } catch (Exception e) {
-      Log.e(TAG, "createWebPrintJob: ", e);
-      Toast.makeText(activity, "Can't print now!", Toast.LENGTH_SHORT).show();
     }
   }
 }

@@ -7,8 +7,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
