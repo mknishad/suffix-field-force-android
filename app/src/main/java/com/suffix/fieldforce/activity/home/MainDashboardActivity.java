@@ -137,6 +137,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
+  private AkgLoginResponse loginResponse;
 
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification})
   public void onViewClicked(View view) {
@@ -189,7 +190,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private void init() {
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
-    //txtUserName.setText(preferences.getUser().getUserName());
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
+    txtUserName.setText("Md. Arafat");
 
     initProgressBar();
 

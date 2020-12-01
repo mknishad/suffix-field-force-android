@@ -29,16 +29,16 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
 
   private Context context;
   private List<CategoryModel> categoryModel = new ArrayList<>();
-  private MemoListInterface memoListInterface;
+  private ProductCategoryListInterface productCategoryListInterface;
 
   public ProductCategoryListAdapter(Context context, List<CategoryModel> categoryModel) {
     this.context = context;
     this.categoryModel = categoryModel;
   }
 
-//  public void setMemoListInterface(MemoListInterface memoListInterface) {
-//    this.memoListInterface = memoListInterface;
-//  }
+  public void setProductCategoryListInterface(ProductCategoryListInterface productCategoryListInterface) {
+    this.productCategoryListInterface = productCategoryListInterface;
+  }
 
   @NonNull
   @Override
@@ -51,7 +51,7 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final CategoryModel model = categoryModel.get(position);
 
-    String imageURL = "http://51.79.73.162:8956/salesapi"+model.getProductImage();
+    String imageURL = "http://51.79.73.162:8956/salesapi" + model.getProductImage();
 
     holder.txtQtyOne.setText(model.getInHandQty().toString());
     holder.txtQtyTwo.setText(model.getSalesQty().toString());
@@ -62,9 +62,12 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(context, QuantityActivity.class);
-        intent.putExtra("CATEGORY_MODEL",model);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, QuantityActivity.class);
+//        intent.putExtra("CATEGORY_MODEL",model);
+//        context.startActivity(intent);
+        if (productCategoryListInterface != null) {
+          productCategoryListInterface.onItemClick(position);
+        }
       }
     });
   }

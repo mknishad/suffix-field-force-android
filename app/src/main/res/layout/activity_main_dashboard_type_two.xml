@@ -84,8 +84,7 @@
         android:fontFamily="@font/montserrat"
         android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:textColor="@color/color_white"
-        android:textSize="8sp"
-        android:visibility="gone" />
+        android:textSize="8sp" />
 
   </LinearLayout>
 

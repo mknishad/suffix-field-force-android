@@ -2,6 +2,8 @@ package com.suffix.fieldforce.akg.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -325,6 +327,12 @@ public class SaleActivity extends AppCompatActivity {
           filteredCustomerList.addAll(customerDataList);
           spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
           spinnerUsers.setAdapter(spinnerAdapter);
+          spinnerUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              filteredCustomerList.get(position);
+            }
+          });
         } else {
           System.out.println("error");
         }

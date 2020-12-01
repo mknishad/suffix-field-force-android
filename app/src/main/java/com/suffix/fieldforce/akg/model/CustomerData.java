@@ -9,6 +9,7 @@ import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
 import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class CustomerData extends RealmObject implements Parcelable {
@@ -31,73 +32,7 @@ public class CustomerData extends RealmObject implements Parcelable {
   @Expose
   private String consumerCode;
 
-  //private List<CategoryModel> customerCart;
-
-  public CustomerData() {
-  }
-
-  public CustomerData(String customerName) {
-    this.customerName = customerName;
-  }
-
-  protected CustomerData(Parcel in) {
-    if (in.readByte() == 0) {
-      id = null;
-    } else {
-      id = in.readInt();
-    }
-    customerName = in.readString();
-    mobileNo = in.readString();
-    tradeLicenseNo = in.readString();
-    status = in.readString();
-    consumerCode = in.readString();
-    //customerCart = in.createTypedArrayList(CategoryModel.CREATOR);
-  }
-
-  @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    if (id == null) {
-      dest.writeByte((byte) 0);
-    } else {
-      dest.writeByte((byte) 1);
-      dest.writeInt(id);
-    }
-    dest.writeString(customerName);
-    dest.writeString(mobileNo);
-    dest.writeString(tradeLicenseNo);
-    dest.writeString(status);
-    dest.writeString(consumerCode);
-    //dest.writeTypedList(customerCart);
-  }
-
-  @Override
-  public int describeContents() {
-    return 0;
-  }
-
-  public static final Creator<CustomerData> CREATOR = new Creator<CustomerData>() {
-    @Override
-    public CustomerData createFromParcel(Parcel in) {
-      return new CustomerData(in);
-    }
-
-    @Override
-    public CustomerData[] newArray(int size) {
-      return new CustomerData[size];
-    }
-  };
-
-  @Override
-  public String toString() {
-    return "CustomerData{" +
-        "id=" + id +
-        ", customerName='" + customerName + '\'' +
-        ", mobileNo='" + mobileNo + '\'' +
-        ", tradeLicenseNo='" + tradeLicenseNo + '\'' +
-        ", status='" + status + '\'' +
-        ", consumerCode='" + consumerCode + '\'' +
-        '}';
-  }
+  private RealmList<CategoryModel> categoryModels;
 
   public Integer getId() {
     return id;
@@ -147,11 +82,89 @@ public class CustomerData extends RealmObject implements Parcelable {
     this.consumerCode = consumerCode;
   }
 
-//  public List<CategoryModel> getCustomerCart() {
-//    return customerCart;
-//  }
-//
-//  public void setCustomerCart(List<CategoryModel> customerCart) {
-//    this.customerCart = customerCart;
-//  }
+  public RealmList<CategoryModel> getCategoryModels() {
+    return categoryModels;
+  }
+
+  public void setCategoryModels(RealmList<CategoryModel> categoryModels) {
+    this.categoryModels = categoryModels;
+  }
+
+  public static Creator<CustomerData> getCREATOR() {
+    return CREATOR;
+  }
+
+  public CustomerData() {
+  }
+
+  public CustomerData(String customerName) {
+    this.customerName = customerName;
+  }
+
+  public CustomerData(Integer id, String customerName, String mobileNo, String tradeLicenseNo, String status, String consumerCode, RealmList<CategoryModel> categoryModels) {
+    this.id = id;
+    this.customerName = customerName;
+    this.mobileNo = mobileNo;
+    this.tradeLicenseNo = tradeLicenseNo;
+    this.status = status;
+    this.consumerCode = consumerCode;
+    this.categoryModels = categoryModels;
+  }
+
+  protected CustomerData(Parcel in) {
+    if (in.readByte() == 0) {
+      id = null;
+    } else {
+      id = in.readInt();
+    }
+    customerName = in.readString();
+    mobileNo = in.readString();
+    tradeLicenseNo = in.readString();
+    status = in.readString();
+    consumerCode = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    if (id == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(id);
+    }
+    dest.writeString(customerName);
+    dest.writeString(mobileNo);
+    dest.writeString(tradeLicenseNo);
+    dest.writeString(status);
+    dest.writeString(consumerCode);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<CustomerData> CREATOR = new Creator<CustomerData>() {
+    @Override
+    public CustomerData createFromParcel(Parcel in) {
+      return new CustomerData(in);
+    }
+
+    @Override
+    public CustomerData[] newArray(int size) {
+      return new CustomerData[size];
+    }
+  };
+
+  @Override
+  public String toString() {
+    return "CustomerData{" +
+        "id=" + id +
+        ", customerName='" + customerName + '\'' +
+        ", mobileNo='" + mobileNo + '\'' +
+        ", tradeLicenseNo='" + tradeLicenseNo + '\'' +
+        ", status='" + status + '\'' +
+        ", consumerCode='" + consumerCode + '\'' +
+        '}';
+  }
 }
