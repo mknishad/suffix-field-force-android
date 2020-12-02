@@ -333,23 +333,9 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCategory() {
-    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
-    call.enqueue(new Callback<ProductCategory>() {
-      @Override
-      public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
-        if (response.isSuccessful()) {
-          productCategory = response.body();
-          cigretteListAdapter.setData(productCategory.getCigrettee());
-          bidiListAdapter.setData(productCategory.getBidi());
-          matchListAdapter.setData(productCategory.getMatch());
-        }
-      }
-
-      @Override
-      public void onFailure(Call<ProductCategory> call, Throwable t) {
-        Toast.makeText(SaleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
-      }
-    });
+    productCategory = realMDatabaseManager.prepareCategoryData();
+    cigretteListAdapter.setData(productCategory.getCigrettee());
+    bidiListAdapter.setData(productCategory.getBidi());
+    matchListAdapter.setData(productCategory.getMatch());
   }
 }
