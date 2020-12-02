@@ -44,7 +44,6 @@ import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
-import com.suffix.fieldforce.activity.gis.CreateGISDataActivity;
 import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
@@ -56,6 +55,7 @@ import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.DatabseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
@@ -143,7 +143,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private AkgApiInterface apiInterface;
   private AkgLoginResponse loginResponse;
 
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -684,6 +684,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void syncData() {
+    Log.d("Realm","Sync Data Called");
+    DatabseManager databseManager = new DatabseManager(MainDashboardActivity.this);
+    databseManager.getAllCustomer();
 
   }
 
