@@ -26,6 +26,7 @@ public class InvoiceRequest extends RealmObject {
   @SerializedName("totalAmount")
   @Expose
   private double totalAmount;
+  private boolean status;
 
   public InvoiceRequest(int customerId, long invoiceDate, String invoiceId,
                         List<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount) {
@@ -46,6 +47,7 @@ public class InvoiceRequest extends RealmObject {
         ", invoiceProducts=" + invoiceProducts +
         ", salesRepId=" + salesRepId +
         ", totalAmount=" + totalAmount +
+        ", status=" + status +
         '}';
   }
 
@@ -95,5 +97,13 @@ public class InvoiceRequest extends RealmObject {
 
   public void setTotalAmount(double totalAmount) {
     this.totalAmount = totalAmount;
+  }
+
+  public boolean getStatus() {
+    return status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
   }
 }
