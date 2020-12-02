@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class InvoiceRequest {
+import io.realm.RealmObject;
+
+public class InvoiceRequest extends RealmObject {
   @SerializedName("customerId")
   @Expose
   private int customerId;

@@ -103,6 +103,7 @@ public class SaleActivity extends AppCompatActivity {
   private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
   private Realm realm;
+  private RealMDatabaseManager realMDatabaseManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class SaleActivity extends AppCompatActivity {
 
     setupToolbar();
 
+    realMDatabaseManager = new RealMDatabaseManager();
     realm = Realm.getDefaultInstance();
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
@@ -310,7 +312,7 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCustomer() {
-    customerDataList = new RealMDatabaseManager().prepareCustomerData();
+    customerDataList = realMDatabaseManager.prepareCustomerData();
     filteredCustomerList.clear();
     filteredCustomerList.add(new CustomerData("Select Customer"));
     filteredCustomerList.addAll(customerDataList);
@@ -331,23 +333,9 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCategory() {
-    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
-    call.enqueue(new Callback<ProductCategory>() {
-      @Override
-      public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
-        if (response.isSuccessful()) {
-          productCategory = response.body();
-          cigretteListAdapter.setData(productCategory.getCigrettee());
-          bidiListAdapter.setData(productCategory.getBidi());
-          matchListAdapter.setData(productCategory.getMatch());
-        }
-      }
-
-      @Override
-      public void onFailure(Call<ProductCategory> call, Throwable t) {
-        Toast.makeText(SaleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
-      }
-    });
+    productCategory = realMDatabaseManager.prepareCategoryData();
+    cigretteListAdapter.setData(productCategory.getCigrettee());
+    bidiListAdapter.setData(productCategory.getBidi());
+    matchListAdapter.setData(productCategory.getMatch());
   }
 }
