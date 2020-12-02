@@ -19,7 +19,4 @@ public class RealMDatabaseManager {
     final RealmResults<CustomerData> customerDataRealmResults = realm.where(CustomerData.class).findAll();
     return realm.copyFromRealm(customerDataRealmResults);
   }
-
-
-
 }
