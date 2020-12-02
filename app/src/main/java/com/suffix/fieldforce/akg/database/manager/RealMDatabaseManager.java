@@ -27,9 +27,11 @@ public class RealMDatabaseManager {
     ProductCategory productCategory = new ProductCategory();
     final RealmResults<RealMProductCategory> customerDataRealmResults = realm.where(RealMProductCategory.class).findAll();
     List<RealMProductCategory> realMProductCategory = realm.copyFromRealm(customerDataRealmResults);
-    productCategory.setCigrettee(realMProductCategory.get(0).getCigrettee());
-    productCategory.setBidi(realMProductCategory.get(0).getBidi());
-    productCategory.setMatch(realMProductCategory.get(0).getMatch());
+    if (realMProductCategory.size() > 0) {
+      productCategory.setCigrettee(realMProductCategory.get(0).getCigrettee());
+      productCategory.setBidi(realMProductCategory.get(0).getBidi());
+      productCategory.setMatch(realMProductCategory.get(0).getMatch());
+    }
     return productCategory;
   }
 

@@ -20,6 +20,7 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.akg.adapter.CategoryListAdapter
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
+import com.suffix.fieldforce.akg.database.manager.SyncManager
 import com.suffix.fieldforce.akg.model.AkgLoginResponse
 import com.suffix.fieldforce.akg.model.CustomerData
 import com.suffix.fieldforce.akg.model.InvoiceProduct
@@ -152,6 +153,7 @@ class CheckActivity : AppCompatActivity() {
 
     if (!NetworkUtils.isNetworkConnected(this)) {
       //TODO: save to database
+      SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
       printMemo()
       Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
     } else {
@@ -161,9 +163,11 @@ class CheckActivity : AppCompatActivity() {
           Log.d(TAG, "onResponse: response.body() = " + response.body())
           if (response.isSuccessful) {
             //TODO: save to database
+            SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
             printMemo()
           } else {
             //TODO: save to database
+            SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
             printMemo()
           }
           Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
