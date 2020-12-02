@@ -3,7 +3,9 @@ package com.suffix.fieldforce.akg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class InvoiceProduct {
+import io.realm.RealmObject;
+
+public class InvoiceProduct extends RealmObject {
   @SerializedName("discount")
   @Expose
   private double discount;
@@ -19,6 +21,10 @@ public class InvoiceProduct {
   @SerializedName("subToalAmount")
   @Expose
   private double subToalAmount;
+
+  public InvoiceProduct(){
+
+  }
 
   public InvoiceProduct(double discount, int productId, int productQty, double rate, double subToalAmount) {
     this.discount = discount;
