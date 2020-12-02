@@ -22,7 +22,7 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse
 import com.suffix.fieldforce.akg.model.CustomerData
 import com.suffix.fieldforce.akg.model.product.CategoryModel
 import com.suffix.fieldforce.akg.util.AkgConstants
-import com.suffix.fieldforce.akg.util.AkgPrintService
+import com.suffix.fieldforce.akg.util.AkgPrintingService
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
@@ -124,30 +124,8 @@ class CheckActivity : AppCompatActivity() {
         PERMISSION_BLUETOOTH
       )
     } else {
-      /*val memo = "[L]M/S. Style Zone, Pahartoli\n" +
-          "[L]01966660507, 29/11/2020 21:37\n" +
-          "[L]Memo: 1039304849\n" +
-          "[L]SR: Md. Shakil\n" +
-          "[L]Malek Store\n" +
-          "[L]\n" +
-          "[L]<b>Brand</b>[C]<b>Q.</b>[R]<b>Tk</b>\n" +
-          "[C]--------------------------------\n" +
-          "[L]RV-10s--------[C]100-------[R]630.00\n" +
-          "[L]RV-20s--------[C]100-------[R]630.00\n" +
-          "[L]Rexon---------[C]200-------[R]840.00\n" +
-          "[L]MSB-10s-------[C]100-------[R]350.00\n" +
-          "[L]MSB-20s-------[C]100-------[R]350.00\n" +
-          "[L]SM------------[C]100-------[R]350.00\n" +
-          "[L]SAB-----------[C]100--------[R]71.60\n" +
-          "[L]EAB-----------[C]100--------[R]58.00\n" +
-          "[L]FB--------------[C]1--------[R]17.00\n" +
-          "[L]SL--------------[C]1--------[R]10.50\n" +
-          "[C]--------------------------------\n" +
-          "[L]TOTAL-------------------[R]3817.10\n\n" +
-          "[L]Price per pack:\n" +
-          "[L]RV: 10s-63, 20s-126; Rexon: 10s-42; MSB: 10s-35, 20s-70; SM: 10s-35; SAB: 25s-17.90; EAB: 25s-14.50; FB: 1d-17; SL: 1d-10.50\n\n" +
-          "[C]Thanks for your purchase!\n"*/
-      AkgPrintService(this).print(customerData, billNo, loginResponse, products, pricePerPack)
+      AkgPrintingService(this)
+        .print(customerData, billNo, loginResponse, products)
     }
   }
 

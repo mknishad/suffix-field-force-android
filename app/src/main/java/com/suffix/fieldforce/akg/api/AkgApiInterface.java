@@ -4,6 +4,7 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -28,6 +29,12 @@ public interface AkgApiInterface {
   Call<ResponseBody> attendanceEntry(
       @Header("Authorization") String h1,
       @Body AttendenceRequest attendenceRequest
+  );
+
+  @POST("invoice")
+  Call<ResponseBody> createInvoice(
+      @Header("Authorization") String h1,
+      @Body InvoiceRequest invoiceRequest
   );
 
   @GET("invoice/{salesRepId}")
@@ -55,6 +62,4 @@ public interface AkgApiInterface {
       @Path("srId") int salesRepId,
       @Path("status") int status
   );
-
-
 }
