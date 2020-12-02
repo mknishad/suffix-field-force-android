@@ -18,12 +18,12 @@ public class RealMDatabaseManager {
     realm = Realm.getDefaultInstance();
   }
 
-  public List<CustomerData> prepareCustomerData(){
+  public List<CustomerData> prepareCustomerData() {
     final RealmResults<CustomerData> customerDataRealmResults = realm.where(CustomerData.class).findAll();
     return realm.copyFromRealm(customerDataRealmResults);
   }
 
-  public ProductCategory prepareCategoryData(){
+  public ProductCategory prepareCategoryData() {
     ProductCategory productCategory = new ProductCategory();
     final RealmResults<RealMProductCategory> customerDataRealmResults = realm.where(RealMProductCategory.class).findAll();
     List<RealMProductCategory> realMProductCategory = realm.copyFromRealm(customerDataRealmResults);
@@ -33,8 +33,25 @@ public class RealMDatabaseManager {
     return productCategory;
   }
 
-  public List<InvoiceRequest> prepareInvoiceRequest(){
+  public List<InvoiceRequest> prepareInvoiceRequest() {
     final RealmResults<InvoiceRequest> invoiceRequests = realm.where(InvoiceRequest.class).findAll();
     return realm.copyFromRealm(invoiceRequests);
   }
+
+  public void deleteAllInvoice() {
+    final RealmResults<InvoiceRequest> results = realm.where(InvoiceRequest.class).findAll();
+
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        // remove single match
+        //results.deleteFirstFromRealm();
+        //results.deleteLastFromRealm();
+
+        // Delete all matches
+        results.deleteAllFromRealm();
+      }
+    });
+  }
+
 }
