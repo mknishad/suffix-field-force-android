@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DatabseManager {
+public class SyncManager {
 
   private Context context;
   private FieldForcePreferences preferences;
@@ -32,7 +32,7 @@ public class DatabseManager {
   private String basicAuthorization;
   private Realm realm;
 
-  public DatabseManager(Context context) {
+  public SyncManager(Context context) {
     this.context = context;
     realm = Realm.getDefaultInstance();
     preferences = new FieldForcePreferences(context);
