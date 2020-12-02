@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -20,6 +21,8 @@ import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
 import com.suffix.fieldforce.akg.model.AkgLoginResponse
 import com.suffix.fieldforce.akg.model.CustomerData
+import com.suffix.fieldforce.akg.model.InvoiceProduct
+import com.suffix.fieldforce.akg.model.InvoiceRequest
 import com.suffix.fieldforce.akg.model.product.CategoryModel
 import com.suffix.fieldforce.akg.util.AkgConstants
 import com.suffix.fieldforce.akg.util.AkgPrintingService
@@ -27,6 +30,11 @@ import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
 import io.realm.RealmResults
+import okhttp3.Credentials
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class CheckActivity : AppCompatActivity() {
@@ -39,6 +47,8 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var adapter: CategoryListAdapter
   private lateinit var customerData: CustomerData
   private lateinit var products: RealmResults<CategoryModel>
+  private lateinit var invoiceProducts: ArrayList<InvoiceProduct>
+  private lateinit var invoiceRequest: InvoiceRequest
 
   private var billNo = 0L
   private var pricePerPack = ""
@@ -110,9 +120,45 @@ class CheckActivity : AppCompatActivity() {
     binding.txtTotalAmount.text = totalAmount.toString()
   }
 
-  fun printMemo(view: View) {
-    billNo = System.currentTimeMillis()
+  fun submit(view: View) {
+    invoiceProducts = ArrayList()
+    var totalAmount = 0.0
+    products.forEach {
+      val invoiceProduct = InvoiceProduct(
+        0.0,
+        it.productId,
+        it.orderQuantity.toInt(),
+        it.sellingRate,
+        (it.orderQuantity.toDouble() * it.sellingRate)
+      )
 
+      invoiceProducts.add(invoiceProduct)
+      totalAmount += invoiceProduct.subToalAmount
+    }
+
+    val invoiceRequest = InvoiceRequest(
+      customerData.id, billNo, "Invoice Id",
+      invoiceProducts, loginResponse.data.id, totalAmount
+    )
+
+    val basicAuthorization = Credentials.basic(
+      loginResponse.data.userId.toString(),
+      preferences.getPassword()
+    )
+
+    val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
+    call.enqueue(object : Callback<ResponseBody> {
+      override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        Log.d(TAG, "onResponse: response.body() = " + response.body())
+      }
+
+      override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+        Log.e(TAG, "onFailure: ", t)
+      }
+    })
+  }
+
+  fun printMemo() {
     if (ContextCompat.checkSelfPermission(
         this,
         Manifest.permission.BLUETOOTH
@@ -162,6 +208,7 @@ class CheckActivity : AppCompatActivity() {
   }
 
   companion object {
-    const val PERMISSION_BLUETOOTH = 1
+    private const val PERMISSION_BLUETOOTH = 1
+    private const val TAG = "CheckActivity"
   }
 }
