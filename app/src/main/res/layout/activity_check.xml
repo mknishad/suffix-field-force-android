@@ -312,7 +312,7 @@
               android:layout_weight="1"
               android:background="@drawable/shadow_background_fill"
               android:gravity="center"
-              android:onClick="printMemo"
+              android:onClick="submit"
               android:orientation="horizontal">
 
             <ImageView
@@ -376,7 +376,7 @@
               android:layout_weight="1"
               android:background="@drawable/shadow_background_fill"
               android:gravity="center"
-              android:onClick="printMemo"
+              android:onClick="submit"
               android:orientation="horizontal">
 
             <ImageView
