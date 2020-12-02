@@ -28,6 +28,7 @@ import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
 import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -40,6 +41,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,12 +93,12 @@ public class SaleActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnJacai)
   public void gotoCheckout() {
-    if(spinnerUsers.getSelectedItemPosition() > 0){
+    if (spinnerUsers.getSelectedItemPosition() > 0) {
       selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
-      Intent intent = new Intent(SaleActivity.this,CheckActivity.class);
-      intent.putExtra(AkgConstants.CUSTOMER_INFO,selectedCustomer);
+      Intent intent = new Intent(SaleActivity.this, CheckActivity.class);
+      intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
       startActivity(intent);
-    }else{
+    } else {
       Toast.makeText(SaleActivity.this, "You must select a customer first.", Toast.LENGTH_SHORT).show();
     }
   }
@@ -116,6 +119,7 @@ public class SaleActivity extends AppCompatActivity {
   private List<CustomerData> filteredCustomerList;
   private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
+  private Realm realm;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +128,8 @@ public class SaleActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     setupToolbar();
+
+    realm = Realm.getDefaultInstance();
 
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
@@ -372,41 +378,24 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCustomer() {
-    Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
-    call.enqueue(new Callback<List<CustomerData>>() {
+    customerDataList = new RealMDatabaseManager().prepareCustomerData();
+    filteredCustomerList.clear();
+    filteredCustomerList.add(new CustomerData("Select Customer"));
+    filteredCustomerList.addAll(customerDataList);
+    spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
+    spinnerUsers.setAdapter(spinnerAdapter);
+    spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
-      public void onResponse(Call<List<CustomerData>> call, Response<List<CustomerData>> response) {
-        if (response.isSuccessful()) {
-          Log.d(TAG, "onResponse: response.body() = " + response.body());
-          customerDataList = response.body();
-          Log.d(TAG, "onResponse: customerDataList = " + customerDataList);
-          filteredCustomerList.clear();
-          filteredCustomerList.add(new CustomerData("Select Customer"));
-          filteredCustomerList.addAll(customerDataList);
-          spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
-          spinnerUsers.setAdapter(spinnerAdapter);
-          spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              selectedCustomer = filteredCustomerList.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-          });
-        } else {
-          System.out.println("error");
-        }
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selectedCustomer = filteredCustomerList.get(position);
       }
 
       @Override
-      public void onFailure(Call<List<CustomerData>> call, Throwable t) {
-        Toast.makeText(SaleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
+      public void onNothingSelected(AdapterView<?> parent) {
+
       }
     });
+
   }
 
   private void getAllCategory() {
