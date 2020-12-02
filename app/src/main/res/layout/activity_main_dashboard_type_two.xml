@@ -10,7 +10,7 @@
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/app_bar"
       android:layout_width="match_parent"
-      android:layout_height="290dp"
+      android:layout_height="300dp"
       android:minHeight="280dp"
       android:background="@color/colorMintLight"
       android:fitsSystemWindows="true"
@@ -85,19 +85,20 @@
         android:fontFamily="@font/montserrat"
         android:text="YOUR LOCATION WILL BE APPEARED HERE"
         android:textColor="@color/color_white"
-        android:textSize="8sp" />
+        android:gravity="center"
+        android:textSize="10sp" />
 
   </LinearLayout>
 
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
       android:background="@color/backgroundcolor"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="75dp"
         android:orientation="vertical"
