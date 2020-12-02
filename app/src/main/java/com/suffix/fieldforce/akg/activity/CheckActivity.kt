@@ -77,7 +77,6 @@ class CheckActivity : AppCompatActivity() {
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
     loginResponse = Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse::class.java)
     customerData = intent.getParcelableExtra(AkgConstants.CUSTOMER_INFO)!!
-    pricePerPack = "Not Available!"
 
     binding.storeNameTextView.text = customerData.customerName
     binding.storeAddressTextView.text = customerData.customerName
@@ -108,6 +107,7 @@ class CheckActivity : AppCompatActivity() {
   private fun setupRecyclerView() {
     val realm: Realm = Realm.getDefaultInstance()
     products = realm.where(CategoryModel::class.java).findAll()
+    Log.d(TAG, "setupRecyclerView: products = $products")
     adapter = CategoryListAdapter(this, products)
     binding.recyclerView.adapter = adapter
   }

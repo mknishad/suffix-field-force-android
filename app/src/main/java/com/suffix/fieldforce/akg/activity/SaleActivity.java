@@ -50,14 +50,14 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
 
-  @BindView(R.id.btnJacai)
-  Button btnJacai;
+  @BindView(R.id.btnSale)
+  Button btnSale;
 
-  @OnClick(R.id.btnJacai)
+  @OnClick(R.id.btnSale)
   public void gotoCheckout() {
     if (spinnerUsers.getSelectedItemPosition() > 0) {
       selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
-      Intent intent = new Intent(SaleActivity.this, CheckActivity.class);
+      Intent intent = new Intent(SaleActivity.this, ProductCategoryActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
       startActivity(intent);
     } else {

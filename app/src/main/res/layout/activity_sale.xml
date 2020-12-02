@@ -224,6 +224,7 @@
         android:layout_height="wrap_content"
         android:text="ALL" />
   </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -231,29 +232,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:layout_width="match_parent"
+          android:layout_height="400dp" />
 
       <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginVertical="@dimen/layout_margin_20"
-          android:weightSum="2">
+          android:layout_height="match_parent"
+          android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnJacai"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:text="যাচাই" />
+            android:layout_marginVertical="@dimen/layout_margin_20"
+            android:weightSum="2">
 
-        <Button
-            android:id="@+id/btnVisited"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ভিসিটেড" />
+          <Button
+              android:id="@+id/btnSale"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="10dp"
+              android:layout_weight="1"
+              android:text="সেল" />
+
+          <Button
+              android:id="@+id/btnVisited"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:text="ভিসিটেড" />
+        </LinearLayout>
       </LinearLayout>
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>

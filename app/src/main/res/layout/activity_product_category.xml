@@ -141,7 +141,7 @@
           android:layout_marginVertical="@dimen/layout_margin_20">
 
         <Button
-            android:id="@+id/btnJacai"
+            android:id="@+id/btnJachai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="যাচাই" />

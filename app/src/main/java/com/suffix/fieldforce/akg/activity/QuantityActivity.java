@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -210,10 +209,11 @@ public class QuantityActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         if (!txtResult.getText().toString().trim().equals("0")) {
-          categoryModel.setOrderQuantity(txtResult.getText().toString());
+          //categoryModel.setOrderQuantity(txtResult.getText().toString());
 
           realm.beginTransaction();
-          CategoryModel realmCategory = realm.copyToRealm(categoryModel);
+          CategoryModel realmCategory = realm.createObject(CategoryModel.class);
+          realmCategory.setOrderQuantity(txtResult.getText().toString());
           realm.commitTransaction();
 
           Toast.makeText(QuantityActivity.this, "Success", Toast.LENGTH_SHORT).show();

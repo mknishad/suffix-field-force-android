@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.content.Intent;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,12 +23,15 @@ import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class ProductCategoryActivity extends AppCompatActivity {
@@ -45,6 +50,17 @@ public class ProductCategoryActivity extends AppCompatActivity {
   @BindView(R.id.recyclerViewMatch)
   RecyclerView recyclerViewMatch;
 
+  @BindView(R.id.btnJachai)
+  Button btnJachai;
+
+  @OnClick(R.id.btnJachai)
+  public void gotoCheckout() {
+    Intent intent = new Intent(ProductCategoryActivity.this, CheckActivity.class);
+    intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
+    startActivity(intent);
+  }
+
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private ArrayAdapter<CustomerData> spinnerAdapter;
@@ -62,6 +78,10 @@ public class ProductCategoryActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_product_category);
+    ButterKnife.bind(this);
+
+    selectedCustomer = getIntent().getParcelableExtra(AkgConstants.CUSTOMER_INFO);
+    realMDatabaseManager = new RealMDatabaseManager();
 
     setupToolbar();
     manageRecyclerView();
