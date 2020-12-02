@@ -3,7 +3,7 @@ package com.suffix.fieldforce.akg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
 
 import io.realm.RealmObject;
 
@@ -19,7 +19,7 @@ public class InvoiceRequest extends RealmObject {
   private String invoiceId;
   @SerializedName("invoiceProducts")
   @Expose
-  private List<InvoiceProduct> invoiceProducts;
+  private RealmList<InvoiceProduct> invoiceProducts;
   @SerializedName("salesRepId")
   @Expose
   private int salesRepId;
@@ -28,8 +28,12 @@ public class InvoiceRequest extends RealmObject {
   private double totalAmount;
   private boolean status;
 
+  public InvoiceRequest(){
+
+  }
+
   public InvoiceRequest(int customerId, long invoiceDate, String invoiceId,
-                        List<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount) {
+                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount) {
     this.customerId = customerId;
     this.invoiceDate = invoiceDate;
     this.invoiceId = invoiceId;
@@ -75,11 +79,11 @@ public class InvoiceRequest extends RealmObject {
     this.invoiceId = invoiceId;
   }
 
-  public List<InvoiceProduct> getInvoiceProducts() {
+  public RealmList<InvoiceProduct> getInvoiceProducts() {
     return invoiceProducts;
   }
 
-  public void setInvoiceProducts(List<InvoiceProduct> invoiceProducts) {
+  public void setInvoiceProducts(RealmList<InvoiceProduct> invoiceProducts) {
     this.invoiceProducts = invoiceProducts;
   }
 

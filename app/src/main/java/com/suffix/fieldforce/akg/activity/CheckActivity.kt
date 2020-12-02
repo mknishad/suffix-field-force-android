@@ -32,6 +32,7 @@ import com.suffix.fieldforce.akg.util.NetworkUtils
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
+import io.realm.RealmList
 import io.realm.RealmResults
 import okhttp3.Credentials
 import okhttp3.ResponseBody
@@ -50,7 +51,7 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var adapter: CategoryListAdapter
   private lateinit var customerData: CustomerData
   private lateinit var products: RealmResults<CategoryModel>
-  private lateinit var invoiceProducts: ArrayList<InvoiceProduct>
+  private lateinit var invoiceProducts: RealmList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
 
   private var invoiceDate = 0L
@@ -124,7 +125,7 @@ class CheckActivity : AppCompatActivity() {
   }
 
   fun submit(view: View) {
-    invoiceProducts = ArrayList()
+    invoiceProducts = RealmList()
     var totalAmount = 0.0
     products.forEach {
       val invoiceProduct = InvoiceProduct(

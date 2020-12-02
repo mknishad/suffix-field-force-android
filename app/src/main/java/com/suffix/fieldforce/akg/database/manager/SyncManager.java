@@ -133,9 +133,9 @@ public class SyncManager {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm bgRealm) {
-        RealMInvoice realMInvoice = bgRealm.createObject(RealMInvoice.class);
-        realMInvoice.getRequestRealmList().add(invoiceRequest);
-        //bgRealm.copyToRealm(invoiceRequest);
+        //RealMInvoice realMInvoice = bgRealm.createObject(RealMInvoice.class);
+        //realMInvoice.getRequestRealmList().add(invoiceRequest);
+        bgRealm.copyToRealm(invoiceRequest);
       }
     }, new Realm.Transaction.OnSuccess() {
       @Override
