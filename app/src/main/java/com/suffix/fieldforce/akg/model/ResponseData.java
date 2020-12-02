@@ -15,6 +15,9 @@ public class ResponseData {
   @SerializedName("password")
   @Expose
   private String password;
+  @SerializedName("userName")
+  @Expose
+  private String userName;
   @SerializedName("globalSettingList")
   @Expose
   private List<GlobalSettings> globalSettingList;
@@ -22,9 +25,10 @@ public class ResponseData {
   @Override
   public String toString() {
     return "ResponseData{" +
-        "id='" + id + '\'' +
+        "id=" + id +
         ", userId='" + userId + '\'' +
         ", password='" + password + '\'' +
+        ", userName='" + userName + '\'' +
         ", globalSettingList=" + globalSettingList +
         '}';
   }
@@ -39,6 +43,14 @@ public class ResponseData {
 
   public String getPassword() {
     return password;
+  }
+
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
   public List<GlobalSettings> getGlobalSettingList() {

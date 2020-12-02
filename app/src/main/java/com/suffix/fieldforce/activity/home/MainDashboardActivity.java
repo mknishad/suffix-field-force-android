@@ -6,15 +6,10 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,14 +56,10 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
-import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
 import okhttp3.Credentials;
 import okhttp3.ResponseBody;
@@ -199,9 +190,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    txtUserName.setText("Md. Arafat");
-
-    initProgressBar();
+    txtUserName.setText(loginResponse.getData().getUserName());
 
     // Check if the user revoked runtime permissions.
     if (!checkPermissions()) {
@@ -252,108 +241,28 @@ public class MainDashboardActivity extends AppCompatActivity implements
     super.onDestroy();
   }
 
-  private void initProgressBar() {
-//    progressBar.setOnClickListener(v -> {
-//      initLocationSettings();
-//      /*if (preferences.getOnline()) {
-//        goOffline();
-//      } else {
-//        goOnline();
-//      }*/
-//    });
-  }
-
   private void getDeviceLocation(LocationListener locationListener, String text) {
     try {
-//            Task task = fusedLocationProviderClient.getLastLocation();
-//            task.addOnCompleteListener(task1 -> {
-//                if (task1.isSuccessful()) {
-//                    if (task1 != null) {
-//                        preferences.putLocation((Location) task1.getResult());
-//                        new GetAddressTask(MainDashboardActivity.this).execute((Location) task1.getResult());
-//                    } else {
-//                        getDeviceLocation();
-//                    }
-//                } else {
-//                    getDeviceLocation();
-//                }
-//            });
       SmartLocation.with(this).location()
           .oneFix()
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
-              preferences.putLocation(location);
               locationListener.onLocationUpdate(location);
-              SmartLocation.with(MainDashboardActivity.this).geocoding()
-                  .reverse(location, new OnReverseGeocodingListener() {
-                    @Override
-                    public void onAddressResolved(Location location, List<Address> list) {
-
-                      if (BuildConfig.DEBUG) {
-                        //Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
-                      }
-
-                      if (list.size() > 0) {
-                        Address result = list.get(0);
-                        StringBuilder builder = new StringBuilder();
-                        builder.append(text);
-                        List<String> addressElements = new ArrayList<>();
-                        for (int i = 0; i <= result.getMaxAddressLineIndex(); i++) {
-                          addressElements.add(result.getAddressLine(i));
-                        }
-                        if (BuildConfig.DEBUG) {
-                          //Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
-                        }
-                        builder.append(TextUtils.join(", ", addressElements));
-
-                        SpannableString spannableString = new SpannableString(builder.toString());
-
-                        if (text.length() > 0) {
-                          if (text.toLowerCase().contains("entered")) {
-                            Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#6CBD6E"));
-                            spannableString.setSpan(bgGreenSpan, 0, text.length() - 3, 0);
-                          } else {
-                            Object bgRed = new BackgroundColorSpan(Color.parseColor("#DA4453"));
-                            spannableString.setSpan(bgRed, 0, text.length() - 3, 0);
-                          }
-                        }
-                        txtUserAddress.setText(spannableString);
-                      } else {
-                        txtUserAddress.setText("No Address Found");
-                      }
-                    }
-                  });
             }
           });
-    } catch (SecurityException e) {
+    } catch (Exception e) {
       Log.e(TAG, "getDeviceLocation: ", e);
     }
   }
 
   private void goOnline() {
-//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.green));
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(0f);
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(100f);
-    //getDeviceLocation("Entered : ");
-    requestLocationUpdates();
-//    txtUserStatus.setText(getResources().getString(R.string.entered));
-//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.green));
+    //requestLocationUpdates();
     preferences.putOnline(true);
   }
 
   private void goOffline() {
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(0f);
-//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(100f);
-    //getDeviceLocation("Exit : ");
-    removeLocationUpdates();
-//    txtUserStatus.setText(getResources().getString(R.string.exit));
-//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
+    //removeLocationUpdates();
     preferences.putOnline(false);
   }
 
@@ -507,7 +416,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
               @Override
               public void onLocationUpdate(Location location) {
 
-                requestLocationUpdates();
+                //requestLocationUpdates();
                 preferences.putOnline(true);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
@@ -683,7 +592,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void syncData() {
-    Log.d("Realm","Sync Data Called");
+    Log.d("Realm", "Sync Data Called");
     SyncManager databseManager = new SyncManager(MainDashboardActivity.this);
     databseManager.getAllCustomer();
 
