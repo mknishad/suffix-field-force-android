@@ -48,17 +48,16 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final CustomerData customerData = customerDataList.get(position);
 
-    holder.txtUsername.setText(customerData.getCustomerName());
     holder.txtStorename.setText(customerData.getConsumerCode());
-    holder.txtDateTime.setText(customerData.getMobileNo());
-    holder.txtAddress.setText(customerData.getStatus());
+    holder.txtAddress.setText(customerData.getAddress());
     holder.txtUsername.setText(customerData.getTradeLicenseNo());
+    holder.firstLetter.setText(customerData.getTradeLicenseNo().charAt(0)+"");
 
     holder.btnActive.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if (notificationListInterface != null) {
-          notificationListInterface.onItemClick(position);
+          notificationListInterface.onItemClick(position, customerData.getId());
         }
       }
     });
@@ -80,14 +79,12 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     TextView txtUsername;
     @BindView(R.id.txtStorename)
     TextView txtStorename;
-    @BindView(R.id.txtDateTime)
-    TextView txtDateTime;
     @BindView(R.id.txtAddress)
     TextView txtAddress;
     @BindView(R.id.btnActive)
     Button btnActive;
-    @BindView(R.id.imgCigar)
-    SimpleDraweeView imgCigar;
+    @BindView(R.id.storeFirstLatterTv)
+    TextView firstLetter;
 
 
     public ViewHolder(@NonNull View itemView) {
