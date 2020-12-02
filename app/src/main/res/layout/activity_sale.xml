@@ -237,117 +237,6 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_cigarette" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Cigrettee"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCigrettee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/layout_margin_10"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_cigarette" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Bidi"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewBidi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/layout_margin_10"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_matchbox" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Match"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewMatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
           android:layout_marginVertical="@dimen/layout_margin_20"
           android:weightSum="2">
 
@@ -366,11 +255,6 @@
             android:layout_weight="1"
             android:text="ভিসিটেড" />
       </LinearLayout>
-
-      <Button
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Nirikkhon" />
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 </LinearLayout>

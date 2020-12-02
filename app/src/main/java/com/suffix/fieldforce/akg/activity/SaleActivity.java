@@ -18,20 +18,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
-import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
-import com.suffix.fieldforce.akg.api.AkgApiClient;
-import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
-import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
-import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -41,11 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import okhttp3.Credentials;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SaleActivity extends AppCompatActivity {
 
@@ -59,15 +46,6 @@ public class SaleActivity extends AppCompatActivity {
 
   @BindView(R.id.imgDropArrow)
   ImageView imgDropArrow;
-
-  @BindView(R.id.recyclerViewCigrettee)
-  RecyclerView recyclerViewCigrettee;
-
-  @BindView(R.id.recyclerViewBidi)
-  RecyclerView recyclerViewBidi;
-
-  @BindView(R.id.recyclerViewMatch)
-  RecyclerView recyclerViewMatch;
 
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
@@ -93,16 +71,10 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private FieldForcePreferences preferences;
-  private AkgApiInterface apiInterface;
   private ArrayAdapter<CustomerData> spinnerAdapter;
-  private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
-  private AkgLoginResponse loginResponse;
-  private String basicAuthorization;
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
-  private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
-  private Realm realm;
   private RealMDatabaseManager realMDatabaseManager;
 
   @Override
@@ -114,20 +86,11 @@ public class SaleActivity extends AppCompatActivity {
     setupToolbar();
 
     realMDatabaseManager = new RealMDatabaseManager();
-    realm = Realm.getDefaultInstance();
     preferences = new FieldForcePreferences(this);
-    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     customerDataList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
-    productCategory = new ProductCategory();
-    loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AkgLoginResponse.class);
-    basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-        preferences.getPassword());
 
-    manageRecyclerView();
     getAllCustomer();
-    getAllCategory();
     setupToggleGroup();
   }
 
@@ -142,6 +105,7 @@ public class SaleActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("Sales");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -157,20 +121,6 @@ public class SaleActivity extends AppCompatActivity {
     } else {
       toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
     }
-  }
-
-  private void manageRecyclerView() {
-    recyclerViewCigrettee.setLayoutManager(getLayoutManager());
-    cigretteListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewCigrettee.setAdapter(cigretteListAdapter);
-
-    recyclerViewBidi.setLayoutManager(getLayoutManager());
-    bidiListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewBidi.setAdapter(bidiListAdapter);
-
-    recyclerViewMatch.setLayoutManager(getLayoutManager());
-    matchListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewMatch.setAdapter(matchListAdapter);
   }
 
   private void setupToggleGroup() {
@@ -307,10 +257,6 @@ public class SaleActivity extends AppCompatActivity {
     spinnerAdapter.notifyDataSetChanged();
   }
 
-  private RecyclerView.LayoutManager getLayoutManager() {
-    return new GridLayoutManager(this, 2);
-  }
-
   private void getAllCustomer() {
     customerDataList = realMDatabaseManager.prepareCustomerData();
     filteredCustomerList.clear();
@@ -329,13 +275,5 @@ public class SaleActivity extends AppCompatActivity {
 
       }
     });
-
-  }
-
-  private void getAllCategory() {
-    productCategory = realMDatabaseManager.prepareCategoryData();
-    cigretteListAdapter.setData(productCategory.getCigrettee());
-    bidiListAdapter.setData(productCategory.getBidi());
-    matchListAdapter.setData(productCategory.getMatch());
   }
 }
