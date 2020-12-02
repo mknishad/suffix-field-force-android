@@ -122,6 +122,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutGIS)
   LinearLayout layoutGIS;
 
+  @BindView(R.id.layoutSync)
+  LinearLayout layoutSync;
+
   private static final String TAG = "MainDashboardActivity";
 
   private final String ENTRY_TYPE_IN = "i";
@@ -174,6 +177,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
         break;
       case R.id.imgNotification:
         openNotification();
+        break;
+      case R.id.layoutSync:
+        syncData();
         break;
     }
   }
@@ -675,6 +681,10 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private void openNotification() {
     Intent intent = new Intent(MainDashboardActivity.this, NotificationListActivity.class);
     startActivity(intent);
+  }
+
+  private void syncData() {
+
   }
 
 }
