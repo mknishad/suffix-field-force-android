@@ -1,5 +1,8 @@
 package com.suffix.fieldforce.akg.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import io.realm.RealmList;
 
 import io.realm.RealmObject;
 
-public class InvoiceRequest extends RealmObject {
+public class InvoiceRequest extends RealmObject implements Parcelable {
   @SerializedName("customerId")
   @Expose
   private int customerId;
@@ -41,6 +44,42 @@ public class InvoiceRequest extends RealmObject {
     this.salesRepId = salesRepId;
     this.totalAmount = totalAmount;
   }
+
+  protected InvoiceRequest(Parcel in) {
+    customerId = in.readInt();
+    invoiceDate = in.readLong();
+    invoiceId = in.readString();
+    salesRepId = in.readInt();
+    totalAmount = in.readDouble();
+    status = in.readByte() != 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(customerId);
+    dest.writeLong(invoiceDate);
+    dest.writeString(invoiceId);
+    dest.writeInt(salesRepId);
+    dest.writeDouble(totalAmount);
+    dest.writeByte((byte) (status ? 1 : 0));
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<InvoiceRequest> CREATOR = new Creator<InvoiceRequest>() {
+    @Override
+    public InvoiceRequest createFromParcel(Parcel in) {
+      return new InvoiceRequest(in);
+    }
+
+    @Override
+    public InvoiceRequest[] newArray(int size) {
+      return new InvoiceRequest[size];
+    }
+  };
 
   @Override
   public String toString() {

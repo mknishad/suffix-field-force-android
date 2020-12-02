@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.model.InvoiceDetail;
+import com.suffix.fieldforce.akg.model.InvoiceProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
 public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapter.ViewHolder> {
 
   private Context context;
-  private List<InvoiceDetail> bodyData = new ArrayList<>();
+  private List<InvoiceProduct> bodyData = new ArrayList<>();
 
-  public MemoBodyListAdapter(Context context, List<InvoiceDetail> bodyData) {
+  public MemoBodyListAdapter(Context context, List<InvoiceProduct> bodyData) {
     this.context = context;
     this.bodyData = bodyData;
   }
@@ -37,10 +37,10 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    final InvoiceDetail row = bodyData.get(position);
-    holder.colOne.setText(row.getProductCode());
-    holder.colTwo.setText(row.getQuantity().toString());
-    holder.colThree.setText(row.getAmount().toString());
+    final InvoiceProduct row = bodyData.get(position);
+    holder.colOne.setText(String.valueOf(row.getProductId()));
+    holder.colTwo.setText(String.valueOf(row.getProductQty()));
+    holder.colThree.setText(String.valueOf(row.getSubToalAmount()));
   }
 
   @Override
@@ -48,7 +48,7 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
     return bodyData.size();
   }
 
-  public void setData(List<InvoiceDetail> bodyData) {
+  public void setData(List<InvoiceProduct> bodyData) {
     this.bodyData = bodyData;
     notifyDataSetChanged();
   }

@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 
 
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ import butterknife.ButterKnife;
 public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHolder> {
 
   private Context context;
-  private List<MemoListResponse> memoData = new ArrayList<>();
+  private List<InvoiceRequest> memoData = new ArrayList<>();
   private MemoListInterface memoListInterface;
 
-  public MemoListAdapter(Context context, List<MemoListResponse> memoData) {
+  public MemoListAdapter(Context context, List<InvoiceRequest> memoData) {
     this.context = context;
     this.memoData = memoData;
   }
@@ -44,10 +44,10 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    final MemoListResponse memo = memoData.get(position);
-    holder.txtShopName.setText(memo.getConsumer().getCustomerName());
-    holder.txtCode.setText(memo.getConsumer().getConsumerCode());
-    holder.txtTotal.setText(memo.getTotalAmount().toString());
+    final InvoiceRequest memo = memoData.get(position);
+    holder.txtShopName.setText(memo.getInvoiceId());
+    holder.txtCode.setText(android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date(memo.getInvoiceDate())).toString());
+    holder.txtTotal.setText(String.valueOf(memo.getTotalAmount()));
 
     holder.layout.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -64,7 +64,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
     return memoData.size();
   }
 
-  public void setData(List<MemoListResponse> memoData) {
+  public void setData(List<InvoiceRequest> memoData) {
     this.memoData = memoData;
     notifyDataSetChanged();
   }
