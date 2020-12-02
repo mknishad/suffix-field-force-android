@@ -2,6 +2,7 @@ package com.suffix.fieldforce.akg.database.manager;
 
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -30,5 +31,10 @@ public class RealMDatabaseManager {
     productCategory.setBidi(realMProductCategory.get(0).getBidi());
     productCategory.setMatch(realMProductCategory.get(0).getMatch());
     return productCategory;
+  }
+
+  public List<InvoiceRequest> prepareInvoiceRequest(){
+    final RealmResults<InvoiceRequest> invoiceRequests = realm.where(InvoiceRequest.class).findAll();
+    return realm.copyFromRealm(invoiceRequests);
   }
 }
