@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.akg.api;
 
+import com.suffix.fieldforce.akg.model.ActiveCustomerRequest;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -62,4 +63,11 @@ public interface AkgApiInterface {
       @Path("srId") int salesRepId,
       @Path("status") int status
   );
+
+  @POST("active-customer")
+  Call<ResponseBody> activeCustomer(
+      @Header("Authorization") String h1,
+      @Body ActiveCustomerRequest activeCustomerRequest
+  );
+
 }

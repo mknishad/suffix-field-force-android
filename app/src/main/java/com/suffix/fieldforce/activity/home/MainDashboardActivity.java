@@ -283,7 +283,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
-
               preferences.putLocation(location);
               locationListener.onLocationUpdate(location);
               SmartLocation.with(MainDashboardActivity.this).geocoding()

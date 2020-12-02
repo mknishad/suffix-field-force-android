@@ -120,4 +120,6 @@
 
   <string name="two_decimal_places">%.2f</string>
 
+  <string name="notification_activity_title">নতুন আউটলেট</string>
+
 </resources>

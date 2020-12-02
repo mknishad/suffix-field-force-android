@@ -30,6 +30,18 @@ public class CustomerData extends RealmObject implements Parcelable {
   @Expose
   private String consumerCode;
 
+  @SerializedName("lat")
+  @Expose
+  private Double lat;
+
+  @SerializedName("lng")
+  @Expose
+  private Double lng;
+
+  @SerializedName("address")
+  @Expose
+  private String address;
+
   private RealmList<CategoryModel> categoryModels;
 
   public Integer getId() {
@@ -88,6 +100,30 @@ public class CustomerData extends RealmObject implements Parcelable {
     this.categoryModels = categoryModels;
   }
 
+  public Double getLat() {
+    return lat;
+  }
+
+  public void setLat(Double lat) {
+    this.lat = lat;
+  }
+
+  public Double getLng() {
+    return lng;
+  }
+
+  public void setLng(Double lng) {
+    this.lng = lng;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
   public static Creator<CustomerData> getCREATOR() {
     return CREATOR;
   }
@@ -99,13 +135,16 @@ public class CustomerData extends RealmObject implements Parcelable {
     this.customerName = customerName;
   }
 
-  public CustomerData(Integer id, String customerName, String mobileNo, String tradeLicenseNo, String status, String consumerCode, RealmList<CategoryModel> categoryModels) {
+  public CustomerData(Integer id, String customerName, String mobileNo, String tradeLicenseNo, String status, String consumerCode, Double lat, Double lng, String address, RealmList<CategoryModel> categoryModels) {
     this.id = id;
     this.customerName = customerName;
     this.mobileNo = mobileNo;
     this.tradeLicenseNo = tradeLicenseNo;
     this.status = status;
     this.consumerCode = consumerCode;
+    this.lat = lat;
+    this.lng = lng;
+    this.address = address;
     this.categoryModels = categoryModels;
   }
 
@@ -120,6 +159,9 @@ public class CustomerData extends RealmObject implements Parcelable {
     tradeLicenseNo = in.readString();
     status = in.readString();
     consumerCode = in.readString();
+    this.lat = in.readDouble();
+    this.lng = in.readDouble();
+    this.address = in.readString();
   }
 
   @Override
@@ -135,6 +177,9 @@ public class CustomerData extends RealmObject implements Parcelable {
     dest.writeString(tradeLicenseNo);
     dest.writeString(status);
     dest.writeString(consumerCode);
+    dest.writeDouble(this.lat);
+    dest.writeDouble(this.lng);
+    dest.writeString(this.address);
   }
 
   @Override
