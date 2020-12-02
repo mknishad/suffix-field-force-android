@@ -104,6 +104,7 @@ public class SaleActivity extends AppCompatActivity {
   private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
   private Realm realm;
+  private RealMDatabaseManager realMDatabaseManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,7 @@ public class SaleActivity extends AppCompatActivity {
 
     setupToolbar();
 
+    realMDatabaseManager = new RealMDatabaseManager();
     realm = Realm.getDefaultInstance();
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
@@ -311,7 +313,7 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private void getAllCustomer() {
-    customerDataList = new RealMDatabaseManager().prepareCustomerData();
+    customerDataList = realMDatabaseManager.prepareCustomerData();
     filteredCustomerList.clear();
     filteredCustomerList.add(new CustomerData("Select Customer"));
     filteredCustomerList.addAll(customerDataList);
