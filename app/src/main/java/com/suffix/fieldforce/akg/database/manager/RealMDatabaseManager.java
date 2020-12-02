@@ -20,4 +20,6 @@ public class RealMDatabaseManager {
     return realm.copyFromRealm(customerDataRealmResults);
   }
 
+
+
 }

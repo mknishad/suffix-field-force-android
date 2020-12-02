@@ -52,21 +52,6 @@ public class SaleActivity extends AppCompatActivity {
 
   private static final String TAG = "SaleActivity";
 
-  /*@BindView(R.id.layoutKeys)
-  LinearLayout layoutKeys;
-
-  @BindView(R.id.toggleGroupOne)
-  MaterialButtonToggleGroup toggleGroupOne;
-
-  @BindView(R.id.toggleGroupTwo)
-  MaterialButtonToggleGroup toggleGroupTwo;
-
-  @BindView(R.id.toggleGroupThree)
-  MaterialButtonToggleGroup toggleGroupThree;
-
-  @BindView(R.id.toggleGroupFour)
-  MaterialButtonToggleGroup toggleGroupFour;*/
-
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
@@ -114,7 +99,6 @@ public class SaleActivity extends AppCompatActivity {
   private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
   private AkgLoginResponse loginResponse;
   private String basicAuthorization;
-
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
   private ProductCategory productCategory;
@@ -130,14 +114,11 @@ public class SaleActivity extends AppCompatActivity {
     setupToolbar();
 
     realm = Realm.getDefaultInstance();
-
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
-
     customerDataList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
     productCategory = new ProductCategory();
-
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
@@ -146,7 +127,6 @@ public class SaleActivity extends AppCompatActivity {
     manageRecyclerView();
     getAllCustomer();
     getAllCategory();
-    //setupToggleButtons();
     setupToggleGroup();
   }
 
@@ -322,56 +302,9 @@ public class SaleActivity extends AppCompatActivity {
         }
       }
     }
-
     Log.d(TAG, "filterCustomers: filteredCustomerList = " + filteredCustomerList);
     spinnerAdapter.notifyDataSetChanged();
   }
-
-  /*private void setupToggleButtons() {
-   *//*toggleGroupOne.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-      @Override
-      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        if (isChecked) {
-          toggleGroupTwo.clearChecked();
-          toggleGroupThree.clearChecked();
-          toggleGroupFour.clearChecked();
-        }
-      }
-    });
-
-    toggleGroupTwo.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-      @Override
-      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        if (isChecked) {
-          toggleGroupOne.clearChecked();
-          toggleGroupThree.clearChecked();
-          toggleGroupFour.clearChecked();
-        }
-      }
-    });*//*
-
-   *//*toggleGroupThree.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-      @Override
-      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        if (isChecked) {
-          toggleGroupOne.clearChecked();
-          toggleGroupTwo.clearChecked();
-          toggleGroupFour.clearChecked();
-        }
-      }
-    });
-
-    toggleGroupFour.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-      @Override
-      public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-        if (isChecked) {
-          toggleGroupOne.clearChecked();
-          toggleGroupTwo.clearChecked();
-          toggleGroupThree.clearChecked();
-        }
-      }
-    });*//*
-  }*/
 
   private RecyclerView.LayoutManager getLayoutManager() {
     return new GridLayoutManager(this, 2);
