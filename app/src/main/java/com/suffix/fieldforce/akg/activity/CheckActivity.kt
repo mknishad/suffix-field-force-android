@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,6 +27,7 @@ import com.suffix.fieldforce.akg.model.InvoiceRequest
 import com.suffix.fieldforce.akg.model.product.CategoryModel
 import com.suffix.fieldforce.akg.util.AkgConstants
 import com.suffix.fieldforce.akg.util.AkgPrintingService
+import com.suffix.fieldforce.akg.util.NetworkUtils
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
@@ -50,7 +52,7 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var invoiceProducts: ArrayList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
 
-  private var billNo = 0L
+  private var invoiceDate = 0L
   private var pricePerPack = ""
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,8 +138,10 @@ class CheckActivity : AppCompatActivity() {
       totalAmount += invoiceProduct.subToalAmount
     }
 
-    val invoiceRequest = InvoiceRequest(
-      customerData.id, billNo, "Invoice Id",
+    invoiceDate = System.currentTimeMillis()
+
+    invoiceRequest = InvoiceRequest(
+      customerData.id, invoiceDate, "${customerData.id + invoiceDate}",
       invoiceProducts, loginResponse.data.id, totalAmount
     )
 
@@ -146,16 +150,33 @@ class CheckActivity : AppCompatActivity() {
       preferences.getPassword()
     )
 
-    val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
-    call.enqueue(object : Callback<ResponseBody> {
-      override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-        Log.d(TAG, "onResponse: response.body() = " + response.body())
-      }
+    if (!NetworkUtils.isNetworkConnected(this)) {
+      //TODO: save to database
+      printMemo()
+      Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
+    } else {
+      val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
+      call.enqueue(object : Callback<ResponseBody> {
+        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+          Log.d(TAG, "onResponse: response.body() = " + response.body())
+          if (response.isSuccessful) {
+            //TODO: save to database
+            printMemo()
+          } else {
+            //TODO: save to database
+            printMemo()
+          }
+          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+        }
 
-      override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-        Log.e(TAG, "onFailure: ", t)
-      }
-    })
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+          Log.e(TAG, "onFailure: ", t)
+          //TODO: save to database
+          printMemo()
+          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+        }
+      })
+    }
   }
 
   fun printMemo() {
@@ -171,7 +192,7 @@ class CheckActivity : AppCompatActivity() {
       )
     } else {
       AkgPrintingService(this)
-        .print(customerData, billNo, loginResponse, products)
+        .print(customerData, invoiceDate, loginResponse, products)
     }
   }
 
