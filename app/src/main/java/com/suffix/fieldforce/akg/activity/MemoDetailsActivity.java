@@ -85,7 +85,6 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
           @Override
           public void onPrintFail(String message) {
-            final AlertDialog alertDialog;
             progressDialog.dismiss();
             builder.setMessage(message);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -95,7 +94,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
               }
             });
 
-            alertDialog = builder.create();
+            AlertDialog alertDialog = builder.create();
             alertDialog.setCancelable(false);
             alertDialog.show();
           }

@@ -30,6 +30,7 @@
     <activity android:name=".akg.activity.NotificationListActivity" />
     <activity android:name=".akg.activity.SaleActivity" />
     <activity android:name=".akg.activity.CheckActivity" />
+    <activity android:name=".akg.activity.ProductCategoryActivity" />
     <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
