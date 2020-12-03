@@ -9,6 +9,7 @@ import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.Slider;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
@@ -77,6 +78,10 @@ public interface AkgApiInterface {
       @Header("Authorization") String h1,
       @Body ActiveCustomerRequest activeCustomerRequest
   );
+
+  @POST("slider")
+  Call<ResponseBody> collectSlider(@Header("Authorization") String h1,
+                                   @Body Slider slider);
 
   @POST("visit-store")
   Call<ResponseBody> visitStore(

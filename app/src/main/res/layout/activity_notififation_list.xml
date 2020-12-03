@@ -32,4 +32,8 @@
       android:layout_centerInParent="true"
       android:visibility="gone"/>
 
+  <include layout="@layout/no_item_layout"
+      android:id="@+id/layout_no_item"
+      android:visibility="gone"/>
+
 </RelativeLayout>

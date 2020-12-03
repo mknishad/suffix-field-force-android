@@ -57,6 +57,7 @@ import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.util.CustomProgress;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -123,6 +124,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutSync)
   LinearLayout layoutSync;
 
+  @BindView(R.id.layoutClosing)
+  LinearLayout layoutClosing;
+
   @BindView(R.id.badge)
   View badge;
 
@@ -144,7 +148,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private AkgApiInterface apiInterface;
   private AkgLoginResponse loginResponse;
 
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -185,6 +189,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
         break;
       case R.id.layoutSync:
         syncData();
+        break;
+      case R.id.layoutClosing:
+        closeSale();
         break;
     }
   }
@@ -649,6 +656,14 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //        syncManager.getAllCustomer();
 //      }
 //    });
+  }
+
+
+  public void closeSale() {
+
+    CustomProgress customProgress = new CustomProgress(this);
+    customProgress.show("Loading...");
+
   }
 
 }

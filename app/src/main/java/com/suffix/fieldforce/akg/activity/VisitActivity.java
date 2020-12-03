@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -73,7 +74,7 @@ public class VisitActivity extends AppCompatActivity {
   private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
   private int customerID;
-  private int salesRepId;
+  private String status = "0";
   double lat;
   double lon;
 
@@ -108,6 +109,7 @@ public class VisitActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("ভিজিট");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -146,7 +148,7 @@ public class VisitActivity extends AppCompatActivity {
                 .reverse(location, new OnReverseGeocodingListener() {
                   @Override
                   public void onAddressResolved(Location location, List<Address> list) {
-
+                    layoutSubmit.setVisibility(View.VISIBLE);
                     lat = location.getAltitude();
                     lon = location.getLongitude();
 
@@ -161,13 +163,13 @@ public class VisitActivity extends AppCompatActivity {
       public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
           case R.id.radioBtnAis:
-            salesRepId = 2;
+            status = "2";
             break;
           case R.id.radioBtnClosed:
-            salesRepId = 3;
+            status = "3";
             break;
           case R.id.radioBtnOthers:
-            salesRepId = 4;
+            status = "4";
             break;
         }
       }
@@ -175,31 +177,40 @@ public class VisitActivity extends AppCompatActivity {
   }
 
   private void visitStore(){
-    Date date = new Date();
-    //This method returns the time in millis
-    long timeMilli = date.getTime();
-    StoreVisitRequest storeVisitRequest = new StoreVisitRequest();
-    storeVisitRequest.setConsumerId(customerID);
-    storeVisitRequest.setEntryTime(timeMilli);
-    storeVisitRequest.setLat(lat);
-    storeVisitRequest.setLng(lon);
-    storeVisitRequest.setSalesRepId(salesRepId);
-    storeVisitRequest.setStatus(salesRepId);
 
-    Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
-    call.enqueue(new Callback<ResponseBody>() {
-      @Override
-      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//        Toast.makeText(VisitActivity.this, "Success", Toast.LENGTH_SHORT).show();
-          finish();
-      }
+   if(!status.equals("0")){
+     Date date = new Date();
+     long timeMilli = date.getTime();
+     StoreVisitRequest storeVisitRequest = new StoreVisitRequest();
+     storeVisitRequest.setConsumerId(customerID);
+     storeVisitRequest.setEntryTime(timeMilli);
+     storeVisitRequest.setLat(lat);
+     storeVisitRequest.setLng(lon);
+     storeVisitRequest.setSalesRepId(loginResponse.getData().getId());
+     storeVisitRequest.setStatus(status);
 
-      @Override
-      public void onFailure(Call<ResponseBody> call, Throwable t) {
+     Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
+     call.enqueue(new Callback<ResponseBody>() {
+       @Override
+       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+         if (response.isSuccessful()){
+           finish();
+         }else {
+           Toast.makeText(VisitActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+         }
+       }
 
-      }
-    });
+       @Override
+       public void onFailure(Call<ResponseBody> call, Throwable t) {
+         Toast.makeText(VisitActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+       }
+     });
 
+   }else {
+
+
+     Toast.makeText(VisitActivity.this, "You must select a customer status first.", Toast.LENGTH_SHORT).show();
+   }
 
   }
 
