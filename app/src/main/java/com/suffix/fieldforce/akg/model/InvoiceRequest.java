@@ -30,19 +30,24 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
   @Expose
   private double totalAmount;
   private boolean status;
+  private String customerName;
+  private String customerAddress;
 
   public InvoiceRequest(){
 
   }
 
   public InvoiceRequest(int customerId, long invoiceDate, String invoiceId,
-                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount) {
+                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId,
+                        double totalAmount, String customerName, String customerAddress) {
     this.customerId = customerId;
     this.invoiceDate = invoiceDate;
     this.invoiceId = invoiceId;
     this.invoiceProducts = invoiceProducts;
     this.salesRepId = salesRepId;
     this.totalAmount = totalAmount;
+    this.customerName = customerName;
+    this.customerAddress = customerAddress;
   }
 
   protected InvoiceRequest(Parcel in) {
