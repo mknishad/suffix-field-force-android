@@ -55,7 +55,6 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var invoiceRequest: InvoiceRequest
 
   private var invoiceDate = 0L
-  private var pricePerPack = ""
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
