@@ -107,7 +107,7 @@ public class SyncManager {
               }
               //Store all match list
               for (CategoryModel matchModel : productCategory.getMatch()) {
-                realMProductCategory.getCigrettee().add(matchModel);
+                realMProductCategory.getMatch().add(matchModel);
               }
             }
           }, new Realm.Transaction.OnSuccess() {
