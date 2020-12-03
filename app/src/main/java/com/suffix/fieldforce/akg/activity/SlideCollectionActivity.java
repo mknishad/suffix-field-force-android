@@ -1,16 +1,350 @@
 package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.akg.api.AkgApiClient;
+import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GlobalSettings;
+import com.suffix.fieldforce.akg.model.Slider;
+import com.suffix.fieldforce.akg.util.LocationUtils;
+import com.suffix.fieldforce.preference.FieldForcePreferences;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import okhttp3.Credentials;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SlideCollectionActivity extends AppCompatActivity {
+
+  private static final String TAG = "SlideCollectionActivity";
+
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+
+  @BindView(R.id.toggleGroup)
+  SingleSelectToggleGroup toggleGroup;
+
+  @BindView(R.id.spinnerUsers)
+  Spinner spinnerUsers;
+
+  @BindView(R.id.btnSubmit)
+  Button btnSubmit;
+
+  @BindView(R.id.txtQuantity)
+  TextInputLayout txtQuantity;
+
+  @BindView(R.id.progress_bar)
+  ProgressBar progressBar;
+
+  private FieldForcePreferences preferences;
+  private AkgLoginResponse loginResponse;
+  private ArrayAdapter<CustomerData> spinnerAdapter;
+  private List<CustomerData> customerDataList;
+  private List<CustomerData> filteredCustomerList;
+  private CustomerData selectedCustomer = null;
+  private RealMDatabaseManager realMDatabaseManager;
+  private long customerId;
+  AkgApiInterface apiInterface;
+  private String basicAuthorization;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_slide_collection);
+    ButterKnife.bind(this);
+
+    setupToolbar();
+
+    realMDatabaseManager = new RealMDatabaseManager();
+    preferences = new FieldForcePreferences(this);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
+    customerDataList = new ArrayList<>();
+    filteredCustomerList = new ArrayList<>();
+    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
+
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
+
+    Log.d(TAG, "onCreate: "+loginResponse.getData().getPassword()+" "+ loginResponse.getData().getUserId());
+
+    basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+        preferences.getPassword());
+
+    getAllCustomer();
+    setupToggleGroup();
+
   }
+
+  private void setupToolbar() {
+    setSupportActionBar(toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+    } else {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(getResources().getString(R.string.slider_collect));
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
+          BlendMode.SRC_ATOP));
+    } else {
+      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    }
+  }
+
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+
+    btnSubmit.setOnClickListener(view-> {
+
+      if (customerId == 0) {
+        Toast.makeText(this, getResources().getString(R.string.msg_customer_select_error), Toast.LENGTH_SHORT).show();
+      } else if (TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
+        txtQuantity.setError(getResources().getString(R.string.msg_packet_quantity_not_given));
+      } else {
+
+        progressBar.setVisibility(View.VISIBLE);
+        Slider slider = new Slider();
+        slider.setCollectionDate(new Date().getTime());
+        slider.setCustomerId(customerId);
+        slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
+        slider.setSalesRepId(loginResponse.getData().getId());
+
+
+        // collect slider
+        Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
+        call.enqueue(new Callback<ResponseBody>() {
+          @Override
+          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            if (response.isSuccessful()) {
+              Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+
+            }else{
+              Toast.makeText(SlideCollectionActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
+
+            }
+            progressBar.setVisibility(View.GONE);
+          }
+
+          @Override
+          public void onFailure(Call<ResponseBody> call, Throwable t) {
+            Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            call.cancel();
+            progressBar.setVisibility(View.GONE);
+          }
+        });
+
+      }
+      
+    });
+
+  }
+
+  private void setupToggleGroup() {
+    toggleGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+        switch (checkedId) {
+          case R.id.choice_a:
+            filterCustomers("a");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_b:
+            filterCustomers("b");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_c:
+            filterCustomers("c");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_d:
+            filterCustomers("d");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_e:
+            filterCustomers("e");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_f:
+            filterCustomers("f");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_g:
+            filterCustomers("g");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_h:
+            filterCustomers("h");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_i:
+            filterCustomers("i");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_j:
+            filterCustomers("j");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_k:
+            filterCustomers("k");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_l:
+            filterCustomers("l");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_m:
+            filterCustomers("m");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_n:
+            filterCustomers("n");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_o:
+            filterCustomers("o");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_p:
+            filterCustomers("p");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_q:
+            filterCustomers("q");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_r:
+            filterCustomers("r");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_s:
+            filterCustomers("s");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_t:
+            filterCustomers("t");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_u:
+            filterCustomers("u");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_v:
+            filterCustomers("v");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_w:
+            filterCustomers("w");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_x:
+            filterCustomers("x");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_y:
+            filterCustomers("y");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_z:
+            filterCustomers("z");
+            spinnerUsers.setSelection(0);
+            break;
+          case R.id.choice_all:
+            filterCustomers("all");
+            spinnerUsers.setSelection(0);
+            break;
+        }
+      }
+    });
+  }
+
+  private void filterCustomers(String start) {
+    filteredCustomerList.clear();
+    filteredCustomerList.add(new CustomerData("Select Customer"));
+    if (start.toLowerCase().equalsIgnoreCase("all")) {
+      filteredCustomerList.addAll(customerDataList);
+    } else {
+      for (CustomerData customerData : customerDataList) {
+        if (customerData.getCustomerName().toLowerCase().startsWith(start.toLowerCase())) {
+          filteredCustomerList.add(customerData);
+        }
+      }
+    }
+    Log.d(TAG, "filterCustomers: filteredCustomerList = " + filteredCustomerList);
+    spinnerAdapter.notifyDataSetChanged();
+  }
+
+  private void getAllCustomer() {
+    customerDataList = realMDatabaseManager.prepareCustomerData();
+    filteredCustomerList.clear();
+    filteredCustomerList.add(new CustomerData(getResources().getString(R.string.customer_select)));
+    filteredCustomerList.addAll(customerDataList);
+    spinnerAdapter = new CustomArrayAdapter(SlideCollectionActivity.this, R.layout.spinner_item, filteredCustomerList);
+    spinnerUsers.setAdapter(spinnerAdapter);
+    spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position > 0) {
+          CustomerData customerData = filteredCustomerList.get(position);
+          customerId = customerData.getId();
+        }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+
+      }
+    });
+  }
+
 }

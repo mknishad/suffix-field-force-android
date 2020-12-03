@@ -7,271 +7,305 @@
     android:background="@color/backgroundcolor"
     tools:context=".akg.activity.SlideCollectionActivity">
 
-  <LinearLayout
-      android:id="@+id/layoutCard"
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      style="@style/ToolbarStyle"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_marginHorizontal="@dimen/layout_margin_20"
-      android:layout_marginTop="120dp"
-      android:background="@drawable/shadow_row"
-      android:orientation="vertical"
-      android:paddingHorizontal="15dp"
-      android:paddingTop="65dp"
-      android:paddingBottom="30dp">
+      android:layout_height="wrap_content" />
 
-    <TextView
+  <ScrollView
+      android:layout_below="@id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingBottom="@dimen/padding_10">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Give an empty packet to get bonus"
-        android:textAlignment="center"
-        android:textColor="@color/color_expense"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="@dimen/layout_margin_5"
-        android:background="@drawable/spinner_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="6">
+      <RelativeLayout
+          android:id="@+id/img_container"
+          android:layout_width="match_parent"
+          android:layout_height="250dp"
+          android:background="@color/colorMintDark">
 
-      <Spinner
-          android:id="@+id/spinnerUsers"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="5.3"
-          android:background="@android:color/transparent"
-          android:gravity="center"
-          android:spinnerMode="dropdown"
-          tools:listitem="@layout/spinner_item" />
+        <ImageView
+            android:id="@+id/imgCigar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/padding_10"
+            android:background="@drawable/white_circle"
+            android:src="@drawable/bidi"
+            android:padding="15dp"
+            />
 
-      <View
-          android:layout_width="1dp"
-          android:layout_height="match_parent"
-          android:background="@android:color/darker_gray" />
+      </RelativeLayout>
 
-      <ImageView
-          android:id="@+id/imgDropArrow"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight=".7"
-          android:src="@drawable/ic_arrow_down" />
-    </LinearLayout>
-
-    <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-        android:id="@+id/toggleGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="@dimen/layout_margin_10"
-        android:layout_marginBottom="@dimen/layout_margin_10"
-        android:background="@drawable/spinner_bg"
-        android:padding="10dp"
-        app:tbgChildSpacing="auto"
-        app:tbgChildSpacingForLastRow="align"
-        app:tbgFlow="true"
-        app:tbgRowSpacing="8dp">
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_a"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="A" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_b"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="B" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_c"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="C" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_d"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="D" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_e"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="E" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_f"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="F" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_g"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="G" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_h"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="H" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_i"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="I" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_j"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="J" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_k"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="K" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_l"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="L" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_m"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="M" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_n"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="N" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_o"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="O" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_p"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="P" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_q"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Q" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_r"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="R" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_s"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="S" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_t"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="T" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_u"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="U" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_v"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="V" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_w"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="W" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_x"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="X" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_y"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Y" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_z"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Z" />
-
-      <com.nex3z.togglebuttongroup.button.LabelToggle
-          android:id="@+id/choice_all"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="ALL" />
-    </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
-
-      <com.google.android.material.textfield.TextInputEditText
-          android:id="@+id/txtQuantity"
+      <LinearLayout
+          android:id="@+id/layoutCard"
+          android:layout_below="@id/img_container"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:hint="Quantity"
-          android:textSize="14sp" />
+          android:layout_centerHorizontal="true"
+          android:layout_marginHorizontal="@dimen/ef_margin_medium"
+          android:background="@drawable/shadow_row"
+          android:orientation="vertical"
+          android:paddingHorizontal="15dp"
+          android:paddingBottom="30dp"
+          android:layout_marginTop="-90dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="SUBMIT"
-        android:textSize="16sp"
-        android:layout_marginHorizontal="5dp"/>
 
-  </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/layout_margin_5"
+            android:background="@drawable/spinner_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="6">
 
-  <ImageView
-      android:id="@+id/imgCigar"
-      android:layout_width="120dp"
-      android:layout_height="120dp"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="60dp"
-      android:background="@drawable/border_mint"
-      android:src="@drawable/cigar" />
+          <Spinner
+              android:id="@+id/spinnerUsers"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="5.3"
+              android:background="@android:color/transparent"
+              android:gravity="center"
+              android:spinnerMode="dropdown"
+              tools:listitem="@layout/spinner_item" />
+
+          <View
+              android:layout_width="1dp"
+              android:layout_height="match_parent"
+              android:background="@android:color/darker_gray" />
+
+          <ImageView
+              android:id="@+id/imgDropArrow"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight=".7"
+              android:src="@drawable/ic_arrow_down" />
+        </LinearLayout>
+
+        <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+            android:id="@+id/toggleGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:layout_marginBottom="@dimen/layout_margin_10"
+            android:background="@drawable/spinner_bg"
+            android:padding="10dp"
+            app:tbgChildSpacing="auto"
+            app:tbgChildSpacingForLastRow="align"
+            app:tbgFlow="true"
+            app:tbgRowSpacing="8dp">
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_a"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="A" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_b"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="B" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_c"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="C" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_d"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="D" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_e"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="E" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_f"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="F" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_g"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="G" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_h"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="H" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_i"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="I" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_j"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="J" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_k"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="K" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_l"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="L" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_m"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="M" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_n"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="N" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_o"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="O" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_p"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="P" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_q"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Q" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_r"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="R" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_s"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="S" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_t"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="T" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_u"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="U" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_v"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="V" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_w"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="W" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_x"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="X" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_y"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Y" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_z"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Z" />
+
+          <com.nex3z.togglebuttongroup.button.LabelToggle
+              android:id="@+id/choice_all"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="ALL" />
+        </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtQuantity"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
+          <com.google.android.material.textfield.TextInputEditText
+
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:hint="@string/packet_quantity"
+              android:textSize="14sp"
+              />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/submit"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="5dp"/>
+
+      </LinearLayout>
+
+    </RelativeLayout>
+
+  </ScrollView>
+
+  <ProgressBar
+      android:id="@+id/progress_bar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:visibility="gone"/>
 
 </RelativeLayout>

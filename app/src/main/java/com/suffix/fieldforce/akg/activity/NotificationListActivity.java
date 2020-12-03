@@ -127,7 +127,8 @@ public class NotificationListActivity extends AppCompatActivity {
           customerDataList = response.body();
           notificationListAdapter.setData(customerDataList);
         }else{
-          System.out.println("error");
+          Toast.makeText(NotificationListActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
+
         }
         progressBar.setVisibility(View.GONE);
       }
