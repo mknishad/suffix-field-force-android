@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.ButtonKeyValueModel;
+import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.util.AkgConstants;
 
@@ -212,7 +213,7 @@ public class QuantityActivity extends AppCompatActivity {
           //categoryModel.setOrderQuantity(txtResult.getText().toString());
 
           realm.beginTransaction();
-          CategoryModel realmCategory = realm.createObject(CategoryModel.class);
+          CartModel realmCategory = realm.createObject(CartModel.class);
           realmCategory.setOrderQuantity(txtResult.getText().toString());
           realm.commitTransaction();
 
