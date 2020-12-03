@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -58,6 +59,12 @@ public class SaleActivity extends AppCompatActivity {
 
   @BindView(R.id.imgDropArrow)
   ImageView imgDropArrow;
+
+  @BindView(R.id.txtName)
+  TextView txtName;
+
+  @BindView(R.id.txtAddress)
+  TextView txtAddress;
 
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
@@ -149,110 +156,164 @@ public class SaleActivity extends AppCompatActivity {
           case R.id.choice_a:
             filterCustomers("a");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_b:
             filterCustomers("b");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_c:
             filterCustomers("c");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_d:
             filterCustomers("d");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_e:
             filterCustomers("e");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_f:
             filterCustomers("f");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_g:
             filterCustomers("g");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_h:
             filterCustomers("h");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_i:
             filterCustomers("i");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_j:
             filterCustomers("j");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_k:
             filterCustomers("k");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_l:
             filterCustomers("l");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_m:
             filterCustomers("m");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_n:
             filterCustomers("n");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_o:
             filterCustomers("o");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_p:
             filterCustomers("p");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_q:
             filterCustomers("q");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_r:
             filterCustomers("r");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_s:
             filterCustomers("s");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_t:
             filterCustomers("t");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_u:
             filterCustomers("u");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_v:
             filterCustomers("v");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_w:
             filterCustomers("w");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_x:
             filterCustomers("x");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_y:
             filterCustomers("y");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_z:
             filterCustomers("z");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_all:
             filterCustomers("all");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
         }
       }
@@ -350,8 +411,51 @@ public class SaleActivity extends AppCompatActivity {
     customerListAdapter.setCustomerListInterface(new CustomerListInterface() {
       @Override
       public void onItemClick(int position, CustomerData customerData) {
-        Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
-            customerData.getAddress(), Toast.LENGTH_SHORT).show();
+        selectedCustomer = customerData;
+        /*Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
+            customerData.getAddress(), Toast.LENGTH_SHORT).show();*/
+        txtName.setText("Select Customer");
+        txtAddress.setText("");
+
+        SmartLocation.with(SaleActivity.this).location().oneFix()
+            .start(new OnLocationUpdatedListener() {
+              @Override
+              public void onLocationUpdated(Location location) {
+                double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
+                    location.getLatitude(), location.getLongitude());
+                double distanceThreshold = 10.0;
+                for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+                  if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                    distanceThreshold = Double.parseDouble(settings.getAttributeValue());
+                  }
+                }
+                if (distance > distanceThreshold) {
+                  new AlertDialog.Builder(SaleActivity.this)
+                      .setMessage("আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!")
+
+                      // Specifying a listener allows you to take an action before dismissing the dialog.
+                      // The dialog is automatically dismissed when a dialog button is clicked.
+                      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                          // Continue with delete operation
+                        }
+                      })
+
+                      // A null listener allows the button to dismiss the dialog and take no further action.
+                      //.setNegativeButton(android.R.string.no, null)
+                      .setIcon(android.R.drawable.ic_dialog_alert)
+                      .show();
+                    /*Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                        Toast.LENGTH_SHORT).show();*/
+                  txtName.setText("Select Customer");
+                  txtAddress.setText("");
+                } else {
+                  txtName.setText(selectedCustomer.getCustomerName());
+                  txtAddress.setText(selectedCustomer.getAddress());
+                  btnSale.setVisibility(View.VISIBLE);
+                }
+              }
+            });
       }
     });
   }
