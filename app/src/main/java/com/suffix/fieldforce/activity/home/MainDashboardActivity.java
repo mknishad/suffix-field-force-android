@@ -639,13 +639,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private void syncData() {
     Log.d("Realm", "Sync Data Called");
 
-    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
-      @Override
-      public void onCustomerDelete(boolean OnSuccess) {
-        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-        syncManager.getAllCustomer();
-      }
-    });
+    SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+    syncManager.getAllCustomer();
+
+//    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
+//      @Override
+//      public void onCustomerDelete(boolean OnSuccess) {
+//        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+//        syncManager.getAllCustomer();
+//      }
+//    });
   }
 
 }
