@@ -4,6 +4,7 @@ import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.ButtonKeyValueModel;
 import com.suffix.fieldforce.akg.model.product.CartModel;
@@ -39,6 +41,9 @@ public class QuantityActivity extends AppCompatActivity {
 
   @BindView(R.id.txtSOQ)
   TextView txtSOQ;
+
+  @BindView(R.id.imgProduct)
+  SimpleDraweeView imgProduct;
 
   private LinearLayout layoutOk;
   private LinearLayout layoutClear;
@@ -67,10 +72,10 @@ public class QuantityActivity extends AppCompatActivity {
     //CATEGORY_MODEL
     if (getIntent().hasExtra("CATEGORY_MODEL")) {
       categoryModel = getIntent().getParcelableExtra("CATEGORY_MODEL");
+      txtBase.setText(categoryModel.getInHandQty().toString());
+      txtSOQ.setText(categoryModel.getInHandQty().toString());
+      imgProduct.setImageURI(Uri.parse("http://51.79.73.162:8956/salesapi" +categoryModel.getProductImage()));
     }
-
-    txtBase.setText(categoryModel.getInHandQty().toString());
-    txtSOQ.setText(categoryModel.getInHandQty().toString());
   }
 
   private void setupToolbar() {

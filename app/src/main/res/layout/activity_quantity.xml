@@ -32,13 +32,14 @@
           android:orientation="vertical"
           android:weightSum="6">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imgProduct"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4.5"
             android:background="@color/color_white"
             android:scaleType="centerCrop"
-            android:src="@drawable/cigar" />
+            app:placeholderImage="@drawable/simpleimageplaceholder" />
 
         <LinearLayout
             android:id="@+id/layoutOk"
