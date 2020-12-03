@@ -79,16 +79,10 @@ dependencies {
   implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
 
   //circle image
-  implementation 'de.hdodenhof:circleimageview:3.0.1'
+  //implementation 'de.hdodenhof:circleimageview:3.0.1'
 
   //circle progressbar
   implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
-
-  //moving background
-  implementation 'com.flaviofaria:kenburnsview:1.0.7'
-
-  //bottom nav
-  implementation 'devlight.io:navigationtabbar:1.2.5'
 
   //firebase
   implementation 'com.google.firebase:firebase-database:19.2.0'
@@ -153,7 +147,7 @@ dependencies {
   implementation 'com.github.florent37:materialtextfield:1.0.7'
 
   // Image Picker
-  implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
+  //implementation "com.github.esafirm.android-image-picker:imagepicker:$version_image_picker"
 
   //AppCrash
   implementation 'cat.ereza:customactivityoncrash:2.2.0'
@@ -169,7 +163,7 @@ dependencies {
   implementation files('libs/org-apache-commons-codec.jar')
 
   //Material Calender View
-  implementation 'com.applandeo:material-calendar-view:1.7.0'
+  //implementation 'com.applandeo:material-calendar-view:1.7.0'
 
   //Fresco
   implementation 'com.facebook.fresco:fresco:2.0.0'
@@ -178,10 +172,10 @@ dependencies {
   implementation 'com.shreyaspatil:MaterialDialog:2.0'
 
   //Location Picker
-  implementation 'com.github.shivpujan12:LocationPicker:v1.2'
+  //implementation 'com.github.shivpujan12:LocationPicker:v1.2'
 
   //Calligraphy
-  implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+  //implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
   //Thermal Printer
   implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:2.0.8'

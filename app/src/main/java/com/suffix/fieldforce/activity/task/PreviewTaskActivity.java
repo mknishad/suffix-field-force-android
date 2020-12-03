@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
+//import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,8 +37,8 @@ public class PreviewTaskActivity extends AppCompatActivity {
     TextView toolBarTitle;
     @BindView(R.id.ticketTitle)
     TextView ticketTitle;
-    @BindView(R.id.profileImage)
-    CircleImageView profileImage;
+    //@BindView(R.id.profileImage)
+//    CircleImageView profileImage;
     @BindView(R.id.consumerName)
     TextView consumerName;
     @BindView(R.id.consumerMobile)
