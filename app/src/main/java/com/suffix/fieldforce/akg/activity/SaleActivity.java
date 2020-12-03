@@ -77,7 +77,7 @@ public class SaleActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnSale)
   public void gotoCheckout() {
-    if (spinnerUsers.getSelectedItemPosition() > 0) {
+    if (selectedCustomer != null) {
       selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
       Intent intent = new Intent(SaleActivity.this, ProductCategoryActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
@@ -158,84 +158,98 @@ public class SaleActivity extends AppCompatActivity {
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_b:
             filterCustomers("b");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_c:
             filterCustomers("c");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_d:
             filterCustomers("d");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_e:
             filterCustomers("e");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_f:
             filterCustomers("f");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_g:
             filterCustomers("g");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_h:
             filterCustomers("h");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_i:
             filterCustomers("i");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_j:
             filterCustomers("j");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_k:
             filterCustomers("k");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_l:
             filterCustomers("l");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_m:
             filterCustomers("m");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_n:
             filterCustomers("n");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_o:
             filterCustomers("o");
@@ -254,66 +268,77 @@ public class SaleActivity extends AppCompatActivity {
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_r:
             filterCustomers("r");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_s:
             filterCustomers("s");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_t:
             filterCustomers("t");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_u:
             filterCustomers("u");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_v:
             filterCustomers("v");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_w:
             filterCustomers("w");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_x:
             filterCustomers("x");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_y:
             filterCustomers("y");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_z:
             filterCustomers("z");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_all:
             filterCustomers("all");
             spinnerUsers.setSelection(0);
             txtName.setText("Select Customer");
             txtAddress.setText("");
+            selectedCustomer = null;
             break;
         }
       }
@@ -419,6 +444,7 @@ public class SaleActivity extends AppCompatActivity {
             customerData.getAddress(), Toast.LENGTH_SHORT).show();*/
         txtName.setText("Select Customer");
         txtAddress.setText("");
+        selectedCustomer = null;
 
         SmartLocation.with(SaleActivity.this).location().oneFix()
             .start(new OnLocationUpdatedListener() {
@@ -428,6 +454,7 @@ public class SaleActivity extends AppCompatActivity {
                     location.getLongitude());
                 double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
                     location.getLatitude(), location.getLongitude());
+                Log.d(TAG, "onLocationUpdated: location distance = " + distance);
                 double distanceThreshold = 10.0;
                 for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
                   if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
@@ -454,6 +481,7 @@ public class SaleActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();*/
                   txtName.setText("Select Customer");
                   txtAddress.setText("");
+                  selectedCustomer = null;
                 } else {
                   txtName.setText(selectedCustomer.getCustomerName());
                   txtAddress.setText(selectedCustomer.getAddress());
