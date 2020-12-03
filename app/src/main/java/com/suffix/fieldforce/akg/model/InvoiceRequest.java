@@ -52,6 +52,8 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     salesRepId = in.readInt();
     totalAmount = in.readDouble();
     status = in.readByte() != 0;
+    this.invoiceProducts = new RealmList<>();
+    this.invoiceProducts.addAll(in.createTypedArrayList(InvoiceProduct.CREATOR));
   }
 
   @Override
@@ -62,6 +64,7 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     dest.writeInt(salesRepId);
     dest.writeDouble(totalAmount);
     dest.writeByte((byte) (status ? 1 : 0));
+    dest.writeTypedList(this.invoiceProducts);
   }
 
   @Override

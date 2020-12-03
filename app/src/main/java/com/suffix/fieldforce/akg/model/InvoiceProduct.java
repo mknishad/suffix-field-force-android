@@ -1,11 +1,14 @@
 package com.suffix.fieldforce.akg.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 
-public class InvoiceProduct extends RealmObject {
+public class InvoiceProduct extends RealmObject implements Parcelable{
   @SerializedName("discount")
   @Expose
   private double discount;
@@ -24,6 +27,44 @@ public class InvoiceProduct extends RealmObject {
 
   private String productCode;
   private double sellingRate;
+
+  protected InvoiceProduct(Parcel in) {
+    discount = in.readDouble();
+    productId = in.readInt();
+    productQty = in.readInt();
+    rate = in.readDouble();
+    subToalAmount = in.readDouble();
+    productCode = in.readString();
+    sellingRate = in.readDouble();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeDouble(discount);
+    dest.writeInt(productId);
+    dest.writeInt(productQty);
+    dest.writeDouble(rate);
+    dest.writeDouble(subToalAmount);
+    dest.writeString(productCode);
+    dest.writeDouble(sellingRate);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<InvoiceProduct> CREATOR = new Creator<InvoiceProduct>() {
+    @Override
+    public InvoiceProduct createFromParcel(Parcel in) {
+      return new InvoiceProduct(in);
+    }
+
+    @Override
+    public InvoiceProduct[] newArray(int size) {
+      return new InvoiceProduct[size];
+    }
+  };
 
   public String getProductCode() {
     return productCode;
