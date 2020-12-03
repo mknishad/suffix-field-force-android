@@ -52,6 +52,8 @@ import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
@@ -636,9 +638,17 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   private void syncData() {
     Log.d("Realm", "Sync Data Called");
-    SyncManager databseManager = new SyncManager(MainDashboardActivity.this);
-    databseManager.getAllCustomer();
 
+    SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+    syncManager.getAllCustomer();
+
+//    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
+//      @Override
+//      public void onCustomerDelete(boolean OnSuccess) {
+//        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+//        syncManager.getAllCustomer();
+//      }
+//    });
   }
 
 }
