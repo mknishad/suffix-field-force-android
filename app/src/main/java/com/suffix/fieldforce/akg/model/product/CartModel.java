@@ -7,12 +7,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class CartModel extends RealmObject implements Parcelable {
 
   @SerializedName("productCatId")
   @Expose
   private Integer productCatId;
+  @PrimaryKey
   @SerializedName("productId")
   @Expose
   private Integer productId;
