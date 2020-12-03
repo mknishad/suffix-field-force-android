@@ -20,12 +20,13 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.akg.adapter.CategoryListAdapter
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager
 import com.suffix.fieldforce.akg.database.manager.SyncManager
 import com.suffix.fieldforce.akg.model.AkgLoginResponse
 import com.suffix.fieldforce.akg.model.CustomerData
 import com.suffix.fieldforce.akg.model.InvoiceProduct
 import com.suffix.fieldforce.akg.model.InvoiceRequest
-import com.suffix.fieldforce.akg.model.product.CategoryModel
+import com.suffix.fieldforce.akg.model.product.CartModel
 import com.suffix.fieldforce.akg.util.AkgConstants
 import com.suffix.fieldforce.akg.util.AkgPrintingService
 import com.suffix.fieldforce.akg.util.NetworkUtils
@@ -50,7 +51,7 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var loginResponse: AkgLoginResponse
   private lateinit var adapter: CategoryListAdapter
   private lateinit var customerData: CustomerData
-  private lateinit var products: RealmResults<CategoryModel>
+  private lateinit var products: RealmResults<CartModel>
   private lateinit var invoiceProducts: RealmList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
 
@@ -105,7 +106,7 @@ class CheckActivity : AppCompatActivity() {
 
   private fun setupRecyclerView() {
     val realm: Realm = Realm.getDefaultInstance()
-    products = realm.where(CategoryModel::class.java).findAll()
+    products = realm.where(CartModel::class.java).findAll()
     Log.d(TAG, "setupRecyclerView: products = $products")
     adapter = CategoryListAdapter(this, products)
     binding.recyclerView.adapter = adapter
@@ -132,7 +133,9 @@ class CheckActivity : AppCompatActivity() {
         it.productId,
         it.orderQuantity.toInt(),
         it.sellingRate,
-        (it.orderQuantity.toDouble() * it.sellingRate)
+        (it.orderQuantity.toDouble() * it.sellingRate),
+        it.productCode,
+        it.sellingRate
       )
 
       invoiceProducts.add(invoiceProduct)
@@ -153,7 +156,9 @@ class CheckActivity : AppCompatActivity() {
 
     if (!NetworkUtils.isNetworkConnected(this)) {
       //TODO: save to database
+        invoiceRequest.status = false
       SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+      RealMDatabaseManager().deleteAllCart()
       printMemo()
       Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
     } else {
@@ -163,11 +168,15 @@ class CheckActivity : AppCompatActivity() {
           Log.d(TAG, "onResponse: response.body() = " + response.body())
           if (response.isSuccessful) {
             //TODO: save to database
+            invoiceRequest.status = true
             SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+            RealMDatabaseManager().deleteAllCart()
             printMemo()
           } else {
             //TODO: save to database
+            invoiceRequest.status = false
             SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+            RealMDatabaseManager().deleteAllCart()
             printMemo()
           }
           Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
@@ -176,6 +185,9 @@ class CheckActivity : AppCompatActivity() {
         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
           Log.e(TAG, "onFailure: ", t)
           //TODO: save to database
+          invoiceRequest.status = false
+          SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+          RealMDatabaseManager().deleteAllCart()
           printMemo()
           Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
         }
@@ -196,7 +208,7 @@ class CheckActivity : AppCompatActivity() {
       )
     } else {
       AkgPrintingService(this)
-        .print(customerData, invoiceDate, loginResponse, products)
+        .print(customerData, invoiceDate, loginResponse, invoiceRequest)
     }
   }
 

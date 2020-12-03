@@ -57,9 +57,30 @@ public class CartModel extends RealmObject implements Parcelable {
 
   private String orderQuantity;
 
-  public CartModel(){
+  public CartModel() {
 
-  };
+  }
+
+  public CartModel(Integer productCatId, Integer productId, String productCode, String productName,
+                   String productCatName, String productImage, Double sellingRate, Integer qty1,
+                   String uom1, Integer qty2, String uom2, Integer inHandQty, Integer salesQty,
+                   Integer totalMemo, String orderQuantity) {
+    this.productCatId = productCatId;
+    this.productId = productId;
+    this.productCode = productCode;
+    this.productName = productName;
+    this.productCatName = productCatName;
+    this.productImage = productImage;
+    this.sellingRate = sellingRate;
+    this.qty1 = qty1;
+    this.uom1 = uom1;
+    this.qty2 = qty2;
+    this.uom2 = uom2;
+    this.inHandQty = inHandQty;
+    this.salesQty = salesQty;
+    this.totalMemo = totalMemo;
+    this.orderQuantity = orderQuantity;
+  }
 
   protected CartModel(Parcel in) {
     if (in.readByte() == 0) {

@@ -71,7 +71,6 @@ public class QuantityActivity extends AppCompatActivity {
 
     txtBase.setText(categoryModel.getInHandQty().toString());
     txtSOQ.setText(categoryModel.getInHandQty().toString());
-
   }
 
   private void setupToolbar() {
@@ -214,8 +213,24 @@ public class QuantityActivity extends AppCompatActivity {
           realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-              CartModel realmCategory = new CartModel();
-              realmCategory.setOrderQuantity(txtResult.getText().toString());
+              CartModel realmCategory = new CartModel(
+                  categoryModel.getProductCatId(),
+                  categoryModel.getProductId(),
+                  categoryModel.getProductCode(),
+                  categoryModel.getProductName(),
+                  categoryModel.getProductCatName(),
+                  categoryModel.getProductImage(),
+                  categoryModel.getSellingRate(),
+                  categoryModel.getQty1(),
+                  categoryModel.getUom1(),
+                  categoryModel.getQty2(),
+                  categoryModel.getUom2(),
+                  categoryModel.getInHandQty(),
+                  categoryModel.getSalesQty(),
+                  categoryModel.getTotalMemo(),
+                  txtResult.getText().toString()
+                  );
+              //realmCategory.setOrderQuantity(txtResult.getText().toString());
               realm.insertOrUpdate(realmCategory);
             }
           }, new Realm.Transaction.OnSuccess() {

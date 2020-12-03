@@ -4,6 +4,7 @@ import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -50,6 +51,19 @@ public class RealMDatabaseManager {
         results.deleteAllFromRealm();
       }
     });
+  }
+
+  public void deleteAllCart() {
+    final RealmResults<CartModel> results = realm.where(CartModel.class).findAll();
+
+    if (results.size() > 0) {
+      realm.executeTransactionAsync(new Realm.Transaction() {
+        @Override
+        public void execute(Realm realm) {
+          results.deleteAllFromRealm();
+        }
+      });
+    }
   }
 
   public void deleteAllCustomer(RealmDatabseManagerInterface.Customer customerInterface) {
