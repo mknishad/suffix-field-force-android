@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,10 +57,13 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
 import okhttp3.Credentials;
 import okhttp3.ResponseBody;
@@ -443,6 +447,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
+                      showAddressName(location);
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
@@ -470,6 +475,28 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
     // Show Dialog
     mBottomSheetDialog.show();
+  }
+
+  private void showAddressName(Location location) {
+
+    SmartLocation.with(MainDashboardActivity.this).geocoding()
+        .reverse(location, new OnReverseGeocodingListener() {
+          @Override
+          public void onAddressResolved(Location location, List<Address> list) {
+            String result = null;
+
+              if (list != null && list.size() > 0) {
+                Address address = list.get(0);
+                // sending back first address line and locality
+                result = address.getAddressLine(0) + ", " + address.getLocality();
+              }else {
+                result = "No address found for this location";
+              }
+
+              txtUserAddress.setText(result);
+
+          }
+        });
   }
 
   @SuppressLint("RestrictedApi")
