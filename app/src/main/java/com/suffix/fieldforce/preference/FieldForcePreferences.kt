@@ -72,6 +72,15 @@ class FieldForcePreferences(context: Context) {
     return preferences.getString(Constants.LOGIN_RESPONSE, "").toString()
   }
 
+  fun putDistributor(json: String) {
+    editor.putString(Constants.DISTRIBUTOR, json)
+    editor.apply()
+  }
+
+  fun getDistributor(): String {
+    return preferences.getString(Constants.DISTRIBUTOR, "").toString()
+  }
+
   fun putPassword(password: String) {
     editor.putString(Constants.PASSWORD, password)
     editor.apply()
@@ -88,5 +97,14 @@ class FieldForcePreferences(context: Context) {
 
   fun getOnline(): Boolean {
     return preferences.getBoolean(Constants.ONLINE, false)
+  }
+
+  fun putAddress(address: String) {
+    editor.putString(Constants.ADDRESS, address)
+    editor.apply()
+  }
+
+  fun getAddress(): String {
+    return preferences.getString(Constants.ADDRESS, "").toString()
   }
 }

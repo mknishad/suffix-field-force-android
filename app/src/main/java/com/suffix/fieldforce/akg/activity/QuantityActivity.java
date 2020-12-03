@@ -71,7 +71,6 @@ public class QuantityActivity extends AppCompatActivity {
 
     txtBase.setText(categoryModel.getInHandQty().toString());
     txtSOQ.setText(categoryModel.getInHandQty().toString());
-
   }
 
   private void setupToolbar() {
@@ -210,16 +209,37 @@ public class QuantityActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         if (!txtResult.getText().toString().trim().equals("0")) {
-          //categoryModel.setOrderQuantity(txtResult.getText().toString());
 
-          realm.beginTransaction();
-          CartModel realmCategory = realm.createObject(CartModel.class);
-          realmCategory.setOrderQuantity(txtResult.getText().toString());
-          realm.commitTransaction();
-
-          Toast.makeText(QuantityActivity.this, "Success", Toast.LENGTH_SHORT).show();
-          onBackPressed();
-
+          realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+              CartModel realmCategory = new CartModel(
+                  categoryModel.getProductCatId(),
+                  categoryModel.getProductId(),
+                  categoryModel.getProductCode(),
+                  categoryModel.getProductName(),
+                  categoryModel.getProductCatName(),
+                  categoryModel.getProductImage(),
+                  categoryModel.getSellingRate(),
+                  categoryModel.getQty1(),
+                  categoryModel.getUom1(),
+                  categoryModel.getQty2(),
+                  categoryModel.getUom2(),
+                  categoryModel.getInHandQty(),
+                  categoryModel.getSalesQty(),
+                  categoryModel.getTotalMemo(),
+                  txtResult.getText().toString()
+                  );
+              //realmCategory.setOrderQuantity(txtResult.getText().toString());
+              realm.insertOrUpdate(realmCategory);
+            }
+          }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+              Toast.makeText(QuantityActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+              onBackPressed();
+            }
+          });
         }
       }
     });

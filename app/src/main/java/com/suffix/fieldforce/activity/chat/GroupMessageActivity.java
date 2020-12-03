@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.esafirm.imagepicker.features.ImagePicker;
+//import com.esafirm.imagepicker.features.ImagePicker;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -83,7 +83,7 @@ public class GroupMessageActivity extends AppCompatActivity {
 
   @OnClick(R.id.imgAttachment)
   public void attach() {
-    ImagePicker.create(this).start();
+    //ImagePicker.create(this).start();
   }
 
   @Override
@@ -262,12 +262,12 @@ public class GroupMessageActivity extends AppCompatActivity {
 
   @Override
   protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
-    if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-      /*List<Image> images = ImagePicker.getImages(data);
-      Image image = ImagePicker.getFirstImageOrNull(data);
-      bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
-      imgAttach.setImageBitmap(bitmap);*/
-    }
+//    if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//      /*List<Image> images = ImagePicker.getImages(data);
+//      Image image = ImagePicker.getFirstImageOrNull(data);
+//      bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
+//      imgAttach.setImageBitmap(bitmap);*/
+//    }
     super.onActivityResult(requestCode, resultCode, data);
   }
 }

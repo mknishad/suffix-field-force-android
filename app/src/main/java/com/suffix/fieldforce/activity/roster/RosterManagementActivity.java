@@ -10,10 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.applandeo.materialcalendarview.CalendarUtils;
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
+//import com.applandeo.materialcalendarview.CalendarUtils;
+//import com.applandeo.materialcalendarview.CalendarView;
+//import com.applandeo.materialcalendarview.EventDay;
+//import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.model.RosterScheduleDateModel;
 import com.suffix.fieldforce.model.RosterScheduleModel;
@@ -37,12 +37,12 @@ import retrofit2.Response;
 
 public class RosterManagementActivity extends AppCompatActivity {
 
-  @BindView(R.id.calendarView)
-  CalendarView calendarView;
+//  @BindView(R.id.calendarView)
+//  CalendarView calendarView;
 
   private FieldForcePreferences preferences;
   private APIInterface apiInterface;
-  private List<EventDay> events;
+  //private List<EventDay> events;
   private Typeface typeface;
   private Drawable drawableR = null;
   private Drawable drawableD = null;
@@ -55,38 +55,38 @@ public class RosterManagementActivity extends AppCompatActivity {
     setContentView(R.layout.activity_roster_management);
     ButterKnife.bind(this);
 
-    events = new ArrayList<>();
-    preferences = new FieldForcePreferences(this);
-    apiInterface = APIClient.getApiClient().create(APIInterface.class);
-    typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
-
-
-    drawableR = CalendarUtils.getDrawableText(RosterManagementActivity.this, "R", typeface, R.color.colorMintLight, 18);
-
-    drawableD = CalendarUtils.getDrawableText(RosterManagementActivity.this, "D", typeface, R.color.colorFlowerDark, 18);
-
-    drawableO = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 18);
-
-    drawableN = CalendarUtils.getDrawableText(RosterManagementActivity.this, "N", typeface, R.color.colorLavanderDark, 18);
-
-
-    prepareRosterCalender(calendarView.getCurrentPageDate());
-
-    calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
-      @Override
-      public void onChange() {
-        calendarView.setSwipeEnabled(false);
-        prepareRosterCalender(calendarView.getCurrentPageDate());
-      }
-    });
-
-    calendarView.setOnForwardPageChangeListener(new OnCalendarPageChangeListener() {
-      @Override
-      public void onChange() {
-        calendarView.setSwipeEnabled(false);
-        prepareRosterCalender(calendarView.getCurrentPageDate());
-      }
-    });
+//    events = new ArrayList<>();
+//    preferences = new FieldForcePreferences(this);
+//    apiInterface = APIClient.getApiClient().create(APIInterface.class);
+//    typeface = Typeface.createFromAsset(RosterManagementActivity.this.getAssets(), "font/roster.ttf");
+//
+//
+//    drawableR = CalendarUtils.getDrawableText(RosterManagementActivity.this, "R", typeface, R.color.colorMintLight, 18);
+//
+//    drawableD = CalendarUtils.getDrawableText(RosterManagementActivity.this, "D", typeface, R.color.colorFlowerDark, 18);
+//
+//    drawableO = CalendarUtils.getDrawableText(RosterManagementActivity.this, "O", typeface, R.color.dot_light_screen2, 18);
+//
+//    drawableN = CalendarUtils.getDrawableText(RosterManagementActivity.this, "N", typeface, R.color.colorLavanderDark, 18);
+//
+//
+//    prepareRosterCalender(calendarView.getCurrentPageDate());
+//
+//    calendarView.setOnPreviousPageChangeListener(new OnCalendarPageChangeListener() {
+//      @Override
+//      public void onChange() {
+//        calendarView.setSwipeEnabled(false);
+//        prepareRosterCalender(calendarView.getCurrentPageDate());
+//      }
+//    });
+//
+//    calendarView.setOnForwardPageChangeListener(new OnCalendarPageChangeListener() {
+//      @Override
+//      public void onChange() {
+//        calendarView.setSwipeEnabled(false);
+//        prepareRosterCalender(calendarView.getCurrentPageDate());
+//      }
+//    });
   }
 
   private void prepareRosterCalender(Calendar currentDate) {
@@ -120,7 +120,7 @@ public class RosterManagementActivity extends AppCompatActivity {
             if (r.getResponseCode().equals("1")) {
               List<RosterScheduleDateModel> data = r.getResponseData();
               if (data.size() > 0) {
-                events.clear();
+                //events.clear();
                 Drawable drawable = null;
                 for (RosterScheduleDateModel d : data) {
                   String stringDate = d.getCalendarDate();
@@ -146,17 +146,17 @@ public class RosterManagementActivity extends AppCompatActivity {
                   Calendar calender = Calendar.getInstance();
                   calender.setTime(date);
 
-                  events.add(new EventDay(calender, drawable));
+                  //events.add(new EventDay(calender, drawable));
                 }
-                calendarView.setEvents(events);
+                //calendarView.setEvents(events);
               }
             }
-            calendarView.setSwipeEnabled(true);
+            //calendarView.setSwipeEnabled(true);
           }else {
-            calendarView.setSwipeEnabled(true);
+            //calendarView.setSwipeEnabled(true);
           }
         } catch (Exception e) {
-          calendarView.setSwipeEnabled(true);
+          //calendarView.setSwipeEnabled(true);
           e.printStackTrace();
         }
       }
@@ -164,7 +164,7 @@ public class RosterManagementActivity extends AppCompatActivity {
       @Override
       public void onFailure(Call<RosterScheduleModel> call, Throwable t) {
         Toast.makeText(RosterManagementActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        calendarView.setSwipeEnabled(true);
+        //calendarView.setSwipeEnabled(true);
         call.cancel();
       }
     });

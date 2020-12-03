@@ -99,7 +99,7 @@ public class ProductCategoryActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setTitle("Sales");
+      getSupportActionBar().setTitle("Products");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {

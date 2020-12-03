@@ -10,12 +10,12 @@
     android:paddingVertical="15dp"
     android:background="@drawable/shadow_row">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/imgProjectIcon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/consultant"
+        android:src="@drawable/ic_notebook"
         android:layout_below="@+id/txtIssueNumber"
         android:layout_marginRight="@dimen/layout_margin_10"
         android:layout_marginBottom="10dp"/>

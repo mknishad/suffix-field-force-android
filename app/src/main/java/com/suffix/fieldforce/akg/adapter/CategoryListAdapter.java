@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.product.CartModel;
 
 import java.util.Locale;
 
@@ -21,9 +21,9 @@ import io.realm.RealmResults;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
   private Context context;
-  private RealmResults<CategoryModel> bodyData;
+  private RealmResults<CartModel> bodyData;
 
-  public CategoryListAdapter(Context context, RealmResults<CategoryModel> bodyData) {
+  public CategoryListAdapter(Context context, RealmResults<CartModel> bodyData) {
     this.context = context;
     this.bodyData = bodyData;
   }
@@ -37,7 +37,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    final CategoryModel row = bodyData.get(position);
+    final CartModel row = bodyData.get(position);
     holder.colOne.setText(row.getProductCode());
     holder.colTwo.setText(row.getOrderQuantity());
     holder.colThree.setText(String.format(Locale.getDefault(), "%.2f",
@@ -49,7 +49,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     return bodyData.size();
   }
 
-  public void setData(RealmResults<CategoryModel> bodyData) {
+  public void setData(RealmResults<CartModel> bodyData) {
     this.bodyData = bodyData;
     notifyDataSetChanged();
   }

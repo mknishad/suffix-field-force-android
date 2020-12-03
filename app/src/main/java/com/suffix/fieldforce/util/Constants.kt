@@ -14,6 +14,7 @@ object Constants {
   const val PUSH_TOKEN = "push-token"
   const val USER = "user"
   const val LOGIN_RESPONSE = "login-response"
+  const val DISTRIBUTOR = "distributor"
   const val PASSWORD = "password"
   const val BILL_TYPE = "bill-type"
   const val EXPENSE = "expense"
@@ -22,4 +23,5 @@ object Constants {
   const val REQUISITION_ID = "requisition-id"
   const val INVENTORY_LIST = "inventory-list"
   const val BUNDLE = "bundle"
+  const val ADDRESS = "address"
 }

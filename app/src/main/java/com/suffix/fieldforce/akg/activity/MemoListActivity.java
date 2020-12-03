@@ -7,26 +7,21 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.MemoListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
-import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
-import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -35,10 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Credentials;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MemoListActivity extends AppCompatActivity {
 
@@ -89,7 +80,6 @@ public class MemoListActivity extends AppCompatActivity {
     });
 
     getMemoList();
-
   }
 
   private void setupToolbar() {
@@ -103,6 +93,7 @@ public class MemoListActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("মেমোলিস্ট");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -128,5 +119,7 @@ public class MemoListActivity extends AppCompatActivity {
       recyclerView.setVisibility(View.VISIBLE);
       memoListAdapter.setData(memoListResponse);
     }
+
+    txtTotalMemo.setText("মোট : " + memoListResponse.size());
   }
 }

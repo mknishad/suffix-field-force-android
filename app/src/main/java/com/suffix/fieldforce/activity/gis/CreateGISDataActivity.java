@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
-import com.shivtechs.maplocationpicker.LocationPickerActivity;
-import com.shivtechs.maplocationpicker.MapUtility;
+//import com.shivtechs.maplocationpicker.LocationPickerActivity;
+//import com.shivtechs.maplocationpicker.MapUtility;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.MainActivity;
 import com.suffix.fieldforce.adapter.TJBAdapter;
@@ -116,16 +116,16 @@ public class CreateGISDataActivity extends AppCompatActivity {
 
   @OnClick({R.id.txtAAddress, R.id.txtBAddress})
   public void onViewClicked(View view) {
-    switch (view.getId()) {
-      case R.id.txtAAddress:
-        Intent i = new Intent(CreateGISDataActivity.this, LocationPickerActivity.class);
-        startActivityForResult(i, ADDRESS_PICKER_REQUEST_ONE);
-        break;
-      case R.id.txtBAddress:
-        Intent intent = new Intent(CreateGISDataActivity.this, LocationPickerActivity.class);
-        startActivityForResult(intent, ADDRESS_PICKER_REQUEST_TWO);
-        break;
-    }
+//    switch (view.getId()) {
+//      case R.id.txtAAddress:
+//        Intent i = new Intent(CreateGISDataActivity.this, LocationPickerActivity.class);
+//        startActivityForResult(i, ADDRESS_PICKER_REQUEST_ONE);
+//        break;
+//      case R.id.txtBAddress:
+//        Intent intent = new Intent(CreateGISDataActivity.this, LocationPickerActivity.class);
+//        startActivityForResult(intent, ADDRESS_PICKER_REQUEST_TWO);
+//        break;
+//    }
   }
 
   @OnClick(R.id.btnSubmit)
@@ -148,7 +148,7 @@ public class CreateGISDataActivity extends AppCompatActivity {
     ButterKnife.bind(this);
     setActionBar();
 
-    MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
+    //MapUtility.apiKey = getResources().getString(R.string.google_maps_key);
 
     preferences = new FieldForcePreferences(this);
     apiInterface = APIClient.getApiClient().create(APIInterface.class);
@@ -177,27 +177,27 @@ public class CreateGISDataActivity extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == ADDRESS_PICKER_REQUEST_ONE) {
       try {
-        if (data != null && data.getStringExtra(MapUtility.ADDRESS) != null) {
-          String address = data.getStringExtra(MapUtility.ADDRESS);
-          double selectedLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
-          double selectedLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
-          siteALat = String.valueOf(selectedLatitude);
-          siteALng = String.valueOf(selectedLongitude);
-          txtAAddress.setText(address);
-        }
+//        if (data != null && data.getStringExtra(MapUtility.ADDRESS) != null) {
+//          String address = data.getStringExtra(MapUtility.ADDRESS);
+//          double selectedLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
+//          double selectedLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
+//          siteALat = String.valueOf(selectedLatitude);
+//          siteALng = String.valueOf(selectedLongitude);
+//          txtAAddress.setText(address);
+//        }
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     }else if (requestCode == ADDRESS_PICKER_REQUEST_TWO) {
       try {
-        if (data != null && data.getStringExtra(MapUtility.ADDRESS) != null) {
-          String address = data.getStringExtra(MapUtility.ADDRESS);
-          double selectedLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
-          double selectedLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
-          siteBLat = String.valueOf(selectedLatitude);
-          siteBLng = String.valueOf(selectedLongitude);
-          txtBAddress.setText(address);
-        }
+//        if (data != null && data.getStringExtra(MapUtility.ADDRESS) != null) {
+//          String address = data.getStringExtra(MapUtility.ADDRESS);
+//          double selectedLatitude = data.getDoubleExtra(MapUtility.LATITUDE, 0.0);
+//          double selectedLongitude = data.getDoubleExtra(MapUtility.LONGITUDE, 0.0);
+//          siteBLat = String.valueOf(selectedLatitude);
+//          siteBLng = String.valueOf(selectedLongitude);
+//          txtBAddress.setText(address);
+//        }
       } catch (Exception ex) {
         ex.printStackTrace();
       }

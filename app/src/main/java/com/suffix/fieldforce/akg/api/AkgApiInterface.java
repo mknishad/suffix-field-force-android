@@ -4,11 +4,13 @@ import com.suffix.fieldforce.akg.model.ActiveCustomerRequest;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.akg.model.Slider;
+import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -49,6 +51,12 @@ public interface AkgApiInterface {
   Call<List<InvoiceDetail>> getMemoDetails(
       @Header("Authorization") String h1,
       @Path("invoiceId") int invoiceId
+  );
+
+  @GET("distributor-by-sr/{salesRepId}")
+  Call<Distributor> getDistributor(
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
 
   );
 
@@ -74,5 +82,11 @@ public interface AkgApiInterface {
   @POST("slider")
   Call<ResponseBody> collectSlider(@Header("Authorization") String h1,
                                    @Body Slider slider);
+
+  @POST("visit-store")
+  Call<ResponseBody> visitStore(
+      @Header("Authorization") String h1,
+      @Body StoreVisitRequest storeVisitRequest
+  );
 
 }

@@ -20,6 +20,7 @@ public class MyApplication extends Application {
     RealmConfiguration config =
         new RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
+            .allowWritesOnUiThread(true)
             .build();
 
     Realm.setDefaultConfiguration(config);

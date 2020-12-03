@@ -2,55 +2,51 @@ package com.suffix.fieldforce.akg.util;
 
 import android.app.Activity;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
-import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
-import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.InvoiceProduct;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 
 import java.util.Arrays;
 import java.util.Locale;
 
-import io.realm.RealmResults;
-
 public class AkgPrintingService {
   private static final String TAG = "PrintUtils";
-  private WebView mWebView;
   private final Activity mActivity;
 
   public AkgPrintingService(Activity activity) {
     mActivity = activity;
   }
 
-  public void print(CustomerData customerData, long currentTimeMillis, AkgLoginResponse loginResponse,
-                    RealmResults<CategoryModel> products) {
+  public void print(String distributorName, String distributorMobile,
+                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
       StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder.append("[L]").append("Distributor Name").append("\n");
-      stringBuilder.append("[L]").append(customerData.getMobileNo()).append(", ").append(time).append("\n");
-      stringBuilder.append("[L]Memo: ").append(currentTimeMillis).append("\n");
-      stringBuilder.append("[L]SR: ").append("HR Name").append("\n");
-      stringBuilder.append("[L]").append(customerData.getCustomerName()).append("\n");
+      stringBuilder.append("[L]").append(distributorName).append("\n");
+      stringBuilder.append("[L]").append(distributorMobile).append(", ").append(time).append("\n");
+      stringBuilder.append("[L]Memo: ").append(invoiceRequest.getInvoiceDate()).append("\n");
+      stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
+      stringBuilder.append("[L]").append(invoiceRequest.getCustomerName()).append("\n");
       stringBuilder.append("[L]\n");
       stringBuilder.append("[L]<b>Brand</b>[C]<b>Q.</b>[R]<b>Tk</b>\n");
       stringBuilder.append("[L]--------------------------------\n");
 
       double totalAmount = 0;
-      for (CategoryModel product : products) {
+      for (InvoiceProduct product : invoiceRequest.getInvoiceProducts()) {
         int brandLen = product.getProductCode().length();
-        int quantityLen = String.valueOf(product.getOrderQuantity()).length();
-        double amount = product.getSellingRate() * Double.parseDouble(product.getOrderQuantity());
+        int quantityLen = String.valueOf(product.getProductQty()).length();
+        double amount = product.getSellingRate() * product.getProductQty();
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
         totalAmount += amount;
         int tkLen = tk.length();
         int totalLen = brandLen + quantityLen + tkLen;
-        int dotLen = 28 - totalLen;
+        int dotLen = 30 - totalLen;
 
         int dotNum = 0;
         if (dotLen > 1) {
@@ -60,16 +56,20 @@ public class AkgPrintingService {
         char[] dots = new char[dotNum];
         Arrays.fill(dots, '-');
 
-        stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
-            .append("[C]").append(product.getOrderQuantity()).append(new String(dots))
-            .append("[R]").append(tk).append("\n");
+        /*stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
+            .append("[L]").append(product.getProductQty())
+            .append("[R]").append(new String(dots)).append(tk).append("\n");*/
+
+        stringBuilder.append("[L]").append(printFirst(product.getProductCode()))
+            .append(printLast(String.valueOf(product.getProductQty()))).append("--")
+            .append(printLast(tk)).append("\n");
       }
 
       stringBuilder.append("[L]--------------------------------\n");
 
       String totalAmountString = String.format(Locale.getDefault(), "%.2f", totalAmount);
       int totalAmountLen = totalAmountString.length();
-      int dotLen = 30 - totalAmountLen - 5;
+      int dotLen = 31 - totalAmountLen - 5;
 
       char[] dots = new char[dotLen];
       Arrays.fill(dots, '-');
@@ -92,11 +92,40 @@ public class AkgPrintingService {
 
       Log.d(TAG, "print: stringBuilder = " + stringBuilder.toString());
 
-      /*EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
+      EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
           203, 48f, 32);
-      printer.printFormattedText(stringBuilder.toString());*/
+      printer.printFormattedText(stringBuilder.toString());
     } catch (Exception e) {
       Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
     }
+  }
+
+  public String printFirst(String t) {
+    char[] line = new char[10];
+    char[] ca = t.toCharArray();
+    for (int i = 0; i < 10; i++) {
+      if (i < t.length()) {
+        line[i] = ca[i];
+      } else {
+        line[i] = '-';
+      }
+    }
+
+    return new String(line);
+  }
+
+  public String printLast(String t) {
+    char[] line = new char[10];
+    char[] ca = t.toCharArray();
+    int index = 0;
+    for (int i = 0; i < 10; i++) {
+      if (i < 10 - t.length()) {
+        line[i] = '-';
+      } else {
+        line[i] = ca[index];
+        index++;
+      }
+    }
+    return new String(line);
   }
 }
