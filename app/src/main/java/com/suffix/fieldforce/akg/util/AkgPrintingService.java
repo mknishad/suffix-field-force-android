@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
+import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
@@ -23,7 +24,7 @@ public class AkgPrintingService {
   }
 
   public void print(String distributorName, String distributorMobile,
-                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest) {
+                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, PrintingInterface printingInterface) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
@@ -95,8 +96,11 @@ public class AkgPrintingService {
       EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
           203, 48f, 32);
       printer.printFormattedText(stringBuilder.toString());
+
+      printingInterface.onPrintSuccess("Printing Successful!");
     } catch (Exception e) {
       Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
+      printingInterface.onPrintSuccess("Printing Failed!");
     }
   }
 

@@ -1,6 +1,8 @@
 package com.suffix.fieldforce.akg.activity
 
 import android.Manifest
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.pm.PackageManager
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -10,14 +12,15 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.suffix.fieldforce.R
+import com.suffix.fieldforce.activity.home.MainDashboardActivity
 import com.suffix.fieldforce.akg.adapter.CategoryListAdapter
+import com.suffix.fieldforce.akg.adapter.PrintingInterface
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager
@@ -32,8 +35,10 @@ import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.fragment_chat_list.*
 import okhttp3.Credentials
 import okhttp3.ResponseBody
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,6 +57,9 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var products: RealmResults<CartModel>
   private lateinit var invoiceProducts: RealmList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
+
+  private lateinit var progressDialog: ProgressDialog
+  private lateinit var alertDialogBuilder: AlertDialog.Builder
 
   private var invoiceDate = 0L
 
@@ -75,6 +83,11 @@ class CheckActivity : AppCompatActivity() {
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
     loginResponse = Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse::class.java)
     customerData = intent.getParcelableExtra(AkgConstants.CUSTOMER_INFO)!!
+
+    progressDialog = ProgressDialog(this)
+    progressDialog.setMessage("Printing...")
+
+    alertDialogBuilder = AlertDialog.Builder(this)
 
     binding.storeNameTextView.text = customerData.customerName
     binding.storeAddressTextView.text = customerData.customerName
@@ -123,6 +136,7 @@ class CheckActivity : AppCompatActivity() {
   }
 
   fun submit(view: View) {
+    progressDialog.show()
     invoiceProducts = RealmList()
     var totalAmount = 0.0
     products.forEach {
@@ -161,7 +175,7 @@ class CheckActivity : AppCompatActivity() {
       SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
       RealMDatabaseManager().deleteAllCart()
       printMemo()
-      Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
+      //Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
     } else {
       val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
       call.enqueue(object : Callback<ResponseBody> {
@@ -180,7 +194,7 @@ class CheckActivity : AppCompatActivity() {
             RealMDatabaseManager().deleteAllCart()
             printMemo()
           }
-          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+          //Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
         }
 
         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -190,7 +204,7 @@ class CheckActivity : AppCompatActivity() {
           SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
           RealMDatabaseManager().deleteAllCart()
           printMemo()
-          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+          //Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
         }
       })
     }
@@ -212,7 +226,31 @@ class CheckActivity : AppCompatActivity() {
       Log.d(TAG, "printMemo: distributor = " + preferences.getDistributor())
       AkgPrintingService(this).print(
         distributor.data.distributorName, "Distributor Mobile",
-        loginResponse, invoiceRequest
+        loginResponse, invoiceRequest, object: PrintingInterface {
+          override fun onPrintFail(message: String?) {
+            progressDialog.dismiss()
+            alertDialogBuilder.setMessage(message)
+            alertDialogBuilder.setPositiveButton(android.R.string.ok){ _, _ ->
+              startActivity<MainDashboardActivity>()
+              finishAffinity()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+          }
+
+          override fun onPrintSuccess(message: String?) {
+            progressDialog.dismiss()
+            alertDialogBuilder.setMessage(message)
+            alertDialogBuilder.setPositiveButton(android.R.string.ok){ _, _ ->
+              startActivity<MainDashboardActivity>()
+              finishAffinity()
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.setCancelable(false)
+            alertDialog.show()
+          }
+        }
       )
     }
   }

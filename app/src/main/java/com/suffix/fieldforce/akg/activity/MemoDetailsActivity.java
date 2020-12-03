@@ -1,5 +1,8 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
+import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -57,11 +61,45 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnPrint)
   public void printMemo() {
+    progressDialog.show();
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     new AkgPrintingService(this).print(distributor.getData().getDistributorName(),
-        "dist", loginResponse, invoiceRequest);
+        "dist", loginResponse, invoiceRequest, new PrintingInterface() {
+          @Override
+          public void onPrintSuccess(String message) {
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //onBackPressed();
+              }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+
+          @Override
+          public void onPrintFail(String message) {
+            final AlertDialog alertDialog;
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //alertDialog.dismiss();
+              }
+            });
+
+            alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+        });
   }
 
   private FieldForcePreferences preferences;
@@ -72,6 +110,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
   private Realm realm;
   private int totalQuantity = 0;
 
+  private ProgressDialog progressDialog;
+  private AlertDialog.Builder builder;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -81,6 +122,11 @@ public class MemoDetailsActivity extends AppCompatActivity {
     setupToolbar();
 
     realm = Realm.getDefaultInstance();
+
+    progressDialog = new ProgressDialog(this);
+    progressDialog.setMessage("Printing...");
+
+    builder = new AlertDialog.Builder(this);
 
     invoiceDetailList = new ArrayList<>();
 
