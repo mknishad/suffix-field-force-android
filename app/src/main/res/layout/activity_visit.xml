@@ -37,7 +37,7 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Customers Status"
+          android:text="কাস্টমার স্টেটাস"
           android:textSize="20dp"
           android:textColor="@color/color_black"
           />
@@ -52,21 +52,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Available Store"
+            android:text="পণ্য আছে"
             android:textSize="16dp" />
 
         <RadioButton
             android:id="@+id/radioBtnClosed"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Store Closed"
+            android:text="দোকান বন্ধ"
             android:textSize="16dp"/>
 
         <RadioButton
             android:id="@+id/radioBtnOthers"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Others"
+            android:text="অন্যান্য"
             android:textSize="16dp" />
 
       </RadioGroup>
@@ -85,14 +85,16 @@
       android:layout_centerHorizontal="true"
       android:layout_marginTop="25dp"
       android:background="@drawable/shadow_background_fill"
-      android:gravity="center">
+      android:gravity="center"
+      android:visibility="invisible"
+      >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/solaimanlipi"
         android:gravity="center"
-        android:text="Submit"
+        android:text="সাবমিট"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
   </LinearLayout>

@@ -22,7 +22,7 @@ public class StoreVisitRequest {
   public int salesRepId;
   @SerializedName("status")
   @Expose
-  public int status;
+  public String status;
 
 
   public StoreVisitRequest() {
@@ -76,11 +76,11 @@ public class StoreVisitRequest {
     this.salesRepId = salesRepId;
   }
 
-  public int getStatus() {
+  public String getStatus() {
     return status;
   }
 
-  public void setStatus(int status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 }

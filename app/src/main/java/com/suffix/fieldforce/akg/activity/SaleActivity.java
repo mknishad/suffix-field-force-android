@@ -51,6 +51,8 @@ public class SaleActivity extends AppCompatActivity {
 
   private static final String TAG = "SaleActivity";
 
+  private int customerID = -1;
+
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
@@ -74,6 +76,26 @@ public class SaleActivity extends AppCompatActivity {
 
   @BindView(R.id.btnSale)
   Button btnSale;
+
+  @BindView(R.id.btnVisited)
+  Button btnVisited;
+
+
+
+  @OnClick(R.id.btnVisited)
+  public void onViewClicked(View view){
+    switch (view.getId()){
+      case R.id.btnVisited:
+        if(customerID != -1){
+          Intent intent = new Intent(SaleActivity.this, VisitActivity.class);
+          intent.putExtra("customerID", customerID);
+          startActivity(intent);
+        }else {
+          Toast.makeText(SaleActivity.this, "You must select a customer first.", Toast.LENGTH_SHORT).show();
+        }
+        break;
+    }
+  }
 
   @OnClick(R.id.btnSale)
   public void gotoCheckout() {
@@ -379,6 +401,7 @@ public class SaleActivity extends AppCompatActivity {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         btnSale.setVisibility(View.INVISIBLE);
+        btnVisited.setVisibility(View.INVISIBLE);
         if (position > 0) {
           CustomerData customerData = filteredCustomerList.get(position);
           Log.d(TAG, "onItemSelected: customer location = " + customerData.getLat() + ", " +
@@ -415,8 +438,10 @@ public class SaleActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();*/
                     spinnerUsers.setSelection(0);
                     btnSale.setVisibility(View.INVISIBLE);
+                    btnVisited.setVisibility(View.INVISIBLE);
                   } else {
                     btnSale.setVisibility(View.VISIBLE);
+                    btnVisited.setVisibility(View.VISIBLE);
                   }
                 }
               });
@@ -437,7 +462,10 @@ public class SaleActivity extends AppCompatActivity {
       @Override
       public void onItemClick(int position, CustomerData customerData) {
         selectedCustomer = customerData;
+
+        customerID = selectedCustomer.getId();
         btnSale.setVisibility(View.INVISIBLE);
+        btnVisited.setVisibility(View.INVISIBLE);
         Log.d(TAG, "onItemClick: customer location = " + selectedCustomer.getLat() + ", " +
             selectedCustomer.getLng());
         /*Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
@@ -485,6 +513,7 @@ public class SaleActivity extends AppCompatActivity {
                   txtName.setText(selectedCustomer.getCustomerName());
                   txtAddress.setText(selectedCustomer.getAddress());
                   btnSale.setVisibility(View.VISIBLE);
+                  btnVisited.setVisibility(View.VISIBLE);
                 }
               }
             });
