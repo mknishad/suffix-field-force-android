@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
@@ -17,13 +18,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.akg.adapter.CustomerListAdapter;
+import com.suffix.fieldforce.akg.adapter.CustomerListInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -57,6 +62,9 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
 
+  @BindView(R.id.customerRecyclerView)
+  RecyclerView customerRecyclerView;
+
   @BindView(R.id.btnSale)
   Button btnSale;
 
@@ -80,6 +88,7 @@ public class SaleActivity extends AppCompatActivity {
   private FieldForcePreferences preferences;
   private AkgLoginResponse loginResponse;
   private ArrayAdapter<CustomerData> spinnerAdapter;
+  private CustomerListAdapter customerListAdapter;
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
   private CustomerData selectedCustomer = null;
@@ -252,7 +261,7 @@ public class SaleActivity extends AppCompatActivity {
 
   private void filterCustomers(String start) {
     filteredCustomerList.clear();
-    filteredCustomerList.add(new CustomerData("Select Customer"));
+    //filteredCustomerList.add(new CustomerData("Select Customer"));
     if (start.toLowerCase().equalsIgnoreCase("all")) {
       filteredCustomerList.addAll(customerDataList);
     } else {
@@ -264,13 +273,20 @@ public class SaleActivity extends AppCompatActivity {
     }
     Log.d(TAG, "filterCustomers: filteredCustomerList = " + filteredCustomerList);
     spinnerAdapter.notifyDataSetChanged();
+    customerListAdapter.notifyDataSetChanged();
   }
 
   private void getAllCustomer() {
     customerDataList = realMDatabaseManager.prepareCustomerData();
     filteredCustomerList.clear();
-    filteredCustomerList.add(new CustomerData("Select Customer"));
+    //filteredCustomerList.add(new CustomerData("Select Customer"));
     filteredCustomerList.addAll(customerDataList);
+
+    setupCustomerSpinner();
+    setupCustomerList();
+  }
+
+  private void setupCustomerSpinner() {
     spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
     spinnerUsers.setAdapter(spinnerAdapter);
     spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -294,8 +310,23 @@ public class SaleActivity extends AppCompatActivity {
                     }
                   }
                   if (distance > distanceThreshold) {
-                    Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
-                        Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(SaleActivity.this)
+                        .setMessage("আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                          public void onClick(DialogInterface dialog, int which) {
+                            // Continue with delete operation
+                          }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        //.setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                    /*Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                        Toast.LENGTH_SHORT).show();*/
                     spinnerUsers.setSelection(0);
                     btnSale.setVisibility(View.INVISIBLE);
                   } else {
@@ -309,6 +340,18 @@ public class SaleActivity extends AppCompatActivity {
       @Override
       public void onNothingSelected(AdapterView<?> parent) {
 
+      }
+    });
+  }
+
+  private void setupCustomerList() {
+    customerListAdapter = new CustomerListAdapter(SaleActivity.this, filteredCustomerList);
+    customerRecyclerView.setAdapter(customerListAdapter);
+    customerListAdapter.setCustomerListInterface(new CustomerListInterface() {
+      @Override
+      public void onItemClick(int position, CustomerData customerData) {
+        Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
+            customerData.getAddress(), Toast.LENGTH_SHORT).show();
       }
     });
   }

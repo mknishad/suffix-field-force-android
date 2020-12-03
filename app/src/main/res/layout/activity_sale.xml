@@ -15,6 +15,7 @@
       android:layout_height="wrap_content" />
 
   <LinearLayout
+      android:visibility="gone"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginHorizontal="10dp"
@@ -236,8 +237,11 @@
         android:orientation="vertical">
 
       <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/customerRecyclerView"
           android:layout_width="match_parent"
-          android:layout_height="400dp" />
+          android:layout_height="400dp"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          tools:listitem="@layout/spinner_item" />
 
       <LinearLayout
           android:layout_width="match_parent"
@@ -251,13 +255,13 @@
             android:weightSum="2">
 
           <Button
-              android:visibility="invisible"
               android:id="@+id/btnSale"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_marginRight="10dp"
               android:layout_weight="1"
-              android:text="সেল" />
+              android:text="সেল"
+              android:visibility="invisible" />
 
           <Button
               android:id="@+id/btnVisited"
