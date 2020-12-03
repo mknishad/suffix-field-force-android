@@ -444,7 +444,6 @@ public class SaleActivity extends AppCompatActivity {
             customerData.getAddress(), Toast.LENGTH_SHORT).show();*/
         txtName.setText("Select Customer");
         txtAddress.setText("");
-        selectedCustomer = null;
 
         SmartLocation.with(SaleActivity.this).location().oneFix()
             .start(new OnLocationUpdatedListener() {
