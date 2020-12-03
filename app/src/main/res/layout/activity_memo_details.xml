@@ -171,6 +171,7 @@
       </RelativeLayout>
 
       <LinearLayout
+          android:id="@+id/btnPrint"
           android:layout_width="wrap_content"
           android:layout_height="@dimen/layout_height_80"
           android:layout_marginStart="@dimen/padding_8"

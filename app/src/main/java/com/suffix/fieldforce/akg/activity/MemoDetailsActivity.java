@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,11 +20,11 @@ import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
-import com.suffix.fieldforce.akg.model.InvoiceDetail;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
-import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.akg.util.AkgConstants;
+import com.suffix.fieldforce.akg.util.AkgPrintingService;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -33,11 +32,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
-import okhttp3.Credentials;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MemoDetailsActivity extends AppCompatActivity {
 
@@ -59,10 +55,20 @@ public class MemoDetailsActivity extends AppCompatActivity {
   @BindView(R.id.txtStoreLocation)
   TextView txtStoreLocation;
 
+  @OnClick(R.id.btnPrint)
+  public void printMemo() {
+    Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
+    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
+    new AkgPrintingService(this).print(distributor.getData().getDistributorName(),
+        "dist", loginResponse, invoiceRequest);
+  }
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private MemoBodyListAdapter memoBodyListAdapter;
   private List<InvoiceProduct> invoiceDetailList;
+  private InvoiceRequest invoiceRequest;
   private Realm realm;
   private int totalQuantity = 0;
 
@@ -86,17 +92,17 @@ public class MemoDetailsActivity extends AppCompatActivity {
     memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList);
     recyclerView.setAdapter(memoBodyListAdapter);
 
-    InvoiceRequest memoListResponse = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
-    txtStoreName.setText(memoListResponse.getCustomerName());
-    txtStoreLocation.setText(memoListResponse.getCustomerAddress());
-    txtTotalAmount.setText(String.valueOf(memoListResponse.getTotalAmount()));
+    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+    txtStoreName.setText(invoiceRequest.getCustomerName());
+    txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
+    txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
-    for(InvoiceProduct invoiceProduct : memoListResponse.getInvoiceProducts()){
+    for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
       totalQuantity += invoiceProduct.getProductQty();
     }
 
     txtTotalQuantity.setText(String.valueOf(totalQuantity));
-    memoBodyListAdapter.setData(memoListResponse.getInvoiceProducts());
+    memoBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
     //getMemoBody(memoListResponse);
   }
 
@@ -126,34 +132,5 @@ public class MemoDetailsActivity extends AppCompatActivity {
     } else {
       toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
     }
-  }
-
-  private void getMemoBody(MemoListResponse memoListResponse) {
-
-//    int totalQuantity = 0;
-//    int totalAmount = 0;
-//
-//    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-//        AkgLoginResponse.class);
-//    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-//        preferences.getPassword());
-//
-//    Call<List<InvoiceDetail>> call = apiInterface.getMemoDetails(basicAuthorization, Integer.parseInt(memoListResponse.getInvNo()));
-//
-//    call.enqueue(new Callback<List<InvoiceDetail>>() {
-//      @Override
-//      public void onResponse(Call<List<InvoiceDetail>> call, Response<List<InvoiceDetail>> response) {
-//        if (response.isSuccessful()) {
-//          List<InvoiceDetail> invoiceDetails = response.body();
-//          memoBodyListAdapter.setData(invoiceDetails);
-//        }
-//      }
-//
-//      @Override
-//      public void onFailure(Call<List<InvoiceDetail>> call, Throwable t) {
-//        Toast.makeText(MemoDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//        call.cancel();
-//      }
-//    });
   }
 }

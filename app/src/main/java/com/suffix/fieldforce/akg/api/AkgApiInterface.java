@@ -4,6 +4,7 @@ import com.suffix.fieldforce.akg.model.ActiveCustomerRequest;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
@@ -49,6 +50,13 @@ public interface AkgApiInterface {
   Call<List<InvoiceDetail>> getMemoDetails(
       @Header("Authorization") String h1,
       @Path("invoiceId") int invoiceId
+  );
+
+  @GET("distributor-by-sr/{salesRepId}")
+  Call<Distributor> getDistributor(
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
+
   );
 
   @GET("product/{salesRepId}")
