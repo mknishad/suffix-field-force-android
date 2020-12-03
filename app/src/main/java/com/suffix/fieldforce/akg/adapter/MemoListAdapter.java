@@ -45,7 +45,7 @@ public class MemoListAdapter extends RecyclerView.Adapter<MemoListAdapter.ViewHo
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final InvoiceRequest memo = memoData.get(position);
-    holder.txtShopName.setText(memo.getInvoiceId());
+    holder.txtShopName.setText(memo.getCustomerName());
     holder.txtCode.setText(android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date(memo.getInvoiceDate())).toString());
     holder.txtTotal.setText(String.valueOf(memo.getTotalAmount()));
 
