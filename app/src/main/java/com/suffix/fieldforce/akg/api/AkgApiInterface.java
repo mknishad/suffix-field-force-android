@@ -8,6 +8,7 @@ import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -48,7 +49,6 @@ public interface AkgApiInterface {
   Call<List<InvoiceDetail>> getMemoDetails(
       @Header("Authorization") String h1,
       @Path("invoiceId") int invoiceId
-
   );
 
   @GET("product/{salesRepId}")
@@ -68,6 +68,12 @@ public interface AkgApiInterface {
   Call<ResponseBody> activeCustomer(
       @Header("Authorization") String h1,
       @Body ActiveCustomerRequest activeCustomerRequest
+  );
+
+  @POST("visit-store")
+  Call<ResponseBody> visitStore(
+      @Header("Authorization") String h1,
+      @Body StoreVisitRequest storeVisitRequest
   );
 
 }

@@ -1,9 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".akg.activity.VisitActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      style="@style/ToolbarStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
+  <!--  Customers Status-->
+
+  <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+      android:id="@+id/radioBtnContainer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/toolbar"
+      android:layout_marginHorizontal="5dp"
+      android:layout_marginTop="@dimen/layout_margin_10"
+      android:layout_marginBottom="@dimen/layout_margin_10"
+      android:background="@drawable/shadow_row"
+      android:padding="16dp"
+      app:tbgChildSpacing="auto"
+      app:tbgChildSpacingForLastRow="align"
+      app:tbgFlow="true"
+      app:tbgRowSpacing="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Customers Status"
+          android:textSize="20dp"
+          android:textColor="@color/color_black"
+          />
+
+      <RadioGroup
+          android:id="@+id/radioGroup"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioBtnAis"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Available Store"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/radioBtnClosed"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Store Closed"
+            android:textSize="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radioBtnOthers"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Others"
+            android:textSize="16dp" />
+
+      </RadioGroup>
+
+
+    </LinearLayout>
+
+  </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+
+
+  <LinearLayout
+      android:id="@+id/layoutSubmit"
+      android:layout_width="200dp"
+      android:layout_height="75dp"
+      android:layout_below="@+id/radioBtnContainer"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="25dp"
+      android:background="@drawable/shadow_background_fill"
+      android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/solaimanlipi"
+        android:gravity="center"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+  </LinearLayout>
+
+</RelativeLayout>
