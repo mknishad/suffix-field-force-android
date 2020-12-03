@@ -148,7 +148,8 @@ class CheckActivity : AppCompatActivity() {
 
     invoiceRequest = InvoiceRequest(
       customerData.id, invoiceDate, "${customerData.id + invoiceDate}",
-      invoiceProducts, loginResponse.data.id, totalAmount
+      invoiceProducts, loginResponse.data.id, totalAmount, customerData.customerName,
+      customerData.address
     )
 
     val basicAuthorization = Credentials.basic(
@@ -210,7 +211,7 @@ class CheckActivity : AppCompatActivity() {
       )
     } else {
       AkgPrintingService(this)
-        .print(customerData, invoiceDate, loginResponse, invoiceRequest)
+        .print(customerData, loginResponse, invoiceRequest)
     }
   }
 
