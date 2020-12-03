@@ -30,7 +30,11 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
   @Expose
   private double totalAmount;
   private boolean status;
+  @SerializedName("customerName")
+  @Expose
   private String customerName;
+  @SerializedName("customerAddress")
+  @Expose
   private String customerAddress;
 
   public InvoiceRequest(){
@@ -59,6 +63,8 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     status = in.readByte() != 0;
     this.invoiceProducts = new RealmList<>();
     this.invoiceProducts.addAll(in.createTypedArrayList(InvoiceProduct.CREATOR));
+    customerName = in.readString();
+    customerAddress = in.readString();
   }
 
   @Override
@@ -70,6 +76,8 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     dest.writeDouble(totalAmount);
     dest.writeByte((byte) (status ? 1 : 0));
     dest.writeTypedList(this.invoiceProducts);
+    dest.writeString(customerName);
+    dest.writeString(customerAddress);
   }
 
   @Override

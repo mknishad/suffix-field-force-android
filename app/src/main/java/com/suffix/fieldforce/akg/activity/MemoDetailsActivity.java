@@ -87,8 +87,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     recyclerView.setAdapter(memoBodyListAdapter);
 
     InvoiceRequest memoListResponse = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
-    //txtStoreName.setText(memoListResponse.getCustomerName());
-    //txtStoreLocation.setText(memoListResponse.getCustomerAddress());
+    txtStoreName.setText(memoListResponse.getCustomerName());
+    txtStoreLocation.setText(memoListResponse.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(memoListResponse.getTotalAmount()));
 
     for(InvoiceProduct invoiceProduct : memoListResponse.getInvoiceProducts()){
