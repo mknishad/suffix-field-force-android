@@ -412,6 +412,9 @@ public class SaleActivity extends AppCompatActivity {
       @Override
       public void onItemClick(int position, CustomerData customerData) {
         selectedCustomer = customerData;
+        btnSale.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "onItemClick: customer location = " + selectedCustomer.getLat() + ", " +
+            selectedCustomer.getLng());
         /*Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
             customerData.getAddress(), Toast.LENGTH_SHORT).show();*/
         txtName.setText("Select Customer");
@@ -421,6 +424,8 @@ public class SaleActivity extends AppCompatActivity {
             .start(new OnLocationUpdatedListener() {
               @Override
               public void onLocationUpdated(Location location) {
+                Log.d(TAG, "onLocationUpdated: sr location = " + location.getLatitude() + ", " +
+                    location.getLongitude());
                 double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
                     location.getLatitude(), location.getLongitude());
                 double distanceThreshold = 10.0;
