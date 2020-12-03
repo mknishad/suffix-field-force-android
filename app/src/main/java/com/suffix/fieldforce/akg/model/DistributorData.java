@@ -13,6 +13,9 @@ public class DistributorData {
   @SerializedName("teritoryName")
   @Expose
   private String teritoryName;
+  @SerializedName("mobile")
+  @Expose
+  private String mobile;
 
   @Override
   public String toString() {
@@ -20,6 +23,7 @@ public class DistributorData {
         "distributorId=" + distributorId +
         ", distributorName='" + distributorName + '\'' +
         ", teritoryName='" + teritoryName + '\'' +
+        ", mobile='" + mobile + '\'' +
         '}';
   }
 
@@ -45,5 +49,13 @@ public class DistributorData {
 
   public void setTeritoryName(String teritoryName) {
     this.teritoryName = teritoryName;
+  }
+
+  public String getMobile() {
+    return mobile;
+  }
+
+  public void setMobile(String mobile) {
+    this.mobile = mobile;
   }
 }

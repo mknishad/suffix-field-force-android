@@ -225,7 +225,7 @@ class CheckActivity : AppCompatActivity() {
       val distributor = Gson().fromJson(preferences.getDistributor(), Distributor::class.java)
       Log.d(TAG, "printMemo: distributor = " + preferences.getDistributor())
       AkgPrintingService(this).print(
-        distributor.data.distributorName, "Distributor Mobile",
+        distributor.data.distributorName, distributor.data.mobile,
         loginResponse, invoiceRequest, object: PrintingInterface {
           override fun onPrintFail(message: String?) {
             progressDialog.dismiss()

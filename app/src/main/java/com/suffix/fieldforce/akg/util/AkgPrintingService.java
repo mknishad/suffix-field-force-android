@@ -2,7 +2,6 @@ package com.suffix.fieldforce.akg.util;
 
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
@@ -97,9 +96,9 @@ public class AkgPrintingService {
           203, 48f, 32);
       printer.printFormattedText(stringBuilder.toString());
 
-      printingInterface.onPrintSuccess("Printing Successful!");
+      printingInterface.onPrintSuccess("Done!");
     } catch (Exception e) {
-      Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
+      //Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
       printingInterface.onPrintSuccess("Printing Failed!");
     }
   }
