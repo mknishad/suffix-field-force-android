@@ -5,17 +5,14 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
-import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.InvoiceProduct;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 
 import java.util.Arrays;
 import java.util.Locale;
-
-import io.realm.RealmResults;
 
 public class AkgPrintingService {
   private static final String TAG = "PrintUtils";
@@ -27,7 +24,7 @@ public class AkgPrintingService {
   }
 
   public void print(CustomerData customerData, long currentTimeMillis, AkgLoginResponse loginResponse,
-                    RealmResults<CategoryModel> products) {
+                    InvoiceRequest invoiceRequest) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
@@ -42,10 +39,10 @@ public class AkgPrintingService {
       stringBuilder.append("[L]--------------------------------\n");
 
       double totalAmount = 0;
-      for (CategoryModel product : products) {
+      for (InvoiceProduct product : invoiceRequest.getInvoiceProducts()) {
         int brandLen = product.getProductCode().length();
-        int quantityLen = String.valueOf(product.getOrderQuantity()).length();
-        double amount = product.getSellingRate() * Double.parseDouble(product.getOrderQuantity());
+        int quantityLen = String.valueOf(product.getProductQty()).length();
+        double amount = product.getSellingRate() * product.getProductQty();
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
         totalAmount += amount;
         int tkLen = tk.length();
@@ -61,7 +58,7 @@ public class AkgPrintingService {
         Arrays.fill(dots, '-');
 
         stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
-            .append("[C]").append(product.getOrderQuantity()).append(new String(dots))
+            .append("[C]").append(product.getProductQty()).append(new String(dots))
             .append("[R]").append(tk).append("\n");
       }
 

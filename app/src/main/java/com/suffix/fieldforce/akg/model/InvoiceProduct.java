@@ -22,16 +22,38 @@ public class InvoiceProduct extends RealmObject {
   @Expose
   private double subToalAmount;
 
+  private String productCode;
+  private double sellingRate;
+
+  public String getProductCode() {
+    return productCode;
+  }
+
+  public void setProductCode(String productCode) {
+    this.productCode = productCode;
+  }
+
   public InvoiceProduct(){
 
   }
 
-  public InvoiceProduct(double discount, int productId, int productQty, double rate, double subToalAmount) {
+  public double getSellingRate() {
+    return sellingRate;
+  }
+
+  public void setSellingRate(double sellingRate) {
+    this.sellingRate = sellingRate;
+  }
+
+  public InvoiceProduct(double discount, int productId, int productQty, double rate,
+                        double subToalAmount, String productCode, double sellingRate) {
     this.discount = discount;
     this.productId = productId;
     this.productQty = productQty;
     this.rate = rate;
     this.subToalAmount = subToalAmount;
+    this.productCode = productCode;
+    this.sellingRate = sellingRate;
   }
 
   @Override
@@ -42,6 +64,7 @@ public class InvoiceProduct extends RealmObject {
         ", productQty=" + productQty +
         ", rate=" + rate +
         ", subToalAmount=" + subToalAmount +
+        ", productCode=" + productCode +
         '}';
   }
 
