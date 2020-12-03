@@ -89,4 +89,13 @@ class FieldForcePreferences(context: Context) {
   fun getOnline(): Boolean {
     return preferences.getBoolean(Constants.ONLINE, false)
   }
+
+  fun putAddress(address: String) {
+    editor.putString(Constants.ADDRESS, address)
+    editor.apply()
+  }
+
+  fun getAddress(): String {
+    return preferences.getString(Constants.ADDRESS, "").toString()
+  }
 }

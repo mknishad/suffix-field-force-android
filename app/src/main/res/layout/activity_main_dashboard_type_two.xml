@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/backgroundcolor"
     android:fitsSystemWindows="true">
 
   <com.google.android.material.appbar.AppBarLayout
       android:id="@+id/app_bar"
       android:layout_width="match_parent"
       android:layout_height="290dp"
-      android:background="@color/colorMintLight"
+      android:background="@color/colorMainDashboard"
       android:fitsSystemWindows="true"
       android:minHeight="280dp"
       android:theme="@style/AppTheme.NoActionBar">
@@ -60,12 +60,28 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imgUserProfile"
+    <RelativeLayout
         android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/consultant" />
+        android:layout_height="80dp">
+
+      <ImageView
+          android:id="@+id/imgUserProfile"
+          android:layout_width="80dp"
+          android:layout_height="80dp"
+          android:padding="2dp"
+          android:layout_centerHorizontal="true"
+          android:src="@drawable/imgplaceholder"
+          android:background="@drawable/round_white"/>
+      <View
+          android:id="@+id/badge"
+          android:layout_width="16dp"
+          android:layout_height="16dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentBottom="true"
+          android:layout_marginRight="5dp"
+          android:layout_marginBottom="2dp"
+          android:background="@drawable/circular_badge_offline" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/txtUserName"
@@ -73,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_margin_10"
         android:fontFamily="@font/solaimanlipi"
-        android:text="শরিফ (ডিস লাইন)"
+        android:text="Md. Shafqat Rahman"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -96,7 +112,6 @@
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@color/backgroundcolor"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -334,6 +349,7 @@
               android:textColor="@android:color/white"
               android:textSize="18sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layoutClosing"
             android:layout_width="0dp"

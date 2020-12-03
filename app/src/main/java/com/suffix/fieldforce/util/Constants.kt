@@ -22,4 +22,5 @@ object Constants {
   const val REQUISITION_ID = "requisition-id"
   const val INVENTORY_LIST = "inventory-list"
   const val BUNDLE = "bundle"
+  const val ADDRESS = "address"
 }

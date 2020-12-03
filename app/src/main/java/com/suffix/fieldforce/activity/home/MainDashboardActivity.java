@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,10 +58,13 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
 import okhttp3.Credentials;
 import okhttp3.ResponseBody;
@@ -116,6 +121,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutSync)
   LinearLayout layoutSync;
 
+  @BindView(R.id.badge)
+  View badge;
+
   private static final String TAG = "MainDashboardActivity";
 
   private final String ENTRY_TYPE_IN = "i";
@@ -141,7 +149,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoAttendance();
         break;
       case R.id.layoutExit:
-        geoExit();
+        if(preferences.getOnline()){
+          geoExit();
+        }else{
+          Toast.makeText(MainDashboardActivity.this, "You can't exit without making attendance", Toast.LENGTH_SHORT).show();
+        }
         break;
       case R.id.layoutTask:
         //openTask();
@@ -205,6 +217,13 @@ public class MainDashboardActivity extends AppCompatActivity implements
       }
     }, "");
     //initLocationSettings();
+
+    if(preferences.getOnline()){
+      txtUserAddress.setText(preferences.getAddress());
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
+    }else{
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
+    }
   }
 
   private void initLocationSettings() {
@@ -417,7 +436,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
               public void onLocationUpdate(Location location) {
 
                 //requestLocationUpdates();
-                preferences.putOnline(true);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -443,6 +461,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
+                      showAddressName(location);
+                      preferences.putOnline(true);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
@@ -472,6 +493,27 @@ public class MainDashboardActivity extends AppCompatActivity implements
     mBottomSheetDialog.show();
   }
 
+  private void showAddressName(Location location) {
+
+    SmartLocation.with(MainDashboardActivity.this).geocoding()
+        .reverse(location, new OnReverseGeocodingListener() {
+          @Override
+          public void onAddressResolved(Location location, List<Address> list) {
+            String result = null;
+
+              if (list != null && list.size() > 0) {
+                Address address = list.get(0);
+                // sending back first address line and locality
+                result = address.getAddressLine(0) + ", " + address.getLocality();
+              }else {
+                result = "No address found for this location";
+              }
+              preferences.putAddress(result);
+              txtUserAddress.setText(result);
+          }
+        });
+  }
+
   @SuppressLint("RestrictedApi")
   private void geoExit() {
 
@@ -487,7 +529,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
               @Override
               public void onLocationUpdate(Location location) {
                 //requestLocationUpdates();
-                preferences.putOnline(false);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -512,6 +553,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   @Override
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                      preferences.putOnline(false);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
                       Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();

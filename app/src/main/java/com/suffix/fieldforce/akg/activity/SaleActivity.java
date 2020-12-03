@@ -130,7 +130,7 @@ public class SaleActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setTitle("Sales");
+      getSupportActionBar().setTitle("সেল");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {

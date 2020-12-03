@@ -103,6 +103,7 @@ public class MemoListActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("মেমোলিস্ট");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
