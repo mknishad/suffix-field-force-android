@@ -1,7 +1,7 @@
 package com.suffix.fieldforce.akg.util;
 
 public class LocationUtils {
-  public static double getDistance(int lat1, int lon1, int lat2, int lon2) {
+  public static double getDistance(double lat1, double lon1, double lat2, double lon2) {
     double p = 0.017453292519943295; // Math.PI / 180
 
     double a = 0.5 - Math.cos((lat2 - lat1) * p)/2 +

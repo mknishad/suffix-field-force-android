@@ -251,6 +251,7 @@
             android:weightSum="2">
 
           <Button
+              android:visibility="invisible"
               android:id="@+id/btnSale"
               android:layout_width="0dp"
               android:layout_height="wrap_content"

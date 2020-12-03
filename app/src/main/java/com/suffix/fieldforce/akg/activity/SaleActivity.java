@@ -5,6 +5,7 @@ import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +20,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.util.AkgConstants;
+import com.suffix.fieldforce.akg.util.LocationUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -33,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 
 public class SaleActivity extends AppCompatActivity {
 
@@ -71,6 +78,7 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private FieldForcePreferences preferences;
+  private AkgLoginResponse loginResponse;
   private ArrayAdapter<CustomerData> spinnerAdapter;
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
@@ -87,6 +95,7 @@ public class SaleActivity extends AppCompatActivity {
 
     realMDatabaseManager = new RealMDatabaseManager();
     preferences = new FieldForcePreferences(this);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
     customerDataList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
 
@@ -267,7 +276,34 @@ public class SaleActivity extends AppCompatActivity {
     spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedCustomer = filteredCustomerList.get(position);
+        btnSale.setVisibility(View.INVISIBLE);
+        if (position > 0) {
+          CustomerData customerData = filteredCustomerList.get(position);
+          Log.d(TAG, "onItemSelected: customer location = " + customerData.getLat() + ", " +
+              customerData.getLng());
+          SmartLocation.with(SaleActivity.this).location().oneFix()
+              .start(new OnLocationUpdatedListener() {
+                @Override
+                public void onLocationUpdated(Location location) {
+                  double distance = LocationUtils.getDistance(customerData.getLat(), customerData.getLng(),
+                      location.getLatitude(), location.getLongitude());
+                  double distanceThreshold = 10.0;
+                  for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+                    if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                      distanceThreshold = Double.parseDouble(settings.getAttributeValue());
+                    }
+                  }
+                  if (distance > distanceThreshold) {
+                    Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                        Toast.LENGTH_SHORT).show();
+                    spinnerUsers.setSelection(0);
+                    btnSale.setVisibility(View.INVISIBLE);
+                  } else {
+                    btnSale.setVisibility(View.VISIBLE);
+                  }
+                }
+              });
+        }
       }
 
       @Override
