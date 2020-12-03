@@ -53,11 +53,18 @@ public class MemoDetailsActivity extends AppCompatActivity {
   @BindView(R.id.txtTotalAmount)
   TextView txtTotalAmount;
 
+  @BindView(R.id.txtStoreName)
+  TextView txtStoreName;
+
+  @BindView(R.id.txtStoreLocation)
+  TextView txtStoreLocation;
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private MemoBodyListAdapter memoBodyListAdapter;
   private List<InvoiceProduct> invoiceDetailList;
   private Realm realm;
+  private int totalQuantity = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +87,15 @@ public class MemoDetailsActivity extends AppCompatActivity {
     recyclerView.setAdapter(memoBodyListAdapter);
 
     InvoiceRequest memoListResponse = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+    //txtStoreName.setText(memoListResponse.getCustomerName());
+    //txtStoreLocation.setText(memoListResponse.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(memoListResponse.getTotalAmount()));
+
+    for(InvoiceProduct invoiceProduct : memoListResponse.getInvoiceProducts()){
+      totalQuantity += invoiceProduct.getProductQty();
+    }
+
+    txtTotalQuantity.setText(String.valueOf(totalQuantity));
     memoBodyListAdapter.setData(memoListResponse.getInvoiceProducts());
     //getMemoBody(memoListResponse);
   }
