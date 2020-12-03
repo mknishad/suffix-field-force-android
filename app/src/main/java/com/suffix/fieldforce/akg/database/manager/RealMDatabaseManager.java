@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.akg.database.manager;
 
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
@@ -46,12 +47,25 @@ public class RealMDatabaseManager {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        // remove single match
-        //results.deleteFirstFromRealm();
-        //results.deleteLastFromRealm();
-
-        // Delete all matches
         results.deleteAllFromRealm();
+      }
+    });
+  }
+
+  public void deleteAllCustomer(RealmDatabseManagerInterface.Customer customerInterface) {
+    final RealmResults<CustomerData> results = realm.where(CustomerData.class).findAll();
+
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        results.deleteAllFromRealm();
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if(customerInterface != null){
+          customerInterface.onCustomerDelete(true);
+        }
       }
     });
   }
