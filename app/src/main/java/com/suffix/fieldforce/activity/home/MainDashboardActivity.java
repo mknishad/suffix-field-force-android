@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -120,6 +121,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutSync)
   LinearLayout layoutSync;
 
+  @BindView(R.id.badge)
+  View badge;
+
   private static final String TAG = "MainDashboardActivity";
 
   private final String ENTRY_TYPE_IN = "i";
@@ -145,7 +149,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoAttendance();
         break;
       case R.id.layoutExit:
-        geoExit();
+        if(preferences.getOnline()){
+          geoExit();
+        }else{
+          Toast.makeText(MainDashboardActivity.this, "You can't exit without making attendance", Toast.LENGTH_SHORT).show();
+        }
         break;
       case R.id.layoutTask:
         //openTask();
@@ -209,6 +217,13 @@ public class MainDashboardActivity extends AppCompatActivity implements
       }
     }, "");
     //initLocationSettings();
+
+    if(preferences.getOnline()){
+      txtUserAddress.setText(preferences.getAddress());
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
+    }else{
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
+    }
   }
 
   private void initLocationSettings() {
@@ -421,7 +436,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
               public void onLocationUpdate(Location location) {
 
                 //requestLocationUpdates();
-                preferences.putOnline(true);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -448,6 +462,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                     if (response.isSuccessful()) {
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
                       showAddressName(location);
+                      preferences.putOnline(true);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
@@ -492,9 +508,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
               }else {
                 result = "No address found for this location";
               }
-
+              preferences.putAddress(result);
               txtUserAddress.setText(result);
-
           }
         });
   }
@@ -514,7 +529,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
               @Override
               public void onLocationUpdate(Location location) {
                 //requestLocationUpdates();
-                preferences.putOnline(false);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -539,6 +553,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   @Override
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                      preferences.putOnline(false);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
                       Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
