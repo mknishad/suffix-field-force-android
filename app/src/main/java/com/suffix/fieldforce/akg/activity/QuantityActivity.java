@@ -225,15 +225,6 @@ public class QuantityActivity extends AppCompatActivity {
               onBackPressed();
             }
           });
-
-//          realm.beginTransaction();
-//          CartModel realmCategory = realm.createObject(CartModel.class);
-//          realmCategory.setOrderQuantity(txtResult.getText().toString());
-//          realm.commitTransaction();
-//
-//          Toast.makeText(QuantityActivity.this, "Success", Toast.LENGTH_SHORT).show();
-//          onBackPressed();
-
         }
       }
     });
