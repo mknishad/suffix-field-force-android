@@ -122,8 +122,8 @@
 
   <string name="notification_activity_title">নতুন আউটলেট</string>
   <string name="slider_collect">স্লাইডার সংগ্রহ </string>
-  <string name="msg_customer_select_error">প্লিজ, কাস্টমার সিলেক্ট করুন</string>
-  <string name="msg_packet_quantity_not_given">প্লিজ, প্যাকেটের পরিমান উল্লেখ করুন</string>
+  <string name="msg_customer_select_error">কাস্টমার সিলেক্ট করুন</string>
+  <string name="msg_packet_quantity_not_given">প্যাকেটের পরিমান উল্লেখ করুন</string>
   <string name="packet_quantity">প্যাকেটের পরিমান</string>
   <string name="customer_select">কাস্টমার সিলেক্ট</string>
   <string name="msg_slider_collect_success">স্লাইডার সংগ্রহ সম্পন্ন হয়েছে</string>

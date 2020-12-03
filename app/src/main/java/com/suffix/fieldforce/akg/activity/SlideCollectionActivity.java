@@ -76,9 +76,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
   private ArrayAdapter<CustomerData> spinnerAdapter;
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
-  private CustomerData selectedCustomer = null;
   private RealMDatabaseManager realMDatabaseManager;
-  private long customerId;
+  private CustomerData selectedCustomer;
   AkgApiInterface apiInterface;
   private String basicAuthorization;
 
@@ -147,45 +146,77 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
     btnSubmit.setOnClickListener(view-> {
 
-      if (customerId == 0) {
+      if (selectedCustomer == null) {
         Toast.makeText(this, getResources().getString(R.string.msg_customer_select_error), Toast.LENGTH_SHORT).show();
       } else if (TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
         txtQuantity.setError(getResources().getString(R.string.msg_packet_quantity_not_given));
       } else {
-
         progressBar.setVisibility(View.VISIBLE);
-        Slider slider = new Slider();
-        slider.setCollectionDate(new Date().getTime());
-        slider.setCustomerId(customerId);
-        slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
-        slider.setSalesRepId(loginResponse.getData().getId());
+        SmartLocation.with(SlideCollectionActivity.this).location()
+            .oneFix()
+            .start(new OnLocationUpdatedListener() {
+              @Override
+              public void onLocationUpdated(Location location) {
 
+                Log.d(TAG, "current location: "+location.getLatitude() +":"+ location.getLatitude());
+                Log.d(TAG, "customer location: "+selectedCustomer.getLat() +":"+ selectedCustomer.getLng());
 
-        // collect slider
-        Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
-        call.enqueue(new Callback<ResponseBody>() {
-          @Override
-          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            if (response.isSuccessful()) {
-              Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+                Double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
+                    location.getLatitude(), location.getLongitude());
 
-            }else{
-              Toast.makeText(SlideCollectionActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
-
-            }
-            progressBar.setVisibility(View.GONE);
-          }
-
-          @Override
-          public void onFailure(Call<ResponseBody> call, Throwable t) {
-            Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            call.cancel();
-            progressBar.setVisibility(View.GONE);
-          }
-        });
+                double distanceThreshold = 10.0;
+                for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+                  if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                    distanceThreshold = Double.parseDouble(settings.getAttributeValue());
+                  }
+                }
+                Log.d(TAG, "cur dis: "+ distance);
+                Log.d(TAG, "global distance:"+ distanceThreshold);
+                if (distance > distanceThreshold) {
+                  Toast.makeText(SlideCollectionActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                      Toast.LENGTH_SHORT).show();
+                  progressBar.setVisibility(View.GONE);
+                } else {
+                  sendSliderInfo();
+                }
+              }
+            });
 
       }
       
+    });
+
+  }
+
+  public void sendSliderInfo() {
+
+
+    Slider slider = new Slider();
+    slider.setCollectionDate(new Date().getTime());
+    slider.setCustomerId(selectedCustomer.getId());
+    slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
+    slider.setSalesRepId(loginResponse.getData().getId());
+
+
+    // collect slider
+    Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
+    call.enqueue(new Callback<ResponseBody>() {
+      @Override
+      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if (response.isSuccessful()) {
+          Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+
+        }else{
+          Toast.makeText(SlideCollectionActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
+        }
+        progressBar.setVisibility(View.GONE);
+      }
+      @Override
+      public void onFailure(Call<ResponseBody> call, Throwable t) {
+        Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        call.cancel();
+        progressBar.setVisibility(View.GONE);
+      }
     });
 
   }
@@ -336,7 +367,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position > 0) {
           CustomerData customerData = filteredCustomerList.get(position);
-          customerId = customerData.getId();
+          selectedCustomer = customerData;
         }
       }
 
