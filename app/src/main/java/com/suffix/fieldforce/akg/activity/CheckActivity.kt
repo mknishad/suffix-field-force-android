@@ -22,10 +22,7 @@ import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager
 import com.suffix.fieldforce.akg.database.manager.SyncManager
-import com.suffix.fieldforce.akg.model.AkgLoginResponse
-import com.suffix.fieldforce.akg.model.CustomerData
-import com.suffix.fieldforce.akg.model.InvoiceProduct
-import com.suffix.fieldforce.akg.model.InvoiceRequest
+import com.suffix.fieldforce.akg.model.*
 import com.suffix.fieldforce.akg.model.product.CartModel
 import com.suffix.fieldforce.akg.util.AkgConstants
 import com.suffix.fieldforce.akg.util.AkgPrintingService
@@ -142,7 +139,7 @@ class CheckActivity : AppCompatActivity() {
       invoiceProducts.add(invoiceProduct)
       totalAmount += invoiceProduct.subToalAmount
 
-      Log.d(TAG, "submit: "+invoiceProduct)
+      Log.d(TAG, "submit: $invoiceProduct")
     }
 
     invoiceDate = System.currentTimeMillis()
@@ -160,7 +157,7 @@ class CheckActivity : AppCompatActivity() {
 
     if (!NetworkUtils.isNetworkConnected(this)) {
       //TODO: save to database
-        invoiceRequest.status = false
+      invoiceRequest.status = false
       SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
       RealMDatabaseManager().deleteAllCart()
       printMemo()
@@ -211,8 +208,12 @@ class CheckActivity : AppCompatActivity() {
         PERMISSION_BLUETOOTH
       )
     } else {
-      AkgPrintingService(this)
-        .print(customerData, loginResponse, invoiceRequest)
+      val distributor = Gson().fromJson(preferences.getDistributor(), Distributor::class.java)
+      Log.d(TAG, "printMemo: distributor = " + preferences.getDistributor())
+      AkgPrintingService(this).print(
+        distributor.data.distributorName, "Distributor Mobile",
+        loginResponse, invoiceRequest
+      )
     }
   }
 

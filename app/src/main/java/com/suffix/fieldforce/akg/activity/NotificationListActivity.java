@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -48,6 +49,9 @@ public class NotificationListActivity extends AppCompatActivity {
   Toolbar toolbar;
   @BindView(R.id.noti_progress)
   ProgressBar progressBar;
+
+  @BindView(R.id.layout_no_item)
+  LinearLayout noItemLayout;
 
   private String basicAuthorization;
   List<CustomerData> customerDataList;
@@ -125,9 +129,12 @@ public class NotificationListActivity extends AppCompatActivity {
       public void onResponse(Call<List<CustomerData>> call, Response<List<CustomerData>> response) {
         if (response.isSuccessful()) {
           customerDataList = response.body();
+          if (customerDataList.size() == 0) {
+            noItemLayout.setVisibility(View.VISIBLE);
+          }
           notificationListAdapter.setData(customerDataList);
         }else{
-          System.out.println("error");
+          Toast.makeText(NotificationListActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
         }
         progressBar.setVisibility(View.GONE);
       }
