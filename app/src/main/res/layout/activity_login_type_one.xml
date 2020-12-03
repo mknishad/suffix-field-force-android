@@ -38,7 +38,7 @@
           android:layout_height="wrap_content"
           android:layout_toRightOf="@+id/username_icon"
           android:background="@android:color/transparent"
-          android:text="103391"
+          android:text="100001"
           android:textColor="@color/darkGray"
           android:hint="User ID"
           android:inputType="textEmailAddress"
