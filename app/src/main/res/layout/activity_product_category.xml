@@ -46,7 +46,7 @@
               android:gravity="center"
               android:text="Cigarette"
               android:textColor="#2b2b2b"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -84,7 +84,7 @@
               android:gravity="center"
               android:text="Bidi"
               android:textColor="#2b2b2b"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -121,7 +121,7 @@
               android:gravity="center"
               android:text="Match"
               android:textColor="#2b2b2b"
-              android:textSize="24sp" />
+              android:textSize="22sp" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
