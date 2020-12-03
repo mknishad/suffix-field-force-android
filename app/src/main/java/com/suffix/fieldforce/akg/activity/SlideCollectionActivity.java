@@ -181,7 +181,6 @@ public class SlideCollectionActivity extends AppCompatActivity {
                 }
               }
             });
-
       }
       
     });
