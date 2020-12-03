@@ -22,7 +22,7 @@ public class AkgPrintingService {
     mActivity = activity;
   }
 
-  public void print(String distributorName, String distributorMobile, String customerName,
+  public void print(String distributorName, String distributorMobile,
                     AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
@@ -32,7 +32,7 @@ public class AkgPrintingService {
       stringBuilder.append("[L]").append(distributorMobile).append(", ").append(time).append("\n");
       stringBuilder.append("[L]Memo: ").append(invoiceRequest.getInvoiceDate()).append("\n");
       stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
-      stringBuilder.append("[L]").append(customerName).append("\n");
+      stringBuilder.append("[L]").append(invoiceRequest.getCustomerName()).append("\n");
       stringBuilder.append("[L]\n");
       stringBuilder.append("[L]<b>Brand</b>[C]<b>Q.</b>[R]<b>Tk</b>\n");
       stringBuilder.append("[L]--------------------------------\n");
@@ -69,7 +69,7 @@ public class AkgPrintingService {
 
       String totalAmountString = String.format(Locale.getDefault(), "%.2f", totalAmount);
       int totalAmountLen = totalAmountString.length();
-      int dotLen = 32 - totalAmountLen - 5;
+      int dotLen = 31 - totalAmountLen - 5;
 
       char[] dots = new char[dotLen];
       Arrays.fill(dots, '-');
