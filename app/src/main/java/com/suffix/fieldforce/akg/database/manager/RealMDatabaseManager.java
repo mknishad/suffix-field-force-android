@@ -57,7 +57,7 @@ public class RealMDatabaseManager {
     final RealmResults<CartModel> results = realm.where(CartModel.class).findAll();
 
     if (results.size() > 0) {
-      realm.executeTransactionAsync(new Realm.Transaction() {
+      realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
           results.deleteAllFromRealm();

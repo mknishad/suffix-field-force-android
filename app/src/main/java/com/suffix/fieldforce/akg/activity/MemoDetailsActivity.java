@@ -81,7 +81,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
     InvoiceRequest memoListResponse = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
     txtTotalAmount.setText(String.valueOf(memoListResponse.getTotalAmount()));
-    memoBodyListAdapter.setData(memoListResponse.getInvoiceProducts());
+    //memoBodyListAdapter.setData(memoListResponse.getInvoiceProducts());
     //getMemoBody(memoListResponse);
   }
 

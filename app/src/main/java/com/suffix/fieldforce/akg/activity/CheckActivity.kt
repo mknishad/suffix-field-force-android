@@ -140,6 +140,8 @@ class CheckActivity : AppCompatActivity() {
 
       invoiceProducts.add(invoiceProduct)
       totalAmount += invoiceProduct.subToalAmount
+
+      Log.d(TAG, "submit: "+invoiceProduct)
     }
 
     invoiceDate = System.currentTimeMillis()
