@@ -5,6 +5,8 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.dantsu.escposprinter.EscPosPrinter;
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
@@ -29,10 +31,10 @@ public class AkgPrintingService {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
       StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder.append("[L]").append("Distributor Name").append("\n");
+      stringBuilder.append("[L]").append(customerData.getCustomerName()).append("\n");
       stringBuilder.append("[L]").append(customerData.getMobileNo()).append(", ").append(time).append("\n");
       stringBuilder.append("[L]Memo: ").append(invoiceRequest.getInvoiceDate()).append("\n");
-      stringBuilder.append("[L]SR: ").append("HR Name").append("\n");
+      stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
       stringBuilder.append("[L]").append(customerData.getCustomerName()).append("\n");
       stringBuilder.append("[L]\n");
       stringBuilder.append("[L]<b>Brand</b>[C]<b>Q.</b>[R]<b>Tk</b>\n");
@@ -89,9 +91,9 @@ public class AkgPrintingService {
 
       Log.d(TAG, "print: stringBuilder = " + stringBuilder.toString());
 
-      /*EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
+      EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
           203, 48f, 32);
-      printer.printFormattedText(stringBuilder.toString());*/
+      printer.printFormattedText(stringBuilder.toString());
     } catch (Exception e) {
       Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
     }

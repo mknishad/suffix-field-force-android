@@ -40,6 +40,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class CheckActivity : AppCompatActivity() {
@@ -121,7 +122,7 @@ class CheckActivity : AppCompatActivity() {
     }
 
     binding.txtTotalQuantity.text = quantity.toString()
-    binding.txtTotalAmount.text = totalAmount.toString()
+    binding.txtTotalAmount.text = String.format(Locale.getDefault(), "%.2f", totalAmount)
   }
 
   fun submit(view: View) {
