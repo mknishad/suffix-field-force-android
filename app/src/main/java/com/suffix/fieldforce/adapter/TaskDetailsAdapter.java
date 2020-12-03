@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
+//import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.ViewHolder> {
 
@@ -82,8 +82,8 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         TextView ticketStatusText;
         @BindView(R.id.ticketStartDate)
         TextView ticketStartDate;
-        @BindView(R.id.imgProjectIcon)
-        CircleImageView imgProjectIcon;
+        //@BindView(R.id.imgProjectIcon)
+        //CircleImageView imgProjectIcon;
         @BindView(R.id.consumerName)
         TextView consumerName;
         @BindView(R.id.consumerAddress)

@@ -15,6 +15,35 @@
       android:layout_height="wrap_content" />
 
   <LinearLayout
+      android:background="@drawable/shadow_row"
+      android:gravity="center_horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginTop="8dp"
+      android:layout_marginHorizontal="5dp"
+      android:padding="16dp">
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Customer"
+        android:textColor="@color/colorMint"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Badda Dhaka"
+        android:layout_marginBottom="12dp"
+        android:textSize="12sp"/>
+  </LinearLayout>
+
+  <LinearLayout
+      android:visibility="gone"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginHorizontal="10dp"
@@ -225,292 +254,6 @@
         android:text="ALL" />
   </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
 
-  <!--<LinearLayout
-      android:id="@+id/layoutKeys"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:layout_marginHorizontal="@dimen/layout_margin_10"
-      android:layout_marginBottom="@dimen/layout_margin_10">
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleGroupOne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="8"
-        app:singleSelection="true">
-
-      <Button
-          android:id="@+id/btnA"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="A"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnB"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="B"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnC"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="C"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnD"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="D"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnE"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="E"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnF"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="F"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnG"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="G"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnH"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="H"
-          android:textSize="10sp" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleGroupTwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="8"
-        app:singleSelection="true">
-
-      <Button
-          android:id="@+id/btnI"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="I"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnJ"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="J"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnK"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="K"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnL"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="L"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnM"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="M"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnN"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="N"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnO"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="O"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnP"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="P"
-          android:textSize="10sp" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleGroupThree"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="8"
-        app:singleSelection="true">
-
-      <Button
-          android:id="@+id/btnQ"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="Q"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnR"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="R"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnS"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="S"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnT"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="T"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnU"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="U"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnV"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="V"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnW"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="W"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnX"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="X"
-          android:textSize="10sp" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleGroupFour"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:weightSum="8"
-        app:checkedButton="@+id/btnAll"
-        app:singleSelection="true">
-
-      <Button
-          android:id="@+id/btnY"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="Y"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnZ"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="Z"
-          android:textSize="10sp" />
-
-      <Button
-          android:id="@+id/btnAll"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="2"
-          android:text="ALL"
-          android:textSize="10sp" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-  </LinearLayout>-->
-
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -518,146 +261,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/customerRecyclerView"
+          android:layout_width="match_parent"
+          android:layout_height="400dp"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          tools:listitem="@layout/spinner_item" />
+
       <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
+          android:layout_height="match_parent"
+          android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/layout_margin_20"
+            android:weightSum="2">
 
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_cigarette" />
+          <Button
+              android:id="@+id/btnSale"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginRight="10dp"
+              android:layout_weight="1"
+              android:text="সেল"
+              android:visibility="invisible" />
 
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Cigrettee"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
+          <Button
+              android:id="@+id/btnVisited"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:text="ভিসিটেড" />
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCigrettee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-
       </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/layout_margin_10"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_cigarette" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Bidi"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewBidi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/layout_margin_10"
-          android:background="@drawable/shadow_row"
-          android:orientation="vertical"
-          android:padding="@dimen/padding_10">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <ImageView
-              android:layout_width="30dp"
-              android:layout_height="30dp"
-              android:src="@drawable/ic_matchbox" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="Match"
-              android:textColor="#2b2b2b"
-              android:textSize="24sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewMatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"
-            tools:listitem="@layout/row_item_sale" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginVertical="@dimen/layout_margin_20"
-          android:weightSum="2">
-
-        <Button
-            android:id="@+id/btnJacai"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:text="যাচাই" />
-
-        <Button
-            android:id="@+id/btnVisited"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ভিসিটেড" />
-      </LinearLayout>
-
-      <Button
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Nirikkhon" />
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 </LinearLayout>

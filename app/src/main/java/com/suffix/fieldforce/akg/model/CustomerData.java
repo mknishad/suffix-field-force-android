@@ -9,8 +9,10 @@ import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class CustomerData extends RealmObject implements Parcelable {
+  @PrimaryKey
   @SerializedName("id")
   @Expose
   private Integer id;

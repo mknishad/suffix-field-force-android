@@ -7,11 +7,11 @@
     android:background="@color/lightgray"
     tools:context=".activity.roster.RosterManagementActivity">
 
-  <com.applandeo.materialcalendarview.CalendarView
-      android:id="@+id/calendarView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      app:abbreviationsBarColor="@color/colorMintLight"
-      app:abbreviationsLabelsColor="@color/very_lightGray"
-      app:headerColor="@color/colorMintDark" />
+<!--  <com.applandeo.materialcalendarview.CalendarView-->
+<!--      android:id="@+id/calendarView"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="match_parent"-->
+<!--      app:abbreviationsBarColor="@color/colorMintLight"-->
+<!--      app:abbreviationsLabelsColor="@color/very_lightGray"-->
+<!--      app:headerColor="@color/colorMintDark" />-->
 </RelativeLayout>

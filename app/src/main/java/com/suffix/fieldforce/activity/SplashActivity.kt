@@ -9,7 +9,6 @@ import android.view.View
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.home.LoginActivity
 import com.suffix.fieldforce.activity.home.MainDashboardActivity
-import com.suffix.fieldforce.akg.activity.CheckActivity
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : BaseActivity() {
@@ -24,22 +23,22 @@ class SplashActivity : BaseActivity() {
     }
 
     Handler().postDelayed({
-      if (preferences.isFirstTimeLaunch()) {
+      /*if (preferences.isFirstTimeLaunch()) {
         startActivity<WelcomeActivity>()
         preferences.setFirstTimeLaunch(false)
-      } else {
-        try {
-          val loginResponse = preferences.getLoginResponse()
-          Log.d(TAG, "onCreate: loginResponse = $loginResponse")
-          if (!TextUtils.isEmpty(loginResponse)) {
-            startActivity<MainDashboardActivity>()
-          } else {
-            startActivity<LoginActivity>()
-          }
-        } catch (e: Exception) {
+      } else {*/
+      try {
+        val loginResponse = preferences.getLoginResponse()
+        Log.d(TAG, "onCreate: loginResponse = $loginResponse")
+        if (!TextUtils.isEmpty(loginResponse)) {
+          startActivity<MainDashboardActivity>()
+        } else {
           startActivity<LoginActivity>()
         }
+      } catch (e: Exception) {
+        startActivity<LoginActivity>()
       }
+      //}
 
       finish()
     }, 1300)

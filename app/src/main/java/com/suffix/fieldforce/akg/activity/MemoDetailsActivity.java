@@ -22,7 +22,10 @@ import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
+import com.suffix.fieldforce.akg.model.InvoiceProduct;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,10 +53,18 @@ public class MemoDetailsActivity extends AppCompatActivity {
   @BindView(R.id.txtTotalAmount)
   TextView txtTotalAmount;
 
+  @BindView(R.id.txtStoreName)
+  TextView txtStoreName;
+
+  @BindView(R.id.txtStoreLocation)
+  TextView txtStoreLocation;
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private MemoBodyListAdapter memoBodyListAdapter;
-  private List<InvoiceDetail> invoiceDetailList;
+  private List<InvoiceProduct> invoiceDetailList;
+  private Realm realm;
+  private int totalQuantity = 0;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +73,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     setupToolbar();
+
+    realm = Realm.getDefaultInstance();
 
     invoiceDetailList = new ArrayList<>();
 
@@ -72,9 +86,18 @@ public class MemoDetailsActivity extends AppCompatActivity {
     memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList);
     recyclerView.setAdapter(memoBodyListAdapter);
 
-    MemoListResponse memoListResponse = getIntent().getParcelableExtra("MEMO_DETAIL");
-    txtTotalAmount.setText(memoListResponse.getTotalAmount().toString());
-    getMemoBody(memoListResponse);
+    InvoiceRequest memoListResponse = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+    txtStoreName.setText(memoListResponse.getCustomerName());
+    txtStoreLocation.setText(memoListResponse.getCustomerAddress());
+    txtTotalAmount.setText(String.valueOf(memoListResponse.getTotalAmount()));
+
+    for(InvoiceProduct invoiceProduct : memoListResponse.getInvoiceProducts()){
+      totalQuantity += invoiceProduct.getProductQty();
+    }
+
+    txtTotalQuantity.setText(String.valueOf(totalQuantity));
+    memoBodyListAdapter.setData(memoListResponse.getInvoiceProducts());
+    //getMemoBody(memoListResponse);
   }
 
   private void setupToolbar() {
@@ -107,30 +130,30 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   private void getMemoBody(MemoListResponse memoListResponse) {
 
-    int totalQuantity = 0;
-    int totalAmount = 0;
-
-    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AkgLoginResponse.class);
-    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-        preferences.getPassword());
-
-    Call<List<InvoiceDetail>> call = apiInterface.getMemoDetails(basicAuthorization, Integer.parseInt(memoListResponse.getInvNo()));
-
-    call.enqueue(new Callback<List<InvoiceDetail>>() {
-      @Override
-      public void onResponse(Call<List<InvoiceDetail>> call, Response<List<InvoiceDetail>> response) {
-        if (response.isSuccessful()) {
-          List<InvoiceDetail> invoiceDetails = response.body();
-          memoBodyListAdapter.setData(invoiceDetails);
-        }
-      }
-
-      @Override
-      public void onFailure(Call<List<InvoiceDetail>> call, Throwable t) {
-        Toast.makeText(MemoDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
-      }
-    });
+//    int totalQuantity = 0;
+//    int totalAmount = 0;
+//
+//    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+//        AkgLoginResponse.class);
+//    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+//        preferences.getPassword());
+//
+//    Call<List<InvoiceDetail>> call = apiInterface.getMemoDetails(basicAuthorization, Integer.parseInt(memoListResponse.getInvNo()));
+//
+//    call.enqueue(new Callback<List<InvoiceDetail>>() {
+//      @Override
+//      public void onResponse(Call<List<InvoiceDetail>> call, Response<List<InvoiceDetail>> response) {
+//        if (response.isSuccessful()) {
+//          List<InvoiceDetail> invoiceDetails = response.body();
+//          memoBodyListAdapter.setData(invoiceDetails);
+//        }
+//      }
+//
+//      @Override
+//      public void onFailure(Call<List<InvoiceDetail>> call, Throwable t) {
+//        Toast.makeText(MemoDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//        call.cancel();
+//      }
+//    });
   }
 }

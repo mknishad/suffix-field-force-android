@@ -18,7 +18,7 @@ import com.suffix.fieldforce.fragment.HomeFragment
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import com.suffix.fieldforce.util.Constants
 import com.suffix.fieldforce.viewmodel.MainViewModel
-import devlight.io.library.ntb.NavigationTabBar
+//import devlight.io.library.ntb.NavigationTabBar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
 import org.jetbrains.anko.debug
@@ -69,69 +69,69 @@ class MainActivity : BaseActivity() {
   private fun init() {
     mPreferences = FieldForcePreferences(this)
 
-    initBottomNav()
+    //initBottomNav()
     initLocationProvider()
     initProgressBar()
     initLocationSettings()
   }
 
-  private fun initBottomNav() {
-    val colors = resources.getStringArray(R.array.default_preview)
-
-    val models = ArrayList<NavigationTabBar.Model>()
-    models.add(
-      NavigationTabBar.Model.Builder(
-        resources.getDrawable(R.drawable.ic_first),
-        Color.parseColor(colors[0])
-      )
-        .selectedIcon(resources.getDrawable(R.drawable.ic_sixth))
-        .title("Heart")
-        .badgeTitle("NTB")
-        .build()
-    )
-    models.add(
-      NavigationTabBar.Model.Builder(
-        resources.getDrawable(R.drawable.ic_second),
-        Color.parseColor(colors[1])
-      )
-        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
-        .title("Cup")
-        .badgeTitle("with")
-        .build()
-    )
-    models.add(
-      NavigationTabBar.Model.Builder(
-        resources.getDrawable(R.drawable.ic_third),
-        Color.parseColor(colors[2])
-      )
-        .selectedIcon(resources.getDrawable(R.drawable.ic_seventh))
-        .title("Diploma")
-        .badgeTitle("state")
-        .build()
-    )
-    models.add(
-      NavigationTabBar.Model.Builder(
-        resources.getDrawable(R.drawable.ic_fourth),
-        Color.parseColor(colors[3])
-      )
-        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
-        .title("Flag")
-        .badgeTitle("icon")
-        .build()
-    )
-    models.add(
-      NavigationTabBar.Model.Builder(
-        resources.getDrawable(R.drawable.ic_fifth),
-        Color.parseColor(colors[4])
-      )
-        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
-        .title("Medal")
-        .badgeTitle("777")
-        .build()
-    )
-
-    ntb!!.models = models
-  }
+//  private fun initBottomNav() {
+//    val colors = resources.getStringArray(R.array.default_preview)
+//
+//    val models = ArrayList<NavigationTabBar.Model>()
+//    models.add(
+//      NavigationTabBar.Model.Builder(
+//        resources.getDrawable(R.drawable.ic_first),
+//        Color.parseColor(colors[0])
+//      )
+//        .selectedIcon(resources.getDrawable(R.drawable.ic_sixth))
+//        .title("Heart")
+//        .badgeTitle("NTB")
+//        .build()
+//    )
+//    models.add(
+//      NavigationTabBar.Model.Builder(
+//        resources.getDrawable(R.drawable.ic_second),
+//        Color.parseColor(colors[1])
+//      )
+//        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
+//        .title("Cup")
+//        .badgeTitle("with")
+//        .build()
+//    )
+//    models.add(
+//      NavigationTabBar.Model.Builder(
+//        resources.getDrawable(R.drawable.ic_third),
+//        Color.parseColor(colors[2])
+//      )
+//        .selectedIcon(resources.getDrawable(R.drawable.ic_seventh))
+//        .title("Diploma")
+//        .badgeTitle("state")
+//        .build()
+//    )
+//    models.add(
+//      NavigationTabBar.Model.Builder(
+//        resources.getDrawable(R.drawable.ic_fourth),
+//        Color.parseColor(colors[3])
+//      )
+//        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
+//        .title("Flag")
+//        .badgeTitle("icon")
+//        .build()
+//    )
+//    models.add(
+//      NavigationTabBar.Model.Builder(
+//        resources.getDrawable(R.drawable.ic_fifth),
+//        Color.parseColor(colors[4])
+//      )
+//        .selectedIcon(resources.getDrawable(R.drawable.ic_eighth))
+//        .title("Medal")
+//        .badgeTitle("777")
+//        .build()
+//    )
+//
+//    ntb!!.models = models
+//  }
 
   private fun initLocationProvider() {
     mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -273,11 +273,11 @@ class MainActivity : BaseActivity() {
   }
 
   private fun startLocationUpdate() {
-    mFusedLocationProviderClient.requestLocationUpdates(
-      mLocationRequest,
-      mLocationCallback,
-      null
-    )
+//    mFusedLocationProviderClient.requestLocationUpdates(
+//      mLocationRequest,
+//      mLocationCallback,
+//      null
+//    )
     locationUpdateActive = true
   }
 

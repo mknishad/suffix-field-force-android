@@ -8,9 +8,11 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.model.RealMCustomer;
+import com.suffix.fieldforce.akg.database.model.RealMInvoice;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -55,9 +57,9 @@ public class SyncManager {
           realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-              RealMCustomer realMCustomer = bgRealm.createObject(RealMCustomer.class);
+              //RealMCustomer realMCustomer = new RealMCustomer();
               for (CustomerData customerData : customerDataList) {
-                realMCustomer.getCustomerData().add(customerData);
+                bgRealm.copyToRealmOrUpdate(customerData);
               }
             }
           }, new Realm.Transaction.OnSuccess() {
@@ -105,7 +107,7 @@ public class SyncManager {
               }
               //Store all match list
               for (CategoryModel matchModel : productCategory.getMatch()) {
-                realMProductCategory.getCigrettee().add(matchModel);
+                realMProductCategory.getMatch().add(matchModel);
               }
             }
           }, new Realm.Transaction.OnSuccess() {
@@ -124,6 +126,25 @@ public class SyncManager {
         call.cancel();
       }
     });
+  }
+
+  public void insertInvoice(InvoiceRequest invoiceRequest){
+
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm bgRealm) {
+        //RealMInvoice realMInvoice = bgRealm.createObject(RealMInvoice.class);
+        //realMInvoice.getRequestRealmList().add(invoiceRequest);
+
+        bgRealm.copyToRealm(invoiceRequest);
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        Toast.makeText(context, "Invoice Added", Toast.LENGTH_SHORT).show();
+      }
+    });
+
   }
 
 }

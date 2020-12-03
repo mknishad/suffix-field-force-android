@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.esafirm.imagepicker.features.ImagePicker
+//import com.esafirm.imagepicker.features.ImagePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.suffix.fieldforce.R
 import com.suffix.fieldforce.activity.BaseActivity
@@ -230,7 +230,7 @@ class AddBillActivity : BaseActivity() {
     layout.editText?.showSoftInputOnFocus = false
     layout.editText?.setOnTouchListener { v, event ->
       if (event.action == MotionEvent.ACTION_UP) {
-        ImagePicker.create(this).start()
+        //ImagePicker.create(this).start()
       }
       return@setOnTouchListener false
     }
@@ -438,22 +438,21 @@ class AddBillActivity : BaseActivity() {
     //viewModel.datePickerShown()
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-      val images = ImagePicker.getImages(data)
-      val image = ImagePicker.getFirstImageOrNull(data)
-      textInputLayouts2[1].editText?.setText(image.path)
-
-      val bitmap = BitmapFactory.decodeFile(image.path)
-      val baos = ByteArrayOutputStream()
-      bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
-      val byteArray = baos.toByteArray()
-
-      //encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
-
-      encodedImage = Utils.encodeToBase64(byteArray)
-      debug("encodedImage = $encodedImage")
-    }
-    super.onActivityResult(requestCode, resultCode, data)
-  }
+//  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//      val images = ImagePicker.getImages(data)
+//      val image = ImagePicker.getFirstImageOrNull(data)
+//      textInputLayouts2[1].editText?.setText(image.path)
+//
+//      val bitmap = BitmapFactory.decodeFile(image.path)
+//      val baos = ByteArrayOutputStream()
+//      bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos)
+//      val byteArray = baos.toByteArray()
+//
+//      //encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT)
+//
+//      encodedImage = Utils.encodeToBase64(byteArray)
+//      debug("encodedImage = $encodedImage")
+//    }
+//    super.onActivityResult(requestCode, resultCode, data) // }
 }

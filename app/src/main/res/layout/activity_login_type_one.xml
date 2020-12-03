@@ -15,12 +15,13 @@
         android:layout_height="273dp"
         android:background="@drawable/blue_bg">
 
-      <de.hdodenhof.circleimageview.CircleImageView
+      <ImageView
           android:layout_width="77dp"
           android:layout_height="77dp"
           android:layout_gravity="center_horizontal"
           android:layout_marginTop="93dp"
-          android:src="@mipmap/ic_launcher_round" />
+          android:src="@mipmap/ic_launcher_round"
+          android:background="@drawable/round_white"/>
 
     </FrameLayout>
 
@@ -38,7 +39,7 @@
           android:layout_height="wrap_content"
           android:layout_toRightOf="@+id/username_icon"
           android:background="@android:color/transparent"
-          android:text="103391"
+          android:text="100001"
           android:textColor="@color/darkGray"
           android:hint="User ID"
           android:inputType="textEmailAddress"

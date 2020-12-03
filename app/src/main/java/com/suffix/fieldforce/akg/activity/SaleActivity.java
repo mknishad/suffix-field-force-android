@@ -1,10 +1,12 @@
 package com.suffix.fieldforce.akg.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,25 +16,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
-import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
-import com.suffix.fieldforce.akg.api.AkgApiClient;
-import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.adapter.CustomerListAdapter;
+import com.suffix.fieldforce.akg.adapter.CustomerListInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
-import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.util.AkgConstants;
+import com.suffix.fieldforce.akg.util.LocationUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -41,12 +44,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmResults;
-import okhttp3.Credentials;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
 
 public class SaleActivity extends AppCompatActivity {
 
@@ -61,26 +60,26 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.imgDropArrow)
   ImageView imgDropArrow;
 
-  @BindView(R.id.recyclerViewCigrettee)
-  RecyclerView recyclerViewCigrettee;
+  @BindView(R.id.txtName)
+  TextView txtName;
 
-  @BindView(R.id.recyclerViewBidi)
-  RecyclerView recyclerViewBidi;
-
-  @BindView(R.id.recyclerViewMatch)
-  RecyclerView recyclerViewMatch;
+  @BindView(R.id.txtAddress)
+  TextView txtAddress;
 
   @BindView(R.id.spinnerUsers)
   Spinner spinnerUsers;
 
-  @BindView(R.id.btnJacai)
-  Button btnJacai;
+  @BindView(R.id.customerRecyclerView)
+  RecyclerView customerRecyclerView;
 
-  @OnClick(R.id.btnJacai)
+  @BindView(R.id.btnSale)
+  Button btnSale;
+
+  @OnClick(R.id.btnSale)
   public void gotoCheckout() {
-    if (spinnerUsers.getSelectedItemPosition() > 0) {
+    if (selectedCustomer != null) {
       selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
-      Intent intent = new Intent(SaleActivity.this, CheckActivity.class);
+      Intent intent = new Intent(SaleActivity.this, ProductCategoryActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
       startActivity(intent);
     } else {
@@ -94,16 +93,13 @@ public class SaleActivity extends AppCompatActivity {
   }
 
   private FieldForcePreferences preferences;
-  private AkgApiInterface apiInterface;
-  private ArrayAdapter<CustomerData> spinnerAdapter;
-  private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
   private AkgLoginResponse loginResponse;
-  private String basicAuthorization;
+  private ArrayAdapter<CustomerData> spinnerAdapter;
+  private CustomerListAdapter customerListAdapter;
   private List<CustomerData> customerDataList;
   private List<CustomerData> filteredCustomerList;
-  private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
-  private Realm realm;
+  private RealMDatabaseManager realMDatabaseManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -113,20 +109,13 @@ public class SaleActivity extends AppCompatActivity {
 
     setupToolbar();
 
-    realm = Realm.getDefaultInstance();
+    realMDatabaseManager = new RealMDatabaseManager();
     preferences = new FieldForcePreferences(this);
-    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
     customerDataList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
-    productCategory = new ProductCategory();
-    loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AkgLoginResponse.class);
-    basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-        preferences.getPassword());
 
-    manageRecyclerView();
     getAllCustomer();
-    getAllCategory();
     setupToggleGroup();
   }
 
@@ -141,6 +130,7 @@ public class SaleActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("সেল");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -158,20 +148,6 @@ public class SaleActivity extends AppCompatActivity {
     }
   }
 
-  private void manageRecyclerView() {
-    recyclerViewCigrettee.setLayoutManager(getLayoutManager());
-    cigretteListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewCigrettee.setAdapter(cigretteListAdapter);
-
-    recyclerViewBidi.setLayoutManager(getLayoutManager());
-    bidiListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewBidi.setAdapter(bidiListAdapter);
-
-    recyclerViewMatch.setLayoutManager(getLayoutManager());
-    matchListAdapter = new ProductCategoryListAdapter(this, new ArrayList<>());
-    recyclerViewMatch.setAdapter(matchListAdapter);
-  }
-
   private void setupToggleGroup() {
     toggleGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
       @Override
@@ -180,110 +156,189 @@ public class SaleActivity extends AppCompatActivity {
           case R.id.choice_a:
             filterCustomers("a");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_b:
             filterCustomers("b");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_c:
             filterCustomers("c");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_d:
             filterCustomers("d");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_e:
             filterCustomers("e");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_f:
             filterCustomers("f");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_g:
             filterCustomers("g");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_h:
             filterCustomers("h");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_i:
             filterCustomers("i");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_j:
             filterCustomers("j");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_k:
             filterCustomers("k");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_l:
             filterCustomers("l");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_m:
             filterCustomers("m");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_n:
             filterCustomers("n");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_o:
             filterCustomers("o");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_p:
             filterCustomers("p");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
             break;
           case R.id.choice_q:
             filterCustomers("q");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_r:
             filterCustomers("r");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_s:
             filterCustomers("s");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_t:
             filterCustomers("t");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_u:
             filterCustomers("u");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_v:
             filterCustomers("v");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_w:
             filterCustomers("w");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_x:
             filterCustomers("x");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_y:
             filterCustomers("y");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_z:
             filterCustomers("z");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
           case R.id.choice_all:
             filterCustomers("all");
             spinnerUsers.setSelection(0);
+            txtName.setText("Select Customer");
+            txtAddress.setText("");
+            selectedCustomer = null;
             break;
         }
       }
@@ -292,7 +347,7 @@ public class SaleActivity extends AppCompatActivity {
 
   private void filterCustomers(String start) {
     filteredCustomerList.clear();
-    filteredCustomerList.add(new CustomerData("Select Customer"));
+    //filteredCustomerList.add(new CustomerData("Select Customer"));
     if (start.toLowerCase().equalsIgnoreCase("all")) {
       filteredCustomerList.addAll(customerDataList);
     } else {
@@ -304,23 +359,68 @@ public class SaleActivity extends AppCompatActivity {
     }
     Log.d(TAG, "filterCustomers: filteredCustomerList = " + filteredCustomerList);
     spinnerAdapter.notifyDataSetChanged();
-  }
-
-  private RecyclerView.LayoutManager getLayoutManager() {
-    return new GridLayoutManager(this, 2);
+    customerListAdapter.notifyDataSetChanged();
   }
 
   private void getAllCustomer() {
-    customerDataList = new RealMDatabaseManager().prepareCustomerData();
+    customerDataList = realMDatabaseManager.prepareCustomerData();
     filteredCustomerList.clear();
-    filteredCustomerList.add(new CustomerData("Select Customer"));
+    //filteredCustomerList.add(new CustomerData("Select Customer"));
     filteredCustomerList.addAll(customerDataList);
+
+    setupCustomerSpinner();
+    setupCustomerList();
+  }
+
+  private void setupCustomerSpinner() {
     spinnerAdapter = new CustomArrayAdapter(SaleActivity.this, R.layout.spinner_item, filteredCustomerList);
     spinnerUsers.setAdapter(spinnerAdapter);
     spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedCustomer = filteredCustomerList.get(position);
+        btnSale.setVisibility(View.INVISIBLE);
+        if (position > 0) {
+          CustomerData customerData = filteredCustomerList.get(position);
+          Log.d(TAG, "onItemSelected: customer location = " + customerData.getLat() + ", " +
+              customerData.getLng());
+          SmartLocation.with(SaleActivity.this).location().oneFix()
+              .start(new OnLocationUpdatedListener() {
+                @Override
+                public void onLocationUpdated(Location location) {
+                  double distance = LocationUtils.getDistance(customerData.getLat(), customerData.getLng(),
+                      location.getLatitude(), location.getLongitude());
+                  double distanceThreshold = 10.0;
+                  for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+                    if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                      distanceThreshold = Double.parseDouble(settings.getAttributeValue());
+                    }
+                  }
+                  if (distance > distanceThreshold) {
+                    new AlertDialog.Builder(SaleActivity.this)
+                        .setMessage("আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                          public void onClick(DialogInterface dialog, int which) {
+                            // Continue with delete operation
+                          }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        //.setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                    /*Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                        Toast.LENGTH_SHORT).show();*/
+                    spinnerUsers.setSelection(0);
+                    btnSale.setVisibility(View.INVISIBLE);
+                  } else {
+                    btnSale.setVisibility(View.VISIBLE);
+                  }
+                }
+              });
+        }
       }
 
       @Override
@@ -328,26 +428,66 @@ public class SaleActivity extends AppCompatActivity {
 
       }
     });
-
   }
 
-  private void getAllCategory() {
-    Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
-    call.enqueue(new Callback<ProductCategory>() {
+  private void setupCustomerList() {
+    customerListAdapter = new CustomerListAdapter(SaleActivity.this, filteredCustomerList);
+    customerRecyclerView.setAdapter(customerListAdapter);
+    customerListAdapter.setCustomerListInterface(new CustomerListInterface() {
       @Override
-      public void onResponse(Call<ProductCategory> call, Response<ProductCategory> response) {
-        if (response.isSuccessful()) {
-          productCategory = response.body();
-          cigretteListAdapter.setData(productCategory.getCigrettee());
-          bidiListAdapter.setData(productCategory.getBidi());
-          matchListAdapter.setData(productCategory.getMatch());
-        }
-      }
+      public void onItemClick(int position, CustomerData customerData) {
+        selectedCustomer = customerData;
+        btnSale.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "onItemClick: customer location = " + selectedCustomer.getLat() + ", " +
+            selectedCustomer.getLng());
+        /*Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
+            customerData.getAddress(), Toast.LENGTH_SHORT).show();*/
+        txtName.setText("Select Customer");
+        txtAddress.setText("");
 
-      @Override
-      public void onFailure(Call<ProductCategory> call, Throwable t) {
-        Toast.makeText(SaleActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
+        SmartLocation.with(SaleActivity.this).location().oneFix()
+            .start(new OnLocationUpdatedListener() {
+              @Override
+              public void onLocationUpdated(Location location) {
+                Log.d(TAG, "onLocationUpdated: sr location = " + location.getLatitude() + ", " +
+                    location.getLongitude());
+                double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
+                    location.getLatitude(), location.getLongitude());
+                Log.d(TAG, "onLocationUpdated: location distance = " + distance);
+                double distanceThreshold = 10.0;
+                for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+                  if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                    distanceThreshold = Double.parseDouble(settings.getAttributeValue());
+                  }
+                }
+                if (distance > distanceThreshold) {
+                  new AlertDialog.Builder(SaleActivity.this)
+                      .setMessage("আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!")
+
+                      // Specifying a listener allows you to take an action before dismissing the dialog.
+                      // The dialog is automatically dismissed when a dialog button is clicked.
+                      .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                          // Continue with delete operation
+                        }
+                      })
+
+                      // A null listener allows the button to dismiss the dialog and take no further action.
+                      //.setNegativeButton(android.R.string.no, null)
+                      .setIcon(android.R.drawable.ic_dialog_alert)
+                      .show();
+                    /*Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
+                        Toast.LENGTH_SHORT).show();*/
+                  txtName.setText("Select Customer");
+                  txtAddress.setText("");
+                  selectedCustomer = null;
+                } else {
+                  txtName.setText(selectedCustomer.getCustomerName());
+                  txtAddress.setText(selectedCustomer.getAddress());
+                  btnSale.setVisibility(View.VISIBLE);
+                }
+              }
+            });
       }
     });
   }

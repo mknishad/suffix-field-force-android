@@ -16,7 +16,6 @@
         android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ntb"
         android:layout_below="@+id/toolBar">
 
         <LinearLayout
@@ -86,19 +85,5 @@
             layout="@layout/header" />
 
     </RelativeLayout>
-
-    <devlight.io.library.ntb.NavigationTabBar
-        android:id="@+id/ntb"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        app:ntb_badge_gravity="top"
-        app:ntb_badge_position="right"
-        app:ntb_badged="true"
-        app:ntb_scaled="true"
-        app:ntb_swiped="true"
-        app:ntb_tinted="true"
-        app:ntb_title_mode="all"
-        app:ntb_titled="true" />
 
 </RelativeLayout>

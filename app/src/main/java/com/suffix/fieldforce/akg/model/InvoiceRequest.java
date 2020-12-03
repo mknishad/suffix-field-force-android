@@ -1,11 +1,16 @@
 package com.suffix.fieldforce.akg.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
 
-public class InvoiceRequest {
+import io.realm.RealmObject;
+
+public class InvoiceRequest extends RealmObject implements Parcelable {
   @SerializedName("customerId")
   @Expose
   private int customerId;
@@ -17,23 +22,80 @@ public class InvoiceRequest {
   private String invoiceId;
   @SerializedName("invoiceProducts")
   @Expose
-  private List<InvoiceProduct> invoiceProducts;
+  private RealmList<InvoiceProduct> invoiceProducts;
   @SerializedName("salesRepId")
   @Expose
   private int salesRepId;
   @SerializedName("totalAmount")
   @Expose
   private double totalAmount;
+  private boolean status;
+  @SerializedName("customerName")
+  @Expose
+  private String customerName;
+  @SerializedName("customerAddress")
+  @Expose
+  private String customerAddress;
+
+  public InvoiceRequest(){
+
+  }
 
   public InvoiceRequest(int customerId, long invoiceDate, String invoiceId,
-                        List<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount) {
+                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId,
+                        double totalAmount, String customerName, String customerAddress) {
     this.customerId = customerId;
     this.invoiceDate = invoiceDate;
     this.invoiceId = invoiceId;
     this.invoiceProducts = invoiceProducts;
     this.salesRepId = salesRepId;
     this.totalAmount = totalAmount;
+    this.customerName = customerName;
+    this.customerAddress = customerAddress;
   }
+
+  protected InvoiceRequest(Parcel in) {
+    customerId = in.readInt();
+    invoiceDate = in.readLong();
+    invoiceId = in.readString();
+    salesRepId = in.readInt();
+    totalAmount = in.readDouble();
+    status = in.readByte() != 0;
+    this.invoiceProducts = new RealmList<>();
+    this.invoiceProducts.addAll(in.createTypedArrayList(InvoiceProduct.CREATOR));
+    customerName = in.readString();
+    customerAddress = in.readString();
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(customerId);
+    dest.writeLong(invoiceDate);
+    dest.writeString(invoiceId);
+    dest.writeInt(salesRepId);
+    dest.writeDouble(totalAmount);
+    dest.writeByte((byte) (status ? 1 : 0));
+    dest.writeTypedList(this.invoiceProducts);
+    dest.writeString(customerName);
+    dest.writeString(customerAddress);
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Creator<InvoiceRequest> CREATOR = new Creator<InvoiceRequest>() {
+    @Override
+    public InvoiceRequest createFromParcel(Parcel in) {
+      return new InvoiceRequest(in);
+    }
+
+    @Override
+    public InvoiceRequest[] newArray(int size) {
+      return new InvoiceRequest[size];
+    }
+  };
 
   @Override
   public String toString() {
@@ -44,6 +106,7 @@ public class InvoiceRequest {
         ", invoiceProducts=" + invoiceProducts +
         ", salesRepId=" + salesRepId +
         ", totalAmount=" + totalAmount +
+        ", status=" + status +
         '}';
   }
 
@@ -71,11 +134,11 @@ public class InvoiceRequest {
     this.invoiceId = invoiceId;
   }
 
-  public List<InvoiceProduct> getInvoiceProducts() {
+  public RealmList<InvoiceProduct> getInvoiceProducts() {
     return invoiceProducts;
   }
 
-  public void setInvoiceProducts(List<InvoiceProduct> invoiceProducts) {
+  public void setInvoiceProducts(RealmList<InvoiceProduct> invoiceProducts) {
     this.invoiceProducts = invoiceProducts;
   }
 
@@ -93,5 +156,29 @@ public class InvoiceRequest {
 
   public void setTotalAmount(double totalAmount) {
     this.totalAmount = totalAmount;
+  }
+
+  public boolean getStatus() {
+    return status;
+  }
+
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
+
+  public String getCustomerName() {
+    return customerName;
+  }
+
+  public void setCustomerName(String customerName) {
+    this.customerName = customerName;
+  }
+
+  public String getCustomerAddress() {
+    return customerAddress;
+  }
+
+  public void setCustomerAddress(String customerAddress) {
+    this.customerAddress = customerAddress;
   }
 }

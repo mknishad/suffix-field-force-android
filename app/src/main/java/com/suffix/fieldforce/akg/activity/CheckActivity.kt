@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,22 +20,27 @@ import com.suffix.fieldforce.R
 import com.suffix.fieldforce.akg.adapter.CategoryListAdapter
 import com.suffix.fieldforce.akg.api.AkgApiClient
 import com.suffix.fieldforce.akg.api.AkgApiInterface
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager
+import com.suffix.fieldforce.akg.database.manager.SyncManager
 import com.suffix.fieldforce.akg.model.AkgLoginResponse
 import com.suffix.fieldforce.akg.model.CustomerData
 import com.suffix.fieldforce.akg.model.InvoiceProduct
 import com.suffix.fieldforce.akg.model.InvoiceRequest
-import com.suffix.fieldforce.akg.model.product.CategoryModel
+import com.suffix.fieldforce.akg.model.product.CartModel
 import com.suffix.fieldforce.akg.util.AkgConstants
 import com.suffix.fieldforce.akg.util.AkgPrintingService
+import com.suffix.fieldforce.akg.util.NetworkUtils
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
+import io.realm.RealmList
 import io.realm.RealmResults
 import okhttp3.Credentials
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class CheckActivity : AppCompatActivity() {
@@ -46,12 +52,11 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var loginResponse: AkgLoginResponse
   private lateinit var adapter: CategoryListAdapter
   private lateinit var customerData: CustomerData
-  private lateinit var products: RealmResults<CategoryModel>
-  private lateinit var invoiceProducts: ArrayList<InvoiceProduct>
+  private lateinit var products: RealmResults<CartModel>
+  private lateinit var invoiceProducts: RealmList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
 
-  private var billNo = 0L
-  private var pricePerPack = ""
+  private var invoiceDate = 0L
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -73,7 +78,6 @@ class CheckActivity : AppCompatActivity() {
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
     loginResponse = Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse::class.java)
     customerData = intent.getParcelableExtra(AkgConstants.CUSTOMER_INFO)!!
-    pricePerPack = "Not Available!"
 
     binding.storeNameTextView.text = customerData.customerName
     binding.storeAddressTextView.text = customerData.customerName
@@ -103,7 +107,8 @@ class CheckActivity : AppCompatActivity() {
 
   private fun setupRecyclerView() {
     val realm: Realm = Realm.getDefaultInstance()
-    products = realm.where(CategoryModel::class.java).findAll()
+    products = realm.where(CartModel::class.java).findAll()
+    Log.d(TAG, "setupRecyclerView: products = $products")
     adapter = CategoryListAdapter(this, products)
     binding.recyclerView.adapter = adapter
   }
@@ -117,11 +122,11 @@ class CheckActivity : AppCompatActivity() {
     }
 
     binding.txtTotalQuantity.text = quantity.toString()
-    binding.txtTotalAmount.text = totalAmount.toString()
+    binding.txtTotalAmount.text = String.format(Locale.getDefault(), "%.2f", totalAmount)
   }
 
   fun submit(view: View) {
-    invoiceProducts = ArrayList()
+    invoiceProducts = RealmList()
     var totalAmount = 0.0
     products.forEach {
       val invoiceProduct = InvoiceProduct(
@@ -129,16 +134,23 @@ class CheckActivity : AppCompatActivity() {
         it.productId,
         it.orderQuantity.toInt(),
         it.sellingRate,
-        (it.orderQuantity.toDouble() * it.sellingRate)
+        (it.orderQuantity.toDouble() * it.sellingRate),
+        it.productCode,
+        it.sellingRate
       )
 
       invoiceProducts.add(invoiceProduct)
       totalAmount += invoiceProduct.subToalAmount
+
+      Log.d(TAG, "submit: "+invoiceProduct)
     }
 
-    val invoiceRequest = InvoiceRequest(
-      customerData.id, billNo, "Invoice Id",
-      invoiceProducts, loginResponse.data.id, totalAmount
+    invoiceDate = System.currentTimeMillis()
+
+    invoiceRequest = InvoiceRequest(
+      customerData.id, invoiceDate, "${customerData.id + invoiceDate}",
+      invoiceProducts, loginResponse.data.id, totalAmount, customerData.customerName,
+      customerData.address
     )
 
     val basicAuthorization = Credentials.basic(
@@ -146,16 +158,45 @@ class CheckActivity : AppCompatActivity() {
       preferences.getPassword()
     )
 
-    val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
-    call.enqueue(object : Callback<ResponseBody> {
-      override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-        Log.d(TAG, "onResponse: response.body() = " + response.body())
-      }
+    if (!NetworkUtils.isNetworkConnected(this)) {
+      //TODO: save to database
+        invoiceRequest.status = false
+      SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+      RealMDatabaseManager().deleteAllCart()
+      printMemo()
+      Toast.makeText(this, "Invoice Created!", Toast.LENGTH_SHORT).show()
+    } else {
+      val call = apiInterface.createInvoice(basicAuthorization, invoiceRequest)
+      call.enqueue(object : Callback<ResponseBody> {
+        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+          Log.d(TAG, "onResponse: response.body() = " + response.body())
+          if (response.isSuccessful) {
+            //TODO: save to database
+            invoiceRequest.status = true
+            SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+            RealMDatabaseManager().deleteAllCart()
+            printMemo()
+          } else {
+            //TODO: save to database
+            invoiceRequest.status = false
+            SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+            RealMDatabaseManager().deleteAllCart()
+            printMemo()
+          }
+          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+        }
 
-      override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-        Log.e(TAG, "onFailure: ", t)
-      }
-    })
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+          Log.e(TAG, "onFailure: ", t)
+          //TODO: save to database
+          invoiceRequest.status = false
+          SyncManager(this@CheckActivity).insertInvoice(invoiceRequest)
+          RealMDatabaseManager().deleteAllCart()
+          printMemo()
+          Toast.makeText(this@CheckActivity, "Invoice Created!", Toast.LENGTH_SHORT).show()
+        }
+      })
+    }
   }
 
   fun printMemo() {
@@ -171,7 +212,7 @@ class CheckActivity : AppCompatActivity() {
       )
     } else {
       AkgPrintingService(this)
-        .print(customerData, billNo, loginResponse, products)
+        .print(customerData, loginResponse, invoiceRequest)
     }
   }
 
@@ -188,7 +229,7 @@ class CheckActivity : AppCompatActivity() {
         ) {
           // Permission is granted. Continue the action or workflow
           // in your app.
-          //printMemo()
+          printMemo()
         } else {
           // Explain to the user that the feature is unavailable because
           // the features requires a permission that the user has denied.

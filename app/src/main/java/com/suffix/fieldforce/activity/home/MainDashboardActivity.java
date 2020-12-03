@@ -6,15 +6,11 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -55,13 +52,14 @@ import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -125,6 +123,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutSync)
   LinearLayout layoutSync;
 
+  @BindView(R.id.badge)
+  View badge;
+
   private static final String TAG = "MainDashboardActivity";
 
   private final String ENTRY_TYPE_IN = "i";
@@ -150,7 +151,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoAttendance();
         break;
       case R.id.layoutExit:
-        geoExit();
+        if(preferences.getOnline()){
+          geoExit();
+        }else{
+          Toast.makeText(MainDashboardActivity.this, "You can't exit without making attendance", Toast.LENGTH_SHORT).show();
+        }
         break;
       case R.id.layoutTask:
         //openTask();
@@ -199,9 +204,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    txtUserName.setText("Md. Arafat");
-
-    initProgressBar();
+    txtUserName.setText(loginResponse.getData().getUserName());
 
     // Check if the user revoked runtime permissions.
     if (!checkPermissions()) {
@@ -216,6 +219,13 @@ public class MainDashboardActivity extends AppCompatActivity implements
       }
     }, "");
     //initLocationSettings();
+
+    if(preferences.getOnline()){
+      txtUserAddress.setText(preferences.getAddress());
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
+    }else{
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
+    }
   }
 
   private void initLocationSettings() {
@@ -252,108 +262,28 @@ public class MainDashboardActivity extends AppCompatActivity implements
     super.onDestroy();
   }
 
-  private void initProgressBar() {
-//    progressBar.setOnClickListener(v -> {
-//      initLocationSettings();
-//      /*if (preferences.getOnline()) {
-//        goOffline();
-//      } else {
-//        goOnline();
-//      }*/
-//    });
-  }
-
   private void getDeviceLocation(LocationListener locationListener, String text) {
     try {
-//            Task task = fusedLocationProviderClient.getLastLocation();
-//            task.addOnCompleteListener(task1 -> {
-//                if (task1.isSuccessful()) {
-//                    if (task1 != null) {
-//                        preferences.putLocation((Location) task1.getResult());
-//                        new GetAddressTask(MainDashboardActivity.this).execute((Location) task1.getResult());
-//                    } else {
-//                        getDeviceLocation();
-//                    }
-//                } else {
-//                    getDeviceLocation();
-//                }
-//            });
       SmartLocation.with(this).location()
           .oneFix()
           .start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
-              preferences.putLocation(location);
               locationListener.onLocationUpdate(location);
-              SmartLocation.with(MainDashboardActivity.this).geocoding()
-                  .reverse(location, new OnReverseGeocodingListener() {
-                    @Override
-                    public void onAddressResolved(Location location, List<Address> list) {
-
-                      if (BuildConfig.DEBUG) {
-                        //Toast.makeText(MainDashboardActivity.this, "Total Location : " + list.size(), Toast.LENGTH_SHORT).show();
-                      }
-
-                      if (list.size() > 0) {
-                        Address result = list.get(0);
-                        StringBuilder builder = new StringBuilder();
-                        builder.append(text);
-                        List<String> addressElements = new ArrayList<>();
-                        for (int i = 0; i <= result.getMaxAddressLineIndex(); i++) {
-                          addressElements.add(result.getAddressLine(i));
-                        }
-                        if (BuildConfig.DEBUG) {
-                          //Toast.makeText(MainDashboardActivity.this, "Total AddressLine : " + result.getMaxAddressLineIndex(), Toast.LENGTH_SHORT).show();
-                        }
-                        builder.append(TextUtils.join(", ", addressElements));
-
-                        SpannableString spannableString = new SpannableString(builder.toString());
-
-                        if (text.length() > 0) {
-                          if (text.toLowerCase().contains("entered")) {
-                            Object bgGreenSpan = new BackgroundColorSpan(Color.parseColor("#6CBD6E"));
-                            spannableString.setSpan(bgGreenSpan, 0, text.length() - 3, 0);
-                          } else {
-                            Object bgRed = new BackgroundColorSpan(Color.parseColor("#DA4453"));
-                            spannableString.setSpan(bgRed, 0, text.length() - 3, 0);
-                          }
-                        }
-                        txtUserAddress.setText(spannableString);
-                      } else {
-                        txtUserAddress.setText("No Address Found");
-                      }
-                    }
-                  });
             }
           });
-    } catch (SecurityException e) {
+    } catch (Exception e) {
       Log.e(TAG, "getDeviceLocation: ", e);
     }
   }
 
   private void goOnline() {
-//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.green));
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(0f);
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(100f);
-    //getDeviceLocation("Entered : ");
-    requestLocationUpdates();
-//    txtUserStatus.setText(getResources().getString(R.string.entered));
-//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.green));
+    //requestLocationUpdates();
     preferences.putOnline(true);
   }
 
   private void goOffline() {
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(0f);
-//    progressBar.setForegroundStrokeColor(getResources().getColor(R.color.colorGrapeFruit));
-//    progressBar.setProgressAnimationDuration(1000);
-//    progressBar.setProgress(100f);
-    //getDeviceLocation("Exit : ");
-    removeLocationUpdates();
-//    txtUserStatus.setText(getResources().getString(R.string.exit));
-//    txtUserStatus.setBackgroundColor(getResources().getColor(R.color.colorGrapeFruit));
+    //removeLocationUpdates();
     preferences.putOnline(false);
   }
 
@@ -507,8 +437,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
               @Override
               public void onLocationUpdate(Location location) {
 
-                requestLocationUpdates();
-                preferences.putOnline(true);
+                //requestLocationUpdates();
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -534,6 +463,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
+                      showAddressName(location);
+                      preferences.putOnline(true);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
@@ -563,6 +495,27 @@ public class MainDashboardActivity extends AppCompatActivity implements
     mBottomSheetDialog.show();
   }
 
+  private void showAddressName(Location location) {
+
+    SmartLocation.with(MainDashboardActivity.this).geocoding()
+        .reverse(location, new OnReverseGeocodingListener() {
+          @Override
+          public void onAddressResolved(Location location, List<Address> list) {
+            String result = null;
+
+              if (list != null && list.size() > 0) {
+                Address address = list.get(0);
+                // sending back first address line and locality
+                result = address.getAddressLine(0) + ", " + address.getLocality();
+              }else {
+                result = "No address found for this location";
+              }
+              preferences.putAddress(result);
+              txtUserAddress.setText(result);
+          }
+        });
+  }
+
   @SuppressLint("RestrictedApi")
   private void geoExit() {
 
@@ -578,7 +531,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
               @Override
               public void onLocationUpdate(Location location) {
                 //requestLocationUpdates();
-                preferences.putOnline(false);
 
                 AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
                     AkgLoginResponse.class);
@@ -603,6 +555,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   @Override
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
+                      preferences.putOnline(false);
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
                       Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -683,10 +637,18 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void syncData() {
-    Log.d("Realm","Sync Data Called");
-    SyncManager databseManager = new SyncManager(MainDashboardActivity.this);
-    databseManager.getAllCustomer();
+    Log.d("Realm", "Sync Data Called");
 
+    SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+    syncManager.getAllCustomer();
+
+//    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
+//      @Override
+//      public void onCustomerDelete(boolean OnSuccess) {
+//        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
+//        syncManager.getAllCustomer();
+//      }
+//    });
   }
 
 }

@@ -24,8 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.developer.kalert.KAlertDialog;
-import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.model.Image;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.suffix.fieldforce.R;
@@ -344,8 +342,8 @@ public class CreateTaskActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        ImagePicker.create(this)
-                .start();
+//        ImagePicker.create(this)
+//                .start();
 
     }
 
@@ -385,12 +383,12 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            List<Image> images = ImagePicker.getImages(data);
-            Image image = ImagePicker.getFirstImageOrNull(data);
-            bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
-            imgAttach.setImageBitmap(bitmap);
-        }
+//        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+//            List<Image> images = ImagePicker.getImages(data);
+//            Image image = ImagePicker.getFirstImageOrNull(data);
+//            bitmap = getResizedBitmap(BitmapFactory.decodeFile(image.getPath()), 512, 512);
+//            imgAttach.setImageBitmap(bitmap);
+//        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

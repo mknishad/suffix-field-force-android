@@ -23,8 +23,11 @@ import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.MemoListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
+import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -48,10 +51,13 @@ public class MemoListActivity extends AppCompatActivity {
   @BindView(R.id.txtTotalMemo)
   TextView txtTotalMemo;
 
+  @BindView(R.id.txtResponse)
+  TextView txtResponse;
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private MemoListAdapter memoListAdapter;
-  private List<MemoListResponse> memoListResponse;
+  private List<InvoiceRequest> memoListResponse;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +80,11 @@ public class MemoListActivity extends AppCompatActivity {
     memoListAdapter.setMemoListInterface(new MemoListInterface() {
       @Override
       public void onItemClick(int position) {
-        MemoListResponse response = memoListResponse.get(position);
+        InvoiceRequest response = memoListResponse.get(position);
 
         Intent intent = new Intent(MemoListActivity.this, MemoDetailsActivity.class);
-        intent.putExtra("MEMO_DETAIL", response);
+        intent.putExtra(AkgConstants.MEMO_DETAIL, response);
         startActivity(intent);
-
       }
     });
 
@@ -98,6 +103,7 @@ public class MemoListActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("মেমোলিস্ট");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -117,30 +123,11 @@ public class MemoListActivity extends AppCompatActivity {
 
   private void getMemoList() {
 
-    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AkgLoginResponse.class);
-    String basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
-        preferences.getPassword());
-
-    Call<List<MemoListResponse>> call = apiInterface.getMemoList(basicAuthorization, loginResponse.getData().getId());
-    call.enqueue(new Callback<List<MemoListResponse>>() {
-      @Override
-      public void onResponse(Call<List<MemoListResponse>> call, Response<List<MemoListResponse>> response) {
-        if (response.isSuccessful()) {
-          memoListResponse = response.body();
-          txtTotalMemo.setText("মোট : "+memoListResponse.size());
-          memoListAdapter.setData(memoListResponse);
-        } else {
-          Log.d("Memo", response.errorBody().toString());
-        }
-      }
-
-      @Override
-      public void onFailure(Call<List<MemoListResponse>> call, Throwable t) {
-        Toast.makeText(MemoListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
-      }
-    });
-
+    memoListResponse = new RealMDatabaseManager().prepareInvoiceRequest();
+    if(memoListResponse.size() > 0){
+      txtResponse.setVisibility(View.GONE);
+      recyclerView.setVisibility(View.VISIBLE);
+      memoListAdapter.setData(memoListResponse);
+    }
   }
 }
