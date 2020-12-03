@@ -72,6 +72,15 @@ class FieldForcePreferences(context: Context) {
     return preferences.getString(Constants.LOGIN_RESPONSE, "").toString()
   }
 
+  fun putDistributor(json: String) {
+    editor.putString(Constants.DISTRIBUTOR, json)
+    editor.apply()
+  }
+
+  fun getDistributor(): String {
+    return preferences.getString(Constants.DISTRIBUTOR, "").toString()
+  }
+
   fun putPassword(password: String) {
     editor.putString(Constants.PASSWORD, password)
     editor.apply()

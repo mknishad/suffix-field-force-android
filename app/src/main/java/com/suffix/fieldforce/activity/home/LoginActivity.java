@@ -19,12 +19,14 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
     abulLoginCall.enqueue(new Callback<AkgLoginResponse>() {
       @Override
       public void onResponse(Call<AkgLoginResponse> call, Response<AkgLoginResponse> response) {
-        progressBar.setVisibility(View.GONE);
+        //progressBar.setVisibility(View.GONE);
         try {
           if (response.isSuccessful()) {
             if (response.body().getCode() == 200) {
@@ -111,9 +113,7 @@ public class LoginActivity extends AppCompatActivity {
               String loginResponseJson = new Gson().toJson(loginResponse);
               preferences.putLoginResponse(loginResponseJson);
               preferences.putPassword(password);
-              //preferences.putUser(user);
-              startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
-              finish();
+              getDistributor(userId, password, loginResponse.getData().getId());
             } else {
               Snackbar.make(logBtnLogin, response.body().getErrorMessage(), Snackbar.LENGTH_SHORT).show();
             }
@@ -129,45 +129,37 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onFailure(Call<AkgLoginResponse> call, Throwable t) {
         Log.e(TAG, "onFailure: ", t);
-        progressBar.setVisibility(View.GONE);
+        //progressBar.setVisibility(View.GONE);
         Snackbar.make(logBtnLogin, t.getMessage(), Snackbar.LENGTH_SHORT).show();
       }
     });
   }
 
-  /*private void callLoginService(String userId, String password, String token) {
-    Call<LoginResponse> loginCall = apiInterface.login(Constants.KEY, userId, password, token);
-    loginCall.enqueue(new Callback<LoginResponse>() {
+  private void getDistributor(String userId, String password, int id) {
+    String basicAuthorization = Credentials.basic(userId, password);
+    Call<Distributor> call = apiInterface.getDistributor(basicAuthorization, id);
+    call.enqueue(new Callback<Distributor>() {
       @Override
-      public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+      public void onResponse(Call<Distributor> call, Response<Distributor> response) {
         progressBar.setVisibility(View.GONE);
-        try {
-          if (response.isSuccessful()) {
-            if (response.body().getResponseCode().equalsIgnoreCase("1")) {
-              User user = response.body().getResponseData();
-              preferences.putUser(user);
-              startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
-              finish();
-
-            } else {
-
-              Snackbar.make(logBtnLogin, response.body().getResponseText(), Snackbar.LENGTH_SHORT).show();
-            }
-          } else {
-            Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-          }
-        } catch (Exception e) {
-          Log.e(TAG, "onResponse: " + e.getMessage(), e);
+        if (response.isSuccessful()) {
+          Distributor distributor = response.body();
+          String json = new Gson().toJson(distributor);
+          Log.d(TAG, "onResponse: json = " + json);
+          preferences.putDistributor(json);
+          startActivity(new Intent(LoginActivity.this, MainDashboardActivity.class));
+          finish();
+        } else {
           Snackbar.make(logBtnLogin, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show();
         }
       }
 
       @Override
-      public void onFailure(Call<LoginResponse> call, Throwable t) {
+      public void onFailure(Call<Distributor> call, Throwable t) {
         progressBar.setVisibility(View.GONE);
-        Log.e(TAG, "onResponse: " + t.getMessage(), t);
+        Log.e(TAG, "onFailure: ", t);
         Snackbar.make(logBtnLogin, R.string.something_went_wrong, Snackbar.LENGTH_SHORT).show();
       }
     });
-  }*/
+  }
 }
