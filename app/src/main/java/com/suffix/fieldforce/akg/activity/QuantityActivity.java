@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,12 @@ public class QuantityActivity extends AppCompatActivity {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
+
+  @BindView(R.id.txtBase)
+  TextView txtBase;
+
+  @BindView(R.id.txtSOQ)
+  TextView txtSOQ;
 
   private LinearLayout layoutOk;
   private LinearLayout layoutClear;
@@ -61,6 +68,9 @@ public class QuantityActivity extends AppCompatActivity {
     if (getIntent().hasExtra("CATEGORY_MODEL")) {
       categoryModel = getIntent().getParcelableExtra("CATEGORY_MODEL");
     }
+
+    txtBase.setText(categoryModel.getInHandQty().toString());
+    txtSOQ.setText(categoryModel.getInHandQty().toString());
 
   }
 

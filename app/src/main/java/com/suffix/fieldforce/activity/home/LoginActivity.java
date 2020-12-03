@@ -88,17 +88,17 @@ public class LoginActivity extends AppCompatActivity {
         String newToken = instanceIdResult.getToken();
         Log.i(TAG, "newToken = " + newToken);
         preferences.putPushToken(newToken);
-        loginAbul(userId, password);
+        loginAbul(newToken, userId, password);
         //callLoginService(userId, password, newToken);
       });
     } else {
       //callLoginService(userId, password, preferences.getPushToken());
-      loginAbul(userId, password);
+      loginAbul("1234", userId, password);
     }
   }
 
-  private void loginAbul(String userId, String password) {
-    LoginRequest loginRequest = new LoginRequest(userId, password);
+  private void loginAbul(String newToken, String userId, String password) {
+    LoginRequest loginRequest = new LoginRequest(newToken, userId, password);
     Call<AkgLoginResponse> abulLoginCall = apiInterface.login(loginRequest);
     abulLoginCall.enqueue(new Callback<AkgLoginResponse>() {
       @Override
