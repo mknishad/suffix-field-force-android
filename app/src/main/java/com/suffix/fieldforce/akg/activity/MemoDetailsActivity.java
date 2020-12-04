@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -101,6 +102,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
         });
   }
 
+  private static final String TAG = "MemoDetailsActivity";
+
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private MemoBodyListAdapter memoBodyListAdapter;
@@ -138,6 +141,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     recyclerView.setAdapter(memoBodyListAdapter);
 
     invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+    Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
     txtStoreName.setText(invoiceRequest.getCustomerName());
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));

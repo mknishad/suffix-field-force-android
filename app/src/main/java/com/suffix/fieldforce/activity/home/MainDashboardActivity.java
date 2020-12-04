@@ -3,6 +3,7 @@ package com.suffix.fieldforce.activity.home;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -52,15 +53,17 @@ import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.util.CustomProgress;
+import com.suffix.fieldforce.akg.util.NetworkUtils;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -148,6 +151,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private AkgApiInterface apiInterface;
   private AkgLoginResponse loginResponse;
 
+  private ProgressDialog progress;
+
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
     switch (view.getId()) {
@@ -155,9 +160,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
         geoAttendance();
         break;
       case R.id.layoutExit:
-        if(preferences.getOnline()){
+        if (preferences.getOnline()) {
           geoExit();
-        }else{
+        } else {
           Toast.makeText(MainDashboardActivity.this, "You can't exit without making attendance", Toast.LENGTH_SHORT).show();
         }
         break;
@@ -191,7 +196,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         syncData();
         break;
       case R.id.layoutClosing:
-        closeSale();
+        closeSales();
         break;
     }
   }
@@ -227,11 +232,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }, "");
     //initLocationSettings();
 
-    if(preferences.getOnline()){
+    if (preferences.getOnline()) {
       txtUserAddress.setText(preferences.getAddress());
-      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
-    }else{
-      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_online));
+    } else {
+      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_offline));
     }
   }
 
@@ -472,7 +477,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
                       showAddressName(location);
                       preferences.putOnline(true);
-                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_online));
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_online));
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
                     }
@@ -510,15 +515,15 @@ public class MainDashboardActivity extends AppCompatActivity implements
           public void onAddressResolved(Location location, List<Address> list) {
             String result = null;
 
-              if (list != null && list.size() > 0) {
-                Address address = list.get(0);
-                // sending back first address line and locality
-                result = address.getAddressLine(0) + ", " + address.getLocality();
-              }else {
-                result = "No address found for this location";
-              }
-              preferences.putAddress(result);
-              txtUserAddress.setText(result);
+            if (list != null && list.size() > 0) {
+              Address address = list.get(0);
+              // sending back first address line and locality
+              result = address.getAddressLine(0) + ", " + address.getLocality();
+            } else {
+              result = "No address found for this location";
+            }
+            preferences.putAddress(result);
+            txtUserAddress.setText(result);
           }
         });
   }
@@ -563,7 +568,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                       preferences.putOnline(false);
-                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,R.drawable.circular_badge_offline));
+                      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_offline));
                       Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -658,12 +663,90 @@ public class MainDashboardActivity extends AppCompatActivity implements
 //    });
   }
 
+  private List<InvoiceRequest> invoiceRequestList;
+  private List<InvoiceRequest> failedInvoices;
 
-  public void closeSale() {
+  public void closeSales() {
+    if (!NetworkUtils.isNetworkConnected(this)) {
+      Toast.makeText(this, "ইন্টারনেট সংযোগ নেই!", Toast.LENGTH_SHORT).show();
+      return;
+    }
 
-    CustomProgress customProgress = new CustomProgress(this);
-    customProgress.show("Loading...");
+    invoiceRequestList = new RealMDatabaseManager().prepareInvoiceRequest();
+    if (invoiceRequestList.size() > 0) {
+      failedInvoices = new ArrayList<>();
+      for (InvoiceRequest invoiceRequest : invoiceRequestList) {
+        if (!invoiceRequest.getStatus()) {
+          failedInvoices.add(invoiceRequest);
+        }
+      }
+      Log.d(TAG, "closeSales: failedInvoices.size() = " + failedInvoices.size());
 
+      if (failedInvoices.size() > 0) {
+        progress = new ProgressDialog(this);
+        progress.setMessage("Closing Sales");
+        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progress.setIndeterminate(true);
+        progress.show();
+        syncFailedInvoices();
+      } else {
+        Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+      }
+    } else {
+      Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+    }
   }
 
+  private void syncFailedInvoices() {
+    String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
+        preferences.getPassword());
+
+    //for (int i = 0; i < failedInvoices.size(); i++) {
+    InvoiceRequest invoiceRequest = failedInvoices.get(0);
+    Call<ResponseBody> call = apiInterface.createInvoice(basicAuthorization, invoiceRequest);
+    //int finalI = i;
+    call.enqueue(new Callback<ResponseBody>() {
+      @Override
+      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if (response.isSuccessful()) {
+          failedInvoices.remove(0);
+        }
+        if (failedInvoices.size() > 0) {
+          syncFailedInvoices();
+        } else {
+          new RealMDatabaseManager().deleteAllInvoice();
+          progress.dismiss();
+          Toast.makeText(MainDashboardActivity.this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<ResponseBody> call, Throwable t) {
+        Log.e(TAG, "onFailure: ", t);
+        //Toast.makeText(MainDashboardActivity.this, "ডাটা হালনাগাদ হয়নি! আবার চেষ্টা করুন", Toast.LENGTH_SHORT).show();
+        /*if (finalI == failedInvoices.size() - 1) {
+          if (failedInvoices.size() > 0) {
+            new AlertDialog.Builder(MainDashboardActivity.this)
+                .setMessage("ডাটা হালনাগাদ হয়নি! আবার চেষ্টা করুন")
+                .setPositiveButton(android.R.string.ok, new android.content.DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(android.content.DialogInterface dialog, int which) {
+                    closeSales();
+                  }
+                })
+                .setCancelable(false)
+                .show();
+          } else {
+            progress.dismiss();
+            Toast.makeText(MainDashboardActivity.this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+          }
+        }*/
+      }
+    });
+  }
+
+  private void showProgress() {
+    CustomProgress customProgress = new CustomProgress(this);
+    customProgress.show("Loading...");
+  }
 }
