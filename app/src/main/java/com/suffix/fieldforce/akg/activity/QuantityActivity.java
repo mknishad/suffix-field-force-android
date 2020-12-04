@@ -22,7 +22,6 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.ButtonKeyValueModel;
 import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
-import com.suffix.fieldforce.akg.util.AkgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,6 @@ public class QuantityActivity extends AppCompatActivity {
     setupToolbar();
 
     bindViews();
-    bindListWithValue();
 
     realm = Realm.getDefaultInstance();
 
@@ -76,6 +74,8 @@ public class QuantityActivity extends AppCompatActivity {
       txtSOQ.setText(categoryModel.getInHandQty().toString());
       imgProduct.setImageURI(Uri.parse("http://51.79.73.162:8956/salesapi" +categoryModel.getProductImage()));
     }
+
+    bindListWithValue();
   }
 
   private void setupToolbar() {
@@ -106,9 +106,9 @@ public class QuantityActivity extends AppCompatActivity {
     }
   }
 
-  private void prepareKeyValues(String type) {
-    switch (type) {
-      case AkgConstants.CIGARETTE:
+  private void prepareKeyValues(int categoryId) {
+    switch (categoryId) {
+      case 101:
         buttonKeyValue.add(new ButtonKeyValueModel("+1000", "1000"));
         buttonKeyValue.add(new ButtonKeyValueModel("-1000", "1000"));
         buttonKeyValue.add(new ButtonKeyValueModel("+500", "500"));
@@ -120,7 +120,7 @@ public class QuantityActivity extends AppCompatActivity {
         buttonKeyValue.add(new ButtonKeyValueModel("+20", "20"));
         buttonKeyValue.add(new ButtonKeyValueModel("-20", "20"));
         break;
-      case AkgConstants.BIRI:
+      case 102:
         buttonKeyValue.add(new ButtonKeyValueModel("+500", "500"));
         buttonKeyValue.add(new ButtonKeyValueModel("-500", "500"));
         buttonKeyValue.add(new ButtonKeyValueModel("+250", "250"));
@@ -132,7 +132,7 @@ public class QuantityActivity extends AppCompatActivity {
         buttonKeyValue.add(new ButtonKeyValueModel("+25", "25"));
         buttonKeyValue.add(new ButtonKeyValueModel("-25", "25"));
         break;
-      case AkgConstants.MATCH:
+      case 103:
         buttonKeyValue.add(new ButtonKeyValueModel("+24", "24"));
         buttonKeyValue.add(new ButtonKeyValueModel("-24", "24"));
         buttonKeyValue.add(new ButtonKeyValueModel("+12", "12"));
@@ -161,7 +161,7 @@ public class QuantityActivity extends AppCompatActivity {
   }
 
   private void bindListWithValue() {
-    prepareKeyValues(AkgConstants.BIRI);
+    prepareKeyValues(categoryModel.getProductCatId());
     prepareKeyButtons();
 
     int index = 0;
