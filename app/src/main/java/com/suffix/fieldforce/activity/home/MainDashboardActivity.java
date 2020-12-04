@@ -2,7 +2,6 @@ package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -159,6 +158,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private ProgressDialog progress;
   CustomProgress customProgress;
 
+  @SuppressLint("RestrictedApi")
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
     switch (view.getId()) {
@@ -215,27 +215,28 @@ public class MainDashboardActivity extends AppCompatActivity implements
         syncData();
         break;
       case R.id.layoutClosing:
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+            .setTitle("সেলস ক্লোজিং")
             .setMessage("দিনে শুধুমাত্র একবার সেলস ক্লোজ করতে পারবেন। সেলস ক্লোজ করার পর সব ডাটা মুছে যাবে। আপনি কি সেলস ক্লোজ করতে চান?")
-            .setPositiveButton("হ্যা", new android.content.DialogInterface.OnClickListener() {
+            .setCancelable(false)
+            .setPositiveButton("হ্যা", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
               @Override
-              public void onClick(android.content.DialogInterface dialog, int which) {
+              public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
                 closeSales();
+                dialogInterface.dismiss();
               }
             })
-            .setNegativeButton("না", new android.content.DialogInterface.OnClickListener() {
+            .setNegativeButton("না", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
               @Override
-              public void onClick(android.content.DialogInterface dialog, int which) {
-
+              public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+                //Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
               }
             })
-            .setCancelable(false);
-        AlertDialog alert = builder.create();
-        /*Button positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        positiveButton.setBackgroundResource(android.R.color.transparent);
-        Button negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        negativeButton.setBackgroundResource(android.R.color.transparent);*/
-        alert.show();
+            .build();
+
+        // Show Dialog
+        mBottomSheetDialog.show();
         break;
     }
   }
