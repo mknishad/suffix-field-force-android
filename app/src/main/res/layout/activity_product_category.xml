@@ -143,8 +143,9 @@
         <Button
             android:id="@+id/btnJachai"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="যাচাই" />
+            android:layout_height="56dp"
+            android:text="যাচাই"
+            android:textSize="18sp"/>
       </LinearLayout>
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>

@@ -150,7 +150,7 @@ public class SaleActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setTitle(getResources().getString(R.string.sale));
+      getSupportActionBar().setTitle(getResources().getString(R.string.customer));
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
