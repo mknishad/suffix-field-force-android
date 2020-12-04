@@ -144,16 +144,9 @@ public class VisitActivity extends AppCompatActivity {
           @Override
           public void onLocationUpdated(Location location) {
             preferences.putLocation(location);
-            SmartLocation.with(VisitActivity.this).geocoding()
-                .reverse(location, new OnReverseGeocodingListener() {
-                  @Override
-                  public void onAddressResolved(Location location, List<Address> list) {
-                    layoutSubmit.setVisibility(View.VISIBLE);
-                    lat = location.getAltitude();
-                    lon = location.getLongitude();
-
-                  }
-                });
+            layoutSubmit.setVisibility(View.VISIBLE);
+            lat = location.getAltitude();
+            lon = location.getLongitude();
           }
         });
 

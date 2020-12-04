@@ -229,20 +229,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
       toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.color_white),
           PorterDuff.Mode.SRC_ATOP);
     }
-
-    /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        onBackPressed();
-      }
-    });
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
-          BlendMode.SRC_ATOP));
-    } else {
-      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-    }*/
   }
 
   private void init() {

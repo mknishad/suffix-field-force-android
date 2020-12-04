@@ -28,7 +28,8 @@
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Customer"
+        android:text="@string/customer_nirbachon"
+        android:fontFamily="@font/solaimanlipi"
         android:textColor="@color/colorMint"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -290,19 +291,23 @@
         <Button
             android:id="@+id/btnSale"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="বিক্রয়"
-            android:visibility="invisible" />
+            android:text="@string/sale"
+            android:fontFamily="@font/solaimanlipi"
+            android:enabled="false"
+            android:textSize="18sp"/>
 
         <Button
             android:id="@+id/btnVisited"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_weight="1"
-            android:text="ভিসিটেড"
-            android:visibility="invisible" />
+            android:text="@string/visited"
+            android:fontFamily="@font/solaimanlipi"
+            android:enabled="false"
+            android:textSize="18sp"/>
       </LinearLayout>
     </LinearLayout>
   </LinearLayout>
