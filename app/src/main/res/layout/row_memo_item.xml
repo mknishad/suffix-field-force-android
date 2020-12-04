@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    android:background="@drawable/shadow_row"
     android:paddingHorizontal="15dp"
-    android:paddingVertical="15dp"
-    android:background="@drawable/shadow_row">
+    android:paddingVertical="15dp">
 
-    <ImageView
-        android:id="@+id/imgProjectIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_notebook"
-        android:layout_below="@+id/txtIssueNumber"
-        android:layout_marginRight="@dimen/layout_margin_10"
-        android:layout_marginBottom="10dp"/>
-    <TextView
-        android:id="@+id/txtShopName"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="Miraz Store"
-        android:layout_marginLeft="10dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#2b2b2b"
-        android:layout_toRightOf="@id/imgProjectIcon"
-        />
-    <TextView
-        android:id="@+id/txtCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtShopName"
-        android:layout_toRightOf="@id/imgProjectIcon"
-        android:text="btw234"
-        android:textColor="#2b2b2b"
-        android:textSize="16sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        />
-    <TextView
-        android:id="@+id/txtTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:paddingHorizontal="@dimen/layout_margin_10"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:text="145"
-        android:background="@drawable/border_mint" />
+  <ImageView
+      android:id="@+id/imgProjectIcon"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_centerVertical="true"
+      android:layout_marginEnd="@dimen/layout_margin_10"
+      android:layout_marginBottom="10dp"
+      android:src="@drawable/ic_notebook" />
+
+  <TextView
+      android:id="@+id/txtShopName"
+      android:layout_width="wrap_content"
+      android:layout_height="20dp"
+      android:layout_marginStart="10dp"
+      android:layout_toEndOf="@id/imgProjectIcon"
+      android:text="Miraz Store"
+      android:textColor="#2b2b2b"
+      android:textSize="16sp"
+      android:textStyle="bold" />
+
+  <TextView
+      android:id="@+id/txtCode"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/txtShopName"
+      android:layout_marginStart="10dp"
+      android:layout_marginTop="5dp"
+      android:layout_toEndOf="@id/imgProjectIcon"
+      android:text="btw234"
+      android:textColor="#2b2b2b"
+      android:textSize="16sp" />
+
+  <TextView
+      android:id="@+id/txtTotal"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_centerVertical="true"
+      android:background="@drawable/border_mint"
+      android:paddingHorizontal="@dimen/layout_margin_10"
+      android:text="145"
+      android:textColor="@android:color/white"
+      android:textSize="14sp" />
 </RelativeLayout>

@@ -1,11 +1,5 @@
 package com.suffix.fieldforce.akg.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,9 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.adapter.StockBodyListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
@@ -29,7 +28,6 @@ import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
-import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.util.AkgConstants;
@@ -71,7 +69,7 @@ public class StockActivity extends AppCompatActivity {
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    new AkgPrintingService(this).print(distributor.getData().getDistributorName(),
+    new AkgPrintingService().print(distributor.getData().getDistributorName(),
         distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
