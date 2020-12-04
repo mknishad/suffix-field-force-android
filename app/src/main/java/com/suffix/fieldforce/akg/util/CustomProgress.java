@@ -32,7 +32,13 @@ public class CustomProgress {
   }
 
   public void dismiss(){
-    alertDialog.dismiss();
+    try{
+      if(alertDialog.isShowing()){
+        alertDialog.dismiss();
+      }
+    }catch (Exception e){
+
+    }
   }
 
 

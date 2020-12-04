@@ -53,6 +53,7 @@ import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -152,6 +153,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private AkgLoginResponse loginResponse;
 
   private ProgressDialog progress;
+  CustomProgress customProgress;
 
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
@@ -212,6 +214,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void init() {
+    customProgress = new CustomProgress(this);
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
@@ -649,10 +652,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void syncData() {
+    showProgress();
     Log.d("Realm", "Sync Data Called");
 
     SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-    syncManager.getAllCustomer();
+    syncManager.getAllCustomer(new RealmDatabseManagerInterface.Sync() {
+      @Override
+      public void onSuccess() {
+        customProgress.dismiss();
+      }
+    });
 
 //    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
 //      @Override
@@ -746,7 +755,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void showProgress() {
-    CustomProgress customProgress = new CustomProgress(this);
+
     customProgress.show("Loading...");
   }
 }
