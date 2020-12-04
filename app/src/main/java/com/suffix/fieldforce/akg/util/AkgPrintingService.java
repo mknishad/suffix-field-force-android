@@ -9,15 +9,18 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class AkgPrintingService {
   private static final String TAG = "PrintUtils";
 
   public void printStock(String distributorName, String distributorMobile,
-                         AkgLoginResponse loginResponse, PrintingInterface printingInterface) {
+                         AkgLoginResponse loginResponse, List<CategoryModel> products,
+                         PrintingInterface printingInterface) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
@@ -28,10 +31,30 @@ public class AkgPrintingService {
       stringBuilder.append("[L]<b>Stock:</b>\n");
       stringBuilder.append("[L]--------------------------------\n");
 
+      int primaryQuantity = 0;
+      int currentQuantity = 0;
 
+      for (CategoryModel product : products) {
+        primaryQuantity += product.getInHandQty();
+        currentQuantity += product.getSalesQty();
+        stringBuilder.append("[L]").append(printFirst(product.getProductCode()))
+            .append(printLast(String.valueOf(product.getInHandQty()))).append("--")
+            .append(printLast(String.valueOf(product.getInHandQty() - product.getSalesQty()))).append("\n");
+      }
 
       stringBuilder.append("[L]--------------------------------\n");
 
+      stringBuilder.append("[L]").append(printFirst("TOTAL"))
+          .append(printLast(String.valueOf(primaryQuantity))).append("--")
+          .append(printLast(String.valueOf(currentQuantity))).append("\n");
+
+      Log.d(TAG, "printStock: stringBuilder = " + stringBuilder.toString());
+
+      EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
+          203, 48f, 32);
+      printer.printFormattedText(stringBuilder.toString());
+
+      printingInterface.onPrintSuccess("Done!");
     } catch (Exception e) {
       Log.e(TAG, "printStock: ", e);
       printingInterface.onPrintSuccess("Printing Failed!");
@@ -53,8 +76,8 @@ public class AkgPrintingService {
 
       double totalAmount = 0;
       for (InvoiceProduct product : invoiceRequest.getInvoiceProducts()) {
-        int brandLen = product.getProductCode().length();
-        int quantityLen = String.valueOf(product.getProductQty()).length();
+        //int brandLen = product.getProductCode().length();
+        //int quantityLen = String.valueOf(product.getProductQty()).length();
         double amount = product.getSellingRate() * product.getProductQty();
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
         /*totalAmount += amount;

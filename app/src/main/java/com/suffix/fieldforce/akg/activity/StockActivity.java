@@ -38,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class StockActivity extends AppCompatActivity {
@@ -67,14 +68,14 @@ public class StockActivity extends AppCompatActivity {
   NestedScrollView layoutScroll;
 
 
-  //@OnClick(R.id.btnPrint)
+  @OnClick(R.id.btnPrint)
   public void printStock() {
     progressDialog.show();
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    new AkgPrintingService().print(distributor.getData().getDistributorName(),
-        distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
+    new AkgPrintingService().printStock(distributor.getData().getDistributorName(),
+        distributor.getData().getMobile(), loginResponse, products, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
             progressDialog.dismiss();
