@@ -733,9 +733,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
         syncFailedInvoices();
       } else {
         Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+        new RealMDatabaseManager().deleteAllInvoice();
       }
     } else {
       Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
+      new RealMDatabaseManager().deleteAllInvoice();
     }
   }
 
