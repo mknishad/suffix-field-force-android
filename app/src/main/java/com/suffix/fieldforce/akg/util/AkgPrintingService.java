@@ -28,6 +28,10 @@ public class AkgPrintingService {
       stringBuilder.append("[L]<b>Stock:</b>\n");
       stringBuilder.append("[L]--------------------------------\n");
 
+
+
+      stringBuilder.append("[L]--------------------------------\n");
+
     } catch (Exception e) {
       Log.e(TAG, "printStock: ", e);
       printingInterface.onPrintSuccess("Printing Failed!");
@@ -53,7 +57,7 @@ public class AkgPrintingService {
         int quantityLen = String.valueOf(product.getProductQty()).length();
         double amount = product.getSellingRate() * product.getProductQty();
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
-        totalAmount += amount;
+        /*totalAmount += amount;
         int tkLen = tk.length();
         int totalLen = brandLen + quantityLen + tkLen;
         int dotLen = 30 - totalLen;
@@ -64,7 +68,7 @@ public class AkgPrintingService {
         }
 
         char[] dots = new char[dotNum];
-        Arrays.fill(dots, '-');
+        Arrays.fill(dots, '-');*/
 
         /*stringBuilder.append("[L]").append(product.getProductCode()).append(new String(dots))
             .append("[L]").append(product.getProductQty())
