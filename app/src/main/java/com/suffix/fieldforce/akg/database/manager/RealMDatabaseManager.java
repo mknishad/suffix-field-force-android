@@ -45,7 +45,7 @@ public class RealMDatabaseManager {
   public void deleteAllInvoice() {
     final RealmResults<InvoiceRequest> results = realm.where(InvoiceRequest.class).findAll();
 
-    realm.executeTransactionAsync(new Realm.Transaction() {
+    realm.executeTransaction(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
         results.deleteAllFromRealm();
@@ -83,5 +83,4 @@ public class RealMDatabaseManager {
       }
     });
   }
-
 }

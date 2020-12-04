@@ -7,4 +7,7 @@ public interface RealmDatabseManagerInterface {
   public interface Cart{
     public void onCartDelete(boolean OnSuccess);
   }
+  public interface Sync{
+    public void onSuccess();
+  }
 }

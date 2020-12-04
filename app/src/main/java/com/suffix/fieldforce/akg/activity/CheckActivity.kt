@@ -159,7 +159,7 @@ class CheckActivity : AppCompatActivity() {
     invoiceDate = System.currentTimeMillis()
 
     invoiceRequest = InvoiceRequest(
-      customerData.id, invoiceDate, "${customerData.id + invoiceDate}",
+      customerData.id, invoiceDate, customerData.id.toString() + "_" + invoiceDate.toString(),
       invoiceProducts, loginResponse.data.id, totalAmount, customerData.customerName,
       customerData.address
     )
@@ -226,11 +226,11 @@ class CheckActivity : AppCompatActivity() {
       Log.d(TAG, "printMemo: distributor = " + preferences.getDistributor())
       AkgPrintingService(this).print(
         distributor.data.distributorName, distributor.data.mobile,
-        loginResponse, invoiceRequest, object: PrintingInterface {
+        loginResponse, invoiceRequest, object : PrintingInterface {
           override fun onPrintFail(message: String?) {
             progressDialog.dismiss()
             alertDialogBuilder.setMessage(message)
-            alertDialogBuilder.setPositiveButton(android.R.string.ok){ _, _ ->
+            alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->
               startActivity<MainDashboardActivity>()
               finishAffinity()
             }
@@ -242,7 +242,7 @@ class CheckActivity : AppCompatActivity() {
           override fun onPrintSuccess(message: String?) {
             progressDialog.dismiss()
             alertDialogBuilder.setMessage(message)
-            alertDialogBuilder.setPositiveButton(android.R.string.ok){ _, _ ->
+            alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->
               startActivity<MainDashboardActivity>()
               finishAffinity()
             }

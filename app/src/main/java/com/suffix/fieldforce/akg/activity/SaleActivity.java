@@ -80,8 +80,6 @@ public class SaleActivity extends AppCompatActivity {
   @BindView(R.id.btnVisited)
   Button btnVisited;
 
-
-
   @OnClick(R.id.btnVisited)
   public void onViewClicked(View view){
     switch (view.getId()){

@@ -38,7 +38,7 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final InvoiceProduct row = bodyData.get(position);
-    holder.colOne.setText(String.valueOf(row.getProductId()));
+    holder.colOne.setText(String.valueOf(row.getProductCode()));
     holder.colTwo.setText(String.valueOf(row.getProductQty()));
     holder.colThree.setText(String.valueOf(row.getSubToalAmount()));
   }
