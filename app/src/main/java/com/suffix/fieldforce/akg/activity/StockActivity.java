@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class StockActivity extends AppCompatActivity {
@@ -63,6 +64,8 @@ public class StockActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_stock);
+    ButterKnife.bind(this);
+
     setupToolbar();
 
     realm = Realm.getDefaultInstance();
@@ -84,14 +87,9 @@ public class StockActivity extends AppCompatActivity {
 
     invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
     Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
-    txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
-
-    for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
-      totalQuantity += invoiceProduct.getProductQty();
-    }
 
     txtTotalQuantity.setText(String.valueOf(totalQuantity));
-    memoBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
+//    memoBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
   }
 
   private void setupToolbar() {
@@ -105,6 +103,7 @@ public class StockActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setTitle("স্টক");
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
