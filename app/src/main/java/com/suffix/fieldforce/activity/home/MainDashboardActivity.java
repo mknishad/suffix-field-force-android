@@ -51,6 +51,7 @@ import com.suffix.fieldforce.akg.activity.MemoListActivity;
 import com.suffix.fieldforce.akg.activity.NotificationListActivity;
 import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
+import com.suffix.fieldforce.akg.activity.StockActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
@@ -627,7 +628,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   public void openInventory() {
-    Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
+    Intent intent = new Intent(MainDashboardActivity.this, StockActivity.class);
     startActivity(intent);
   }
 
