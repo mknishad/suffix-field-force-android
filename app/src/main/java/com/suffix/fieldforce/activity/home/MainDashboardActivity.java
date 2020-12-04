@@ -7,9 +7,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Location;
@@ -49,7 +46,6 @@ import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
-import com.suffix.fieldforce.activity.inventory.InventoryDashboardActivity;
 import com.suffix.fieldforce.activity.location.LocationListener;
 import com.suffix.fieldforce.activity.roster.RosterManagementActivity;
 import com.suffix.fieldforce.activity.task.TaskDashboard;
@@ -66,7 +62,10 @@ import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
+import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.util.CustomProgress;
 import com.suffix.fieldforce.akg.util.NetworkUtils;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
@@ -175,16 +174,28 @@ public class MainDashboardActivity extends AppCompatActivity implements
         break;
       case R.id.layoutTask:
         //openTask();
+        if (!isDataAvailable()) {
+          Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();
+          return;
+        }
         openSales();
         break;
       case R.id.layoutRoster:
         //openRoster();
+        if (!isDataAvailable()) {
+          Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();
+          return;
+        }
         openMemo();
         break;
       case R.id.layoutBilling:
         openBills();
         break;
       case R.id.layoutInventory:
+        if (!isDataAvailable()) {
+          Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();
+          return;
+        }
         openInventory();
         break;
       case R.id.layoutChat:
@@ -194,6 +205,10 @@ public class MainDashboardActivity extends AppCompatActivity implements
         openTR();
         break;
       case R.id.layoutGIS:
+        if (!isDataAvailable()) {
+          Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();
+          return;
+        }
         openGIS();
         break;
       case R.id.layoutSync:
@@ -788,7 +803,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     int id = item.getItemId();
-    switch (id){
+    switch (id) {
       case R.id.menu_logout:
         //logout
         preferences.putLoginResponse("");
@@ -803,5 +818,33 @@ public class MainDashboardActivity extends AppCompatActivity implements
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  private boolean isDataAvailable() {
+    RealMDatabaseManager databaseManager = new RealMDatabaseManager();
+    ProductCategory productCategory = databaseManager.prepareCategoryData();
+    List<CustomerData> customerDataList = databaseManager.prepareCustomerData();
+    List<CategoryModel> products = new ArrayList<>();
+    try {
+      if (productCategory.getCigrettee().size() > 0) {
+        products.addAll(productCategory.getCigrettee());
+      }
+      if (productCategory.getBidi().size() > 0) {
+        products.addAll(productCategory.getBidi());
+      }
+      if (productCategory.getMatch().size() > 0) {
+        products.addAll(productCategory.getMatch());
+      }
+    } catch (Exception e) {
+      return false;
+    }
+
+    Log.d(TAG, "isDataAvailable: customerDataList.size() = " + customerDataList.size() +
+        "\nproducts.size() = " + products.size());
+
+    if (customerDataList.size() <= 0 || products.size() <= 0) {
+      return false;
+    }
+    return true;
   }
 }

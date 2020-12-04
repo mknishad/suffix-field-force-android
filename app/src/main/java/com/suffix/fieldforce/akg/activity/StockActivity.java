@@ -155,7 +155,7 @@ public class StockActivity extends AppCompatActivity {
     getCategoryModel();
 
     srNameTextView.setText("SR Name: " + loginResponse.getData().getUserName());
-    String time = android.text.format.DateFormat.format("HH:mm aaa", new java.util.Date()).toString();
+    String time = android.text.format.DateFormat.format("hh:mm a", new java.util.Date()).toString();
     timeTextView.setText(time);
     int totalQuantity = 0;
     int currentQuantity = 0;

@@ -46,7 +46,7 @@ android {
       }
     }
     debug {
-      buildConfigField("String", "BASE_URL", "\"http://51.79.73.162:8956/salesapi/api/v1/\"")
+      buildConfigField("String", "BASE_URL", "\"http://salesapp.suffixit.com:8956/salesapi/api/v1/\"")
     }
   }
 
