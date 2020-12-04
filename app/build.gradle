@@ -32,8 +32,8 @@ android {
   buildTypes {
     release {
       signingConfig signingConfigs.config
-      minifyEnabled true
-      shrinkResources true
+      minifyEnabled false
+      shrinkResources false
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
       buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/FFMSAPI/api/\"")
 

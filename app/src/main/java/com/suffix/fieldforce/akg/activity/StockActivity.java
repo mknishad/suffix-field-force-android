@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,15 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
-import com.suffix.fieldforce.akg.adapter.StockBodyListAdapter;
+import com.suffix.fieldforce.akg.adapter.StockListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
-import com.suffix.fieldforce.akg.model.product.CartModel;
-import com.suffix.fieldforce.akg.util.AkgConstants;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.util.AkgPrintingService;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -39,7 +38,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.Realm;
 
 public class StockActivity extends AppCompatActivity {
@@ -56,15 +54,21 @@ public class StockActivity extends AppCompatActivity {
   @BindView(R.id.txtResponse)
   TextView txtResponse;
 
-  @BindView(R.id.txtTotalAmount)
-  TextView txtTotalAmount;
+  @BindView(R.id.txtCurrentQuantity)
+  TextView txtCurrentQuantity;
+
+  @BindView(R.id.srNameTextView)
+  TextView srNameTextView;
+
+  @BindView(R.id.timeTextView)
+  TextView timeTextView;
 
   @BindView(R.id.layoutScroll)
   NestedScrollView layoutScroll;
 
 
-  @OnClick(R.id.btnPrint)
-  public void printMemo() {
+  //@OnClick(R.id.btnPrint)
+  public void printStock() {
     progressDialog.show();
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
@@ -109,11 +113,12 @@ public class StockActivity extends AppCompatActivity {
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
-  private StockBodyListAdapter stockBodyListAdapter;
-  private List<CartModel> stockListResponse;
+  private AkgLoginResponse loginResponse;
+  private StockListAdapter stockListAdapter;
+  private List<CategoryModel> products;
+  private ProductCategory productCategory;
   private InvoiceRequest invoiceRequest;
   private Realm realm;
-  private int totalQuantity = 0;
 
   private ProgressDialog progressDialog;
   private AlertDialog.Builder builder;
@@ -133,20 +138,32 @@ public class StockActivity extends AppCompatActivity {
 
     builder = new AlertDialog.Builder(this);
 
-    stockListResponse = new ArrayList<>();
+    products = new ArrayList<>();
+    productCategory = new ProductCategory();
 
     preferences = new FieldForcePreferences(this);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
-    stockBodyListAdapter = new StockBodyListAdapter(this, stockListResponse);
-    recyclerView.setAdapter(stockBodyListAdapter);
 
-    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
-    Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
+    stockListAdapter = new StockListAdapter(this, products);
+    recyclerView.setAdapter(stockListAdapter);
 
+    getCategoryModel();
+
+    srNameTextView.setText("SR Name: " + loginResponse.getData().getUserName());
+    String time = android.text.format.DateFormat.format("HH:mm aaa", new java.util.Date()).toString();
+    timeTextView.setText(time);
+    int totalQuantity = 0;
+    int currentQuantity = 0;
+    for (CategoryModel categoryModel : products) {
+      totalQuantity += categoryModel.getInHandQty();
+      currentQuantity += categoryModel.getInHandQty() - categoryModel.getSalesQty();
+    }
     txtTotalQuantity.setText(String.valueOf(totalQuantity));
+    txtCurrentQuantity.setText(String.valueOf(currentQuantity));
 //    stockBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
   }
 
@@ -179,15 +196,25 @@ public class StockActivity extends AppCompatActivity {
     }
   }
 
-  private void getMemoList() {
-
-    stockListResponse = new RealMDatabaseManager().prepareStockRequest();
-    if(stockListResponse.size() > 0){
-      txtResponse.setVisibility(View.GONE);
-      layoutScroll.setVisibility(View.VISIBLE);
-      stockBodyListAdapter.setData(stockListResponse);
+  private void getCategoryModel() {
+    productCategory = new RealMDatabaseManager().prepareCategoryData();
+    if (productCategory.getCigrettee().size() > 0) {
+      products.addAll(productCategory.getCigrettee());
+    }
+    if (productCategory.getBidi().size() > 0) {
+      products.addAll(productCategory.getBidi());
+    }
+    if (productCategory.getMatch().size() > 0) {
+      products.addAll(productCategory.getMatch());
     }
 
+    if(products.size() > 0){
+      txtResponse.setVisibility(View.GONE);
+      layoutScroll.setVisibility(View.VISIBLE);
+      stockListAdapter.setData(products);
+    } else {
+      txtResponse.setVisibility(View.VISIBLE);
+      layoutScroll.setVisibility(View.GONE);
+    }
   }
-
 }
