@@ -5,6 +5,7 @@ import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CartModel;
+import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -64,6 +65,10 @@ public class RealMDatabaseManager {
         }
       });
     }
+  }
+
+  public void setSalesQuantity(long id, int value) {
+    final RealmResults<CategoryModel> results = realm.where(CategoryModel.class).findAll();
   }
 
   public void deleteAllCustomer(RealmDatabseManagerInterface.Customer customerInterface) {

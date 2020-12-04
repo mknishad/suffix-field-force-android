@@ -66,7 +66,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    new AkgPrintingService(this).print(distributor.getData().getDistributorName(),
+    new AkgPrintingService().print(distributor.getData().getDistributorName(),
         distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {

@@ -1,14 +1,11 @@
 package com.suffix.fieldforce.akg.database.manager;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.model.RealMCustomer;
-import com.suffix.fieldforce.akg.database.model.RealMInvoice;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -113,7 +110,7 @@ public class SyncManager {
           }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-              Toast.makeText(context, "All DaTa Synced", Toast.LENGTH_SHORT).show();
+              Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
             }
           });
 
@@ -129,7 +126,6 @@ public class SyncManager {
   }
 
   public void insertInvoice(InvoiceRequest invoiceRequest){
-
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm bgRealm) {

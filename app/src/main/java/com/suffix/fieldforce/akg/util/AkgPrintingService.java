@@ -1,6 +1,5 @@
 package com.suffix.fieldforce.akg.util;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.dantsu.escposprinter.EscPosPrinter;
@@ -16,21 +15,32 @@ import java.util.Locale;
 
 public class AkgPrintingService {
   private static final String TAG = "PrintUtils";
-  private final Activity mActivity;
 
-  public AkgPrintingService(Activity activity) {
-    mActivity = activity;
-  }
-
-  public void print(String distributorName, String distributorMobile,
-                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, PrintingInterface printingInterface) {
+  public void printStock(String distributorName, String distributorMobile,
+                         AkgLoginResponse loginResponse, PrintingInterface printingInterface) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.append("[L]").append(distributorName).append("\n");
       stringBuilder.append("[L]").append(distributorMobile).append(", ").append(time).append("\n");
-      stringBuilder.append("[L]Memo: ").append(invoiceRequest.getInvoiceDate()).append("\n");
+      stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
+      stringBuilder.append("[L]<b>Stock:</b>\n");
+      stringBuilder.append("[L]--------------------------------\n");
+
+    } catch (Exception e) {
+      Log.e(TAG, "printStock: ", e);
+      printingInterface.onPrintSuccess("Printing Failed!");
+    }
+  }
+
+  public void print(String distributorName, String distributorMobile,
+                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, PrintingInterface printingInterface) {
+    try {
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("[L]").append(distributorName).append("\n");
+      stringBuilder.append("[L]").append(distributorMobile).append(", ").append(invoiceRequest.getInvoiceDate()).append("\n");
+      stringBuilder.append("[L]Memo: ").append(invoiceRequest.getInvoiceId()).append("\n");
       stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
       stringBuilder.append("[L]").append(invoiceRequest.getCustomerName()).append("\n");
       stringBuilder.append("[L]\n");
@@ -98,7 +108,7 @@ public class AkgPrintingService {
 
       printingInterface.onPrintSuccess("Done!");
     } catch (Exception e) {
-      //Toast.makeText(mActivity, "Printing failed!", Toast.LENGTH_SHORT).show();
+      Log.e(TAG, "print: ", e);
       printingInterface.onPrintSuccess("Printing Failed!");
     }
   }
