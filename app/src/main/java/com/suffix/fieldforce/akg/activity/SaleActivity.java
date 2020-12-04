@@ -152,7 +152,7 @@ public class SaleActivity extends AppCompatActivity {
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setTitle("সেল");
+      getSupportActionBar().setTitle(getResources().getString(R.string.sale));
     }
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -400,8 +400,8 @@ public class SaleActivity extends AppCompatActivity {
     spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        btnSale.setVisibility(View.INVISIBLE);
-        btnVisited.setVisibility(View.INVISIBLE);
+        btnSale.setEnabled(false);
+        btnVisited.setEnabled(false);
         if (position > 0) {
           CustomerData customerData = filteredCustomerList.get(position);
           Log.d(TAG, "onItemSelected: customer location = " + customerData.getLat() + ", " +
@@ -437,11 +437,11 @@ public class SaleActivity extends AppCompatActivity {
                     /*Toast.makeText(SaleActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
                         Toast.LENGTH_SHORT).show();*/
                     spinnerUsers.setSelection(0);
-                    btnSale.setVisibility(View.INVISIBLE);
-                    btnVisited.setVisibility(View.INVISIBLE);
+                    btnSale.setEnabled(false);
+                    btnVisited.setEnabled(false);
                   } else {
-                    btnSale.setVisibility(View.VISIBLE);
-                    btnVisited.setVisibility(View.VISIBLE);
+                    btnSale.setEnabled(true);
+                    btnVisited.setEnabled(true);
                   }
                 }
               });
@@ -464,8 +464,8 @@ public class SaleActivity extends AppCompatActivity {
         selectedCustomer = customerData;
 
         customerID = selectedCustomer.getId();
-        btnSale.setVisibility(View.INVISIBLE);
-        btnVisited.setVisibility(View.INVISIBLE);
+        btnSale.setEnabled(false);
+        btnVisited.setEnabled(false);
         Log.d(TAG, "onItemClick: customer location = " + selectedCustomer.getLat() + ", " +
             selectedCustomer.getLng());
         /*Toast.makeText(SaleActivity.this, customerData.getCustomerName() + "\n" +
@@ -512,8 +512,8 @@ public class SaleActivity extends AppCompatActivity {
                 } else {
                   txtName.setText(selectedCustomer.getCustomerName());
                   txtAddress.setText(selectedCustomer.getAddress());
-                  btnSale.setVisibility(View.VISIBLE);
-                  btnVisited.setVisibility(View.VISIBLE);
+                  btnSale.setEnabled(true);
+                  btnVisited.setEnabled(true);
                 }
               }
             });

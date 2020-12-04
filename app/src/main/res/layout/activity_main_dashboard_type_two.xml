@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,317 +7,398 @@
     android:background="@color/backgroundcolor"
     android:fitsSystemWindows="true">
 
-  <com.google.android.material.appbar.AppBarLayout
-      android:id="@+id/app_bar"
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      style="@style/ToolbarStyle"
       android:layout_width="match_parent"
-      android:layout_height="290dp"
-      android:background="@color/colorMainDashboard"
-      android:fitsSystemWindows="true"
-      android:minHeight="280dp"
-      android:theme="@style/AppTheme.NoActionBar">
-
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:contentScrim="@color/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:toolbarId="@+id/toolbar">
-
-      <androidx.appcompat.widget.Toolbar
-          android:id="@+id/toolbar"
-          android:layout_width="match_parent"
-          android:layout_height="?attr/actionBarSize"
-          app:layout_collapseMode="pin"
-          app:title="" />
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-  </com.google.android.material.appbar.AppBarLayout>
-
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginTop="10dp"
-      android:layout_marginBottom="@dimen/layout_margin_15"
-      android:gravity="center_horizontal"
-      android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-      <ImageView
-          android:id="@+id/imgNotification"
-          android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:layout_alignParentRight="true"
-          android:layout_marginRight="@dimen/layout_margin_15"
-          android:src="@drawable/ic_notification"
-          app:tint="@android:color/white" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="80dp"
-        android:layout_height="80dp">
-
-      <ImageView
-          android:id="@+id/imgUserProfile"
-          android:layout_width="80dp"
-          android:layout_height="80dp"
-          android:padding="2dp"
-          android:layout_centerHorizontal="true"
-          android:src="@drawable/imgplaceholder"
-          android:background="@drawable/round_white"/>
-      <View
-          android:id="@+id/badge"
-          android:layout_width="16dp"
-          android:layout_height="16dp"
-          android:layout_alignParentRight="true"
-          android:layout_alignParentBottom="true"
-          android:layout_marginRight="5dp"
-          android:layout_marginBottom="2dp"
-          android:background="@drawable/circular_badge_offline" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/txtUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_margin_10"
-        android:fontFamily="@font/solaimanlipi"
-        android:text="Md. Shafqat Rahman"
-        android:textColor="@color/color_white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtUserAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/layout_margin_10"
-        android:ellipsize="end"
-        android:fontFamily="@font/montserrat"
-        android:maxLines="2"
-        android:text="YOUR LOCATION WILL BE APPEARED HERE"
-        android:textAlignment="center"
-        android:textColor="@color/color_white"
-        android:textSize="10sp" />
-
-  </LinearLayout>
+      android:layout_height="?attr/actionBarSize"
+      />
 
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_below="@id/toolbar"
       app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="75dp"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
       <LinearLayout
+          android:id="@+id/profile_layout"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="24dp"
-          android:layout_marginRight="24dp"
-          android:weightSum="2">
+          android:layout_height="200dp"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginBottom="-60dp"
+          android:paddingBottom="@dimen/padding_10"
+          android:gravity="center_horizontal"
+          android:orientation="vertical"
+          android:background="@color/colorMintDark">
 
-        <LinearLayout
-            android:id="@+id/layoutTask"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin_10"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp">
 
           <ImageView
-              android:layout_width="45dp"
-              android:layout_height="45dp"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_violet_very_light"
-              android:padding="10dp"
-              android:src="@drawable/ic_cart"
-              app:tint="@color/colorWhite" />
+              android:id="@+id/imgUserProfile"
+              android:layout_width="80dp"
+              android:layout_height="80dp"
+              android:padding="2dp"
+              android:layout_centerHorizontal="true"
+              android:src="@drawable/imgplaceholder"
+              android:background="@drawable/round_white"/>
+          <View
+              android:id="@+id/badge"
+              android:layout_width="16dp"
+              android:layout_height="16dp"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentBottom="true"
+              android:layout_marginRight="5dp"
+              android:layout_marginBottom="2dp"
+              android:background="@drawable/circular_badge_offline" />
+        </RelativeLayout>
 
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:fontFamily="@font/solaimanlipi"
-              android:text="সেল"
-              android:textAlignment="center"
-              android:textSize="22sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutRoster"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/layout_margin_10"
+            android:fontFamily="@font/solaimanlipi"
+            android:text="Md. Shafqat Rahman"
+            android:textColor="@color/color_white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-          <ImageView
-              android:layout_width="45dp"
-              android:layout_height="45dp"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_sky_light"
-              android:padding="10dp"
-              android:src="@drawable/ic_date_range"
-              app:tint="@color/colorWhite" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:fontFamily="@font/solaimanlipi"
-              android:text="মেমো"
-              android:textAlignment="center"
-              android:textSize="22sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutBilling"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/txtUserAddress"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_marginHorizontal="@dimen/layout_margin_10"
+            android:ellipsize="end"
+            android:fontFamily="@font/montserrat"
+            android:maxLines="2"
+            android:text="YOUR LOCATION WILL BE APPEARED HERE"
+            android:textAlignment="center"
+            android:textColor="@color/color_white"
+            android:textSize="10sp" />
 
-          <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_orange_light"
-              android:padding="@dimen/padding_10"
-              android:src="@drawable/ic_monetization"
-              app:tint="@color/colorWhite" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:text="BILLING"
-              android:textAlignment="center"
-              android:textSize="12sp" />
-        </LinearLayout>
       </LinearLayout>
+
+      <RelativeLayout
+          android:id="@+id/card"
+          android:layout_width="wrap_content"
+          android:layout_height="130dp"
+          android:layout_marginStart="46dp"
+          android:layout_marginEnd="46dp"
+          android:layout_marginBottom="@dimen/layout_height_20"
+          android:background="@drawable/shadow_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+          <LinearLayout
+              android:id="@+id/layoutAttendance"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_green_light"
+                android:padding="10dp"
+                android:src="@drawable/ic_person"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_10"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="হাজিরা"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <View
+              android:layout_width="1dp"
+              android:layout_height="match_parent"
+              android:layout_marginVertical="@dimen/layout_height_10"
+              android:background="#412B2B2B" />
+
+          <LinearLayout
+              android:id="@+id/layoutExit"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_pink_light"
+                android:padding="10dp"
+                android:src="@drawable/ic_exit"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_10"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="বাহির"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/layoutChat"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_weight="2"
+                android:background="@drawable/round_violet_light"
+                android:padding="@dimen/padding_10"
+                android:src="@drawable/ic_chat"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_5"
+                android:layout_marginBottom="@dimen/layout_margin_5"
+                android:text="CHAT"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+          </LinearLayout>
+        </LinearLayout>
+      </RelativeLayout>
 
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="24dp"
-          android:layout_marginRight="24dp"
-          android:weightSum="2">
+        android:orientation="vertical"
+          android:layout_marginHorizontal="@dimen/padding_10">
 
         <LinearLayout
-            android:id="@+id/layoutInventory"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_margin_10"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:weightSum="2"
+            >
 
-          <ImageView
-              android:layout_width="45dp"
-              android:layout_height="45dp"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_sky_light"
-              android:padding="10dp"
-              android:src="@drawable/ic_stock"
-              app:tint="@color/colorWhite" />
-
-          <TextView
-              android:layout_width="wrap_content"
+          <LinearLayout
+              android:id="@+id/layoutTask"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:fontFamily="@font/solaimanlipi"
-              android:text="স্টক"
-              android:textAlignment="center"
-              android:textSize="22sp" />
+              android:layout_marginEnd="@dimen/layout_margin_10"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_violet_very_light"
+                android:padding="10dp"
+                android:src="@drawable/ic_cart"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="সেল"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/layoutRoster"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_sky_light"
+                android:padding="10dp"
+                android:src="@drawable/ic_date_range"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="মেমো"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/layoutBilling"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_orange_light"
+                android:padding="@dimen/padding_10"
+                android:src="@drawable/ic_monetization"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:text="BILLING"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+          </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layoutGIS"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:weightSum="2">
 
-          <ImageView
-              android:layout_width="45dp"
-              android:layout_height="45dp"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_violet_dark"
-              android:padding="10dp"
-              android:src="@drawable/ic_local_hospital"
-              app:tint="@color/colorWhite" />
-
-          <TextView
-              android:layout_width="wrap_content"
+          <LinearLayout
+              android:id="@+id/layoutInventory"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:fontFamily="@font/solaimanlipi"
-              android:text="স্লাইড কালেক্ট"
-              android:textAlignment="center"
-              android:textSize="22sp" />
+              android:layout_marginRight="@dimen/layout_margin_10"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_sky_light"
+                android:padding="10dp"
+                android:src="@drawable/ic_stock"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="স্টক"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/layoutGIS"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_violet_dark"
+                android:padding="10dp"
+                android:src="@drawable/ic_local_hospital"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:fontFamily="@font/solaimanlipi"
+                android:text="স্লাইড কালেক্ট"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:id="@+id/layoutSiteMap"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:background="@drawable/shadow_background"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_20"
+                android:background="@drawable/round_pink_dark"
+                android:padding="@dimen/padding_10"
+                android:src="@drawable/ic_bus"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_10"
+                android:layout_marginBottom="@dimen/layout_margin_15"
+                android:text="TRANSPORT"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+          </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layoutSiteMap"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/shadow_background"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-          <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_20"
-              android:background="@drawable/round_pink_dark"
-              android:padding="@dimen/padding_10"
-              android:src="@drawable/ic_bus"
-              app:tint="@color/colorWhite" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/layout_margin_10"
-              android:layout_marginBottom="@dimen/layout_margin_15"
-              android:text="TRANSPORT"
-              android:textAlignment="center"
-              android:textSize="12sp" />
-        </LinearLayout>
       </LinearLayout>
 
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:weightSum="2"
+          android:paddingHorizontal="@dimen/layout_height_20"
           android:orientation="horizontal">
 
         <LinearLayout
@@ -327,8 +408,8 @@
             android:layout_height="75dp"
             android:background="@drawable/shadow_background_fill"
             android:gravity="center"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp">
+            android:layout_marginTop="@dimen/layout_margin_15"
+            android:layout_marginBottom="@dimen/layout_margin_15">
 
           <ImageView
               android:layout_width="24dp"
@@ -357,8 +438,8 @@
             android:layout_height="75dp"
             android:background="@drawable/shadow_background_fill"
             android:gravity="center"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp">
+            android:layout_marginTop="@dimen/layout_margin_15"
+            android:layout_marginBottom="@dimen/layout_margin_15">
 
           <ImageView
               android:layout_width="24dp"
@@ -386,115 +467,6 @@
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 
-  <RelativeLayout
-      android:id="@+id/card"
-      android:layout_width="wrap_content"
-      android:layout_height="130dp"
-      android:layout_marginStart="46dp"
-      android:layout_marginTop="100dp"
-      android:layout_marginEnd="46dp"
-      android:layout_marginBottom="40dp"
-      android:background="@drawable/shadow_background"
-      android:gravity="center_vertical"
-      app:layout_anchor="@id/app_bar"
-      app:layout_anchorGravity="bottom">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
 
-      <LinearLayout
-          android:id="@+id/layoutAttendance"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_green_light"
-            android:padding="10dp"
-            android:src="@drawable/ic_person"
-            app:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_10"
-            android:fontFamily="@font/solaimanlipi"
-            android:text="হাজিরা"
-            android:textAlignment="center"
-            android:textSize="22sp" />
-      </LinearLayout>
-
-      <View
-          android:layout_width="1dp"
-          android:layout_height="match_parent"
-          android:layout_marginVertical="@dimen/layout_height_10"
-          android:background="#412B2B2B" />
-
-      <LinearLayout
-          android:id="@+id/layoutExit"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center_horizontal"
-          android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="@dimen/layout_margin_20"
-            android:background="@drawable/round_pink_light"
-            android:padding="10dp"
-            android:src="@drawable/ic_exit"
-            app:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_marginBottom="@dimen/layout_margin_10"
-            android:fontFamily="@font/solaimanlipi"
-            android:text="বাহির"
-            android:textAlignment="center"
-            android:textSize="22sp" />
-      </LinearLayout>
-
-      <LinearLayout
-          android:id="@+id/layoutChat"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center_horizontal"
-          android:orientation="vertical"
-          android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/layout_margin_10"
-            android:layout_weight="2"
-            android:background="@drawable/round_violet_light"
-            android:padding="@dimen/padding_10"
-            android:src="@drawable/ic_chat"
-            app:tint="@color/colorWhite" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_5"
-            android:layout_marginBottom="@dimen/layout_margin_5"
-            android:text="CHAT"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-      </LinearLayout>
-    </LinearLayout>
-  </RelativeLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>
