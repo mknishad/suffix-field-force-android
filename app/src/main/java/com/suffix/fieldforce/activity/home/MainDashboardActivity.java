@@ -7,12 +7,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,8 +58,10 @@ import com.suffix.fieldforce.akg.activity.MemoListActivity;
 import com.suffix.fieldforce.akg.activity.NotificationListActivity;
 import com.suffix.fieldforce.akg.activity.SaleActivity;
 import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
+import com.suffix.fieldforce.akg.activity.StockActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -87,9 +96,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   @BindView(R.id.imgUserProfile)
   ImageView imgUserProfile;
-
-  @BindView(R.id.imgNotification)
-  ImageView imgNotification;
 
   @BindView(R.id.txtUserName)
   TextView txtUserName;
@@ -152,8 +158,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private AkgLoginResponse loginResponse;
 
   private ProgressDialog progress;
+  CustomProgress customProgress;
 
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.imgNotification, R.id.layoutSync, R.id.layoutClosing})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -189,9 +196,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
       case R.id.layoutGIS:
         openGIS();
         break;
-      case R.id.imgNotification:
-        openNotification();
-        break;
       case R.id.layoutSync:
         syncData();
         break;
@@ -207,11 +211,42 @@ public class MainDashboardActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_main_dashboard_type_two);
     ButterKnife.bind(this);
 
-    toolbar.setVisibility(View.GONE);
+    setupToolbar();
+
     init();
   }
 
+  private void setupToolbar() {
+    setSupportActionBar(toolbar);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+    } else {
+      toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+    }
+
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle("");
+      toolbar.getOverflowIcon().setColorFilter(getResources().getColor(R.color.color_white),
+          PorterDuff.Mode.SRC_ATOP);
+    }
+
+    /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+      toolbar.getNavigationIcon().setColorFilter(new BlendModeColorFilter(Color.WHITE,
+          BlendMode.SRC_ATOP));
+    } else {
+      toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    }*/
+  }
+
   private void init() {
+    customProgress = new CustomProgress(this);
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
@@ -624,7 +659,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   public void openInventory() {
-    Intent intent = new Intent(MainDashboardActivity.this, InventoryDashboardActivity.class);
+    Intent intent = new Intent(MainDashboardActivity.this, StockActivity.class);
     startActivity(intent);
   }
 
@@ -649,10 +684,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void syncData() {
+    showProgress();
     Log.d("Realm", "Sync Data Called");
 
     SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-    syncManager.getAllCustomer();
+    syncManager.getAllCustomer(new RealmDatabseManagerInterface.Sync() {
+      @Override
+      public void onSuccess() {
+        customProgress.dismiss();
+      }
+    });
 
 //    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
 //      @Override
@@ -746,7 +787,35 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void showProgress() {
-    CustomProgress customProgress = new CustomProgress(this);
+
     customProgress.show("Loading...");
+  }
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
+  }
+
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    int id = item.getItemId();
+    switch (id){
+      case R.id.menu_logout:
+        //logout
+        preferences.putLoginResponse("");
+        preferences.putDistributor("");
+        startActivity(new Intent(MainDashboardActivity.this, LoginActivity.class));
+        finish();
+        return true;
+      case R.id.menu_notification:
+        Intent intent = new Intent(MainDashboardActivity.this, NotificationListActivity.class);
+        startActivity(intent);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 }

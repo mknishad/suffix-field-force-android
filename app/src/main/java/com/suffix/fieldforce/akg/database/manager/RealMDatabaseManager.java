@@ -43,6 +43,11 @@ public class RealMDatabaseManager {
     return realm.copyFromRealm(invoiceRequests);
   }
 
+  public List<CartModel> prepareStockRequest() {
+    final RealmResults<CartModel> invoiceRequests = realm.where(CartModel.class).findAll();
+    return realm.copyFromRealm(invoiceRequests);
+  }
+
   public void deleteAllInvoice() {
     final RealmResults<InvoiceRequest> results = realm.where(InvoiceRequest.class).findAll();
 

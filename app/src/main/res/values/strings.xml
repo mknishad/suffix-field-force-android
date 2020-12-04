@@ -128,6 +128,9 @@
   <string name="customer_select">কাস্টমার সিলেক্ট</string>
   <string name="msg_slider_collect_success">স্লাইডার সংগ্রহ সম্পন্ন হয়েছে</string>
   <string name="no_outlet_found">নতুন আউটলেট খুঁজে পাওয়া যায় নি</string>
+  <string name="sale">বিক্রয়</string>
+  <string name="visited">ভিজিটেড</string>
+  <string name="logout">লগ আউট</string>
 
 
 </resources>

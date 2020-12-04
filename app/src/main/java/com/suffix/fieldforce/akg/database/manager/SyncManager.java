@@ -6,6 +6,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.model.RealMCustomer;
+import com.suffix.fieldforce.akg.database.model.RealMInvoice;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -42,7 +45,7 @@ public class SyncManager {
         preferences.getPassword());
   }
 
-  public void getAllCustomer() {
+  public void getAllCustomer(RealmDatabseManagerInterface.Sync interfaceSync) {
     Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
     call.enqueue(new Callback<List<CustomerData>>() {
       @Override
@@ -63,7 +66,7 @@ public class SyncManager {
             @Override
             public void onSuccess() {
               //Toast.makeText(context, "All Customer Synced", Toast.LENGTH_SHORT).show();
-              getAllCategory();
+              getAllCategory(interfaceSync);
             }
           });
         } else {
@@ -80,7 +83,7 @@ public class SyncManager {
   }
 
   //RealMProductCategory
-  public void getAllCategory() {
+  public void getAllCategory(RealmDatabseManagerInterface.Sync interfaceSync) {
     Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<ProductCategory>() {
       @Override
@@ -111,6 +114,9 @@ public class SyncManager {
             @Override
             public void onSuccess() {
               Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
+              if(interfaceSync != null){
+                interfaceSync.onSuccess();
+              }
             }
           });
 
