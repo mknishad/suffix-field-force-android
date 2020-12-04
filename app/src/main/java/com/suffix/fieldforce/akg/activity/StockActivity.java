@@ -2,11 +2,13 @@ package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -17,13 +19,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
+import com.suffix.fieldforce.akg.adapter.PrintingInterface;
+import com.suffix.fieldforce.akg.adapter.StockBodyListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
+import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.util.AkgConstants;
+import com.suffix.fieldforce.akg.util.AkgPrintingService;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -31,6 +41,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 public class StockActivity extends AppCompatActivity {
@@ -44,15 +55,64 @@ public class StockActivity extends AppCompatActivity {
   @BindView(R.id.txtTotalQuantity)
   TextView txtTotalQuantity;
 
+  @BindView(R.id.txtResponse)
+  TextView txtResponse;
+
   @BindView(R.id.txtTotalAmount)
   TextView txtTotalAmount;
+
+  @BindView(R.id.layoutScroll)
+  NestedScrollView layoutScroll;
+
+
+  @OnClick(R.id.btnPrint)
+  public void printMemo() {
+    progressDialog.show();
+    Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
+    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
+    new AkgPrintingService(this).print(distributor.getData().getDistributorName(),
+        distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
+          @Override
+          public void onPrintSuccess(String message) {
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //onBackPressed();
+              }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+
+          @Override
+          public void onPrintFail(String message) {
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //alertDialog.dismiss();
+              }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+        });
+  }
 
   private static final String TAG = "StockActivity";
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
-  private MemoBodyListAdapter memoBodyListAdapter;
-  private List<InvoiceProduct> invoiceDetailList;
+  private StockBodyListAdapter stockBodyListAdapter;
+  private List<CartModel> stockListResponse;
   private InvoiceRequest invoiceRequest;
   private Realm realm;
   private int totalQuantity = 0;
@@ -75,21 +135,21 @@ public class StockActivity extends AppCompatActivity {
 
     builder = new AlertDialog.Builder(this);
 
-    invoiceDetailList = new ArrayList<>();
+    stockListResponse = new ArrayList<>();
 
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
-    memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList);
-    recyclerView.setAdapter(memoBodyListAdapter);
+    stockBodyListAdapter = new StockBodyListAdapter(this, stockListResponse);
+    recyclerView.setAdapter(stockBodyListAdapter);
 
     invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
     Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
 
     txtTotalQuantity.setText(String.valueOf(totalQuantity));
-//    memoBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
+//    stockBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
   }
 
   private void setupToolbar() {
@@ -120,4 +180,16 @@ public class StockActivity extends AppCompatActivity {
       toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
     }
   }
+
+  private void getMemoList() {
+
+    stockListResponse = new RealMDatabaseManager().prepareStockRequest();
+    if(stockListResponse.size() > 0){
+      txtResponse.setVisibility(View.GONE);
+      layoutScroll.setVisibility(View.VISIBLE);
+      stockBodyListAdapter.setData(stockListResponse);
+    }
+
+  }
+
 }
