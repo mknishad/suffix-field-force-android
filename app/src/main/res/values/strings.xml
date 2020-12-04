@@ -132,6 +132,10 @@
   <string name="sale">বিক্রয়</string>
   <string name="visited">ভিজিটেড</string>
   <string name="logout">লগ আউট</string>
+  <string name="cigaretee">সিগারেট</string>
+  <string name="bidi">বিড়ি</string>
+  <string name="match">ম্যাচ</string>
+  <string name="customer_nirbachon">কাস্টমার নির্বাচন করুন</string>
 
 
 </resources>

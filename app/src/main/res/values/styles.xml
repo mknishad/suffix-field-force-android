@@ -32,6 +32,7 @@
         <item name="android:background">@color/colorMintDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:elevation">0dp</item>
+        <item name="android:fontFamily">@font/solaimanlipi</item>
     </style>
 
     <style name="Ripple">
