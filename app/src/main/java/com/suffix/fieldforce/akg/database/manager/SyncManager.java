@@ -12,6 +12,7 @@ import com.suffix.fieldforce.akg.database.model.RealMInvoice;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -20,6 +21,8 @@ import com.suffix.fieldforce.preference.FieldForcePreferences;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -114,7 +117,7 @@ public class SyncManager {
             @Override
             public void onSuccess() {
               Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
-              if(interfaceSync != null){
+              if (interfaceSync != null) {
                 interfaceSync.onSuccess();
               }
             }
@@ -131,19 +134,44 @@ public class SyncManager {
     });
   }
 
-  public void insertInvoice(InvoiceRequest invoiceRequest){
+  public void insertInvoice(InvoiceRequest invoiceRequest) {
+
+    try {
+      updateCategoryProduct(invoiceRequest.getInvoiceProducts());
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+
+
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm bgRealm) {
-        //RealMInvoice realMInvoice = bgRealm.createObject(RealMInvoice.class);
-        //realMInvoice.getRequestRealmList().add(invoiceRequest);
-
-        bgRealm.copyToRealm(invoiceRequest);
+        try{
+          bgRealm.copyToRealm(invoiceRequest);
+        }catch (Exception e){
+          e.printStackTrace();
+        }
       }
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
         Toast.makeText(context, "Invoice Added", Toast.LENGTH_SHORT).show();
+      }
+    });
+
+  }
+
+  public void updateCategoryProduct(RealmList<InvoiceProduct> invoiceProducts) {
+    realm.executeTransaction(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+
+        for (int i = 0; i < invoiceProducts.size(); i++) {
+          CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProducts.get(i).getProductId()).findFirst();
+          if (categoryModel != null) {
+            categoryModel.setSalesQty(categoryModel.getSalesQty() + invoiceProducts.get(i).getProductQty());
+          }
+        }
       }
     });
 
