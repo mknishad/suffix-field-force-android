@@ -2,6 +2,7 @@ package com.suffix.fieldforce.activity.home;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -41,7 +42,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
@@ -215,7 +215,27 @@ public class MainDashboardActivity extends AppCompatActivity implements
         syncData();
         break;
       case R.id.layoutClosing:
-        closeSales();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+            .setMessage("দিনে শুধুমাত্র একবার সেলস ক্লোজ করতে পারবেন। সেলস ক্লোজ করার পর সব ডাটা মুছে যাবে। আপনি কি সেলস ক্লোজ করতে চান?")
+            .setPositiveButton("হ্যা", new android.content.DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(android.content.DialogInterface dialog, int which) {
+                closeSales();
+              }
+            })
+            .setNegativeButton("না", new android.content.DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(android.content.DialogInterface dialog, int which) {
+
+              }
+            })
+            .setCancelable(false);
+        AlertDialog alert = builder.create();
+        /*Button positiveButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setBackgroundResource(android.R.color.transparent);
+        Button negativeButton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        negativeButton.setBackgroundResource(android.R.color.transparent);*/
+        alert.show();
         break;
     }
   }
@@ -480,7 +500,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         .setCancelable(false)
         .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int which) {
+          public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
             getDeviceLocation(new LocationListener() {
               @Override
               public void onLocationUpdate(Location location) {
@@ -532,7 +552,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         })
         .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int which) {
+          public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
             Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
             dialogInterface.dismiss();
           }
@@ -573,7 +593,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         .setCancelable(false)
         .setPositiveButton("Yes", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int which) {
+          public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
 
             getDeviceLocation(new LocationListener() {
               @Override
@@ -623,7 +643,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         })
         .setNegativeButton("No", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
           @Override
-          public void onClick(DialogInterface dialogInterface, int which) {
+          public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
             Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
             dialogInterface.dismiss();
           }
