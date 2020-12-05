@@ -61,6 +61,50 @@ public class AkgPrintingService {
     }
   }
 
+  public void printSale(String distributorName, String distributorMobile,
+                         AkgLoginResponse loginResponse, List<CategoryModel> products,
+                         PrintingInterface printingInterface) {
+    try {
+      String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
+
+      StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("[L]").append(distributorName).append("\n");
+      stringBuilder.append("[L]").append(distributorMobile).append(", ").append(time).append("\n");
+      stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
+      stringBuilder.append("[L]<b>Stock:</b>\n");
+      stringBuilder.append("[L]--------------------------------\n");
+
+      int primaryQuantity = 0;
+      int currentQuantity = 0;
+
+      for (CategoryModel product : products) {
+        primaryQuantity += product.getInHandQty();
+        currentQuantity += product.getSalesQty();
+        stringBuilder.append("[L]").append(printFirst(product.getProductCode()))
+            .append(printLast(String.valueOf(product.getSalesQty()))).append("--")
+            .append(printLast(String.format(Locale.getDefault(), "%.2f",
+                product.getSellingRate() - product.getSalesQty()))).append("\n");
+      }
+
+      stringBuilder.append("[L]--------------------------------\n");
+
+//      stringBuilder.append("[L]").append(printFirst("TOTAL"))
+//          .append(printLast("-")).append("--")
+//          .append(printLast(String.valueOf(currentQuantity))).append("\n");
+
+      Log.d(TAG, "printStock: stringBuilder = " + stringBuilder.toString());
+
+      EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(),
+          203, 48f, 32);
+      printer.printFormattedText(stringBuilder.toString());
+
+      printingInterface.onPrintSuccess("Done!");
+    } catch (Exception e) {
+      Log.e(TAG, "printStock: ", e);
+      printingInterface.onPrintSuccess("Printing Failed!");
+    }
+  }
+
   public void print(String distributorName, String distributorMobile,
                     AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, PrintingInterface printingInterface) {
     try {

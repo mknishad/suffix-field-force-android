@@ -2,6 +2,7 @@ package com.suffix.fieldforce.akg.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.activity.StockActivity;
+import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.adapter.StockSaleAdapter;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.util.AkgPrintingService;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -51,7 +55,44 @@ public class SaleFragment extends Fragment {
 
   @OnClick(R.id.btnPrint)
   public void printSale() {
+    progressDialog.show();
+    Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
+    AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
+        AkgLoginResponse.class);
+    new AkgPrintingService().printSale(distributor.getData().getDistributorName(),
+        distributor.getData().getMobile(), loginResponse, products, new PrintingInterface() {
+          @Override
+          public void onPrintSuccess(String message) {
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //onBackPressed();
+              }
+            });
 
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+
+          @Override
+          public void onPrintFail(String message) {
+            progressDialog.dismiss();
+            builder.setMessage(message);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                //alertDialog.dismiss();
+              }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.show();
+          }
+        });
   }
 
   private static final String TAG = "SaleFragment";
