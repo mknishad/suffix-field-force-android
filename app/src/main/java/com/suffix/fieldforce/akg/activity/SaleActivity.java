@@ -81,14 +81,14 @@ public class SaleActivity extends AppCompatActivity {
   Button btnVisited;
 
   @OnClick(R.id.btnVisited)
-  public void onViewClicked(View view){
-    switch (view.getId()){
+  public void onViewClicked(View view) {
+    switch (view.getId()) {
       case R.id.btnVisited:
-        if(customerID != -1){
+        if (customerID != -1) {
           Intent intent = new Intent(SaleActivity.this, VisitActivity.class);
           intent.putExtra("customerID", customerID);
           startActivity(intent);
-        }else {
+        } else {
           Toast.makeText(SaleActivity.this, "You must select a customer first.", Toast.LENGTH_SHORT).show();
         }
         break;
@@ -98,12 +98,12 @@ public class SaleActivity extends AppCompatActivity {
   @OnClick(R.id.btnSale)
   public void gotoCheckout() {
     if (selectedCustomer != null) {
-      selectedCustomer = filteredCustomerList.get(spinnerUsers.getSelectedItemPosition());
+      Log.d(TAG, "gotoCheckout: selectedCustomer = " + selectedCustomer);
       Intent intent = new Intent(SaleActivity.this, ProductCategoryActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
       startActivity(intent);
     } else {
-      Toast.makeText(SaleActivity.this, "You must select a customer first.", Toast.LENGTH_SHORT).show();
+      Toast.makeText(SaleActivity.this, "কাস্টমার সিলেক্ট করুন", Toast.LENGTH_SHORT).show();
     }
   }
 
@@ -508,6 +508,7 @@ public class SaleActivity extends AppCompatActivity {
                   txtAddress.setText("");
                   selectedCustomer = null;
                 } else {
+                  selectedCustomer = customerData;
                   txtName.setText(selectedCustomer.getCustomerName());
                   txtAddress.setText(selectedCustomer.getAddress());
                   btnSale.setEnabled(true);

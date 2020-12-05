@@ -44,6 +44,22 @@ public class CustomerData extends RealmObject implements Parcelable {
   @Expose
   private String address;
 
+  @Override
+  public String toString() {
+    return "CustomerData{" +
+        "id=" + id +
+        ", customerName='" + customerName + '\'' +
+        ", mobileNo='" + mobileNo + '\'' +
+        ", tradeLicenseNo='" + tradeLicenseNo + '\'' +
+        ", status='" + status + '\'' +
+        ", consumerCode='" + consumerCode + '\'' +
+        ", lat=" + lat +
+        ", lng=" + lng +
+        ", address='" + address + '\'' +
+        ", categoryModels=" + categoryModels +
+        '}';
+  }
+
   private RealmList<CategoryModel> categoryModels;
 
   public Integer getId() {
@@ -200,16 +216,4 @@ public class CustomerData extends RealmObject implements Parcelable {
       return new CustomerData[size];
     }
   };
-
-  @Override
-  public String toString() {
-    return "CustomerData{" +
-        "id=" + id +
-        ", customerName='" + customerName + '\'' +
-        ", mobileNo='" + mobileNo + '\'' +
-        ", tradeLicenseNo='" + tradeLicenseNo + '\'' +
-        ", status='" + status + '\'' +
-        ", consumerCode='" + consumerCode + '\'' +
-        '}';
-  }
 }
