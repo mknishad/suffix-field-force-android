@@ -25,12 +25,9 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.adapter.StockListAdapter;
 import com.suffix.fieldforce.akg.adapter.StockPagerAdapter;
-import com.suffix.fieldforce.akg.api.AkgApiClient;
-import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
-import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.util.AkgPrintingService;
@@ -42,7 +39,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class StockActivity extends AppCompatActivity {
 
@@ -121,13 +117,10 @@ public class StockActivity extends AppCompatActivity {
   private static final String TAG = "StockActivity";
 
   private FieldForcePreferences preferences;
-  private AkgApiInterface apiInterface;
   private AkgLoginResponse loginResponse;
   private StockListAdapter stockListAdapter;
   private List<CategoryModel> products;
   private ProductCategory productCategory;
-  private InvoiceRequest invoiceRequest;
-  private Realm realm;
 
   private ProgressDialog progressDialog;
   private AlertDialog.Builder builder;
@@ -145,19 +138,17 @@ public class StockActivity extends AppCompatActivity {
     tabLayout.setupWithViewPager(viewPager);
 
 
-    realm = Realm.getDefaultInstance();
-
     progressDialog = new ProgressDialog(this);
     progressDialog.setMessage("Printing...");
+
+    preferences = new FieldForcePreferences(this);
+    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
 
     builder = new AlertDialog.Builder(this);
 
     products = new ArrayList<>();
     productCategory = new ProductCategory();
 
-    preferences = new FieldForcePreferences(this);
-    loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
-    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
@@ -230,5 +221,9 @@ public class StockActivity extends AppCompatActivity {
       txtResponse.setVisibility(View.VISIBLE);
       layoutScroll.setVisibility(View.GONE);
     }
+  }
+
+  public List<CategoryModel> getProducts() {
+    return products;
   }
 }
