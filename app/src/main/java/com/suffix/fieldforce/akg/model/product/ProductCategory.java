@@ -1,14 +1,15 @@
 package com.suffix.fieldforce.akg.model.product;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class ProductCategory {
 
   @SerializedName("Cigrettee")
   @Expose
-  private List<CategoryModel> cigrettee = null;
+  private List<CategoryModel> cigarette = null;
   @SerializedName("Bidi")
   @Expose
   private List<CategoryModel> bidi = null;
@@ -16,12 +17,12 @@ public class ProductCategory {
   @Expose
   private List<CategoryModel> match = null;
 
-  public List<CategoryModel> getCigrettee() {
-    return cigrettee;
+  public List<CategoryModel> getCigarette() {
+    return cigarette;
   }
 
-  public void setCigrettee(List<CategoryModel> cigrettee) {
-    this.cigrettee = cigrettee;
+  public void setCigarette(List<CategoryModel> cigarette) {
+    this.cigarette = cigarette;
   }
 
   public List<CategoryModel> getBidi() {

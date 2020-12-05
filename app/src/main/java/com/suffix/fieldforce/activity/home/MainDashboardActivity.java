@@ -849,8 +849,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
     List<CustomerData> customerDataList = databaseManager.prepareCustomerData();
     List<CategoryModel> products = new ArrayList<>();
     try {
-      if (productCategory.getCigrettee().size() > 0) {
-        products.addAll(productCategory.getCigrettee());
+      if (productCategory.getCigarette().size() > 0) {
+        products.addAll(productCategory.getCigarette());
       }
       if (productCategory.getBidi().size() > 0) {
         products.addAll(productCategory.getBidi());

@@ -133,7 +133,7 @@ public class ProductCategoryActivity extends AppCompatActivity {
 
   private void getAllCategory() {
     productCategory = realMDatabaseManager.prepareCategoryData();
-    cigretteListAdapter.setData(productCategory.getCigrettee());
+    cigretteListAdapter.setData(productCategory.getCigarette());
     bidiListAdapter.setData(productCategory.getBidi());
     matchListAdapter.setData(productCategory.getMatch());
   }

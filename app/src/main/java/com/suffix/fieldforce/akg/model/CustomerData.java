@@ -31,15 +31,12 @@ public class CustomerData extends RealmObject implements Parcelable {
   @SerializedName("consumerCode")
   @Expose
   private String consumerCode;
-
   @SerializedName("lat")
   @Expose
   private Double lat;
-
   @SerializedName("lng")
   @Expose
   private Double lng;
-
   @SerializedName("address")
   @Expose
   private String address;

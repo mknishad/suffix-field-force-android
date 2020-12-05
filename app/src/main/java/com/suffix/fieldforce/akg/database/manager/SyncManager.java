@@ -7,8 +7,6 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
-import com.suffix.fieldforce.akg.database.model.RealMCustomer;
-import com.suffix.fieldforce.akg.database.model.RealMInvoice;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -22,7 +20,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,7 +98,7 @@ public class SyncManager {
 
               RealMProductCategory realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
               //Store all cigrette list
-              for (CategoryModel cigretteeModel : productCategory.getCigrettee()) {
+              for (CategoryModel cigretteeModel : productCategory.getCigarette()) {
                 realMProductCategory.getCigrettee().add(cigretteeModel);
               }
               //Store all bidi list

@@ -46,13 +46,13 @@ public class ChatListFragment extends Fragment {
   @BindView(R.id.progress)
   LottieAnimationView progress;
 
-  private APIInterface apiInterface           = null;
-  private DatabaseReference reference         = null;
-  private List<ModelUserList> modelUserLists  = null;
-  private List<ModelChatList> modelChatLists  = null;
-  private FieldForcePreferences preferences   = null;
-  private UserAdapter adapter                 = null;
-  private User currentUser                    = null;
+  private APIInterface apiInterface = null;
+  private DatabaseReference reference = null;
+  private List<ModelUserList> modelUserLists = null;
+  private List<ModelChatList> modelChatLists = null;
+  private FieldForcePreferences preferences = null;
+  private UserAdapter adapter = null;
+  private User currentUser = null;
 
   private ValueEventListener valueEventListener;
 
@@ -64,11 +64,11 @@ public class ChatListFragment extends Fragment {
     ButterKnife.bind(this, view);
     //Toast.makeText(getContext(), "ChatList Frament", Toast.LENGTH_SHORT).show();
 
-    preferences     = new FieldForcePreferences(getContext());
-    currentUser     = preferences.getUser();
-    modelUserLists  = new ArrayList<>();
-    modelChatLists  = new ArrayList<>();
-    adapter         = new UserAdapter(getContext(), modelUserLists);
+    preferences = new FieldForcePreferences(getContext());
+    currentUser = preferences.getUser();
+    modelUserLists = new ArrayList<>();
+    modelChatLists = new ArrayList<>();
+    adapter = new UserAdapter(getContext(), modelUserLists);
 
     recyclerViewUser.setHasFixedSize(true);
     recyclerViewUser.setLayoutManager(new LinearLayoutManager(getContext()));

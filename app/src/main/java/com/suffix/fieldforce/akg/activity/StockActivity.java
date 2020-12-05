@@ -17,11 +17,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.adapter.StockListAdapter;
+import com.suffix.fieldforce.akg.adapter.StockPagerAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
@@ -67,6 +70,11 @@ public class StockActivity extends AppCompatActivity {
   @BindView(R.id.layoutScroll)
   NestedScrollView layoutScroll;
 
+  @BindView(R.id.tabLayout)
+  TabLayout tabLayout;
+
+  @BindView(R.id.viewPager)
+  ViewPager viewPager;
 
   @OnClick(R.id.btnPrint)
   public void printStock() {
@@ -131,6 +139,11 @@ public class StockActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     setupToolbar();
+
+
+    viewPager.setAdapter(new StockPagerAdapter(getSupportFragmentManager()));
+    tabLayout.setupWithViewPager(viewPager);
+
 
     realm = Realm.getDefaultInstance();
 
@@ -199,8 +212,8 @@ public class StockActivity extends AppCompatActivity {
 
   private void getCategoryModel() {
     productCategory = new RealMDatabaseManager().prepareCategoryData();
-    if (productCategory.getCigrettee().size() > 0) {
-      products.addAll(productCategory.getCigrettee());
+    if (productCategory.getCigarette().size() > 0) {
+      products.addAll(productCategory.getCigarette());
     }
     if (productCategory.getBidi().size() > 0) {
       products.addAll(productCategory.getBidi());
