@@ -100,7 +100,7 @@
                 android:background="@color/colorMint"
                 android:fontFamily="@font/solaimanlipi"
                 android:paddingVertical="5dp"
-                android:text="শলাকা"
+                android:text="পরিমাণ"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
@@ -154,7 +154,7 @@
                 android:background="@color/colorMint"
                 android:fontFamily="@font/solaimanlipi"
                 android:paddingVertical="5dp"
-                android:text="5"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />

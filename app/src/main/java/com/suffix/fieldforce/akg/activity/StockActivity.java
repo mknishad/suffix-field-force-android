@@ -163,7 +163,7 @@ public class StockActivity extends AppCompatActivity {
       totalQuantity += categoryModel.getInHandQty();
       currentQuantity += categoryModel.getInHandQty() - categoryModel.getSalesQty();
     }
-    txtTotalQuantity.setText(String.valueOf(totalQuantity));
+    //txtTotalQuantity.setText(String.valueOf(totalQuantity));
     txtCurrentQuantity.setText(String.valueOf(currentQuantity));
 //    stockBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
   }

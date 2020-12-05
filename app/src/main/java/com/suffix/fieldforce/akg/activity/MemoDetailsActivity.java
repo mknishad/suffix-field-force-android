@@ -150,7 +150,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
       totalQuantity += invoiceProduct.getProductQty();
     }
 
-    txtTotalQuantity.setText(String.valueOf(totalQuantity));
+    //txtTotalQuantity.setText(String.valueOf(totalQuantity));
     memoBodyListAdapter.setData(invoiceRequest.getInvoiceProducts());
     //getMemoBody(memoListResponse);
   }

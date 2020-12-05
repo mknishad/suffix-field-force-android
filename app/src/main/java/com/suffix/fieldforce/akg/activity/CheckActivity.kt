@@ -131,7 +131,7 @@ class CheckActivity : AppCompatActivity() {
       totalAmount += (it.orderQuantity.toInt() * it.sellingRate)
     }
 
-    binding.txtTotalQuantity.text = quantity.toString()
+    //binding.txtTotalQuantity.text = quantity.toString()
     binding.txtTotalAmount.text = String.format(Locale.getDefault(), "%.2f", totalAmount)
   }
 
