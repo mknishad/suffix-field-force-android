@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 public class StockSaleAdapter extends RecyclerView.Adapter<StockSaleAdapter.ViewHolder> {
 
   private Context context;
-  private List<CategoryModel> bodyData = new ArrayList<>();
+  private List<CategoryModel> bodyData;
 
   public StockSaleAdapter(Context context, List<CategoryModel> bodyData) {
     this.context = context;

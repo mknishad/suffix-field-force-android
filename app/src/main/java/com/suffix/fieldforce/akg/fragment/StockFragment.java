@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.activity.StockActivity;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
-import com.suffix.fieldforce.akg.adapter.StockSaleAdapter;
+import com.suffix.fieldforce.akg.adapter.StockListAdapter;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
@@ -35,10 +35,10 @@ import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SaleFragment#newInstance} factory method to
+ * Use the {@link StockFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SaleFragment extends Fragment {
+public class StockFragment extends Fragment {
 
   @BindView(R.id.layoutScroll)
   NestedScrollView layoutScroll;
@@ -46,6 +46,12 @@ public class SaleFragment extends Fragment {
   TextView srNameTextView;
   @BindView(R.id.timeTextView)
   TextView timeTextView;
+  @BindView(R.id.tableTitleTextView)
+  TextView tableTitleTextView;
+  @BindView(R.id.col2Title)
+  TextView col2Title;
+  @BindView(R.id.col3Title)
+  TextView col3Title;
   @BindView(R.id.recyclerView)
   RecyclerView recyclerView;
   @BindView(R.id.totalAmountTextView)
@@ -59,7 +65,7 @@ public class SaleFragment extends Fragment {
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
-    new AkgPrintingService().printSale(distributor.getData().getDistributorName(),
+    new AkgPrintingService().printStock(distributor.getData().getDistributorName(),
         distributor.getData().getMobile(), loginResponse, products, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
@@ -99,18 +105,18 @@ public class SaleFragment extends Fragment {
 
   private FieldForcePreferences preferences;
   private AkgLoginResponse loginResponse;
-  private StockSaleAdapter stockSaleAdapter;
+  private StockListAdapter stockListAdapter;
   private List<CategoryModel> products;
 
   private ProgressDialog progressDialog;
   private AlertDialog.Builder builder;
 
-  public SaleFragment() {
+  public StockFragment() {
     // Required empty public constructor
   }
 
-  public static SaleFragment newInstance() {
-    SaleFragment fragment = new SaleFragment();
+  public static StockFragment newInstance() {
+    StockFragment fragment = new StockFragment();
     return fragment;
   }
 
@@ -135,8 +141,8 @@ public class SaleFragment extends Fragment {
     builder = new AlertDialog.Builder(getActivity());
 
     products = new ArrayList<>();
-    stockSaleAdapter = new StockSaleAdapter(getActivity(), products);
-    recyclerView.setAdapter(stockSaleAdapter);
+    stockListAdapter = new StockListAdapter(getActivity(), products);
+    recyclerView.setAdapter(stockListAdapter);
 
     products = ((StockActivity) getActivity()).getProducts();
     populateView();
@@ -146,12 +152,16 @@ public class SaleFragment extends Fragment {
     if (products.size() > 0) {
       txtResponse.setVisibility(View.GONE);
       layoutScroll.setVisibility(View.VISIBLE);
-      stockSaleAdapter.setData(products);
+      stockListAdapter.setData(products);
 
       srNameTextView.setText(String.format(Locale.getDefault(),
           "SR Name: %s", loginResponse.getData().getUserName()));
       String time = android.text.format.DateFormat.format("hh:mm a", new java.util.Date()).toString();
       timeTextView.setText(time);
+      tableTitleTextView.setText("Stock: ");
+      col2Title.setText("প্রাথমিক");
+      col3Title.setText("বর্তমান");
+
       double totalSaleAmount = 0.0;
       for (CategoryModel categoryModel : products) {
         totalSaleAmount += categoryModel.getSalesQty() * categoryModel.getSellingRate();

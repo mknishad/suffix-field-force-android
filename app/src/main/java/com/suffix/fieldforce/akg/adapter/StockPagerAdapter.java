@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.suffix.fieldforce.akg.fragment.SaleFragment;
+import com.suffix.fieldforce.akg.fragment.StockFragment;
 
 public class StockPagerAdapter extends FragmentStatePagerAdapter {
   public StockPagerAdapter(FragmentManager fragmentManager) {
@@ -17,9 +18,9 @@ public class StockPagerAdapter extends FragmentStatePagerAdapter {
   @Override
   public Fragment getItem(int position) {
     if (position == 0){
-      return new SaleFragment();
+      return StockFragment.newInstance();
     } else {
-      return new SaleFragment();
+      return SaleFragment.newInstance();
     }
   }
 
