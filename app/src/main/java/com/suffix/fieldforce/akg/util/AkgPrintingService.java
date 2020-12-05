@@ -71,7 +71,7 @@ public class AkgPrintingService {
       stringBuilder.append("[L]").append(distributorName).append("\n");
       stringBuilder.append("[L]").append(distributorMobile).append(", ").append(time).append("\n");
       stringBuilder.append("[L]SR: ").append(loginResponse.getData().getUserName()).append("\n");
-      stringBuilder.append("[L]<b>Stock:</b>\n");
+      stringBuilder.append("[L]<b>Sale:</b>\n");
       stringBuilder.append("[L]--------------------------------\n");
 
       int primaryQuantity = 0;

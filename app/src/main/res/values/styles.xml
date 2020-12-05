@@ -56,7 +56,7 @@
 
     <!-- Text appearance style for a category tab -->
     <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textColor">#CCCCCC</item>
+        <item name="android:textColor">#BBBBBB</item>
     </style>
 
     <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
