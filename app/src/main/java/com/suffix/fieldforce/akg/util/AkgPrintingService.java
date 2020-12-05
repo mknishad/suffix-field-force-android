@@ -44,9 +44,9 @@ public class AkgPrintingService {
 
       stringBuilder.append("[L]--------------------------------\n");
 
-      stringBuilder.append("[L]").append(printFirst("TOTAL"))
-          .append(printLast(String.valueOf(primaryQuantity))).append("--")
-          .append(printLast(String.valueOf(currentQuantity))).append("\n");
+//      stringBuilder.append("[L]").append(printFirst("TOTAL"))
+//          .append(printLast("-")).append("--")
+//          .append(printLast(String.valueOf(currentQuantity))).append("\n");
 
       Log.d(TAG, "printStock: stringBuilder = " + stringBuilder.toString());
 
@@ -81,6 +81,7 @@ public class AkgPrintingService {
         //int quantityLen = String.valueOf(product.getProductQty()).length();
         double amount = product.getSellingRate() * product.getProductQty();
         String tk = String.format(Locale.getDefault(), "%.2f", amount);
+        totalAmount += amount;
         /*totalAmount += amount;
         int tkLen = tk.length();
         int totalLen = brandLen + quantityLen + tkLen;
