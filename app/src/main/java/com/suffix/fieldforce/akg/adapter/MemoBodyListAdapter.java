@@ -1,16 +1,23 @@
 package com.suffix.fieldforce.akg.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
+import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
+import com.suffix.fieldforce.dialog.TJBDialog;
+import com.suffix.fieldforce.dialog.TJBDialogListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +48,23 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
     holder.colOne.setText(String.valueOf(row.getProductCode()));
     holder.colTwo.setText(String.valueOf(row.getProductQty()));
     holder.colThree.setText(String.valueOf(row.getSubToalAmount()));
+
+    holder.layoutRow.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        TJBDialog dialog = new TJBDialog();
+        dialog.setTjbDialogListener(new TJBDialogListener() {
+          @Override
+          public void onSubmit(String quantity) {
+
+            int updateQty = Integer.parseInt(quantity) - row.getProductQty();
+            new SyncManager(context).updateSingleInvoice(row,updateQty);
+          }
+        });
+        dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "TJB");
+      }
+    });
+
   }
 
   @Override
@@ -55,6 +79,8 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
 
   public class ViewHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.layoutRow)
+    LinearLayout layoutRow;
     @BindView(R.id.colOne)
     TextView colOne;
     @BindView(R.id.colTwo)

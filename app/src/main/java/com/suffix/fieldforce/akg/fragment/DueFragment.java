@@ -43,6 +43,7 @@ public class DueFragment extends Fragment {
 
   private MemoListAdapter memoListAdapter;
   private List<InvoiceRequest> memoListResponse;
+  private List<InvoiceRequest> filteredInvoiceRequests;
 
 
   @Override
@@ -51,13 +52,14 @@ public class DueFragment extends Fragment {
 
 
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_all_memo, container, false);
+    View view = inflater.inflate(R.layout.fragment_due, container, false);
     ButterKnife.bind(this, view);
 
+    filteredInvoiceRequests = new ArrayList<>();
 
     LinearLayoutManager manager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(manager);
-    memoListAdapter = new MemoListAdapter(getActivity(), memoListResponse);
+    memoListAdapter = new MemoListAdapter(getActivity(), filteredInvoiceRequests);
     recyclerView.setAdapter(memoListAdapter);
 
     generateView();
@@ -65,7 +67,7 @@ public class DueFragment extends Fragment {
     memoListAdapter.setMemoListInterface(new MemoListInterface() {
       @Override
       public void onItemClick(int position) {
-        InvoiceRequest response = memoListResponse.get(position);
+        InvoiceRequest response = filteredInvoiceRequests.get(position);
 
         Intent intent = new Intent(getActivity(), MemoDetailsActivity.class);
         intent.putExtra(AkgConstants.MEMO_DETAIL, response);
@@ -88,15 +90,14 @@ public class DueFragment extends Fragment {
   }
 
   private List<InvoiceRequest> prepareList(List<InvoiceRequest> memoListResponse) {
-    List<InvoiceRequest> invoiceRequests = new ArrayList<>();
-
+    filteredInvoiceRequests.clear();
     for (InvoiceRequest invoiceRequest : memoListResponse) {
       if ((invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()) > 0) {
-        invoiceRequests.add(invoiceRequest);
+        filteredInvoiceRequests.add(invoiceRequest);
       }
     }
 
-    return invoiceRequests;
+    return filteredInvoiceRequests;
   }
 
 }

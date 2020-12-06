@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,22 +22,12 @@ import butterknife.OnClick;
 
 public class TJBDialog extends DialogFragment {
 
-  @BindView(R.id.txtLocation)
-  TextInputEditText txtLocation;
-  @BindView(R.id.txtACoreId)
-  TextInputEditText txtACoreId;
-  @BindView(R.id.txtACore)
-  TextInputEditText txtACore;
-  @BindView(R.id.txtBCoreId)
-  TextInputEditText txtBCoreId;
-  @BindView(R.id.txtBCore)
-  TextInputEditText txtBCore;
-  @BindView(R.id.btnCancel)
-  TextView btnCancel;
-  @BindView(R.id.btnSubmit)
-  TextView btnSubmit;
-  @BindView(R.id.layoutButton)
-  LinearLayout layoutButton;
+  @BindView(R.id.txtQuantity)
+  TextInputEditText txtQuantity;
+  @BindView(R.id.txtProductName)
+  TextView txtProductName;
+  @BindView(R.id.btnUpdate)
+  Button btnUpdate;
 
   private TJBDialogListener tjbDialogListener;
 
@@ -49,18 +40,13 @@ public class TJBDialog extends DialogFragment {
     dismiss();
   }
 
-  @OnClick(R.id.btnSubmit)
+  @OnClick(R.id.btnUpdate)
   public void onViewClicked() {
 
-    String locationName = txtLocation.getText().toString();
-    String fromCoreId = txtACoreId.getText().toString();
-    String fromCore = txtACore.getText().toString();
-    String toCoreId = txtBCoreId.getText().toString();
-    String toCore = txtBCore.getText().toString();
+    String quantity = txtQuantity.getText().toString();
 
     if(tjbDialogListener != null){
-
-      tjbDialogListener.onSubmit(new TJBInfoData(locationName, "", "", fromCoreId, fromCore, toCoreId, toCore));
+      tjbDialogListener.onSubmit(quantity);
       dismiss();
     }
 

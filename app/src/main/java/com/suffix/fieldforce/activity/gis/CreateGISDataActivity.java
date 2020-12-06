@@ -100,17 +100,17 @@ public class CreateGISDataActivity extends AppCompatActivity {
   @OnClick(R.id.btnAddTJB)
   public void addTJB() {
     TJBDialog dialog = new TJBDialog();
-    dialog.setTjbDialogListener(new TJBDialogListener() {
-      @Override
-      public void onSubmit(TJBInfoData tjbInfoData) {
-        tjbInfoDataObj.add(tjbInfoData);
-        tjbAdapter.setData(tjbInfoDataObj);
-
-        if(layoutTJB.getVisibility() != View.VISIBLE){
-          layoutTJB.setVisibility(View.VISIBLE);
-        }
-      }
-    });
+//    dialog.setTjbDialogListener(new TJBDialogListener() {
+//      @Override
+//      public void onSubmit(TJBInfoData tjbInfoData) {
+//        tjbInfoDataObj.add(tjbInfoData);
+//        tjbAdapter.setData(tjbInfoDataObj);
+//
+//        if(layoutTJB.getVisibility() != View.VISIBLE){
+//          layoutTJB.setVisibility(View.VISIBLE);
+//        }
+//      }
+//    });
     dialog.show(getSupportFragmentManager(), "TJB");
   }
 
