@@ -140,6 +140,10 @@
   <string name="save">Save</string>
   <string name="productname">পণ্যের নাম</string>
   <string name="money_amount">টাকার পরিমাণ</string>
+  <string name="dam">ড্যাম সংগ্রহ</string>
+  <string name="report">রিপোর্ট</string>
+  <string name="slide_collect">স্লাইড সংগ্রহ</string>
+  <string name="sync">সিংক</string>
 
 
 </resources>

@@ -31,8 +31,6 @@ import butterknife.ButterKnife;
 
 public class AllMemoFragment extends Fragment {
 
-
-
   @BindView(R.id.recyclerView)
   RecyclerView recyclerView;
 
