@@ -122,8 +122,8 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @BindView(R.id.layoutChat)
   LinearLayout layoutChat;
 
-  @BindView(R.id.layoutSiteMap)
-  LinearLayout layoutSiteMap;
+  //@BindView(R.id.layoutSiteMap)
+  //LinearLayout layoutSiteMap;
 
   @BindView(R.id.layoutGIS)
   LinearLayout layoutGIS;
@@ -159,7 +159,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   CustomProgress customProgress;
 
   @SuppressLint("RestrictedApi")
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutSiteMap, R.id.layoutGIS, R.id.layoutSync, R.id.layoutClosing})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutGIS, R.id.layoutSync, R.id.layoutClosing})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -201,9 +201,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
       case R.id.layoutChat:
         openMessage();
         break;
-      case R.id.layoutSiteMap:
-        openTR();
-        break;
+//      case R.id.layoutSiteMap:
+//        openTR();
+//        break;
       case R.id.layoutGIS:
         if (!isDataAvailable()) {
           Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();

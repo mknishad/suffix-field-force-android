@@ -41,4 +41,5 @@
     <dimen name="card_height_45">45dp</dimen>
     <dimen name="card_height_50">50dp</dimen>
     <dimen name="card_height_60">60dp</dimen>
+  <dimen name="dashboard_font_size">20sp</dimen>
 </resources>
