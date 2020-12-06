@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
@@ -59,6 +62,22 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   @BindView(R.id.txtStoreLocation)
   TextView txtStoreLocation;
+
+  @BindView(R.id.layoutCollection)
+  LinearLayout layoutCollection;
+
+  @BindView(R.id.txtCollection)
+  TextInputEditText txtCollection;
+
+  @BindView(R.id.btnUpdate)
+  Button btnUpdate;
+
+  @OnClick(R.id.btnUpdate)
+  public void updateCollection() {
+
+
+
+  }
 
   @OnClick(R.id.btnPrint)
   public void printMemo() {
