@@ -1,14 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".akg.fragment.DueFragment">
+    android:background="@color/backgroundcolor"
+    android:orientation="vertical">
 
-  <!-- TODO: Update blank fragment layout -->
   <TextView
+      android:id="@+id/txtResponse"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment" />
+      android:gravity="center"
+      android:text="No sale found"
+      android:visibility="gone" />
 
-</FrameLayout>
+  <androidx.core.widget.NestedScrollView
+      android:id="@+id/layoutScroll"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingHorizontal="@dimen/padding_10"
+      android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/layout_margin_10">
+
+        <TextView
+            android:id="@+id/srNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:gravity="start"
+            android:paddingVertical="5dp"
+            android:paddingStart="@dimen/padding_4"
+            android:text="SR Name: Md. Malek Mia"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:gravity="end"
+            android:paddingVertical="5dp"
+            android:paddingEnd="@dimen/padding_4"
+            android:text="Time: 12:30 pm"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="0dp">
+
+        <TextView
+            android:id="@+id/tableTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:gravity="start"
+            android:paddingVertical="5dp"
+            android:paddingStart="@dimen/padding_4"
+            android:text="Sale:"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="1dp"
+          android:weightSum="3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text="নাম (প্রোডাক্ট)"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/col2Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text="পরিমাণ"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/col3Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text="মূল্য"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+      </LinearLayout>
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/recyclerView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          tools:itemCount="6"
+          app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+          tools:listitem="@layout/row_table_item" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:weightSum="3">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text="মোট"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/totalAmountTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorMint"
+            android:fontFamily="@font/solaimanlipi"
+            android:paddingVertical="5dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/btnPrint"
+          android:layout_width="wrap_content"
+          android:layout_height="@dimen/layout_height_80"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginStart="@dimen/padding_8"
+          android:layout_marginTop="@dimen/layout_margin_20"
+          android:background="@drawable/shadow_background_fill"
+          android:gravity="center"
+          android:orientation="horizontal"
+          android:paddingHorizontal="@dimen/layout_margin_20">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_print_24"
+            app:tint="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_8"
+            android:gravity="center"
+            android:text="@string/print"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+      </LinearLayout>
+    </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
+</LinearLayout>
