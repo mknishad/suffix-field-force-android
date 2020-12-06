@@ -62,8 +62,8 @@ public class AkgPrintingService {
   }
 
   public void printSale(String distributorName, String distributorMobile,
-                         AkgLoginResponse loginResponse, List<CategoryModel> products,
-                         PrintingInterface printingInterface) {
+                        AkgLoginResponse loginResponse, List<CategoryModel> products,
+                        PrintingInterface printingInterface) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", new java.util.Date()).toString();
 
@@ -161,10 +161,11 @@ public class AkgPrintingService {
           .append(totalAmountString).append("\n");
       stringBuilder.append("[L]\n");
 
-      if (totalAmount > invoiceRequest.getRecievedAmount()) {
-        stringBuilder.append("[L]").append("Due.").append("\n");
-      } else {
+      if (totalAmount == invoiceRequest.getRecievedAmount() ||
+          invoiceRequest.getInvoiceType().equalsIgnoreCase(AkgConstants.INVOICE_TYPE_DAMP)) {
         stringBuilder.append("[L]").append("Paid.").append("\n");
+      } else {
+        stringBuilder.append("[L]").append("Due.").append("\n");
       }
       stringBuilder.append("[L]\n");
 
