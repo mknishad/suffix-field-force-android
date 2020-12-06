@@ -65,6 +65,7 @@ import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.akg.util.CustomProgress;
 import com.suffix.fieldforce.akg.util.NetworkUtils;
 import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
@@ -159,7 +160,9 @@ public class MainDashboardActivity extends AppCompatActivity implements
   CustomProgress customProgress;
 
   @SuppressLint("RestrictedApi")
-  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster, R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutGIS, R.id.layoutSync, R.id.layoutClosing})
+  @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster,
+      R.id.layoutBilling, R.id.layoutInventory, R.id.layoutChat, R.id.layoutGIS, R.id.layoutSync,
+      R.id.layoutClosing, R.id.dam_collection_layout})
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.layoutAttendance:
@@ -179,6 +182,12 @@ public class MainDashboardActivity extends AppCompatActivity implements
           return;
         }
         openSales();
+      case R.id.dam_collection_layout:
+        if (!isDataAvailable()) {
+          Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();
+          return;
+        }
+        openDampCollection();
         break;
       case R.id.layoutRoster:
         //openRoster();
@@ -667,6 +676,13 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
   public void openSales() {
     Intent intent = new Intent(MainDashboardActivity.this, SaleActivity.class);
+    intent.putExtra(AkgConstants.INVOICE_TYPE, AkgConstants.SALE);
+    startActivity(intent);
+  }
+
+  public void openDampCollection() {
+    Intent intent = new Intent(MainDashboardActivity.this, SaleActivity.class);
+    intent.putExtra(AkgConstants.INVOICE_TYPE, AkgConstants.DAMP);
     startActivity(intent);
   }
 
