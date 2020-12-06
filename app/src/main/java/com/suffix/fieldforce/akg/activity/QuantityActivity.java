@@ -115,10 +115,10 @@ public class QuantityActivity extends AppCompatActivity {
         buttonKeyValue.add(new ButtonKeyValueModel("-500", "500"));
         buttonKeyValue.add(new ButtonKeyValueModel("+200", "200"));
         buttonKeyValue.add(new ButtonKeyValueModel("-200", "200"));
-        buttonKeyValue.add(new ButtonKeyValueModel("+100", "100"));
-        buttonKeyValue.add(new ButtonKeyValueModel("-100", "100"));
-        buttonKeyValue.add(new ButtonKeyValueModel("+20", "20"));
-        buttonKeyValue.add(new ButtonKeyValueModel("-20", "20"));
+        buttonKeyValue.add(new ButtonKeyValueModel("+50", "50"));
+        buttonKeyValue.add(new ButtonKeyValueModel("-50", "50"));
+        buttonKeyValue.add(new ButtonKeyValueModel("+10", "10"));
+        buttonKeyValue.add(new ButtonKeyValueModel("-10", "10"));
         break;
       case 102:
         buttonKeyValue.add(new ButtonKeyValueModel("+500", "500"));
