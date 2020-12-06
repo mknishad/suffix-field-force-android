@@ -26,7 +26,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imgCigar"
-            android:layout_width="120dp"
+            android:layout_width="80dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
@@ -70,8 +70,6 @@
             android:id="@+id/txtProductCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:text="MARISE"
             android:textSize="14sp"
             android:textStyle="bold"
