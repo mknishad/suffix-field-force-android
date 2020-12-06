@@ -101,6 +101,7 @@ public class SaleActivity extends AppCompatActivity {
       Log.d(TAG, "gotoCheckout: selectedCustomer = " + selectedCustomer);
       Intent intent = new Intent(SaleActivity.this, ProductCategoryActivity.class);
       intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
+      intent.putExtra(AkgConstants.INVOICE_TYPE, invoiceType);
       startActivity(intent);
     } else {
       Toast.makeText(SaleActivity.this, "কাস্টমার সিলেক্ট করুন", Toast.LENGTH_SHORT).show();
@@ -120,6 +121,7 @@ public class SaleActivity extends AppCompatActivity {
   private List<CustomerData> filteredCustomerList;
   private CustomerData selectedCustomer = null;
   private RealMDatabaseManager realMDatabaseManager;
+  private String invoiceType;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,7 @@ public class SaleActivity extends AppCompatActivity {
 
     setupToolbar();
 
+    invoiceType = getIntent().getStringExtra(AkgConstants.INVOICE_TYPE);
     realMDatabaseManager = new RealMDatabaseManager();
     preferences = new FieldForcePreferences(this);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
