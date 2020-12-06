@@ -182,6 +182,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
           return;
         }
         openSales();
+        break;
       case R.id.dam_collection_layout:
         if (!isDataAvailable()) {
           Toast.makeText(this, "আগে ডাটা সিংক করুন!", Toast.LENGTH_SHORT).show();

@@ -132,6 +132,7 @@ public class SaleActivity extends AppCompatActivity {
     setupToolbar();
 
     invoiceType = getIntent().getStringExtra(AkgConstants.INVOICE_TYPE);
+    Log.d(TAG, "onCreate: invoiceType = " + invoiceType);
     realMDatabaseManager = new RealMDatabaseManager();
     preferences = new FieldForcePreferences(this);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
