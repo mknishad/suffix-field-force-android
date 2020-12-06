@@ -73,6 +73,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   @BindView(R.id.btnUpdate)
   Button btnUpdate;
+  private String paymentStatus = "Paid";
 
   @OnClick(R.id.btnUpdate)
   public void updateCollection() {
@@ -95,10 +96,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     new AkgPrintingService().print(distributor.getData().getDistributorName(),
-        distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
+        distributor.getData().getMobile(), loginResponse, invoiceRequest, paymentStatus, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
-
             progressDialog.dismiss();
             updateCollection();
             builder.setMessage(message);
@@ -179,6 +179,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
     if(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f){
+      paymentStatus = "Due";
       txtCollection.setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
     }else{
       txtCollection.setVisibility(View.GONE);
