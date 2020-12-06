@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -69,6 +70,7 @@ public class ProductCategoryActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     invoiceType = getIntent().getStringExtra(AkgConstants.INVOICE_TYPE);
+    Log.d(TAG, "onCreate: invoiceType = " + invoiceType);
     selectedCustomer = getIntent().getParcelableExtra(AkgConstants.CUSTOMER_INFO);
     realMDatabaseManager = new RealMDatabaseManager();
 
