@@ -11,8 +11,7 @@
       android:id="@+id/toolbar"
       style="@style/ToolbarStyle"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      />
+      android:layout_height="?attr/actionBarSize" />
 
   <androidx.core.widget.NestedScrollView
       android:layout_width="match_parent"
@@ -32,10 +31,10 @@
           android:layout_height="200dp"
           android:layout_gravity="center_horizontal"
           android:layout_marginBottom="-60dp"
-          android:paddingBottom="@dimen/padding_10"
+          android:background="@color/colorMintDark"
           android:gravity="center_horizontal"
           android:orientation="vertical"
-          android:background="@color/colorMintDark">
+          android:paddingBottom="@dimen/padding_10">
 
         <RelativeLayout
             android:layout_width="80dp"
@@ -45,10 +44,11 @@
               android:id="@+id/imgUserProfile"
               android:layout_width="80dp"
               android:layout_height="80dp"
-              android:padding="2dp"
               android:layout_centerHorizontal="true"
-              android:src="@drawable/imgplaceholder"
-              android:background="@drawable/round_white"/>
+              android:background="@drawable/round_white"
+              android:padding="2dp"
+              android:src="@drawable/imgplaceholder" />
+
           <View
               android:id="@+id/badge"
               android:layout_width="16dp"
@@ -88,10 +88,10 @@
 
       <RelativeLayout
           android:id="@+id/card"
-          android:layout_marginTop="8dp"
           android:layout_width="wrap_content"
           android:layout_height="130dp"
           android:layout_marginStart="46dp"
+          android:layout_marginTop="8dp"
           android:layout_marginEnd="46dp"
           android:layout_marginBottom="@dimen/padding_10"
           android:background="@drawable/shadow_background">
@@ -197,15 +197,14 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-        android:orientation="vertical">
+          android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:weightSum="3"
-            >
+            android:weightSum="3">
 
           <LinearLayout
               android:id="@+id/layoutTask"
@@ -214,11 +213,10 @@
               android:layout_marginEnd="@dimen/layout_margin_5"
               android:layout_weight="1"
               android:background="@drawable/shadow_background"
-              android:gravity="center_horizontal"
-              android:orientation="vertical"
-               android:clickable="true"
+              android:clickable="true"
               android:focusable="true"
-              >
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
             <ImageView
                 android:layout_width="45dp"
@@ -273,8 +271,8 @@
               android:id="@+id/layoutInventory"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:layout_weight="1"
               android:layout_marginStart="@dimen/layout_margin_5"
+              android:layout_weight="1"
               android:background="@drawable/shadow_background"
               android:gravity="center_horizontal"
               android:orientation="vertical">
@@ -337,13 +335,12 @@
             android:weightSum="3">
 
 
-
           <LinearLayout
               android:id="@+id/layoutGIS"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
-              android:layout_weight="1"
               android:layout_marginEnd="@dimen/layout_margin_5"
+              android:layout_weight="1"
               android:background="@drawable/shadow_background"
               android:gravity="center_horizontal"
               android:orientation="vertical">
@@ -401,10 +398,10 @@
               android:id="@+id/report_layout"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/layout_margin_5"
               android:layout_weight="1"
               android:background="@drawable/shadow_background"
               android:gravity="center_horizontal"
-              android:layout_marginStart="@dimen/layout_margin_5"
               android:orientation="vertical">
 
             <ImageView
@@ -434,36 +431,36 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:weightSum="2"
+          android:orientation="horizontal"
           android:paddingHorizontal="@dimen/layout_height_20"
-          android:orientation="horizontal">
+          android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/layoutSync"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="75dp"
-            android:background="@drawable/shadow_background_fill"
-            android:gravity="center"
             android:layout_marginTop="@dimen/layout_margin_15"
-            android:layout_marginBottom="@dimen/layout_margin_15">
+            android:layout_marginBottom="@dimen/layout_margin_15"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_background_fill"
+            android:gravity="center">
 
           <ImageView
               android:layout_width="24dp"
               android:layout_height="24dp"
-              android:src="@drawable/ic_sync"
               android:layout_gravity="center"
-              android:scaleType="centerCrop"
-              android:paddingVertical="5dp"
               android:layout_marginRight="@dimen/layout_margin_10"
+              android:paddingVertical="5dp"
+              android:scaleType="centerCrop"
+              android:src="@drawable/ic_sync"
               app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/sync"
               android:fontFamily="@font/solaimanlipi"
               android:gravity="center"
+              android:text="@string/sync"
               android:textColor="@android:color/white"
               android:textSize="22sp" />
         </LinearLayout>
@@ -471,29 +468,29 @@
         <LinearLayout
             android:id="@+id/layoutClosing"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="75dp"
-            android:background="@drawable/red_shadow_background"
-            android:gravity="center"
             android:layout_marginTop="@dimen/layout_margin_15"
-            android:layout_marginBottom="@dimen/layout_margin_15">
+            android:layout_marginBottom="@dimen/layout_margin_15"
+            android:layout_weight="1"
+            android:background="@drawable/red_shadow_background"
+            android:gravity="center">
 
           <ImageView
               android:layout_width="24dp"
               android:layout_height="24dp"
-              android:src="@drawable/ic_baseline_cancel_24"
               android:layout_gravity="center"
-              android:scaleType="centerCrop"
-              android:paddingVertical="5dp"
               android:layout_marginRight="@dimen/layout_margin_10"
+              android:paddingVertical="5dp"
+              android:scaleType="centerCrop"
+              android:src="@drawable/ic_baseline_cancel_24"
               app:tint="@color/colorWhite" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="সেলস ক্লোজিং"
               android:fontFamily="@font/solaimanlipi"
               android:gravity="center"
+              android:text="সেলস ক্লোজিং"
               android:textColor="@android:color/white"
               android:textSize="22sp" />
 
@@ -503,7 +500,6 @@
 
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
-
 
 
 </RelativeLayout>

@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,21 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
-import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
-import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.util.AkgConstants;
-import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class ProductCategoryActivity extends AppCompatActivity {
 
@@ -57,21 +51,15 @@ public class ProductCategoryActivity extends AppCompatActivity {
   public void gotoCheckout() {
     Intent intent = new Intent(ProductCategoryActivity.this, CheckActivity.class);
     intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
+    intent.putExtra(AkgConstants.INVOICE_TYPE, invoiceType);
     startActivity(intent);
   }
 
 
-  private FieldForcePreferences preferences;
-  private AkgApiInterface apiInterface;
-  private ArrayAdapter<CustomerData> spinnerAdapter;
+  private String invoiceType;
   private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;
-  private AkgLoginResponse loginResponse;
-  private String basicAuthorization;
-  private List<CustomerData> customerDataList;
-  private List<CustomerData> filteredCustomerList;
   private ProductCategory productCategory;
   private CustomerData selectedCustomer = null;
-  private Realm realm;
   private RealMDatabaseManager realMDatabaseManager;
 
   @Override
@@ -80,6 +68,7 @@ public class ProductCategoryActivity extends AppCompatActivity {
     setContentView(R.layout.activity_product_category);
     ButterKnife.bind(this);
 
+    invoiceType = getIntent().getStringExtra(AkgConstants.INVOICE_TYPE);
     selectedCustomer = getIntent().getParcelableExtra(AkgConstants.CUSTOMER_INFO);
     realMDatabaseManager = new RealMDatabaseManager();
 

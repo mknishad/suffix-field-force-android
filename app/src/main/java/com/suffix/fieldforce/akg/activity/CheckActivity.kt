@@ -37,7 +37,7 @@ import com.suffix.fieldforce.preference.FieldForcePreferences
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.fragment_chat_list.*
+import kotlinx.android.synthetic.main.activity_check.*
 import okhttp3.Credentials
 import okhttp3.ResponseBody
 import org.jetbrains.anko.startActivity
@@ -51,6 +51,7 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var binding: ActivityCheckBinding
   //private lateinit var viewModel: CheckViewModel
 
+  private lateinit var invoiceType: String
   private lateinit var preferences: FieldForcePreferences
   private lateinit var apiInterface: AkgApiInterface
   private lateinit var loginResponse: AkgLoginResponse
@@ -81,6 +82,7 @@ class CheckActivity : AppCompatActivity() {
     setupToolbar()
     //setupTableView()
 
+    invoiceType = intent.getStringExtra(AkgConstants.INVOICE_TYPE)
     preferences = FieldForcePreferences(this)
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
     loginResponse = Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse::class.java)
@@ -96,6 +98,10 @@ class CheckActivity : AppCompatActivity() {
 
     setupRecyclerView()
     setupTotal()
+
+    if (invoiceType.equals(AkgConstants.DAMP, true)) {
+      receivedAmountLayout.visibility = View.GONE
+    }
   }
 
   private fun setupToolbar() {
@@ -143,6 +149,16 @@ class CheckActivity : AppCompatActivity() {
       Toast.makeText(this, "আদায়কৃত টাকার পরিমাণ লিখুন", Toast.LENGTH_SHORT).show()
       return
     }
+
+    if (invoiceType.equals(AkgConstants.SALE, true)) {
+      createInvoice(AkgConstants.INVOICE_TYPE_NORMAL,
+        binding.receivedAmountLayout.editText?.text.toString().toDouble())
+    } else if (invoiceType.equals(AkgConstants.DAMP, true)) {
+      createInvoice(AkgConstants.INVOICE_TYPE_DAMP)
+    }
+  }
+
+  private fun createInvoice(invoiceType: String, receivedAmount: Double = 0.0) {
     progressDialog.show()
     invoiceProducts = RealmList()
     var totalAmount = 0.0
@@ -165,10 +181,10 @@ class CheckActivity : AppCompatActivity() {
 
     invoiceDate = System.currentTimeMillis()
 
-    invoiceRequest = InvoiceRequest(AkgConstants.INVOICE_TYPE_NORMAL,
-      customerData.id, invoiceDate, customerData.id.toString() + "_" + invoiceDate.toString(),
-      invoiceProducts, loginResponse.data.id, totalAmount, customerData.customerName,
-      customerData.address, binding.receivedAmountLayout.editText?.text.toString().toDouble()
+    invoiceRequest = InvoiceRequest(invoiceType, customerData.id, invoiceDate,
+      customerData.id.toString() + "_" + invoiceDate.toString(), invoiceProducts,
+      loginResponse.data.id, totalAmount, customerData.customerName, customerData.address,
+      receivedAmount
     )
 
     val basicAuthorization = Credentials.basic(
