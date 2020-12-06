@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -135,7 +136,7 @@ public class SyncManager {
 
     try {
       updateCategoryProduct(invoiceRequest.getInvoiceProducts());
-    }catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
@@ -143,9 +144,9 @@ public class SyncManager {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm bgRealm) {
-        try{
+        try {
           bgRealm.copyToRealm(invoiceRequest);
-        }catch (Exception e){
+        } catch (Exception e) {
           e.printStackTrace();
         }
       }
@@ -174,12 +175,33 @@ public class SyncManager {
 
   }
 
-  public void updateSingleInvoice(InvoiceProduct invoiceProduct, int updateQty){
+  public void updateSingleInvoice(InvoiceProduct invoiceProduct, int updateQty) {
 
     CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProduct.getProductId()).findFirst();
     if (categoryModel != null) {
       categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
     }
+
+  }
+
+  public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount, RealmDatabseManagerInterface.Sync sync) {
+
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        InvoiceRequest ir = realm.where(InvoiceRequest.class).equalTo("invoiceId", invoiceRequest.getInvoiceId()).findFirst();
+        if (ir != null) {
+          ir.setRecievedAmount(ir.getRecievedAmount() + amount);
+        }
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if(sync != null){
+          sync.onSuccess();
+        }
+      }
+    });
 
   }
 
