@@ -161,6 +161,13 @@ public class AkgPrintingService {
           .append(totalAmountString).append("\n");
       stringBuilder.append("[L]\n");
 
+      if (totalAmount > invoiceRequest.getRecievedAmount()) {
+        stringBuilder.append("[L]").append("Due.").append("\n");
+      } else {
+        stringBuilder.append("[L]").append("Paid.").append("\n");
+      }
+      stringBuilder.append("[L]\n");
+
       String pricePerPack = "";
       for (GlobalSettings globalSettings : loginResponse.getData().getGlobalSettingList()) {
         if (globalSettings.getAttributeName().equalsIgnoreCase("RATE_PER_PACK")) {
