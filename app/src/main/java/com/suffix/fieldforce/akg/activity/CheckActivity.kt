@@ -10,8 +10,10 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -133,9 +135,14 @@ class CheckActivity : AppCompatActivity() {
 
     //binding.txtTotalQuantity.text = quantity.toString()
     binding.txtTotalAmount.text = String.format(Locale.getDefault(), "%.2f", totalAmount)
+    binding.receivedAmountLayout.editText?.setText(String.format(Locale.getDefault(), "%.2f", totalAmount))
   }
 
   fun submit(view: View) {
+    if (TextUtils.isEmpty(binding.receivedAmountLayout.editText?.text.toString())) {
+      Toast.makeText(this, "আদায়কৃত টাকার পরিমাণ লিখুন", Toast.LENGTH_SHORT).show()
+      return
+    }
     progressDialog.show()
     invoiceProducts = RealmList()
     var totalAmount = 0.0
@@ -158,10 +165,10 @@ class CheckActivity : AppCompatActivity() {
 
     invoiceDate = System.currentTimeMillis()
 
-    invoiceRequest = InvoiceRequest(
+    invoiceRequest = InvoiceRequest(AkgConstants.INVOICE_TYPE_NORMAL,
       customerData.id, invoiceDate, customerData.id.toString() + "_" + invoiceDate.toString(),
       invoiceProducts, loginResponse.data.id, totalAmount, customerData.customerName,
-      customerData.address
+      customerData.address, binding.receivedAmountLayout.editText?.text.toString().toDouble()
     )
 
     val basicAuthorization = Credentials.basic(
