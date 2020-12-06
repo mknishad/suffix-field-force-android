@@ -173,7 +173,12 @@ public class QuantityActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
           if (button.getText().toString().contains("+")) {
-            txtResult.setText(String.valueOf((Integer.parseInt(txtResult.getText().toString()) + Integer.parseInt(keyValue.getValue()))));
+
+            if((categoryModel.getInHandQty() - categoryModel.getSalesQty()) < (Integer.parseInt(txtResult.getText().toString()) + Integer.parseInt(keyValue.getValue()))){
+              Toast.makeText(QuantityActivity.this, "আপনার ইনপুট দেওয়া সমপরিমাণ প্রোডাক্ট স্টক এ নেই", Toast.LENGTH_SHORT).show();
+            }else{
+              txtResult.setText(String.valueOf((Integer.parseInt(txtResult.getText().toString()) + Integer.parseInt(keyValue.getValue()))));
+            }
           } else {
             if (Integer.parseInt(keyValue.getValue()) <= Integer.parseInt(txtResult.getText().toString())) {
               txtResult.setText(String.valueOf((Integer.parseInt(txtResult.getText().toString()) - Integer.parseInt(keyValue.getValue()))));

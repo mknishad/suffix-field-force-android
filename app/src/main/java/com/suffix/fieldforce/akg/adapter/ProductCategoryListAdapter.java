@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,12 +63,13 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(context, QuantityActivity.class);
-        intent.putExtra("CATEGORY_MODEL",model);
-        context.startActivity(intent);
-//        if (productCategoryListInterface != null) {
-//          productCategoryListInterface.onItemClick(position);
-//        }
+        if((model.getInHandQty() - model.getSalesQty()) == 0){
+          Toast.makeText(context, "স্টক শেষ হয়েছে", Toast.LENGTH_SHORT).show();
+        }else {
+          Intent intent = new Intent(context, QuantityActivity.class);
+          intent.putExtra("CATEGORY_MODEL", model);
+          context.startActivity(intent);
+        }
       }
     });
   }
