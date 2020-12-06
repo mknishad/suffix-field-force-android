@@ -27,6 +27,8 @@ import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
@@ -75,7 +77,12 @@ public class MemoDetailsActivity extends AppCompatActivity {
   @OnClick(R.id.btnUpdate)
   public void updateCollection() {
 
-
+    new SyncManager(this).updateInvoiceRequest(invoiceRequest, Double.parseDouble(txtCollection.getText().toString()), new RealmDatabseManagerInterface.Sync() {
+      @Override
+      public void onSuccess() {
+        finish();
+      }
+    });
 
   }
 
