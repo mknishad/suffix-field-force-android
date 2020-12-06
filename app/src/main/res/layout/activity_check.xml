@@ -123,8 +123,8 @@
               android:id="@+id/recyclerView"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              tools:itemCount="6"
               app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+              tools:itemCount="6"
               tools:listitem="@layout/row_table_item" />
 
           <LinearLayout
@@ -175,55 +175,25 @@
           </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/tableFooterLayout"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/receivedAmountLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="-16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="3"
+            android:hint="আদায়কৃত টাকার পরিমাণ"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tableLayout">
 
-          <TextView
-              android:id="@+id/totalTextView"
-              android:layout_width="0dp"
+          <com.google.android.material.textfield.TextInputEditText
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:background="@color/colorTableTitle"
-              android:gravity="center"
-              android:text="@string/total"
-              android:textColor="@color/colorwhite"
-              android:textSize="20sp" />
-
-          <TextView
-              android:id="@+id/totalPiecesTextView"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_marginStart="1dp"
-              android:layout_weight="1"
-              android:background="@color/colorTableTitle"
-              android:gravity="center"
-              android:text="4444"
-              android:textColor="@color/colorwhite"
-              android:textSize="20sp" />
-
-          <TextView
-              android:id="@+id/totalAmountTextView"
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_marginStart="1dp"
-              android:layout_weight="1"
-              android:background="@color/colorTableTitle"
-              android:gravity="center"
-              android:text="4444"
-              android:textColor="@color/colorwhite"
-              android:textSize="20sp" />
-        </LinearLayout>
+              android:textSize="20sp"
+              android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/printMemoTextView"
@@ -239,7 +209,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tableFooterLayout" />
+            app:layout_constraintTop_toBottomOf="@id/receivedAmountLayout" />
 
         <LinearLayout
             android:id="@+id/buttonLayout1"

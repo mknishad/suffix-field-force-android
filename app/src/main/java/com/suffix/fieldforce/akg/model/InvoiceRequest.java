@@ -11,6 +11,9 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class InvoiceRequest extends RealmObject implements Parcelable {
+  @SerializedName("invoiceType")
+  @Expose
+  private String invoiceType;
   @SerializedName("customerId")
   @Expose
   private int customerId;
@@ -36,14 +39,18 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
   @SerializedName("customerAddress")
   @Expose
   private String customerAddress;
+  @SerializedName("recievedAmount")
+  @Expose
+  private double recievedAmount;
 
   public InvoiceRequest(){
 
   }
 
-  public InvoiceRequest(int customerId, long invoiceDate, String invoiceId,
-                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId,
-                        double totalAmount, String customerName, String customerAddress) {
+  public InvoiceRequest(String invoiceType, int customerId, long invoiceDate, String invoiceId,
+                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount,
+                        String customerName, String customerAddress, double recievedAmount) {
+    this.invoiceType = invoiceType;
     this.customerId = customerId;
     this.invoiceDate = invoiceDate;
     this.invoiceId = invoiceId;
@@ -52,9 +59,11 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     this.totalAmount = totalAmount;
     this.customerName = customerName;
     this.customerAddress = customerAddress;
+    this.recievedAmount = recievedAmount;
   }
 
   protected InvoiceRequest(Parcel in) {
+    invoiceType = in.readString();
     customerId = in.readInt();
     invoiceDate = in.readLong();
     invoiceId = in.readString();
@@ -65,10 +74,12 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     this.invoiceProducts.addAll(in.createTypedArrayList(InvoiceProduct.CREATOR));
     customerName = in.readString();
     customerAddress = in.readString();
+    recievedAmount = in.readDouble();
   }
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(invoiceType);
     dest.writeInt(customerId);
     dest.writeLong(invoiceDate);
     dest.writeString(invoiceId);
@@ -78,6 +89,7 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     dest.writeTypedList(this.invoiceProducts);
     dest.writeString(customerName);
     dest.writeString(customerAddress);
+    dest.writeDouble(recievedAmount);
   }
 
   @Override
@@ -100,13 +112,17 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
   @Override
   public String toString() {
     return "InvoiceRequest{" +
-        "customerId=" + customerId +
+        "invoiceType='" + invoiceType + '\'' +
+        ", customerId=" + customerId +
         ", invoiceDate=" + invoiceDate +
         ", invoiceId='" + invoiceId + '\'' +
         ", invoiceProducts=" + invoiceProducts +
         ", salesRepId=" + salesRepId +
         ", totalAmount=" + totalAmount +
         ", status=" + status +
+        ", customerName='" + customerName + '\'' +
+        ", customerAddress='" + customerAddress + '\'' +
+        ", recievedAmount=" + recievedAmount +
         '}';
   }
 
@@ -180,5 +196,21 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
 
   public void setCustomerAddress(String customerAddress) {
     this.customerAddress = customerAddress;
+  }
+
+  public String getInvoiceType() {
+    return invoiceType;
+  }
+
+  public void setInvoiceType(String invoiceType) {
+    this.invoiceType = invoiceType;
+  }
+
+  public double getRecievedAmount() {
+    return recievedAmount;
+  }
+
+  public void setRecievedAmount(double recievedAmount) {
+    this.recievedAmount = recievedAmount;
   }
 }

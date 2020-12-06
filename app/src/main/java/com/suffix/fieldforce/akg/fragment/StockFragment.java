@@ -166,7 +166,7 @@ public class StockFragment extends Fragment {
       for (CategoryModel categoryModel : products) {
         totalSaleAmount += categoryModel.getSalesQty() * categoryModel.getSellingRate();
       }
-      totalAmountTextView.setText(String.format(Locale.getDefault(), "%.2f", totalSaleAmount));
+      //totalAmountTextView.setText(String.format(Locale.getDefault(), "%.2f", totalSaleAmount));
     } else {
       txtResponse.setVisibility(View.VISIBLE);
       layoutScroll.setVisibility(View.GONE);

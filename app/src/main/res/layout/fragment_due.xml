@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".akg.fragment.DueFragment">
+    android:orientation="vertical"
+    tools:context=".akg.fragment.AllMemoFragment">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:layout_marginVertical="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/solaimanlipi"
+        android:padding="5dp"
+        android:text="বাঁকী মেমো"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorMintLight"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtTotalMemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="@font/solaimanlipi"
+        android:padding="5dp"
+        android:text="মোট : 0 "
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorMintLight"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+  </RelativeLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment" />
+      android:background="@color/backgroundcolor"
+      android:visibility="gone"
+      tools:listitem="@layout/row_memo_item" />
 
-</FrameLayout>
+  <TextView
+      android:id="@+id/txtResponse"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:text="No Memo Found" />
+
+</LinearLayout>

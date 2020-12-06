@@ -174,4 +174,13 @@ public class SyncManager {
 
   }
 
+  public void updateSingleInvoice(InvoiceProduct invoiceProduct, int updateQty){
+
+    CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProduct.getProductId()).findFirst();
+    if (categoryModel != null) {
+      categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
+    }
+
+  }
+
 }
