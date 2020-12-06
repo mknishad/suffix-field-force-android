@@ -486,6 +486,7 @@ public class SaleActivity extends AppCompatActivity {
                     distanceThreshold = Double.parseDouble(settings.getAttributeValue());
                   }
                 }
+                Toast.makeText(SaleActivity.this, ""+distance, Toast.LENGTH_SHORT).show();
                 if (distance > distanceThreshold) {
                   new AlertDialog.Builder(SaleActivity.this)
                       .setMessage("আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!")

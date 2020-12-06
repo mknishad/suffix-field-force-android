@@ -281,13 +281,17 @@ public class MainDashboardActivity extends AppCompatActivity implements
     }
 
     buildGoogleApiClient();
-    getDeviceLocation(new LocationListener() {
-      @Override
-      public void onLocationUpdate(Location location) {
-
-      }
-    }, "");
-    //initLocationSettings();
+    try {
+      SmartLocation.with(this).location()
+          .start(new OnLocationUpdatedListener() {
+            @Override
+            public void onLocationUpdated(Location location) {
+              Toast.makeText(MainDashboardActivity.this, "location : "+location.getLongitude()+", "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+            }
+          });
+    } catch (Exception e) {
+      Log.e(TAG, "getDeviceLocation: ", e);
+    }
 
     if (preferences.getOnline()) {
       txtUserAddress.setText(preferences.getAddress());
@@ -329,6 +333,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    SmartLocation.with(this).location().stop();
   }
 
   private void getDeviceLocation(LocationListener locationListener, String text) {

@@ -87,8 +87,15 @@ public class NotificationListActivity extends AppCompatActivity {
     recyclerViewNotification.setAdapter(notificationListAdapter);
 
     setupToolbar();
-    getAllNotification();
 
+    SmartLocation.with(NotificationListActivity.this).location()
+        .oneFix()
+        .start(new OnLocationUpdatedListener() {
+          @Override
+          public void onLocationUpdated(Location location) {
+            getAllNotification();
+          }
+        });
   }
 
   private void setupToolbar() {
