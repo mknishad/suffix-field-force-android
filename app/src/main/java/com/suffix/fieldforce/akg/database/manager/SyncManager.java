@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.akg.database.manager;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -177,14 +178,16 @@ public class SyncManager {
 
   public void updateSingleInvoice(InvoiceProduct invoiceProduct, int updateQty) {
 
-    CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProduct.getProductId()).findFirst();
-    if (categoryModel != null) {
-      categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
-    }
+//    CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProduct.getProductId()).findFirst();
+//    if (categoryModel != null) {
+//      categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
+//    }
 
   }
 
   public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount, RealmDatabseManagerInterface.Sync sync) {
+
+    Log.d( "updateInvoiceRequest: ", amount+"");
 
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override

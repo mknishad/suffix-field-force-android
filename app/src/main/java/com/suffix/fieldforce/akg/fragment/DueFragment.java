@@ -62,7 +62,7 @@ public class DueFragment extends Fragment {
     memoListAdapter = new MemoListAdapter(getActivity(), filteredInvoiceRequests);
     recyclerView.setAdapter(memoListAdapter);
 
-    generateView();
+    //generateView();
 
     memoListAdapter.setMemoListInterface(new MemoListInterface() {
       @Override
@@ -78,6 +78,12 @@ public class DueFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    generateView();
+  }
+
   private void generateView() {
 
     memoListResponse = ((MemoListActivity) getActivity()).getMemoList();
@@ -86,7 +92,7 @@ public class DueFragment extends Fragment {
       recyclerView.setVisibility(View.VISIBLE);
       memoListAdapter.setData(prepareList(memoListResponse));
     }
-    txtTotalMemo.setText("মোট : " + memoListResponse.size());
+
   }
 
   private List<InvoiceRequest> prepareList(List<InvoiceRequest> memoListResponse) {
@@ -96,7 +102,7 @@ public class DueFragment extends Fragment {
         filteredInvoiceRequests.add(invoiceRequest);
       }
     }
-
+    txtTotalMemo.setText("মোট : " + filteredInvoiceRequests.size());
     return filteredInvoiceRequests;
   }
 

@@ -88,7 +88,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnPrint)
   public void printMemo() {
+
     progressDialog.show();
+
     Distributor distributor = new Gson().fromJson(preferences.getDistributor(), Distributor.class);
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
@@ -96,7 +98,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
         distributor.getData().getMobile(), loginResponse, invoiceRequest, new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
+
             progressDialog.dismiss();
+            updateCollection();
             builder.setMessage(message);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
               @Override
@@ -112,7 +116,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
           @Override
           public void onPrintFail(String message) {
+
             progressDialog.dismiss();
+            updateCollection();
             builder.setMessage(message);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
               @Override
@@ -172,7 +178,13 @@ public class MemoDetailsActivity extends AppCompatActivity {
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
-    txtCollection.setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
+    if(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f){
+      txtCollection.setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
+    }else{
+      txtCollection.setVisibility(View.GONE);
+    }
+
+
 
     for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
       totalQuantity += invoiceProduct.getProductQty();

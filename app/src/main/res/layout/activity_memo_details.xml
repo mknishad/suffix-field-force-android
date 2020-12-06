@@ -161,7 +161,7 @@
               android:id="@+id/txtCollection"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:hint="Amount"
+              android:hint="বাঁকী"
               android:paddingStart="15dp"
               android:paddingTop="15dp"
               android:paddingBottom="15dp"
@@ -174,7 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_5"
-            android:text="Update" />
+            android:text="Update"
+            android:visibility="gone"/>
       </LinearLayout>
 
       <RelativeLayout
