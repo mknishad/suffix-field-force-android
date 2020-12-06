@@ -106,7 +106,7 @@ public class AkgPrintingService {
   }
 
   public void print(String distributorName, String distributorMobile,
-                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, PrintingInterface printingInterface) {
+                    AkgLoginResponse loginResponse, InvoiceRequest invoiceRequest, String paymentStatus, PrintingInterface printingInterface) {
     try {
       String time = android.text.format.DateFormat.format("dd/MM/yyyy HH:mm", invoiceRequest.getInvoiceDate()).toString();
       StringBuilder stringBuilder = new StringBuilder();
@@ -171,6 +171,7 @@ public class AkgPrintingService {
       stringBuilder.append("[L]Price per pack:\n");
       stringBuilder.append("[L]").append(pricePerPack).append("\n");
       stringBuilder.append("[L]\n");
+      stringBuilder.append("[C]").append(paymentStatus).append("\n");
       stringBuilder.append("[C]Thanks for your purchase!\n");
 
       Log.d(TAG, "print: stringBuilder = " + stringBuilder.toString());
