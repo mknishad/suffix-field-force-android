@@ -165,6 +165,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
+    txtCollection.setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
+
     for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
       totalQuantity += invoiceProduct.getProductQty();
     }
