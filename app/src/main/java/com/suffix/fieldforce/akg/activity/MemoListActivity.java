@@ -14,10 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoListAdapter;
 import com.suffix.fieldforce.akg.adapter.MemoListInterface;
+import com.suffix.fieldforce.akg.adapter.MemoPagerAdapter;
+import com.suffix.fieldforce.akg.adapter.StockPagerAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
@@ -36,14 +40,10 @@ public class MemoListActivity extends AppCompatActivity {
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
-  @BindView(R.id.recyclerView)
-  RecyclerView recyclerView;
-
-  @BindView(R.id.txtTotalMemo)
-  TextView txtTotalMemo;
-
-  @BindView(R.id.txtResponse)
-  TextView txtResponse;
+  @BindView(R.id.tabLayout)
+  TabLayout tabLayout;
+  @BindView(R.id.viewPager)
+  ViewPager viewPager;
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
@@ -58,26 +58,13 @@ public class MemoListActivity extends AppCompatActivity {
 
     setupToolbar();
 
+    viewPager.setAdapter(new MemoPagerAdapter(getSupportFragmentManager()));
+    tabLayout.setupWithViewPager(viewPager);
+
     memoListResponse = new ArrayList<>();
 
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
-
-    LinearLayoutManager manager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(manager);
-    memoListAdapter = new MemoListAdapter(this, memoListResponse);
-    recyclerView.setAdapter(memoListAdapter);
-
-    memoListAdapter.setMemoListInterface(new MemoListInterface() {
-      @Override
-      public void onItemClick(int position) {
-        InvoiceRequest response = memoListResponse.get(position);
-
-        Intent intent = new Intent(MemoListActivity.this, MemoDetailsActivity.class);
-        intent.putExtra(AkgConstants.MEMO_DETAIL, response);
-        startActivity(intent);
-      }
-    });
 
     getMemoList();
   }
@@ -111,15 +98,8 @@ public class MemoListActivity extends AppCompatActivity {
     }
   }
 
-  private void getMemoList() {
-
+  public List<InvoiceRequest> getMemoList() {
     memoListResponse = new RealMDatabaseManager().prepareInvoiceRequest();
-    if(memoListResponse.size() > 0){
-      txtResponse.setVisibility(View.GONE);
-      recyclerView.setVisibility(View.VISIBLE);
-      memoListAdapter.setData(memoListResponse);
-    }
-
-    txtTotalMemo.setText("মোট : " + memoListResponse.size());
+    return memoListResponse;
   }
 }

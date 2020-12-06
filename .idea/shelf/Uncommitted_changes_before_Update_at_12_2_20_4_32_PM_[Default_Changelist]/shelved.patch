@@ -1,0 +1,67 @@
+Index: app/src/main/java/com/suffix/fieldforce/akg/model/CustomerData.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.suffix.fieldforce.akg.model;\n\nimport android.os.Parcel;\nimport android.os.Parcelable;\n\nimport com.google.gson.annotations.Expose;\nimport com.google.gson.annotations.SerializedName;\nimport com.suffix.fieldforce.akg.model.product.CategoryModel;\n\nimport java.util.List;\n\nimport io.realm.RealmObject;\n\npublic class CustomerData extends RealmObject implements Parcelable {\n  @SerializedName(\"id\")\n  @Expose\n  private Integer id;\n  @SerializedName(\"customerName\")\n  @Expose\n  private String customerName;\n  @SerializedName(\"mobileNo\")\n  @Expose\n  private String mobileNo;\n  @SerializedName(\"tradeLicenseNo\")\n  @Expose\n  private String tradeLicenseNo;\n  @SerializedName(\"status\")\n  @Expose\n  private String status;\n  @SerializedName(\"consumerCode\")\n  @Expose\n  private String consumerCode;\n\n  //private List<CategoryModel> customerCart;\n\n  public CustomerData() {\n  }\n\n  public CustomerData(String customerName) {\n    this.customerName = customerName;\n  }\n\n  protected CustomerData(Parcel in) {\n    if (in.readByte() == 0) {\n      id = null;\n    } else {\n      id = in.readInt();\n    }\n    customerName = in.readString();\n    mobileNo = in.readString();\n    tradeLicenseNo = in.readString();\n    status = in.readString();\n    consumerCode = in.readString();\n    //customerCart = in.createTypedArrayList(CategoryModel.CREATOR);\n  }\n\n  @Override\n  public void writeToParcel(Parcel dest, int flags) {\n    if (id == null) {\n      dest.writeByte((byte) 0);\n    } else {\n      dest.writeByte((byte) 1);\n      dest.writeInt(id);\n    }\n    dest.writeString(customerName);\n    dest.writeString(mobileNo);\n    dest.writeString(tradeLicenseNo);\n    dest.writeString(status);\n    dest.writeString(consumerCode);\n    //dest.writeTypedList(customerCart);\n  }\n\n  @Override\n  public int describeContents() {\n    return 0;\n  }\n\n  public static final Creator<CustomerData> CREATOR = new Creator<CustomerData>() {\n    @Override\n    public CustomerData createFromParcel(Parcel in) {\n      return new CustomerData(in);\n    }\n\n    @Override\n    public CustomerData[] newArray(int size) {\n      return new CustomerData[size];\n    }\n  };\n\n  @Override\n  public String toString() {\n    return \"CustomerData{\" +\n        \"id=\" + id +\n        \", customerName='\" + customerName + '\\'' +\n        \", mobileNo='\" + mobileNo + '\\'' +\n        \", tradeLicenseNo='\" + tradeLicenseNo + '\\'' +\n        \", status='\" + status + '\\'' +\n        \", consumerCode='\" + consumerCode + '\\'' +\n        '}';\n  }\n\n  public Integer getId() {\n    return id;\n  }\n\n  public void setId(Integer id) {\n    this.id = id;\n  }\n\n  public String getCustomerName() {\n    return customerName;\n  }\n\n  public void setCustomerName(String customerName) {\n    this.customerName = customerName;\n  }\n\n  public String getMobileNo() {\n    return mobileNo;\n  }\n\n  public void setMobileNo(String mobileNo) {\n    this.mobileNo = mobileNo;\n  }\n\n  public String getTradeLicenseNo() {\n    return tradeLicenseNo;\n  }\n\n  public void setTradeLicenseNo(String tradeLicenseNo) {\n    this.tradeLicenseNo = tradeLicenseNo;\n  }\n\n  public String getStatus() {\n    return status;\n  }\n\n  public void setStatus(String status) {\n    this.status = status;\n  }\n\n  public String getConsumerCode() {\n    return consumerCode;\n  }\n\n  public void setConsumerCode(String consumerCode) {\n    this.consumerCode = consumerCode;\n  }\n\n//  public List<CategoryModel> getCustomerCart() {\n//    return customerCart;\n//  }\n//\n//  public void setCustomerCart(List<CategoryModel> customerCart) {\n//    this.customerCart = customerCart;\n//  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/suffix/fieldforce/akg/model/CustomerData.java	(revision 12f337a6ddb3a692e7201a41c77b597640c0a388)
++++ app/src/main/java/com/suffix/fieldforce/akg/model/CustomerData.java	(date 1606825864000)
+@@ -31,7 +31,7 @@
+   @Expose
+   private String consumerCode;
+ 
+-  //private List<CategoryModel> customerCart;
++  private List<CategoryModel> customerCart;
+ 
+   public CustomerData() {
+   }
+@@ -147,11 +147,10 @@
+     this.consumerCode = consumerCode;
+   }
+ 
+-//  public List<CategoryModel> getCustomerCart() {
+-//    return customerCart;
+-//  }
+-//
+-//  public void setCustomerCart(List<CategoryModel> customerCart) {
+-//    this.customerCart = customerCart;
+-//  }
++  public List<CategoryModel> getCustomerCart() {
++    return customerCart;
++  }
++  public void setCustomerCart(List<CategoryModel> customerCart) {
++    this.customerCart = customerCart;
++  }
+ }
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"ProjectCodeStyleConfiguration\">\n  <code_scheme name=\"Project\" version=\"173\">\n    <option name=\"OTHER_INDENT_OPTIONS\">\n      <value>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </value>\n    </option>\n    <JetCodeStyleSettings>\n      <option name=\"PACKAGES_TO_USE_STAR_IMPORTS\">\n        <value>\n          <package name=\"java.util\" alias=\"false\" withSubpackages=\"false\" />\n          <package name=\"kotlinx.android.synthetic\" alias=\"false\" withSubpackages=\"true\" />\n          <package name=\"io.ktor\" alias=\"false\" withSubpackages=\"true\" />\n        </value>\n      </option>\n      <option name=\"PACKAGES_IMPORT_LAYOUT\">\n        <value>\n          <package name=\"\" alias=\"false\" withSubpackages=\"true\" />\n          <package name=\"java\" alias=\"false\" withSubpackages=\"true\" />\n          <package name=\"javax\" alias=\"false\" withSubpackages=\"true\" />\n          <package name=\"kotlin\" alias=\"false\" withSubpackages=\"true\" />\n          <package name=\"\" alias=\"true\" withSubpackages=\"true\" />\n        </value>\n      </option>\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\n    </JetCodeStyleSettings>\n    <Objective-C>\n      <option name=\"INDENT_NAMESPACE_MEMBERS\" value=\"2\" />\n      <option name=\"INDENT_C_STRUCT_MEMBERS\" value=\"2\" />\n      <option name=\"INDENT_CLASS_MEMBERS\" value=\"2\" />\n      <option name=\"INDENT_INSIDE_CODE_BLOCK\" value=\"2\" />\n    </Objective-C>\n    <codeStyleSettings language=\"CMake\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"Groovy\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"HTML\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"JAVA\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"JSON\">\n      <indentOptions>\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"ObjectiveC\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"XML\">\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n      <arrangement>\n        <rules>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>xmlns:android</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\n                </AND>\n              </match>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>xmlns:.*</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\n                </AND>\n              </match>\n              <order>BY_NAME</order>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>.*:id</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\n                </AND>\n              </match>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>.*:name</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\n                </AND>\n              </match>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>name</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\n                </AND>\n              </match>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>style</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\n                </AND>\n              </match>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>.*</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\n                </AND>\n              </match>\n              <order>BY_NAME</order>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>.*</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\n                </AND>\n              </match>\n              <order>ANDROID_ATTRIBUTE_ORDER</order>\n            </rule>\n          </section>\n          <section>\n            <rule>\n              <match>\n                <AND>\n                  <NAME>.*</NAME>\n                  <XML_ATTRIBUTE />\n                  <XML_NAMESPACE>.*</XML_NAMESPACE>\n                </AND>\n              </match>\n              <order>BY_NAME</order>\n            </rule>\n          </section>\n        </rules>\n      </arrangement>\n    </codeStyleSettings>\n    <codeStyleSettings language=\"kotlin\">\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\n      <indentOptions>\n        <option name=\"INDENT_SIZE\" value=\"2\" />\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\n        <option name=\"TAB_SIZE\" value=\"2\" />\n      </indentOptions>\n    </codeStyleSettings>\n  </code_scheme>\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision 12f337a6ddb3a692e7201a41c77b597640c0a388)
++++ .idea/codeStyles/Project.xml	(date 1606819977000)
+@@ -9,18 +9,9 @@
+     <JetCodeStyleSettings>
+       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+         <value>
+-          <package name="java.util" alias="false" withSubpackages="false" />
+-          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+-          <package name="io.ktor" alias="false" withSubpackages="true" />
+-        </value>
+-      </option>
+-      <option name="PACKAGES_IMPORT_LAYOUT">
+-        <value>
+-          <package name="" alias="false" withSubpackages="true" />
+-          <package name="java" alias="false" withSubpackages="true" />
+-          <package name="javax" alias="false" withSubpackages="true" />
+-          <package name="kotlin" alias="false" withSubpackages="true" />
+-          <package name="" alias="true" withSubpackages="true" />
++          <package name="java.util" withSubpackages="false" static="false" />
++          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
++          <package name="io.ktor" withSubpackages="true" static="false" />
+         </value>
+       </option>
+       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
