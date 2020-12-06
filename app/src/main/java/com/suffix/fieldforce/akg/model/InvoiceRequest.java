@@ -47,7 +47,9 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
 
   }
 
-  public InvoiceRequest(String invoiceType, int customerId, long invoiceDate, String invoiceId, RealmList<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount, boolean status, String customerName, String customerAddress, double recievedAmount) {
+  public InvoiceRequest(String invoiceType, int customerId, long invoiceDate, String invoiceId,
+                        RealmList<InvoiceProduct> invoiceProducts, int salesRepId, double totalAmount,
+                        String customerName, String customerAddress, double recievedAmount) {
     this.invoiceType = invoiceType;
     this.customerId = customerId;
     this.invoiceDate = invoiceDate;
@@ -55,7 +57,6 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
     this.invoiceProducts = invoiceProducts;
     this.salesRepId = salesRepId;
     this.totalAmount = totalAmount;
-    this.status = status;
     this.customerName = customerName;
     this.customerAddress = customerAddress;
     this.recievedAmount = recievedAmount;
@@ -111,13 +112,17 @@ public class InvoiceRequest extends RealmObject implements Parcelable {
   @Override
   public String toString() {
     return "InvoiceRequest{" +
-        "customerId=" + customerId +
+        "invoiceType='" + invoiceType + '\'' +
+        ", customerId=" + customerId +
         ", invoiceDate=" + invoiceDate +
         ", invoiceId='" + invoiceId + '\'' +
         ", invoiceProducts=" + invoiceProducts +
         ", salesRepId=" + salesRepId +
         ", totalAmount=" + totalAmount +
         ", status=" + status +
+        ", customerName='" + customerName + '\'' +
+        ", customerAddress='" + customerAddress + '\'' +
+        ", recievedAmount=" + recievedAmount +
         '}';
   }
 

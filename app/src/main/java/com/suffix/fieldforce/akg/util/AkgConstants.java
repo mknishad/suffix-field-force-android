@@ -7,5 +7,5 @@ public class AkgConstants {
   public static final String CUSTOMER_INFO = "customerInfo";
   public static final String MEMO_DETAIL = "memoDetail";
   public static final String INVOICE_TYPE_NORMAL = "I";
-  public static final String INVOICE_TYPE_DAM = "D";
+  public static final String INVOICE_TYPE_DAMN = "D";
 }
