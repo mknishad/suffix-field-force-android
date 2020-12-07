@@ -39,15 +39,11 @@ public class MemoListActivity extends AppCompatActivity {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
-
   @BindView(R.id.tabLayout)
   TabLayout tabLayout;
   @BindView(R.id.viewPager)
   ViewPager viewPager;
 
-  private FieldForcePreferences preferences;
-  private AkgApiInterface apiInterface;
-  private MemoListAdapter memoListAdapter;
   private List<InvoiceRequest> memoListResponse;
 
   @Override
@@ -62,9 +58,6 @@ public class MemoListActivity extends AppCompatActivity {
     tabLayout.setupWithViewPager(viewPager);
 
     memoListResponse = new ArrayList<>();
-
-    preferences = new FieldForcePreferences(this);
-    apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     getMemoList();
   }

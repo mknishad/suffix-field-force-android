@@ -33,10 +33,8 @@ public class AllMemoFragment extends Fragment {
 
   @BindView(R.id.recyclerView)
   RecyclerView recyclerView;
-
   @BindView(R.id.txtTotalMemo)
   TextView txtTotalMemo;
-
   @BindView(R.id.txtResponse)
   TextView txtResponse;
 
@@ -47,13 +45,9 @@ public class AllMemoFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-
-
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_all_memo, container, false);
     ButterKnife.bind(this, view);
-
-
 
     LinearLayoutManager manager = new LinearLayoutManager(getActivity());
     recyclerView.setLayoutManager(manager);
@@ -66,7 +60,6 @@ public class AllMemoFragment extends Fragment {
       @Override
       public void onItemClick(int position) {
         InvoiceRequest response = memoListResponse.get(position);
-
         Intent intent = new Intent(getActivity(), MemoDetailsActivity.class);
         intent.putExtra(AkgConstants.MEMO_DETAIL, response);
         startActivity(intent);
@@ -77,7 +70,6 @@ public class AllMemoFragment extends Fragment {
   }
 
   private void generateView() {
-
     memoListResponse = ((MemoListActivity) getActivity()).getMemoList();
     if(memoListResponse.size() > 0){
       txtResponse.setVisibility(View.GONE);
