@@ -55,8 +55,6 @@ public class AllMemoFragment extends Fragment {
     memoListAdapter = new MemoListAdapter(getActivity(), memoListResponse);
     recyclerView.setAdapter(memoListAdapter);
 
-    generateView();
-
     memoListAdapter.setMemoListInterface(new MemoListInterface() {
       @Override
       public void onItemClick(int position) {
@@ -68,6 +66,12 @@ public class AllMemoFragment extends Fragment {
     });
 
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    generateView();
   }
 
   private void generateView() {

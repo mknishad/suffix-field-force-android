@@ -189,12 +189,16 @@ public class SyncManager {
         InvoiceRequest invoiceRequest = realm.where(InvoiceRequest.class).equalTo("invoiceId",
             invoiceId).findFirst();
 
+        double totalAmount = 0;
         if (invoiceRequest != null) {
           for (InvoiceProduct product : invoiceRequest.getInvoiceProducts()) {
             if (product.getProductId() == invoiceProduct.getProductId()) {
               product.setProductQty(product.getProductQty() + updateQty);
+              product.setSubToalAmount(product.getProductQty() * product.getSellingRate());
             }
+            totalAmount += product.getSubToalAmount();
           }
+          invoiceRequest.setTotalAmount(totalAmount);
         }
       }
     });
@@ -202,7 +206,6 @@ public class SyncManager {
 
   public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount,
                                    RealmDatabseManagerInterface.Sync sync) {
-
     Log.d("updateInvoiceRequest: ", amount + "");
 
     realm.executeTransactionAsync(new Realm.Transaction() {
@@ -222,7 +225,5 @@ public class SyncManager {
         }
       }
     });
-
   }
-
 }

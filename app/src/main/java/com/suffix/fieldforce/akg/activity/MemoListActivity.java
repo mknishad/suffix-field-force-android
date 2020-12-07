@@ -58,7 +58,11 @@ public class MemoListActivity extends AppCompatActivity {
     tabLayout.setupWithViewPager(viewPager);
 
     memoListResponse = new ArrayList<>();
+  }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
     getMemoList();
   }
 

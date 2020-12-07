@@ -19,6 +19,7 @@ import com.suffix.fieldforce.dialog.TJBDialog;
 import com.suffix.fieldforce.dialog.TJBDialogListener;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +51,7 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
     final InvoiceProduct row = bodyData.get(position);
     holder.colOne.setText(String.valueOf(row.getProductCode()));
     holder.colTwo.setText(String.valueOf(row.getProductQty()));
-    holder.colThree.setText(String.valueOf(row.getSubToalAmount()));
+    holder.colThree.setText(String.format(Locale.getDefault(), "%.2f", row.getSubToalAmount()));
 
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
