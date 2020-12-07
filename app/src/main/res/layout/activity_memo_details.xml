@@ -52,7 +52,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:background="@color/colorMint"
             android:fontFamily="@font/solaimanlipi"
@@ -65,7 +65,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:background="@color/colorMint"
             android:fontFamily="@font/solaimanlipi"
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:background="@color/colorMint"
             android:fontFamily="@font/solaimanlipi"
@@ -118,7 +118,7 @@
             android:id="@+id/txtTotalQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="1dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:background="@color/colorMint"
             android:fontFamily="@font/solaimanlipi"
@@ -140,43 +140,38 @@
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
-
       </LinearLayout>
 
       <LinearLayout
           android:id="@+id/layoutCollection"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/layout_margin_20"
           android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp">
+            android:hint="বাঁকী"
+            android:layout_height="wrap_content">
 
           <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/txtCollection"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:hint="বাঁকী"
+              android:inputType="numberDecimal"
               android:text="0"
-              android:paddingStart="15dp"
-              android:paddingTop="15dp"
-              android:paddingBottom="15dp"
-              android:textSize="15sp" />
-
+              android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_5"
+            android:layout_marginTop="20dp"
             android:text="Update"
-            android:visibility="gone"/>
+            android:textSize="20sp"
+            android:visibility="gone" />
       </LinearLayout>
 
       <RelativeLayout
@@ -198,7 +193,7 @@
             android:id="@+id/printMemoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/imgInfo"
+            android:layout_toEndOf="@+id/imgInfo"
             android:fontFamily="@font/solaimanlipi"
             android:paddingVertical="10dp"
             android:text="@string/print_memo_text"
@@ -236,9 +231,6 @@
             android:textColor="@android:color/white"
             android:textSize="24sp" />
       </LinearLayout>
-
     </LinearLayout>
-
   </androidx.core.widget.NestedScrollView>
-
 </LinearLayout>

@@ -25,9 +25,11 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
+import com.suffix.fieldforce.akg.adapter.ProductUpdateListener;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
@@ -167,12 +169,25 @@ public class MemoDetailsActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
+    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
-    memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList);
+    memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList,
+        invoiceRequest.getInvoiceId(),
+        new ProductUpdateListener() {
+          @Override
+          public void onSuccess() {
+            List<InvoiceRequest> invoiceRequests = new RealMDatabaseManager().prepareInvoiceRequest();
+            for (InvoiceRequest invoice : invoiceRequests) {
+              if (invoice.getInvoiceId().equalsIgnoreCase(invoiceRequest.getInvoiceId())) {
+                memoBodyListAdapter.setData(invoice.getInvoiceProducts());
+              }
+            }
+          }
+        });
     recyclerView.setAdapter(memoBodyListAdapter);
 
-    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
     Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
     txtStoreName.setText(invoiceRequest.getCustomerName());
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
@@ -184,8 +199,6 @@ public class MemoDetailsActivity extends AppCompatActivity {
     }else{
       txtCollection.setVisibility(View.GONE);
     }
-
-
 
     for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
       totalQuantity += invoiceProduct.getProductQty();

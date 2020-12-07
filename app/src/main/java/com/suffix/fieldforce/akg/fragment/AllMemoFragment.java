@@ -25,6 +25,7 @@ import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +77,6 @@ public class AllMemoFragment extends Fragment {
       recyclerView.setVisibility(View.VISIBLE);
       memoListAdapter.setData(memoListResponse);
     }
-    txtTotalMemo.setText("মোট : " + memoListResponse.size());
+    txtTotalMemo.setText(String.format(Locale.getDefault(),"মোট : %d", memoListResponse.size()));
   }
 }
