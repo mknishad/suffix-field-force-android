@@ -77,7 +77,6 @@ public class MemoDetailsActivity extends AppCompatActivity {
 
   @BindView(R.id.btnUpdate)
   Button btnUpdate;
-  private String paymentStatus = "Paid";
 
   @OnClick(R.id.btnUpdate)
   public void updateCollection() {
@@ -86,10 +85,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
         Double.parseDouble(txtCollection.getEditText().getText().toString()), new RealmDatabseManagerInterface.Sync() {
           @Override
           public void onSuccess() {
-            finish();
+            //finish();
           }
         });
-
   }
 
   @OnClick(R.id.btnPrint)
@@ -101,7 +99,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     new AkgPrintingService().print(distributor.getData().getDistributorName(),
-        distributor.getData().getMobile(), loginResponse, invoiceRequest, paymentStatus,
+        distributor.getData().getMobile(), loginResponse, invoiceRequest,
         new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
@@ -130,6 +128,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 //alertDialog.dismiss();
+                finish();
               }
             });
 
@@ -188,10 +187,9 @@ public class MemoDetailsActivity extends AppCompatActivity {
                 memoBodyListAdapter.setData(invoice.getInvoiceProducts());
                 txtTotalAmount.setText(String.format(Locale.getDefault(), "%.2f",
                     invoice.getTotalAmount()));
-
+                invoiceRequest = invoice;
                 double dueAmount = invoice.getTotalAmount() - invoice.getRecievedAmount();
                 if (dueAmount != 0.0) {
-                  paymentStatus = "Due";
                   Log.d(TAG, "onSuccess: dueAmount = " + dueAmount);
                   txtCollection.getEditText().setText(
                       String.format(Locale.getDefault(), "%.2f", dueAmount));
@@ -210,7 +208,6 @@ public class MemoDetailsActivity extends AppCompatActivity {
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
     if (invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f) {
-      paymentStatus = "Due";
       txtCollection.getEditText().setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
     } else {
       layoutCollection.setVisibility(View.GONE);
