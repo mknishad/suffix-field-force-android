@@ -54,7 +54,12 @@ public class RealMDatabaseManager {
     realm.executeTransaction(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        results.deleteAllFromRealm();
+        for (int index = 0; index < results.size(); index++) {
+          InvoiceRequest invoiceRequest = results.get(index);
+          if (Math.floor(invoiceRequest.getTotalAmount()) == Math.floor(invoiceRequest.getRecievedAmount())) {
+            invoiceRequest.deleteFromRealm();
+          }
+        }
       }
     });
   }
@@ -87,7 +92,7 @@ public class RealMDatabaseManager {
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
-        if(customerInterface != null){
+        if (customerInterface != null) {
           customerInterface.onCustomerDelete(true);
         }
       }
