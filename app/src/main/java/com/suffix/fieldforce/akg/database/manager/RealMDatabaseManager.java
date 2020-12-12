@@ -9,6 +9,7 @@ import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -56,7 +57,10 @@ public class RealMDatabaseManager {
       public void execute(Realm realm) {
         for (int index = 0; index < results.size(); index++) {
           InvoiceRequest invoiceRequest = results.get(index);
-          if (Math.floor(invoiceRequest.getTotalAmount()) == Math.floor(invoiceRequest.getRecievedAmount())) {
+
+          if ((Math.floor(invoiceRequest.getTotalAmount()) == Math.floor(invoiceRequest.getRecievedAmount())) ||
+              (((int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()) -
+                  (int) TimeUnit.MILLISECONDS.toDays(invoiceRequest.getInvoiceDate())) > 3) ) {
             invoiceRequest.deleteFromRealm();
           }
         }
