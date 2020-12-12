@@ -39,6 +39,32 @@ public class RealMDatabaseManager {
     return productCategory;
   }
 
+  public void clearStock() {
+    final RealmResults<RealMProductCategory> customerDataRealmResults = realm.where(RealMProductCategory.class).findAll();
+    realm.executeTransaction(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        List<RealMProductCategory> realMProductCategory = realm.copyFromRealm(customerDataRealmResults);
+
+        for(CategoryModel categoryModel : realMProductCategory.get(0).getCigrettee()){
+          categoryModel.setSalesQty(0);
+          categoryModel.setInHandQty(0);
+        }
+
+        for(CategoryModel categoryModel : realMProductCategory.get(0).getBidi()){
+          categoryModel.setSalesQty(0);
+          categoryModel.setInHandQty(0);
+        }
+
+        for(CategoryModel categoryModel : realMProductCategory.get(0).getMatch()){
+          categoryModel.setSalesQty(0);
+          categoryModel.setInHandQty(0);
+        }
+
+      }
+    });
+  }
+
   public List<InvoiceRequest> prepareInvoiceRequest() {
     final RealmResults<InvoiceRequest> invoiceRequests = realm.where(InvoiceRequest.class).findAll();
     return realm.copyFromRealm(invoiceRequests);
