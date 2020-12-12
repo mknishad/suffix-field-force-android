@@ -1,19 +1,19 @@
 package com.suffix.fieldforce.activity.home;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.location.Address;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +30,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -41,7 +39,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
-import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.activity.bill.BillDashboardActivity;
 import com.suffix.fieldforce.activity.chat.ChatDashboardActivity;
@@ -65,10 +62,10 @@ import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.service.AkgLocationService;
 import com.suffix.fieldforce.akg.util.AkgConstants;
 import com.suffix.fieldforce.akg.util.CustomProgress;
 import com.suffix.fieldforce.akg.util.NetworkUtils;
-import com.suffix.fieldforce.location.LocationUpdatesBroadcastReceiver;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -86,9 +83,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainDashboardActivity extends AppCompatActivity implements
-    GoogleApiClient.ConnectionCallbacks,
-    GoogleApiClient.OnConnectionFailedListener {
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+public class MainDashboardActivity extends AppCompatActivity {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -143,21 +140,20 @@ public class MainDashboardActivity extends AppCompatActivity implements
   private final String ENTRY_TYPE_IN = "i";
   private final String ENTRY_TYPE_OUT = "o";
 
-  private static int REQUEST_CHECK_SETTINGS = 1000;
-  private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+  private static final int SETTINGS_REQUEST_CODE = 1000;
+  private static final int PERMISSION_REQUEST_CODE = 34;
   private static final long UPDATE_INTERVAL = 10 * 60 * 1000;
   private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
-  private static final long MAX_WAIT_TIME = UPDATE_INTERVAL * 3;
 
-  private LocationRequest mLocationRequest;
-  private GoogleApiClient mGoogleApiClient;
+  private static final int LOCATION_JOB_ID = 1;
+  private JobScheduler jobScheduler;
 
   private FieldForcePreferences preferences;
   private AkgApiInterface apiInterface;
   private AkgLoginResponse loginResponse;
 
   private ProgressDialog progress;
-  CustomProgress customProgress;
+  private CustomProgress customProgress;
 
   @SuppressLint("RestrictedApi")
   @OnClick({R.id.layoutAttendance, R.id.layoutExit, R.id.layoutTask, R.id.layoutRoster,
@@ -262,6 +258,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
     init();
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+  }
+
   private void setupToolbar() {
     setSupportActionBar(toolbar);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -284,30 +285,16 @@ public class MainDashboardActivity extends AppCompatActivity implements
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     txtUserName.setText(loginResponse.getData().getUserName());
+    jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
+    checkLocationPermission();
+  }
 
-    // Check if the user revoked runtime permissions.
-    if (!checkPermissions()) {
-      requestPermissions();
-    }
-
-    buildGoogleApiClient();
-//    try {
-//      SmartLocation.with(this).location()
-//          .start(new OnLocationUpdatedListener() {
-//            @Override
-//            public void onLocationUpdated(Location location) {
-//              Toast.makeText(MainDashboardActivity.this, "location : "+location.getLongitude()+", "+location.getLongitude(), Toast.LENGTH_SHORT).show();
-//            }
-//          });
-//    } catch (Exception e) {
-//      Log.e(TAG, "getDeviceLocation: ", e);
-//    }
-
-    if (preferences.getOnline()) {
-      txtUserAddress.setText(preferences.getAddress());
-      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_online));
+  private void checkLocationPermission() {
+    if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
+        PackageManager.PERMISSION_GRANTED) {
+      initLocationSettings();
     } else {
-      badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_offline));
+      ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
   }
 
@@ -324,15 +311,23 @@ public class MainDashboardActivity extends AppCompatActivity implements
 
     task.addOnSuccessListener(o -> {
       //buildGoogleApiClient();
-      if (preferences.getOnline()) {
+      /*if (preferences.getOnline()) {
         goOffline();
       } else {
         goOnline();
+      }*/
+      if (preferences.getOnline()) {
+        startBackgroundService();
+        txtUserAddress.setText(preferences.getAddress());
+        badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_online));
+      } else {
+        stopBackGroundService();
+        badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_offline));
       }
     }).addOnFailureListener(e -> {
       if (e instanceof ResolvableApiException) {
         try {
-          ((ResolvableApiException) e).startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+          ((ResolvableApiException) e).startResolutionForResult(this, SETTINGS_REQUEST_CODE);
         } catch (IntentSender.SendIntentException ex) {
           e.printStackTrace();
         }
@@ -341,9 +336,64 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                         @NonNull int[] grantResults) {
+    Log.i(TAG, "onRequestPermissionResult");
+
+    switch (requestCode) {
+      case PERMISSION_REQUEST_CODE:
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          initLocationSettings();
+        } else {
+          checkLocationPermission();
+        }
+        break;
+      case SETTINGS_REQUEST_CODE:
+        if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+          if (preferences.getOnline()) {
+            startBackgroundService();
+            txtUserAddress.setText(preferences.getAddress());
+            badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,
+                R.drawable.circular_badge_online));
+          } else {
+            stopBackGroundService();
+            badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,
+                R.drawable.circular_badge_offline));
+          }
+        } else {
+          initLocationSettings();
+        }
+        break;
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    switch (requestCode) {
+      case SETTINGS_REQUEST_CODE:
+        switch (resultCode) {
+          case Activity.RESULT_OK:
+            if (preferences.getOnline()) {
+              startBackgroundService();
+              txtUserAddress.setText(preferences.getAddress());
+              badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,
+                  R.drawable.circular_badge_online));
+            } else {
+              stopBackGroundService();
+              badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this,
+                  R.drawable.circular_badge_offline));
+            }
+            break;
+          case Activity.RESULT_CANCELED:
+            initLocationSettings();
+        }
+    }
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
-    //SmartLocation.with(this).location().stop();
   }
 
   private void getDeviceLocation(LocationListener locationListener, String text) {
@@ -371,140 +421,11 @@ public class MainDashboardActivity extends AppCompatActivity implements
     preferences.putOnline(false);
   }
 
-  private void createLocationRequest() {
-    mLocationRequest = new LocationRequest();
-    mLocationRequest.setInterval(UPDATE_INTERVAL);
-    mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
-    mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    mLocationRequest.setMaxWaitTime(MAX_WAIT_TIME);
-  }
-
-  private void buildGoogleApiClient() {
-    if (mGoogleApiClient != null) {
-      return;
-    }
-    mGoogleApiClient = new GoogleApiClient.Builder(this)
-        .addConnectionCallbacks(this)
-        .enableAutoManage(this, this)
-        .addApi(LocationServices.API)
-        .build();
-    createLocationRequest();
-  }
-
-  @Override
-  public void onConnected(@Nullable Bundle bundle) {
-    Log.i(TAG, "GoogleApiClient connected");
-  }
-
-  private PendingIntent getPendingIntent() {
-    Intent intent = new Intent(this, LocationUpdatesBroadcastReceiver.class);
-    intent.setAction(LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES);
-    return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-  }
-
-  @Override
-  public void onConnectionSuspended(int i) {
-    final String text = "Connection suspended";
-    Log.w(TAG, text + ": Error code: " + i);
-    showSnackbar("Connection suspended");
-  }
-
-  @Override
-  public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-    final String text = "Exception while connecting to Google Play services";
-    Log.w(TAG, text + ": " + connectionResult.getErrorMessage());
-    showSnackbar(text);
-  }
-
   private void showSnackbar(final String text) {
     View container = findViewById(R.id.userRelativeLayout);
     if (container != null) {
       Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
     }
-  }
-
-  private boolean checkPermissions() {
-    int permissionState = ActivityCompat.checkSelfPermission(this,
-        Manifest.permission.ACCESS_FINE_LOCATION);
-    return permissionState == PackageManager.PERMISSION_GRANTED;
-  }
-
-  private void requestPermissions() {
-    boolean shouldProvideRationale =
-        ActivityCompat.shouldShowRequestPermissionRationale(this,
-            Manifest.permission.ACCESS_FINE_LOCATION);
-
-    if (shouldProvideRationale) {
-      Log.i(TAG, "Displaying permission rationale to provide additional context.");
-      Snackbar.make(
-          findViewById(R.id.userRelativeLayout),
-          R.string.permission_rationale,
-          Snackbar.LENGTH_INDEFINITE)
-          .setAction(R.string.ok, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              // Request permission
-              ActivityCompat.requestPermissions(MainDashboardActivity.this,
-                  new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                  REQUEST_PERMISSIONS_REQUEST_CODE);
-            }
-          })
-          .show();
-    } else {
-      Log.i(TAG, "Requesting permission");
-      ActivityCompat.requestPermissions(MainDashboardActivity.this,
-          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-          REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
-  }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults) {
-    Log.i(TAG, "onRequestPermissionResult");
-    if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-      if (grantResults.length <= 0) {
-        Log.i(TAG, "User interaction was cancelled.");
-      } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        buildGoogleApiClient();
-      } else {
-        Snackbar.make(
-            findViewById(R.id.userRelativeLayout),
-            R.string.permission_denied_explanation,
-            Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.settings, new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                // Build intent that displays the App settings screen.
-                Intent intent = new Intent();
-                intent.setAction(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package",
-                    BuildConfig.APPLICATION_ID, null);
-                intent.setData(uri);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-              }
-            })
-            .show();
-      }
-    }
-  }
-
-  public void requestLocationUpdates() {
-    try {
-      Log.i(TAG, "Starting location updates");
-      LocationServices.FusedLocationApi.requestLocationUpdates(
-          mGoogleApiClient, mLocationRequest, getPendingIntent());
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void removeLocationUpdates() {
-    Log.i(TAG, "Removing location updates");
-    LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,
-        getPendingIntent());
   }
 
   @SuppressLint("RestrictedApi")
@@ -549,6 +470,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                       Toast.makeText(MainDashboardActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
                       showAddressName(location);
                       preferences.putOnline(true);
+                      startBackgroundService();
                       badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_online));
                     } else {
                       Toast.makeText(MainDashboardActivity.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -640,6 +562,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                       preferences.putOnline(false);
+                      stopBackGroundService();
                       badge.setBackground(ContextCompat.getDrawable(MainDashboardActivity.this, R.drawable.circular_badge_offline));
                       Toast.makeText(MainDashboardActivity.this, "Exited!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -738,14 +661,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
         customProgress.dismiss();
       }
     });
-
-//    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
-//      @Override
-//      public void onCustomerDelete(boolean OnSuccess) {
-//        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-//        syncManager.getAllCustomer();
-//      }
-//    });
   }
 
   private List<InvoiceRequest> invoiceRequestList;
@@ -833,7 +748,6 @@ public class MainDashboardActivity extends AppCompatActivity implements
   }
 
   private void showProgress() {
-
     customProgress.show("Loading...");
   }
 
@@ -854,7 +768,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         preferences.putLoginResponse("");
         preferences.putDistributor("");
         startActivity(new Intent(MainDashboardActivity.this, LoginActivity.class));
-        finish();
+        finishAffinity();
         return true;
       case R.id.menu_notification:
         Intent intent = new Intent(MainDashboardActivity.this, NotificationListActivity.class);
@@ -891,5 +805,19 @@ public class MainDashboardActivity extends AppCompatActivity implements
       return false;
     }
     return true;
+  }
+
+  public void startBackgroundService() {
+    ComponentName componentName = new ComponentName(getApplicationContext(), AkgLocationService.class);
+    //10 sec interval
+    JobInfo jobInfo = new JobInfo.Builder(LOCATION_JOB_ID, componentName)
+        .setMinimumLatency(10000) //10 sec interval
+        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
+    jobScheduler.schedule(jobInfo);
+  }
+
+  public void stopBackGroundService() {
+    jobScheduler.cancel(LOCATION_JOB_ID);
+    stopService(new Intent(MainDashboardActivity.this, AkgLocationService.class));
   }
 }
