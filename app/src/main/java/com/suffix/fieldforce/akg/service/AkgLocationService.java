@@ -7,9 +7,11 @@ import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,8 +28,15 @@ import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
+import com.suffix.fieldforce.akg.model.GeoLocationRequest;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
+
+import okhttp3.Credentials;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by root on 12/2/18.
@@ -42,6 +51,9 @@ public class AkgLocationService extends JobService implements
   FieldForcePreferences preferences;
   AkgApiInterface apiInterface ;
   AkgLoginResponse loginResponse;
+  String basicAuthorization;
+  GeoLocationRequest geoLocationRequest;
+  PowerManager.WakeLock wakeLock;
 
   /**
    * Update interval of location request
@@ -100,6 +112,8 @@ public class AkgLocationService extends JobService implements
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface .class);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse .class);
+    basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
+        preferences.getPassword());
 
     for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
       if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
@@ -107,6 +121,14 @@ public class AkgLocationService extends JobService implements
         FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue());
       }
     }
+  }
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
+    PowerManager manager = (PowerManager) getSystemService(POWER_SERVICE);
+    wakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "akg");
+    wakeLock.acquire();
+    return START_STICKY;
   }
 
   /**
@@ -128,10 +150,9 @@ public class AkgLocationService extends JobService implements
     //Log.d(TAG, "getLastKnownLocation()");
     lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
     if (lastLocation != null) {
-      Log.i(TAG, "LasKnown location. " +
-          "Lng: " + lastLocation.getLongitude() +
-          " | Lat: " + lastLocation.getLatitude());
+      Log.i(TAG, "Last Known Location: Lat: " + lastLocation.getLatitude() + " | Lng: " + lastLocation.getLongitude());
       writeLastLocation();
+      postGeoLocationToServer(lastLocation);
     } else {
       Log.w(TAG, "No location retrieved yet");
 
@@ -148,7 +169,6 @@ public class AkgLocationService extends JobService implements
   private void writeActualLocation(Location location) {
     Log.d(TAG, location.getLatitude() + ", " + location.getLongitude());
     //here in this method you can use web service or any other thing
-
 
   }
 
@@ -228,7 +248,7 @@ public class AkgLocationService extends JobService implements
           AkgLocationService.class);
       jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
       JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-          .setMinimumLatency(10000) //10 sec interval
+          .setMinimumLatency(50000) //50 sec interval
           .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
       jobScheduler.schedule(jobInfo);
     }
@@ -269,5 +289,30 @@ public class AkgLocationService extends JobService implements
   @Override
   public void onResult(@NonNull Status status) {
     Log.d(TAG,"result of google api client : " + status);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    if (wakeLock != null) {
+      wakeLock.release();
+    }
+  }
+
+  private void postGeoLocationToServer(Location location) {
+    geoLocationRequest = new GeoLocationRequest(location.getLatitude(), location.getLongitude(),
+        loginResponse.getData().getId(), System.currentTimeMillis());
+    apiInterface.postGeoLocation(basicAuthorization, geoLocationRequest)
+        .enqueue(new Callback<ResponseBody>() {
+          @Override
+          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            Log.d(TAG, "onResponse: response.body() = " + response.body());
+          }
+
+          @Override
+          public void onFailure(Call<ResponseBody> call, Throwable t) {
+            Log.e(TAG, "onFailure: ", t);
+          }
+        });
   }
 }

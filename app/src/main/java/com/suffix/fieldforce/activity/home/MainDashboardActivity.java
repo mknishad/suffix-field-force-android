@@ -812,7 +812,7 @@ public class MainDashboardActivity extends AppCompatActivity {
     ComponentName componentName = new ComponentName(getApplicationContext(), AkgLocationService.class);
     //10 sec interval
     JobInfo jobInfo = new JobInfo.Builder(LOCATION_JOB_ID, componentName)
-        .setMinimumLatency(10000) //10 sec interval
+        .setMinimumLatency(50000) //50 sec interval
         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
     jobScheduler.schedule(jobInfo);
   }
