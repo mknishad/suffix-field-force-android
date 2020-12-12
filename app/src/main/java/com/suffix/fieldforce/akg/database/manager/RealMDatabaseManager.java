@@ -1,5 +1,7 @@
 package com.suffix.fieldforce.akg.database.manager;
 
+import android.util.Log;
+
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -44,23 +46,25 @@ public class RealMDatabaseManager {
     realm.executeTransaction(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        List<RealMProductCategory> realMProductCategory = realm.copyFromRealm(customerDataRealmResults);
+        if (customerDataRealmResults.size() > 0) {
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getCigrettee()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
 
-        for(CategoryModel categoryModel : realMProductCategory.get(0).getCigrettee()){
-          categoryModel.setSalesQty(0);
-          categoryModel.setInHandQty(0);
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getBidi()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
+
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getMatch()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
         }
-
-        for(CategoryModel categoryModel : realMProductCategory.get(0).getBidi()){
-          categoryModel.setSalesQty(0);
-          categoryModel.setInHandQty(0);
-        }
-
-        for(CategoryModel categoryModel : realMProductCategory.get(0).getMatch()){
-          categoryModel.setSalesQty(0);
-          categoryModel.setInHandQty(0);
-        }
-
       }
     });
   }
@@ -86,12 +90,15 @@ public class RealMDatabaseManager {
 
           if ((Math.floor(invoiceRequest.getTotalAmount()) == Math.floor(invoiceRequest.getRecievedAmount())) ||
               (((int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()) -
-                  (int) TimeUnit.MILLISECONDS.toDays(invoiceRequest.getInvoiceDate())) > 3) ) {
+                  (int) TimeUnit.MILLISECONDS.toDays(invoiceRequest.getInvoiceDate())) > 3)) {
             invoiceRequest.deleteFromRealm();
           }
         }
       }
     });
+
+    clearStock();
+
   }
 
   public void deleteAllCart() {

@@ -738,14 +738,7 @@ public class MainDashboardActivity extends AppCompatActivity implements
         customProgress.dismiss();
       }
     });
-
-//    new RealMDatabaseManager().deleteAllCustomer(new RealmDatabseManagerInterface.Customer() {
-//      @Override
-//      public void onCustomerDelete(boolean OnSuccess) {
-//        SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-//        syncManager.getAllCustomer();
-//      }
-//    });
+    //new RealMDatabaseManager().clearStock();
   }
 
   private List<InvoiceRequest> invoiceRequestList;
