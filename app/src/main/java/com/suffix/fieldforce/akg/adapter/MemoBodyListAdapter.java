@@ -1,11 +1,10 @@
 package com.suffix.fieldforce.akg.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,8 +18,8 @@ import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.dialog.TJBDialog;
 import com.suffix.fieldforce.dialog.TJBDialogListener;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,11 +27,16 @@ import butterknife.ButterKnife;
 public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapter.ViewHolder> {
 
   private Context context;
-  private List<InvoiceProduct> bodyData = new ArrayList<>();
+  private List<InvoiceProduct> bodyData;
+  private String invoiceId;
+  private ProductUpdateListener updateInterface;
 
-  public MemoBodyListAdapter(Context context, List<InvoiceProduct> bodyData) {
+  public MemoBodyListAdapter(Context context, List<InvoiceProduct> bodyData, String invoiceId,
+                             ProductUpdateListener updateInterface) {
     this.context = context;
     this.bodyData = bodyData;
+    this.invoiceId = invoiceId;
+    this.updateInterface = updateInterface;
   }
 
   @NonNull
@@ -47,7 +51,7 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
     final InvoiceProduct row = bodyData.get(position);
     holder.colOne.setText(String.valueOf(row.getProductCode()));
     holder.colTwo.setText(String.valueOf(row.getProductQty()));
-    holder.colThree.setText(String.valueOf(row.getSubToalAmount()));
+    holder.colThree.setText(String.format(Locale.getDefault(), "%.2f", row.getSubToalAmount()));
 
     holder.layoutRow.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -56,12 +60,15 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
         dialog.setTjbDialogListener(new TJBDialogListener() {
           @Override
           public void onSubmit(String quantity) {
-
+            if (TextUtils.isEmpty(quantity)) {
+              quantity = "0";
+            }
             int updateQty = Integer.parseInt(quantity) - row.getProductQty();
-            new SyncManager(context).updateSingleInvoice(row,updateQty);
+            new SyncManager(context).updateSingleInvoice(invoiceId, row, updateQty);
+            updateInterface.onSuccess();
           }
         });
-        dialog.show(((AppCompatActivity)context).getSupportFragmentManager(), "TJB");
+        dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "TJB");
       }
     });
 

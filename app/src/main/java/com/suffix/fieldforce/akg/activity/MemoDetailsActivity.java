@@ -21,13 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.MemoBodyListAdapter;
 import com.suffix.fieldforce.akg.adapter.PrintingInterface;
+import com.suffix.fieldforce.akg.adapter.ProductUpdateListener;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.Distributor;
@@ -39,6 +42,7 @@ import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,22 +73,21 @@ public class MemoDetailsActivity extends AppCompatActivity {
   LinearLayout layoutCollection;
 
   @BindView(R.id.txtCollection)
-  TextInputEditText txtCollection;
+  TextInputLayout txtCollection;
 
   @BindView(R.id.btnUpdate)
   Button btnUpdate;
-  private String paymentStatus = "Paid";
 
   @OnClick(R.id.btnUpdate)
   public void updateCollection() {
 
-    new SyncManager(this).updateInvoiceRequest(invoiceRequest, Double.parseDouble(txtCollection.getText().toString()), new RealmDatabseManagerInterface.Sync() {
-      @Override
-      public void onSuccess() {
-        finish();
-      }
-    });
-
+    new SyncManager(this).updateInvoiceRequest(invoiceRequest,
+        Double.parseDouble(txtCollection.getEditText().getText().toString()), new RealmDatabseManagerInterface.Sync() {
+          @Override
+          public void onSuccess() {
+            //finish();
+          }
+        });
   }
 
   @OnClick(R.id.btnPrint)
@@ -96,7 +99,8 @@ public class MemoDetailsActivity extends AppCompatActivity {
     AkgLoginResponse loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     new AkgPrintingService().print(distributor.getData().getDistributorName(),
-        distributor.getData().getMobile(), loginResponse, invoiceRequest, paymentStatus, new PrintingInterface() {
+        distributor.getData().getMobile(), loginResponse, invoiceRequest,
+        new PrintingInterface() {
           @Override
           public void onPrintSuccess(String message) {
             progressDialog.dismiss();
@@ -124,6 +128,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 //alertDialog.dismiss();
+                finish();
               }
             });
 
@@ -167,25 +172,46 @@ public class MemoDetailsActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
+    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
+
     LinearLayoutManager manager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(manager);
-    memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList);
+    memoBodyListAdapter = new MemoBodyListAdapter(this, invoiceDetailList,
+        invoiceRequest.getInvoiceId(),
+        new ProductUpdateListener() {
+          @Override
+          public void onSuccess() {
+            List<InvoiceRequest> invoiceRequests = new RealMDatabaseManager().prepareInvoiceRequest();
+            for (InvoiceRequest invoice : invoiceRequests) {
+              if (invoice.getInvoiceId().equalsIgnoreCase(invoiceRequest.getInvoiceId())) {
+                memoBodyListAdapter.setData(invoice.getInvoiceProducts());
+                txtTotalAmount.setText(String.format(Locale.getDefault(), "%.2f",
+                    invoice.getTotalAmount()));
+                invoiceRequest = invoice;
+                double dueAmount = invoice.getTotalAmount() - invoice.getRecievedAmount();
+                if (dueAmount != 0.0) {
+                  Log.d(TAG, "onSuccess: dueAmount = " + dueAmount);
+                  txtCollection.getEditText().setText(
+                      String.format(Locale.getDefault(), "%.2f", dueAmount));
+                } else {
+                  txtCollection.setVisibility(View.GONE);
+                }
+              }
+            }
+          }
+        });
     recyclerView.setAdapter(memoBodyListAdapter);
 
-    invoiceRequest = getIntent().getParcelableExtra(AkgConstants.MEMO_DETAIL);
     Log.d(TAG, "onCreate: invoiceRequest = " + invoiceRequest);
     txtStoreName.setText(invoiceRequest.getCustomerName());
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
-    if(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f){
-      paymentStatus = "Due";
-      txtCollection.setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
-    }else{
-      txtCollection.setVisibility(View.GONE);
+    if (invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f) {
+      txtCollection.getEditText().setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
+    } else {
+      layoutCollection.setVisibility(View.GONE);
     }
-
-
 
     for (InvoiceProduct invoiceProduct : invoiceRequest.getInvoiceProducts()) {
       totalQuantity += invoiceProduct.getProductQty();

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.activity.QuantityActivity;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
@@ -52,8 +53,8 @@ public class ProductCategoryListAdapter extends RecyclerView.Adapter<ProductCate
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final CategoryModel model = categoryModel.get(position);
 
-    String imageURL = "http://51.79.73.162:8956/salesapi" + model.getProductImage();
-
+    String imageURL = BuildConfig.IMAGE_BASE_URL + model.getProductImage();
+    Log.d("imageURL", imageURL);
     holder.txtInHandQt.setText(model.getInHandQty().toString());
     holder.txtSalesQt.setText(model.getSalesQty().toString());
     holder.txtTotalMemo.setText(model.getTotalMemo().toString());

@@ -250,7 +250,7 @@ class CheckActivity : AppCompatActivity() {
       Log.d(TAG, "printMemo: distributor = " + preferences.getDistributor())
       AkgPrintingService().print(
         distributor.data.distributorName, distributor.data.mobile,
-        loginResponse, invoiceRequest, "", object : PrintingInterface {
+        loginResponse, invoiceRequest, object : PrintingInterface {
           override fun onPrintFail(message: String?) {
             progressDialog.dismiss()
             alertDialogBuilder.setMessage(message)

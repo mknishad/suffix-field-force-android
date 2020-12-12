@@ -1,5 +1,7 @@
 package com.suffix.fieldforce.akg.database.manager;
 
+import android.util.Log;
+
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -9,6 +11,7 @@ import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -38,6 +41,34 @@ public class RealMDatabaseManager {
     return productCategory;
   }
 
+  public void clearStock() {
+    final RealmResults<RealMProductCategory> customerDataRealmResults = realm.where(RealMProductCategory.class).findAll();
+    realm.executeTransaction(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        if (customerDataRealmResults.size() > 0) {
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getCigrettee()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
+
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getBidi()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
+
+          for (CategoryModel categoryModel : customerDataRealmResults.get(0).getMatch()) {
+            Log.d("clearStock", categoryModel.getProductName());
+            categoryModel.setSalesQty(0);
+            categoryModel.setInHandQty(0);
+          }
+        }
+      }
+    });
+  }
+
   public List<InvoiceRequest> prepareInvoiceRequest() {
     final RealmResults<InvoiceRequest> invoiceRequests = realm.where(InvoiceRequest.class).findAll();
     return realm.copyFromRealm(invoiceRequests);
@@ -54,9 +85,20 @@ public class RealMDatabaseManager {
     realm.executeTransaction(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        results.deleteAllFromRealm();
+        for (int index = 0; index < results.size(); index++) {
+          InvoiceRequest invoiceRequest = results.get(index);
+
+          if ((Math.floor(invoiceRequest.getTotalAmount()) == Math.floor(invoiceRequest.getRecievedAmount())) ||
+              (((int) TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()) -
+                  (int) TimeUnit.MILLISECONDS.toDays(invoiceRequest.getInvoiceDate())) > 3)) {
+            invoiceRequest.deleteFromRealm();
+          }
+        }
       }
     });
+
+    clearStock();
+
   }
 
   public void deleteAllCart() {
@@ -87,7 +129,7 @@ public class RealMDatabaseManager {
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
-        if(customerInterface != null){
+        if (customerInterface != null) {
           customerInterface.onCustomerDelete(true);
         }
       }

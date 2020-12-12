@@ -24,6 +24,12 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:src="@drawable/cardtexture"
+            android:scaleType="centerCrop" />
+
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imgCigar"
             android:layout_width="80dp"
@@ -68,14 +74,17 @@
 
         <TextView
             android:id="@+id/txtProductCode"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MARISE"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#BC2B2B2B"
-            android:layout_below="@id/imgCigar"/>
+            android:layout_below="@id/imgCigar"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_white"
+            android:paddingHorizontal="20dp"/>
 
         <TextView
             android:id="@+id/txtTotalMemo"

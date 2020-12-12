@@ -176,23 +176,43 @@ public class SyncManager {
 
   }
 
-  public void updateSingleInvoice(InvoiceProduct invoiceProduct, int updateQty) {
+  public void updateSingleInvoice(String invoiceId, InvoiceProduct invoiceProduct, int updateQty) {
+    realm.executeTransaction(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId",
+            invoiceProduct.getProductId()).findFirst();
+        if (categoryModel != null) {
+          categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
+        }
 
-//    CategoryModel categoryModel = realm.where(CategoryModel.class).equalTo("productId", invoiceProduct.getProductId()).findFirst();
-//    if (categoryModel != null) {
-//      categoryModel.setSalesQty(categoryModel.getSalesQty() + updateQty);
-//    }
+        InvoiceRequest invoiceRequest = realm.where(InvoiceRequest.class).equalTo("invoiceId",
+            invoiceId).findFirst();
 
+        double totalAmount = 0;
+        if (invoiceRequest != null) {
+          for (InvoiceProduct product : invoiceRequest.getInvoiceProducts()) {
+            if (product.getProductId() == invoiceProduct.getProductId()) {
+              product.setProductQty(product.getProductQty() + updateQty);
+              product.setSubToalAmount(product.getProductQty() * product.getSellingRate());
+            }
+            totalAmount += product.getSubToalAmount();
+          }
+          invoiceRequest.setTotalAmount(totalAmount);
+        }
+      }
+    });
   }
 
-  public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount, RealmDatabseManagerInterface.Sync sync) {
-
-    Log.d( "updateInvoiceRequest: ", amount+"");
+  public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount,
+                                   RealmDatabseManagerInterface.Sync sync) {
+    Log.d("updateInvoiceRequest: ", amount + "");
 
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        InvoiceRequest ir = realm.where(InvoiceRequest.class).equalTo("invoiceId", invoiceRequest.getInvoiceId()).findFirst();
+        InvoiceRequest ir = realm.where(InvoiceRequest.class).equalTo("invoiceId",
+            invoiceRequest.getInvoiceId()).findFirst();
         if (ir != null) {
           ir.setRecievedAmount(ir.getRecievedAmount() + amount);
         }
@@ -200,12 +220,10 @@ public class SyncManager {
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
-        if(sync != null){
+        if (sync != null) {
           sync.onSuccess();
         }
       }
     });
-
   }
-
 }

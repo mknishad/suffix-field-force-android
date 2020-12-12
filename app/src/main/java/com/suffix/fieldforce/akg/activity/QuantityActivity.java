@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.model.ButtonKeyValueModel;
 import com.suffix.fieldforce.akg.model.product.CartModel;
@@ -72,7 +73,7 @@ public class QuantityActivity extends AppCompatActivity {
       categoryModel = getIntent().getParcelableExtra("CATEGORY_MODEL");
       txtBase.setText(categoryModel.getInHandQty().toString());
       txtSOQ.setText(categoryModel.getInHandQty().toString());
-      imgProduct.setImageURI(Uri.parse("http://51.79.73.162:8956/salesapi" +categoryModel.getProductImage()));
+      imgProduct.setImageURI(Uri.parse(BuildConfig.IMAGE_BASE_URL + categoryModel.getProductImage()));
     }
 
     bindListWithValue();

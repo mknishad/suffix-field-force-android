@@ -661,6 +661,7 @@ public class MainDashboardActivity extends AppCompatActivity {
         customProgress.dismiss();
       }
     });
+    //new RealMDatabaseManager().clearStock();
   }
 
   private List<InvoiceRequest> invoiceRequestList;
