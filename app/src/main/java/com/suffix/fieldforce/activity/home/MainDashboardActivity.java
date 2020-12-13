@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.activity.home;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -290,11 +291,30 @@ public class MainDashboardActivity extends AppCompatActivity {
   }
 
   private void checkLocationPermission() {
-    if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
+    /*if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
         PackageManager.PERMISSION_GRANTED) {
       initLocationSettings();
     } else {
       ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+    }*/
+
+    boolean hasForegroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+    if (hasForegroundLocationPermission) {
+      boolean hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+          Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+      if (hasBackgroundLocationPermission) {
+        initLocationSettings();
+      } else {
+        ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
+      }
+    } else {
+      ActivityCompat.requestPermissions(this,
+          new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+              Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
     }
   }
 
