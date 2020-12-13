@@ -768,6 +768,7 @@ public class MainDashboardActivity extends AppCompatActivity {
         //logout
         preferences.putLoginResponse("");
         preferences.putDistributor("");
+        preferences.putOnline(false);
         startActivity(new Intent(MainDashboardActivity.this, LoginActivity.class));
         finishAffinity();
         return true;
