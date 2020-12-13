@@ -23,6 +23,8 @@ import com.suffix.fieldforce.akg.adapter.NotificationListAdapter;
 import com.suffix.fieldforce.akg.adapter.NotificationListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.ActiveCustomerRequest;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
@@ -159,7 +161,7 @@ public class NotificationListActivity extends AppCompatActivity {
   protected void onStart() {
     super.onStart();
 
-    notificationListAdapter.setMemoListInterface(new NotificationListInterface() {
+    notificationListAdapter.setNotificationListInterface(new NotificationListInterface() {
       @Override
       public void onItemClick(int position, int customerId) {
 
@@ -193,6 +195,14 @@ public class NotificationListActivity extends AppCompatActivity {
           Toast.makeText(NotificationListActivity.this, "Customer activated successfully!", Toast.LENGTH_SHORT).show();
           customerDataList.remove(listPosition);
           notificationListAdapter.notifyDataSetChanged();
+          new SyncManager(NotificationListActivity.this).getAllCustomerOnly(new RealmDatabseManagerInterface.Sync() {
+            @Override
+            public void onSuccess() {
+
+            }
+          });
+          Toast.makeText(NotificationListActivity.this, "Customer activated successfully", Toast.LENGTH_SHORT).show();
+          finish();
         } else {
           Toast.makeText(NotificationListActivity.this, "Error! Customer activation failed.", Toast.LENGTH_SHORT).show();
         }
