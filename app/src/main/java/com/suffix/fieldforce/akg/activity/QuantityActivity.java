@@ -191,7 +191,6 @@ public class QuantityActivity extends AppCompatActivity {
       });
       index++;
     }
-
   }
 
   private void bindViews() {

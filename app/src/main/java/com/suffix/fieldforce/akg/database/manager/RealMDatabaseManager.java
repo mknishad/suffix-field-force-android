@@ -1,6 +1,7 @@
 package com.suffix.fieldforce.akg.database.manager;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
@@ -74,6 +75,15 @@ public class RealMDatabaseManager {
     return realm.copyFromRealm(invoiceRequests);
   }
 
+  public int getInvoiceListSize() {
+    RealmResults<CartModel> results = realm.where(CartModel.class).findAll();
+    Log.d("RealMdatabasemanager", "onSuccess: "+results.size());
+    if (results.size() > 0){
+      Log.d("RealMdatabasemanager", "onSuccess: "+results.size());
+    }
+    return results.size();
+  }
+
   public List<CartModel> prepareStockRequest() {
     final RealmResults<CartModel> invoiceRequests = realm.where(CartModel.class).findAll();
     return realm.copyFromRealm(invoiceRequests);
@@ -103,7 +113,6 @@ public class RealMDatabaseManager {
 
   public void deleteAllCart() {
     final RealmResults<CartModel> results = realm.where(CartModel.class).findAll();
-
     if (results.size() > 0) {
       realm.executeTransaction(new Realm.Transaction() {
         @Override
