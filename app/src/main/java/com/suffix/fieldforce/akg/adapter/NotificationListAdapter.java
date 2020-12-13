@@ -33,7 +33,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
     this.customerDataList = customerData;
   }
 
-  public void setMemoListInterface(NotificationListInterface listener) {
+  public void setNotificationListInterface(NotificationListInterface listener) {
     this.notificationListInterface = listener;
   }
 

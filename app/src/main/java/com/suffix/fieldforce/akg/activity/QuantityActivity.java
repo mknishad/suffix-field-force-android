@@ -191,23 +191,22 @@ public class QuantityActivity extends AppCompatActivity {
       });
       index++;
     }
-
   }
 
   private void bindViews() {
-    layoutOk = findViewById(R.id.layoutOk);
+    layoutOk    = findViewById(R.id.layoutOk);
     layoutClear = findViewById(R.id.layoutClear);
-    txtResult = findViewById(R.id.txtResult);
-    btnRow00 = findViewById(R.id.btnRow00);
-    btnRow01 = findViewById(R.id.btnRow01);
-    btnRow10 = findViewById(R.id.btnRow10);
-    btnRow11 = findViewById(R.id.btnRow11);
-    btnRow20 = findViewById(R.id.btnRow20);
-    btnRow21 = findViewById(R.id.btnRow21);
-    btnRow30 = findViewById(R.id.btnRow30);
-    btnRow31 = findViewById(R.id.btnRow31);
-    btnRow40 = findViewById(R.id.btnRow40);
-    btnRow41 = findViewById(R.id.btnRow41);
+    txtResult   = findViewById(R.id.txtResult);
+    btnRow00    = findViewById(R.id.btnRow00);
+    btnRow01    = findViewById(R.id.btnRow01);
+    btnRow10    = findViewById(R.id.btnRow10);
+    btnRow11    = findViewById(R.id.btnRow11);
+    btnRow20    = findViewById(R.id.btnRow20);
+    btnRow21    = findViewById(R.id.btnRow21);
+    btnRow30    = findViewById(R.id.btnRow30);
+    btnRow31    = findViewById(R.id.btnRow31);
+    btnRow40    = findViewById(R.id.btnRow40);
+    btnRow41    = findViewById(R.id.btnRow41);
 
     layoutClear.setOnClickListener(new View.OnClickListener() {
       @Override

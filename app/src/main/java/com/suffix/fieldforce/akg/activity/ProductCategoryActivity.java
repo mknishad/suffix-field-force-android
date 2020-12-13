@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,12 +51,19 @@ public class ProductCategoryActivity extends AppCompatActivity {
 
   @OnClick(R.id.btnJachai)
   public void gotoCheckout() {
-    Intent intent = new Intent(ProductCategoryActivity.this, CheckActivity.class);
-    intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
-    intent.putExtra(AkgConstants.INVOICE_TYPE, invoiceType);
-    startActivity(intent);
-  }
 
+    int cartSize = new RealMDatabaseManager().getInvoiceListSize();
+    Log.d(TAG, "gotoCheckout: " + cartSize);
+
+    if (cartSize > 0) {
+      Intent intent = new Intent(ProductCategoryActivity.this, CheckActivity.class);
+      intent.putExtra(AkgConstants.CUSTOMER_INFO, selectedCustomer);
+      intent.putExtra(AkgConstants.INVOICE_TYPE, invoiceType);
+      startActivity(intent);
+    } else {
+      Toast.makeText(ProductCategoryActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+    }
+  }
 
   private String invoiceType;
   private ProductCategoryListAdapter cigretteListAdapter, bidiListAdapter, matchListAdapter;

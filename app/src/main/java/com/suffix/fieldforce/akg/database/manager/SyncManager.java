@@ -47,6 +47,43 @@ public class SyncManager {
         preferences.getPassword());
   }
 
+  public void getAllCustomerOnly(RealmDatabseManagerInterface.Sync interfaceSync) {
+    Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
+    call.enqueue(new Callback<List<CustomerData>>() {
+      @Override
+      public void onResponse(Call<List<CustomerData>> call, Response<List<CustomerData>> response) {
+        if (response.isSuccessful()) {
+
+          List<CustomerData> customerDataList = response.body();
+
+          realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+              //RealMCustomer realMCustomer = new RealMCustomer();
+              for (CustomerData customerData : customerDataList) {
+                bgRealm.copyToRealmOrUpdate(customerData);
+              }
+            }
+          }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+              //Toast.makeText(context, "All Customer Synced", Toast.LENGTH_SHORT).show();
+              //getAllCategory(interfaceSync);
+            }
+          });
+        } else {
+          Toast.makeText(context, "Connection is not successfull", Toast.LENGTH_SHORT).show();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<List<CustomerData>> call, Throwable t) {
+        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+        call.cancel();
+      }
+    });
+  }
+
   public void getAllCustomer(RealmDatabseManagerInterface.Sync interfaceSync) {
     Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
     call.enqueue(new Callback<List<CustomerData>>() {
@@ -98,7 +135,13 @@ public class SyncManager {
             @Override
             public void execute(Realm bgRealm) {
 
-              RealMProductCategory realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
+              RealMProductCategory realMProductCategory = bgRealm.where(RealMProductCategory.class).findFirst();
+              if(realMProductCategory == null){
+                realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
+              }
+              realMProductCategory.getCigrettee().deleteAllFromRealm();
+              realMProductCategory.getBidi().deleteAllFromRealm();
+              realMProductCategory.getMatch().deleteAllFromRealm();
               //Store all cigrette list
               for (CategoryModel cigretteeModel : productCategory.getCigarette()) {
                 realMProductCategory.getCigrettee().add(cigretteeModel);
@@ -119,6 +162,11 @@ public class SyncManager {
               if (interfaceSync != null) {
                 interfaceSync.onSuccess();
               }
+            }
+          }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+              Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
           });
 
