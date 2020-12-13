@@ -166,7 +166,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
                 double distanceThreshold = 10.0;
                 for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
-                  if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+                  if (settings.getAttributeName().equalsIgnoreCase("DISTANCE_RANGE")) {
                     distanceThreshold = Double.parseDouble(settings.getAttributeValue());
                   }
                 }
