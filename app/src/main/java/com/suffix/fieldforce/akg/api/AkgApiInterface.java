@@ -5,6 +5,7 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.Distributor;
+import com.suffix.fieldforce.akg.model.GeoLocationRequest;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
@@ -89,4 +90,9 @@ public interface AkgApiInterface {
       @Body StoreVisitRequest storeVisitRequest
   );
 
+  @POST("geolocation")
+  Call<ResponseBody> postGeoLocation(
+      @Header("Authorization") String h1,
+      @Body GeoLocationRequest geoLocationRequest
+  );
 }

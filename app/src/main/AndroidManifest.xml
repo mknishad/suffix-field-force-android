@@ -7,9 +7,11 @@
          location permissions for the 'MyLocation' functionality.
     -->
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.BLUETOOTH" />
 
   <application
@@ -22,7 +24,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="true">
-    <activity android:name=".akg.activity.StockActivity"></activity>
+    <activity android:name=".akg.activity.StockActivity" />
     <activity android:name=".akg.activity.SlideCollectionActivity" />
     <activity android:name=".akg.activity.VisitActivity" />
     <activity android:name=".akg.activity.QuantityActivity" />
@@ -126,6 +128,11 @@
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
       </intent-filter>
     </service>
+
+    <service
+        android:name=".akg.service.AkgLocationService"
+        android:exported="true"
+        android:permission="android.permission.BIND_JOB_SERVICE" />
 
     <receiver
         android:name=".location.LocationUpdatesBroadcastReceiver"

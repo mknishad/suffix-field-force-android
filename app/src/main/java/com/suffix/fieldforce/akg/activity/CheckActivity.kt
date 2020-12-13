@@ -95,7 +95,7 @@ class CheckActivity : AppCompatActivity() {
     alertDialogBuilder = AlertDialog.Builder(this)
 
     binding.storeNameTextView.text = customerData.customerName
-    binding.storeAddressTextView.text = customerData.customerName
+    binding.storeAddressTextView.text = customerData.address
 
     setupRecyclerView()
     setupTotal()
