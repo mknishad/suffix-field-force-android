@@ -98,7 +98,13 @@ public class SyncManager {
             @Override
             public void execute(Realm bgRealm) {
 
-              RealMProductCategory realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
+              RealMProductCategory realMProductCategory = bgRealm.where(RealMProductCategory.class).findFirst();
+              if(realMProductCategory == null){
+                realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
+              }
+              realMProductCategory.getCigrettee().deleteAllFromRealm();
+              realMProductCategory.getBidi().deleteAllFromRealm();
+              realMProductCategory.getMatch().deleteAllFromRealm();
               //Store all cigrette list
               for (CategoryModel cigretteeModel : productCategory.getCigarette()) {
                 realMProductCategory.getCigrettee().add(cigretteeModel);
@@ -119,6 +125,11 @@ public class SyncManager {
               if (interfaceSync != null) {
                 interfaceSync.onSuccess();
               }
+            }
+          }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+              Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
           });
 
