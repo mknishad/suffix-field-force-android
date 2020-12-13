@@ -1,5 +1,6 @@
 package com.suffix.fieldforce.activity.home;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -59,6 +60,7 @@ import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -142,8 +144,8 @@ public class MainDashboardActivity extends AppCompatActivity {
 
   private static final int SETTINGS_REQUEST_CODE = 1000;
   private static final int PERMISSION_REQUEST_CODE = 34;
-  private static final long UPDATE_INTERVAL = 10 * 60 * 1000;
-  private static final long FASTEST_UPDATE_INTERVAL = UPDATE_INTERVAL / 2;
+  private static long UPDATE_INTERVAL = 20 * 60 * 1000;
+  private static long FASTEST_INTERVAL = UPDATE_INTERVAL / 2;
 
   private static final int LOCATION_JOB_ID = 1;
   private JobScheduler jobScheduler;
@@ -285,23 +287,51 @@ public class MainDashboardActivity extends AppCompatActivity {
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
     txtUserName.setText(loginResponse.getData().getUserName());
+
+
+    for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
+      if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
+        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue());
+        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue());
+      }
+    }
+
     jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
     checkLocationPermission();
   }
 
   private void checkLocationPermission() {
-    if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
+    /*if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
         PackageManager.PERMISSION_GRANTED) {
       initLocationSettings();
     } else {
       ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+    }*/
+
+    boolean hasForegroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+    if (hasForegroundLocationPermission) {
+      boolean hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+          Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+      if (hasBackgroundLocationPermission) {
+        initLocationSettings();
+      } else {
+        ActivityCompat.requestPermissions(this,
+            new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
+      }
+    } else {
+      ActivityCompat.requestPermissions(this,
+          new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+              Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
     }
   }
 
   private void initLocationSettings() {
     LocationRequest locationRequest = new LocationRequest();
     locationRequest.setInterval(UPDATE_INTERVAL);
-    locationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL);
+    locationRequest.setFastestInterval(FASTEST_INTERVAL);
     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -813,7 +843,7 @@ public class MainDashboardActivity extends AppCompatActivity {
     ComponentName componentName = new ComponentName(getApplicationContext(), AkgLocationService.class);
     //10 sec interval
     JobInfo jobInfo = new JobInfo.Builder(LOCATION_JOB_ID, componentName)
-        .setMinimumLatency(50000) //50 sec interval
+        .setMinimumLatency(50000) //50 sec interval (finally set it to UPDATE_INTERVAL)
         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
     jobScheduler.schedule(jobInfo);
   }

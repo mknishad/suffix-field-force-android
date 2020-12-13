@@ -248,7 +248,7 @@ public class AkgLocationService extends JobService implements
           AkgLocationService.class);
       jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
       JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-          .setMinimumLatency(50000) //50 sec interval
+          .setMinimumLatency(50000) //50 sec interval (finally set it to UPDATE_INTERVAL)
           .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
       jobScheduler.schedule(jobInfo);
     }
