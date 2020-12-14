@@ -20,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.R;
@@ -29,7 +28,7 @@ import com.suffix.fieldforce.akg.adapter.PrintingInterface;
 import com.suffix.fieldforce.akg.adapter.ProductUpdateListener;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -82,7 +81,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
   public void updateCollection() {
 
     new SyncManager(this).updateInvoiceRequest(invoiceRequest,
-        Double.parseDouble(txtCollection.getEditText().getText().toString()), new RealmDatabseManagerInterface.Sync() {
+        Double.parseDouble(txtCollection.getEditText().getText().toString()), new RealmDatabaseManagerInterface.Sync() {
           @Override
           public void onSuccess() {
             //finish();

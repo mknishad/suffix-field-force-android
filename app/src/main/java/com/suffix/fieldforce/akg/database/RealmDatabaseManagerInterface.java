@@ -1,6 +1,6 @@
 package com.suffix.fieldforce.akg.database;
 
-public interface RealmDatabseManagerInterface {
+public interface RealmDatabaseManagerInterface {
   public interface Customer{
     public void onCustomerDelete(boolean OnSuccess);
   }
@@ -9,5 +9,9 @@ public interface RealmDatabseManagerInterface {
   }
   public interface Sync{
     public void onSuccess();
+  }
+  public interface StoreVisitRequest{
+    public void onSuccess();
+    public void onError();
   }
 }

@@ -7,12 +7,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
@@ -47,7 +48,7 @@ public class SyncManager {
         preferences.getPassword());
   }
 
-  public void getAllCustomerOnly(RealmDatabseManagerInterface.Sync interfaceSync) {
+  public void getAllCustomerOnly(RealmDatabaseManagerInterface.Sync interfaceSync) {
     Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
     call.enqueue(new Callback<List<CustomerData>>() {
       @Override
@@ -84,7 +85,7 @@ public class SyncManager {
     });
   }
 
-  public void getAllCustomer(RealmDatabseManagerInterface.Sync interfaceSync) {
+  public void getAllCustomer(RealmDatabaseManagerInterface.Sync interfaceSync) {
     Call<List<CustomerData>> call = apiInterface.getAllCustomer(basicAuthorization, loginResponse.getData().getId(), 1);
     call.enqueue(new Callback<List<CustomerData>>() {
       @Override
@@ -122,7 +123,7 @@ public class SyncManager {
   }
 
   //RealMProductCategory
-  public void getAllCategory(RealmDatabseManagerInterface.Sync interfaceSync) {
+  public void getAllCategory(RealmDatabaseManagerInterface.Sync interfaceSync) {
     Call<ProductCategory> call = apiInterface.getAllProduct(basicAuthorization, loginResponse.getData().getId());
     call.enqueue(new Callback<ProductCategory>() {
       @Override
@@ -253,7 +254,7 @@ public class SyncManager {
   }
 
   public void updateInvoiceRequest(InvoiceRequest invoiceRequest, double amount,
-                                   RealmDatabseManagerInterface.Sync sync) {
+                                   RealmDatabaseManagerInterface.Sync sync) {
     Log.d("updateInvoiceRequest: ", amount + "");
 
     realm.executeTransactionAsync(new Realm.Transaction() {
@@ -270,6 +271,53 @@ public class SyncManager {
       public void onSuccess() {
         if (sync != null) {
           sync.onSuccess();
+        }
+      }
+    });
+  }
+
+  public void insertStoreVisit(StoreVisitRequest storeVisitRequest, RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface){
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        realm.copyToRealmOrUpdate(storeVisitRequest);
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if(storeVisitRequestInterface != null){
+          storeVisitRequestInterface.onSuccess();
+        }
+      }
+    }, new Realm.Transaction.OnError() {
+      @Override
+      public void onError(Throwable error) {
+        if(storeVisitRequestInterface != null){
+          storeVisitRequestInterface.onError();
+        }
+      }
+    });
+  }
+
+  public void deleteAllStoreVisit(RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface){
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        RealmResults<StoreVisitRequest> storeVisitRequests = realm.where(StoreVisitRequest.class).findAll();
+        storeVisitRequests.deleteAllFromRealm();
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if(storeVisitRequestInterface != null){
+          storeVisitRequestInterface.onSuccess();
+        }
+      }
+    }, new Realm.Transaction.OnError() {
+      @Override
+      public void onError(Throwable error) {
+        if(storeVisitRequestInterface != null){
+          storeVisitRequestInterface.onError();
         }
       }
     });

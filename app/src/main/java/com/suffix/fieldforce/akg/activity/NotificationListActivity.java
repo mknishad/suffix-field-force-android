@@ -23,7 +23,7 @@ import com.suffix.fieldforce.akg.adapter.NotificationListAdapter;
 import com.suffix.fieldforce.akg.adapter.NotificationListInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.ActiveCustomerRequest;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -195,7 +195,7 @@ public class NotificationListActivity extends AppCompatActivity {
           Toast.makeText(NotificationListActivity.this, "Customer activated successfully!", Toast.LENGTH_SHORT).show();
           customerDataList.remove(listPosition);
           notificationListAdapter.notifyDataSetChanged();
-          new SyncManager(NotificationListActivity.this).getAllCustomerOnly(new RealmDatabseManagerInterface.Sync() {
+          new SyncManager(NotificationListActivity.this).getAllCustomerOnly(new RealmDatabaseManagerInterface.Sync() {
             @Override
             public void onSuccess() {
 

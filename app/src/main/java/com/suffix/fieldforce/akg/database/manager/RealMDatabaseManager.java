@@ -1,9 +1,8 @@
 package com.suffix.fieldforce.akg.database.manager;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
@@ -127,7 +126,7 @@ public class RealMDatabaseManager {
     final RealmResults<CategoryModel> results = realm.where(CategoryModel.class).findAll();
   }
 
-  public void deleteAllCustomer(RealmDatabseManagerInterface.Customer customerInterface) {
+  public void deleteAllCustomer(RealmDatabaseManagerInterface.Customer customerInterface) {
     final RealmResults<CustomerData> results = realm.where(CustomerData.class).findAll();
 
     realm.executeTransactionAsync(new Realm.Transaction() {

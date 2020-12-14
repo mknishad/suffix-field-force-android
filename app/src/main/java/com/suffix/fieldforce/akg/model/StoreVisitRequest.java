@@ -3,8 +3,12 @@ package com.suffix.fieldforce.akg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class StoreVisitRequest {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class StoreVisitRequest extends RealmObject {
+
+  @PrimaryKey
   @SerializedName("consumerId")
   @Expose
   public int consumerId;
@@ -24,6 +28,7 @@ public class StoreVisitRequest {
   @Expose
   public String status;
 
+  public boolean isSynced;
 
   public StoreVisitRequest() {
   }
@@ -82,5 +87,13 @@ public class StoreVisitRequest {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public boolean isSynced() {
+    return isSynced;
+  }
+
+  public void setSynced(boolean synced) {
+    isSynced = synced;
   }
 }

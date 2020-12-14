@@ -54,7 +54,7 @@ import com.suffix.fieldforce.akg.activity.SlideCollectionActivity;
 import com.suffix.fieldforce.akg.activity.StockActivity;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
-import com.suffix.fieldforce.akg.database.RealmDatabseManagerInterface;
+import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
 import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
@@ -84,8 +84,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainDashboardActivity extends AppCompatActivity {
 
@@ -682,7 +680,7 @@ public class MainDashboardActivity extends AppCompatActivity {
     Log.d("Realm", "Sync Data Called");
 
     SyncManager syncManager = new SyncManager(MainDashboardActivity.this);
-    syncManager.getAllCustomer(new RealmDatabseManagerInterface.Sync() {
+    syncManager.getAllCustomer(new RealmDatabaseManagerInterface.Sync() {
       @Override
       public void onSuccess() {
         customProgress.dismiss();
