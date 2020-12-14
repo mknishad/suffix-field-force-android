@@ -71,7 +71,6 @@ public class MemoBodyListAdapter extends RecyclerView.Adapter<MemoBodyListAdapte
         dialog.show(((AppCompatActivity) context).getSupportFragmentManager(), "TJB");
       }
     });
-
   }
 
   @Override
