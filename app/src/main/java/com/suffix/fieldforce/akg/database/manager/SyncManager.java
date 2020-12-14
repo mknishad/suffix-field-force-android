@@ -15,6 +15,7 @@ import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -160,9 +161,7 @@ public class SyncManager {
             @Override
             public void onSuccess() {
               Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
-              if (interfaceSync != null) {
-                interfaceSync.onSuccess();
-              }
+              getAllGift(interfaceSync);
             }
           }, new Realm.Transaction.OnError() {
             @Override
@@ -180,6 +179,49 @@ public class SyncManager {
         call.cancel();
       }
     });
+  }
+
+  private void getAllGift(RealmDatabaseManagerInterface.Sync interfaceSync) {
+
+    Call<List<GiftModel>> call = apiInterface.getAllGifts(basicAuthorization, loginResponse.getData().getId());
+    call.enqueue(new Callback<List<GiftModel>>() {
+      @Override
+      public void onResponse(Call<List<GiftModel>> call, Response<List<GiftModel>> response) {
+        if (response.isSuccessful()) {
+
+          List<GiftModel> customerDataList = response.body();
+
+          realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+              //RealMCustomer realMCustomer = new RealMCustomer();
+              for (GiftModel customerData : customerDataList) {
+                bgRealm.copyToRealmOrUpdate(customerData);
+              }
+
+              if(interfaceSync != null){
+                interfaceSync.onSuccess();
+              }
+            }
+          }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+              //Toast.makeText(context, "All Customer Synced", Toast.LENGTH_SHORT).show();
+              getAllCategory(interfaceSync);
+            }
+          });
+        } else {
+          Toast.makeText(context, "Connection is not successfull", Toast.LENGTH_SHORT).show();
+        }
+      }
+
+      @Override
+      public void onFailure(Call<List<GiftModel>> call, Throwable t) {
+        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+        call.cancel();
+      }
+    });
+
   }
 
   public void insertInvoice(InvoiceRequest invoiceRequest) {
