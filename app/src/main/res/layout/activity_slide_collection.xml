@@ -283,6 +283,13 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_gift"
+            />
+
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
@@ -291,15 +298,6 @@
             android:text="@string/submit"
             android:textSize="16sp"
             android:layout_marginHorizontal="5dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/row_item_sale"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:itemCount="2"/>
 
       </LinearLayout>
 

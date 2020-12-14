@@ -12,6 +12,7 @@ import com.suffix.fieldforce.akg.model.LoginRequest;
 import com.suffix.fieldforce.akg.model.MemoListResponse;
 import com.suffix.fieldforce.akg.model.Slider;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
+import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -63,6 +64,12 @@ public interface AkgApiInterface {
 
   @GET("product/{salesRepId}")
   Call<ProductCategory> getAllProduct(
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
+  );
+
+  @GET("gift/{salesRepId}")
+  Call<List<GiftModel>> getAllGifts(
       @Header("Authorization") String h1,
       @Path("salesRepId") int salesRepId
   );

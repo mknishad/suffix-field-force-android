@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding_10">
+
+  <com.facebook.drawee.view.SimpleDraweeView
+      android:id="@+id/imgGift"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      app:placeholderImage="@drawable/round_blue"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:id="@+id/txtGiftName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Hellow"
+      app:layout_constraintStart_toEndOf="@id/imgGift"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:layout_marginStart="@dimen/layout_margin_10"
+      android:textSize="22sp"
+      android:textStyle="bold" />
+
+  <ImageView
+      android:id="@+id/imgPlus"
+      android:layout_width="24dp"
+      android:layout_height="24dp"
+      android:background="@drawable/round_blue"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:src="@drawable/ic_baseline_add"
+      android:tint="@android:color/white"/>
+
+  <TextView
+      android:id="@+id/txtQuantity"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="bold"
+      android:textSize="22sp"
+      android:text="1"
+      app:layout_constraintEnd_toStartOf="@id/imgPlus"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:layout_marginRight="@dimen/layout_margin_10"/>
+
+  <ImageView
+      android:id="@+id/imgMinus"
+      android:layout_width="24dp"
+      android:layout_height="24dp"
+      android:background="@drawable/round_blue"
+      app:layout_constraintEnd_toStartOf="@id/txtQuantity"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:layout_marginRight="@dimen/layout_margin_10"
+      android:src="@drawable/ic_baseline_remove"
+      android:tint="@android:color/white"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
