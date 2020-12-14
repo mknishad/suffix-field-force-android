@@ -850,6 +850,7 @@ public class MainDashboardActivity extends AppCompatActivity {
 
   public void stopBackGroundService() {
     jobScheduler.cancel(LOCATION_JOB_ID);
-    stopService(new Intent(MainDashboardActivity.this, AkgLocationService.class));
+    jobScheduler.cancelAll();
+    //stopService(new Intent(MainDashboardActivity.this, AkgLocationService.class));
   }
 }

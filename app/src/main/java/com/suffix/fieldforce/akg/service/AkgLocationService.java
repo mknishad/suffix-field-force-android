@@ -90,20 +90,6 @@ public class AkgLocationService extends JobService implements
    */
   private Location lastLocation;
 
-  /*public AkgLocationService() {
-     preferences = new FieldForcePreferences(this);
-     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface .class);
-     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
-        AkgLoginResponse .class);
-
-    for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
-      if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
-        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue());
-        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue());
-      }
-    }
-  }*/
-
   @Override
   public void onCreate() {
     super.onCreate();
@@ -223,7 +209,6 @@ public class AkgLocationService extends JobService implements
 
     //connect google api
     googleApiClient.connect();
-
   }
 
   /**
@@ -293,6 +278,7 @@ public class AkgLocationService extends JobService implements
 
   @Override
   public void onDestroy() {
+    Log.d(TAG, "onDestroy: ");
     super.onDestroy();
     if (wakeLock != null) {
       wakeLock.release();
