@@ -144,7 +144,7 @@ public class MainDashboardActivity extends AppCompatActivity {
 
   private static final int SETTINGS_REQUEST_CODE = 1000;
   private static final int PERMISSION_REQUEST_CODE = 34;
-  private static long UPDATE_INTERVAL = 20 * 60 * 1000;
+  private static long UPDATE_INTERVAL = 10 * 60 * 1000;
   private static long FASTEST_INTERVAL = UPDATE_INTERVAL / 2;
 
   private static final int LOCATION_JOB_ID = 1;
@@ -291,8 +291,8 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
       if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
-        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue());
-        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue());
+        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue()) * 60 * 1000;
+        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue()) / 2;
       }
     }
 
@@ -460,7 +460,6 @@ public class MainDashboardActivity extends AppCompatActivity {
 
   @SuppressLint("RestrictedApi")
   private void geoAttendance() {
-
     BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
         .setTitle("ENTRY?")
         .setMessage("Are you sure want to make attendance?")
@@ -531,30 +530,8 @@ public class MainDashboardActivity extends AppCompatActivity {
     mBottomSheetDialog.show();
   }
 
-  private void showAddressName(Location location) {
-
-    SmartLocation.with(MainDashboardActivity.this).geocoding()
-        .reverse(location, new OnReverseGeocodingListener() {
-          @Override
-          public void onAddressResolved(Location location, List<Address> list) {
-            String result = null;
-
-            if (list != null && list.size() > 0) {
-              Address address = list.get(0);
-              // sending back first address line and locality
-              result = address.getAddressLine(0) + ", " + address.getLocality();
-            } else {
-              result = "No address found for this location";
-            }
-            preferences.putAddress(result);
-            txtUserAddress.setText(result);
-          }
-        });
-  }
-
   @SuppressLint("RestrictedApi")
   private void geoExit() {
-
     BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
         .setTitle("EXIT?")
         .setMessage("Are you sure you want to exit?")
@@ -621,6 +598,26 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     // Show Dialog
     mBottomSheetDialog.show();
+  }
+
+  private void showAddressName(Location location) {
+    SmartLocation.with(MainDashboardActivity.this).geocoding()
+        .reverse(location, new OnReverseGeocodingListener() {
+          @Override
+          public void onAddressResolved(Location location, List<Address> list) {
+            String result = null;
+
+            if (list != null && list.size() > 0) {
+              Address address = list.get(0);
+              // sending back first address line and locality
+              result = address.getAddressLine(0) + ", " + address.getLocality();
+            } else {
+              result = "No address found for this location";
+            }
+            preferences.putAddress(result);
+            txtUserAddress.setText(result);
+          }
+        });
   }
 
   public void openTask() {
@@ -843,13 +840,14 @@ public class MainDashboardActivity extends AppCompatActivity {
     ComponentName componentName = new ComponentName(getApplicationContext(), AkgLocationService.class);
     //10 sec interval
     JobInfo jobInfo = new JobInfo.Builder(LOCATION_JOB_ID, componentName)
-        .setMinimumLatency(50000) //50 sec interval (finally set it to UPDATE_INTERVAL)
+        .setMinimumLatency(UPDATE_INTERVAL) //50 sec interval (finally set it to UPDATE_INTERVAL)
         .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
     jobScheduler.schedule(jobInfo);
   }
 
   public void stopBackGroundService() {
     jobScheduler.cancel(LOCATION_JOB_ID);
-    stopService(new Intent(MainDashboardActivity.this, AkgLocationService.class));
+    jobScheduler.cancelAll();
+    //stopService(new Intent(MainDashboardActivity.this, AkgLocationService.class));
   }
 }
