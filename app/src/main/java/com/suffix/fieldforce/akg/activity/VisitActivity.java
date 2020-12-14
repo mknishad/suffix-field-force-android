@@ -21,13 +21,14 @@ import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.ProductCategoryListAdapter;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
+import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
+import com.suffix.fieldforce.akg.util.NetworkUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -158,41 +159,45 @@ public class VisitActivity extends AppCompatActivity {
   }
 
   private void visitStore() {
-
     if (!status.equals("0")) {
-      Date date = new Date();
-      long timeMilli = date.getTime();
       StoreVisitRequest storeVisitRequest = new StoreVisitRequest();
       storeVisitRequest.setConsumerId(customerID);
-      storeVisitRequest.setEntryTime(timeMilli);
+      storeVisitRequest.setEntryTime(System.currentTimeMillis());
       storeVisitRequest.setLat(lat);
       storeVisitRequest.setLng(lon);
       storeVisitRequest.setSalesRepId(loginResponse.getData().getId());
       storeVisitRequest.setStatus(status);
 
-      Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
-      call.enqueue(new Callback<ResponseBody>() {
-        @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-          if (response.isSuccessful()) {
-            finish();
-          } else {
-            Toast.makeText(VisitActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+      if (!NetworkUtils.isNetworkConnected(this)) {
+        //TODO: save to database
+        storeVisitRequest.setSynced(false);
+        new SyncManager(this).insertStoreVisit(storeVisitRequest, null);
+      } else {
+        Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
+        call.enqueue(new Callback<ResponseBody>() {
+          @Override
+          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            if (response.isSuccessful()) {
+              storeVisitRequest.setSynced(true);
+              new SyncManager(VisitActivity.this).insertStoreVisit(storeVisitRequest, null);
+              finish();
+            } else {
+              storeVisitRequest.setSynced(false);
+              new SyncManager(VisitActivity.this).insertStoreVisit(storeVisitRequest, null);
+              Toast.makeText(VisitActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+            }
           }
-        }
 
-        @Override
-        public void onFailure(Call<ResponseBody> call, Throwable t) {
-          Toast.makeText(VisitActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-      });
-
+          @Override
+          public void onFailure(Call<ResponseBody> call, Throwable t) {
+            storeVisitRequest.setSynced(false);
+            new SyncManager(VisitActivity.this).insertStoreVisit(storeVisitRequest, null);
+            Toast.makeText(VisitActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+          }
+        });
+      }
     } else {
-
-
       Toast.makeText(VisitActivity.this, "You must select a customer status first.", Toast.LENGTH_SHORT).show();
     }
-
   }
-
 }

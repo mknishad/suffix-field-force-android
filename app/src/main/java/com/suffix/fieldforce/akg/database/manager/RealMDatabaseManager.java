@@ -6,6 +6,7 @@ import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
@@ -74,6 +75,11 @@ public class RealMDatabaseManager {
     return realm.copyFromRealm(invoiceRequests);
   }
 
+  public List<StoreVisitRequest> prepareStoreVisits() {
+    final RealmResults<StoreVisitRequest> storeVisitRequests = realm.where(StoreVisitRequest.class).findAll();
+    return realm.copyFromRealm(storeVisitRequests);
+  }
+
   public int getInvoiceListSize() {
     RealmResults<CartModel> results = realm.where(CartModel.class).findAll();
     Log.d("RealMdatabasemanager", "onSuccess: "+results.size());
@@ -108,6 +114,18 @@ public class RealMDatabaseManager {
 
     clearStock();
 
+  }
+
+  public void deleteAllStoreVisit() {
+    final RealmResults<StoreVisitRequest> results = realm.where(StoreVisitRequest.class).findAll();
+    if (results.size() > 0) {
+      realm.executeTransaction(new Realm.Transaction() {
+        @Override
+        public void execute(Realm realm) {
+          results.deleteAllFromRealm();
+        }
+      });
+    }
   }
 
   public void deleteAllCart() {

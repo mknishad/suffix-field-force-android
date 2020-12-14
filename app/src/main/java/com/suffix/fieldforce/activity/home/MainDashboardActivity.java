@@ -62,6 +62,7 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
+import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 import com.suffix.fieldforce.akg.service.AkgLocationService;
@@ -228,8 +229,13 @@ public class MainDashboardActivity extends AppCompatActivity {
             .setPositiveButton("হ্যা", R.drawable.ic_tik, new BottomSheetMaterialDialog.OnClickListener() {
               @Override
               public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
-                closeSales();
-                dialogInterface.dismiss();
+                if (!NetworkUtils.isNetworkConnected(MainDashboardActivity.this)) {
+                  Toast.makeText(MainDashboardActivity.this, "ইন্টারনেট সংযোগ নেই!", Toast.LENGTH_SHORT).show();
+                } else {
+                  closeSales();
+                  closeStoreVisit();
+                  dialogInterface.dismiss();
+                }
               }
             })
             .setNegativeButton("না", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
@@ -690,14 +696,8 @@ public class MainDashboardActivity extends AppCompatActivity {
   }
 
   private List<InvoiceRequest> invoiceRequestList;
-  //private List<InvoiceRequest> failedInvoices;
 
   public void closeSales() {
-    if (!NetworkUtils.isNetworkConnected(this)) {
-      Toast.makeText(this, "ইন্টারনেট সংযোগ নেই!", Toast.LENGTH_SHORT).show();
-      return;
-    }
-
     invoiceRequestList = new RealMDatabaseManager().prepareInvoiceRequest();
     if (invoiceRequestList.size() > 0) {
       /*failedInvoices = new ArrayList<>();
@@ -709,12 +709,12 @@ public class MainDashboardActivity extends AppCompatActivity {
       Log.d(TAG, "closeSales: failedInvoices.size() = " + failedInvoices.size());*/
 
       //if (failedInvoices.size() > 0) {
-        progress = new ProgressDialog(this);
-        progress.setMessage("Closing Sales");
-        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progress.setIndeterminate(true);
-        progress.show();
-        syncFailedInvoices();
+      progress = new ProgressDialog(this);
+      progress.setMessage("Closing Sales");
+      progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+      progress.setIndeterminate(true);
+      progress.show();
+      syncFailedInvoices();
       /*} else {
         Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
         new RealMDatabaseManager().deleteAllInvoice();
@@ -722,6 +722,36 @@ public class MainDashboardActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
       new RealMDatabaseManager().deleteAllInvoice();
+    }
+  }
+
+  private List<StoreVisitRequest> storeVisitList = new RealMDatabaseManager().prepareStoreVisits();
+
+  public void closeStoreVisit() {
+    if (storeVisitList.size() > 0) {
+      String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
+          preferences.getPassword());
+
+      StoreVisitRequest storeVisitRequest = storeVisitList.get(0);
+      Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
+      call.enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+          if (response.isSuccessful()) {
+            storeVisitList.remove(0);
+          }
+          if (storeVisitList.size() > 0) {
+            closeSales();
+          } else {
+            new RealMDatabaseManager().deleteAllStoreVisit();
+          }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+          Log.e(TAG, "onFailure: ", t);
+        }
+      });
     }
   }
 
@@ -751,24 +781,6 @@ public class MainDashboardActivity extends AppCompatActivity {
       @Override
       public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, "onFailure: ", t);
-        //Toast.makeText(MainDashboardActivity.this, "ডাটা হালনাগাদ হয়নি! আবার চেষ্টা করুন", Toast.LENGTH_SHORT).show();
-        /*if (finalI == failedInvoices.size() - 1) {
-          if (failedInvoices.size() > 0) {
-            new AlertDialog.Builder(MainDashboardActivity.this)
-                .setMessage("ডাটা হালনাগাদ হয়নি! আবার চেষ্টা করুন")
-                .setPositiveButton(android.R.string.ok, new android.content.DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(android.content.DialogInterface dialog, int which) {
-                    closeSales();
-                  }
-                })
-                .setCancelable(false)
-                .show();
-          } else {
-            progress.dismiss();
-            Toast.makeText(MainDashboardActivity.this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
-          }
-        }*/
       }
     });
   }
