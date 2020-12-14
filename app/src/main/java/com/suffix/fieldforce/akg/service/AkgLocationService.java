@@ -58,12 +58,12 @@ public class AkgLocationService extends JobService implements
   /**
    * Update interval of location request
    */
-  private int UPDATE_INTERVAL = 20 * 60 * 1000;
+  private int UPDATE_INTERVAL = 10 * 60 * 1000;
 
   /**
    * fastest possible interval of location request
    */
-  private int FASTEST_INTERVAL = 20 * 60 * 1000;
+  private int FASTEST_INTERVAL = 10 * 60 * 1000;
 
   /**
    * The Job scheduler.
@@ -103,8 +103,8 @@ public class AkgLocationService extends JobService implements
 
     for (GlobalSettings settings : loginResponse.getData().getGlobalSettingList()) {
       if (settings.getAttributeName().equalsIgnoreCase("GEO_SYNC_INTERVAL")) {
-        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue());
-        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue());
+        UPDATE_INTERVAL = Integer.parseInt(settings.getAttributeValue()) * 60 * 1000;
+        FASTEST_INTERVAL = Integer.parseInt(settings.getAttributeValue()) * 60 * 1000;
       }
     }
   }
@@ -112,7 +112,7 @@ public class AkgLocationService extends JobService implements
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
     PowerManager manager = (PowerManager) getSystemService(POWER_SERVICE);
-    wakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "akg");
+    wakeLock = manager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "akg:tag");
     wakeLock.acquire();
     return START_STICKY;
   }
@@ -123,7 +123,7 @@ public class AkgLocationService extends JobService implements
    */
   @Override
   public void onLocationChanged(Location location) {
-    //Log.d(TAG, "onLocationChanged [" + location + "]");
+    Log.d(TAG, "onLocationChanged [" + location + "]");
     lastLocation = location;
     writeActualLocation(location);
   }
@@ -133,10 +133,10 @@ public class AkgLocationService extends JobService implements
    */
   @SuppressLint("MissingPermission")
   private void getLastKnownLocation() {
-    //Log.d(TAG, "getLastKnownLocation()");
     lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
     if (lastLocation != null) {
-      Log.i(TAG, "Last Known Location: Lat: " + lastLocation.getLatitude() + " | Lng: " + lastLocation.getLongitude());
+      Log.d(TAG, "getLastKnownLocation: Lat: " + lastLocation.getLatitude() + " | Lng: " +
+          lastLocation.getLongitude());
       writeLastLocation();
       postGeoLocationToServer(lastLocation);
     } else {
@@ -153,7 +153,8 @@ public class AkgLocationService extends JobService implements
    */
   @SuppressLint("SetTextI18n")
   private void writeActualLocation(Location location) {
-    Log.d(TAG, location.getLatitude() + ", " + location.getLongitude());
+    //Log.d(TAG, location.getLatitude() + ", " + location.getLongitude());
+    Log.d(TAG, "writeActualLocation: " + location.getLatitude() + ", " + location.getLongitude());
     //here in this method you can use web service or any other thing
 
   }
@@ -171,11 +172,11 @@ public class AkgLocationService extends JobService implements
    */
   @SuppressLint("MissingPermission")
   private void startLocationUpdates() {
-    //Log.i(TAG, "startLocationUpdates()");
+    Log.d(TAG, "startLocationUpdates()");
     locationRequest = LocationRequest.create()
         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        .setInterval(UPDATE_INTERVAL)
-        .setFastestInterval(FASTEST_INTERVAL);
+        .setInterval(UPDATE_INTERVAL/2)
+        .setFastestInterval(FASTEST_INTERVAL/2);
 
     LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
   }
@@ -233,7 +234,7 @@ public class AkgLocationService extends JobService implements
           AkgLocationService.class);
       jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
       JobInfo jobInfo = new JobInfo.Builder(1, componentName)
-          .setMinimumLatency(50000) //50 sec interval (finally set it to UPDATE_INTERVAL)
+          .setMinimumLatency(UPDATE_INTERVAL) //50 sec interval (finally set it to UPDATE_INTERVAL)
           .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).setRequiresCharging(false).build();
       jobScheduler.schedule(jobInfo);
     }
@@ -245,7 +246,7 @@ public class AkgLocationService extends JobService implements
    */
   @Override
   public void onConnected(@Nullable Bundle bundle) {
-    //Log.i(TAG, "onConnected()");
+    Log.d(TAG, "onConnected()");
     getLastKnownLocation();
   }
 
