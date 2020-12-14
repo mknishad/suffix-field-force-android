@@ -59,7 +59,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
 
     String imageURL = BuildConfig.IMAGE_BASE_URL + model.getProductImage();
     Log.d("imageURL", imageURL);
-    holder.txtQuantity.setText(model.getOrderQuantity());
+    holder.txtQuantity.setText("0");
     holder.imgGift.setImageURI(Uri.parse(imageURL));
     holder.imgMinus.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -98,7 +98,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
 
   public void setData(List<GiftModel> giftModelList, int slideQuantity) {
     this.giftModelList = giftModelList;
-    this.slideQuantity = slideQuantity;
+    //this.slideQuantity = slideQuantity;
     notifyDataSetChanged();
   }
 
@@ -109,7 +109,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     @BindView(R.id.imgPlus)
     ImageView imgPlus;
     @BindView(R.id.imgMinus)
-    TextView imgMinus;
+    ImageView imgMinus;
     @BindView(R.id.txtQuantity)
     TextView txtQuantity;
 

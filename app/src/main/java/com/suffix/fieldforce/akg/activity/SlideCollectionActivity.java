@@ -12,7 +12,9 @@ import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -111,7 +113,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
 
-    Log.d(TAG, "onCreate: "+loginResponse.getData().getPassword()+" "+ loginResponse.getData().getUserId());
+    Log.d(TAG, "onCreate: " + loginResponse.getData().getPassword() + " " + loginResponse.getData().getUserId());
 
     basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
@@ -120,7 +122,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
     setupToggleGroup();
 
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-    giftListAdapter = new GiftListAdapter(this, giftModelList , Integer.valueOf(txtQuantity.getEditText().getText().toString()), new GiftListAdapterInterface() {
+    giftListAdapter = new GiftListAdapter(this, giftModelList, Integer.valueOf(txtQuantity.getEditText().getText().toString()), new GiftListAdapterInterface() {
       @Override
       public void onPlusClicked(int quantity) {
 
@@ -131,16 +133,34 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
       }
     });
-
+    recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(giftListAdapter);
 
     getGifts();
 
+    txtQuantity.getEditText().addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        if (!TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
+          getGifts();
+        }
+      }
+    });
   }
 
   private void getGifts() {
     giftModelList = new RealMDatabaseManager().prepareGiftModel();
-    giftListAdapter.setData(giftModelList,Integer.parseInt(txtQuantity.getEditText().getText().toString()));
+    giftListAdapter.setData(giftModelList, Integer.parseInt(txtQuantity.getEditText().getText().toString()));
   }
 
   private void setupToolbar() {
@@ -177,7 +197,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
   protected void onStart() {
     super.onStart();
 
-    btnSubmit.setOnClickListener(view-> {
+    btnSubmit.setOnClickListener(view -> {
 
       if (selectedCustomer == null) {
         Toast.makeText(this, getResources().getString(R.string.msg_customer_select_error), Toast.LENGTH_SHORT).show();
@@ -191,8 +211,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
               @Override
               public void onLocationUpdated(Location location) {
 
-                Log.d(TAG, "current location: "+location.getLatitude() +":"+ location.getLatitude());
-                Log.d(TAG, "customer location: "+selectedCustomer.getLat() +":"+ selectedCustomer.getLng());
+                Log.d(TAG, "current location: " + location.getLatitude() + ":" + location.getLatitude());
+                Log.d(TAG, "customer location: " + selectedCustomer.getLat() + ":" + selectedCustomer.getLng());
 
                 Double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
                     location.getLatitude(), location.getLongitude());
@@ -203,8 +223,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
                     distanceThreshold = Double.parseDouble(settings.getAttributeValue());
                   }
                 }
-                Log.d(TAG, "cur dis: "+ distance);
-                Log.d(TAG, "global distance:"+ distanceThreshold);
+                Log.d(TAG, "cur dis: " + distance);
+                Log.d(TAG, "global distance:" + distanceThreshold);
                 if (distance > distanceThreshold) {
                   Toast.makeText(SlideCollectionActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
                       Toast.LENGTH_SHORT).show();
@@ -215,20 +235,18 @@ public class SlideCollectionActivity extends AppCompatActivity {
               }
             });
       }
-      
+
     });
 
   }
 
   public void sendSliderInfo() {
 
-
     Slider slider = new Slider();
     slider.setCollectionDate(new Date().getTime());
     slider.setCustomerId(selectedCustomer.getId());
     slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
     slider.setSalesRepId(loginResponse.getData().getId());
-
 
     // collect slider
     Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
@@ -238,11 +256,12 @@ public class SlideCollectionActivity extends AppCompatActivity {
         if (response.isSuccessful()) {
           Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
 
-        }else{
-          Toast.makeText(SlideCollectionActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
+        } else {
+          Toast.makeText(SlideCollectionActivity.this, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
         }
         progressBar.setVisibility(View.GONE);
       }
+
       @Override
       public void onFailure(Call<ResponseBody> call, Throwable t) {
         Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
