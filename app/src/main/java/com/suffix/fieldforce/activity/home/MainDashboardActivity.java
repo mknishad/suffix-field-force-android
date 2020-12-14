@@ -690,7 +690,7 @@ public class MainDashboardActivity extends AppCompatActivity {
   }
 
   private List<InvoiceRequest> invoiceRequestList;
-  private List<InvoiceRequest> failedInvoices;
+  //private List<InvoiceRequest> failedInvoices;
 
   public void closeSales() {
     if (!NetworkUtils.isNetworkConnected(this)) {
@@ -700,25 +700,25 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     invoiceRequestList = new RealMDatabaseManager().prepareInvoiceRequest();
     if (invoiceRequestList.size() > 0) {
-      failedInvoices = new ArrayList<>();
+      /*failedInvoices = new ArrayList<>();
       for (InvoiceRequest invoiceRequest : invoiceRequestList) {
         if (!invoiceRequest.getStatus()) {
           failedInvoices.add(invoiceRequest);
         }
       }
-      Log.d(TAG, "closeSales: failedInvoices.size() = " + failedInvoices.size());
+      Log.d(TAG, "closeSales: failedInvoices.size() = " + failedInvoices.size());*/
 
-      if (failedInvoices.size() > 0) {
+      //if (failedInvoices.size() > 0) {
         progress = new ProgressDialog(this);
         progress.setMessage("Closing Sales");
         progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progress.setIndeterminate(true);
         progress.show();
         syncFailedInvoices();
-      } else {
+      /*} else {
         Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
         new RealMDatabaseManager().deleteAllInvoice();
-      }
+      }*/
     } else {
       Toast.makeText(this, "ডাটা হালনাগাদ হয়েছে!", Toast.LENGTH_SHORT).show();
       new RealMDatabaseManager().deleteAllInvoice();
@@ -730,16 +730,16 @@ public class MainDashboardActivity extends AppCompatActivity {
         preferences.getPassword());
 
     //for (int i = 0; i < failedInvoices.size(); i++) {
-    InvoiceRequest invoiceRequest = failedInvoices.get(0);
+    InvoiceRequest invoiceRequest = invoiceRequestList.get(0);
     Call<ResponseBody> call = apiInterface.createInvoice(basicAuthorization, invoiceRequest);
     //int finalI = i;
     call.enqueue(new Callback<ResponseBody>() {
       @Override
       public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         if (response.isSuccessful()) {
-          failedInvoices.remove(0);
+          invoiceRequestList.remove(0);
         }
-        if (failedInvoices.size() > 0) {
+        if (invoiceRequestList.size() > 0) {
           syncFailedInvoices();
         } else {
           new RealMDatabaseManager().deleteAllInvoice();
