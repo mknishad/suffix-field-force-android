@@ -8,6 +8,7 @@ import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.product.CartModel;
 import com.suffix.fieldforce.akg.model.product.CategoryModel;
+import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.model.product.ProductCategory;
 
 import java.util.List;
@@ -39,6 +40,11 @@ public class RealMDatabaseManager {
       productCategory.setMatch(realMProductCategory.get(0).getMatch());
     }
     return productCategory;
+  }
+
+  public List<GiftModel> prepareGiftModel() {
+    final RealmResults<GiftModel> giftModelRealmResults = realm.where(GiftModel.class).findAll();
+    return realm.copyFromRealm(giftModelRealmResults);
   }
 
   public void clearStock() {

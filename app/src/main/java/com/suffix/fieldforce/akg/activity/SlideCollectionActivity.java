@@ -2,6 +2,8 @@ package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
@@ -25,6 +27,8 @@ import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.akg.adapter.GiftListAdapter;
+import com.suffix.fieldforce.akg.adapter.GiftListAdapterInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
@@ -32,6 +36,7 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.Slider;
+import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.util.LocationUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -56,6 +61,9 @@ public class SlideCollectionActivity extends AppCompatActivity {
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
+  @BindView(R.id.recyclerView)
+  RecyclerView recyclerView;
+
   @BindView(R.id.toggleGroup)
   SingleSelectToggleGroup toggleGroup;
 
@@ -78,8 +86,10 @@ public class SlideCollectionActivity extends AppCompatActivity {
   private List<CustomerData> filteredCustomerList;
   private RealMDatabaseManager realMDatabaseManager;
   private CustomerData selectedCustomer;
-  AkgApiInterface apiInterface;
+  private AkgApiInterface apiInterface;
   private String basicAuthorization;
+  private GiftListAdapter giftListAdapter;
+  private List<GiftModel> giftModelList;
 
 
   @Override
@@ -94,6 +104,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
     customerDataList = new ArrayList<>();
+    giftModelList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
@@ -108,6 +119,28 @@ public class SlideCollectionActivity extends AppCompatActivity {
     getAllCustomer();
     setupToggleGroup();
 
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+    giftListAdapter = new GiftListAdapter(this, giftModelList , Integer.valueOf(txtQuantity.getEditText().getText().toString()), new GiftListAdapterInterface() {
+      @Override
+      public void onPlusClicked(int quantity) {
+
+      }
+
+      @Override
+      public void onMinusClicked(int quantity) {
+
+      }
+    });
+
+    recyclerView.setAdapter(giftListAdapter);
+
+    getGifts();
+
+  }
+
+  private void getGifts() {
+    giftModelList = new RealMDatabaseManager().prepareGiftModel();
+    giftListAdapter.setData(giftModelList,Integer.parseInt(txtQuantity.getEditText().getText().toString()));
   }
 
   private void setupToolbar() {
