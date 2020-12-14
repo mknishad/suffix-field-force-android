@@ -109,7 +109,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
-                //onBackPressed();
+                onBackPressed();
               }
             });
 
@@ -189,7 +189,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
                     invoice.getTotalAmount()));
                 invoiceRequest = invoice;
                 double dueAmount = invoice.getTotalAmount() - invoice.getRecievedAmount();
-                if (dueAmount != 0.0) {
+                if ((int)dueAmount > 0) {
                   Log.d(TAG, "onSuccess: dueAmount = " + dueAmount);
                   txtCollection.getEditText().setText(
                       String.format(Locale.getDefault(), "%.2f", dueAmount));
@@ -207,7 +207,7 @@ public class MemoDetailsActivity extends AppCompatActivity {
     txtStoreLocation.setText(invoiceRequest.getCustomerAddress());
     txtTotalAmount.setText(String.valueOf(invoiceRequest.getTotalAmount()));
 
-    if (invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() != 0.0f) {
+    if (invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount() > 0.0f) {
       txtCollection.getEditText().setText(String.valueOf(invoiceRequest.getTotalAmount() - invoiceRequest.getRecievedAmount()));
     } else {
       layoutCollection.setVisibility(View.GONE);
