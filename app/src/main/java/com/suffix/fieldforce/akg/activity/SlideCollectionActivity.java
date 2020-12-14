@@ -1,10 +1,5 @@
 package com.suffix.fieldforce.akg.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
@@ -23,6 +18,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -126,6 +126,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
       @Override
       public void onPlusClicked(int quantity) {
 
+        giftListAdapter.setData(giftModelList, Integer.parseInt(txtQuantity.getEditText().getText().toString()) - quantity);
       }
 
       @Override

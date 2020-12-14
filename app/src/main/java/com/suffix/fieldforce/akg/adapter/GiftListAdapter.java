@@ -1,14 +1,12 @@
 package com.suffix.fieldforce.akg.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.suffix.fieldforce.BuildConfig;
 import com.suffix.fieldforce.R;
-import com.suffix.fieldforce.akg.activity.QuantityActivity;
 import com.suffix.fieldforce.akg.model.product.GiftModel;
 
 import java.util.ArrayList;
@@ -60,13 +57,14 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     String imageURL = BuildConfig.IMAGE_BASE_URL + model.getProductImage();
     Log.d("imageURL", imageURL);
     holder.txtQuantity.setText("0");
+    holder.txtGiftName.setText(model.getGiftName());
     holder.imgGift.setImageURI(Uri.parse(imageURL));
     holder.imgMinus.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if(Integer.parseInt(holder.txtQuantity.getText().toString()) >0){
-          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString())-1));
-          if(giftListAdapterInterface != null){
+        if (Integer.parseInt(holder.txtQuantity.getText().toString()) > 0) {
+          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString()) - 1));
+          if (giftListAdapterInterface != null) {
             giftListAdapterInterface.onMinusClicked(model.getSliderQty());
           }
         }
@@ -77,13 +75,14 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
       @Override
       public void onClick(View v) {
 
-        if(model.getSliderQty() <= slideQuantity){
-          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString())+1));
-          if(giftListAdapterInterface != null){
+        Log.d("Adapter", "onClick: "+model.getSliderQty());
+        if (model.getSliderQty() <= slideQuantity) {
+          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString()) + 1));
+          if (giftListAdapterInterface != null) {
             giftListAdapterInterface.onPlusClicked(model.getSliderQty());
           }
 
-        }else {
+        } else {
           Toast.makeText(context, "limit", Toast.LENGTH_SHORT).show();
         }
       }
@@ -97,8 +96,9 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
   }
 
   public void setData(List<GiftModel> giftModelList, int slideQuantity) {
+    Log.d("Adapter", "slide: "+slideQuantity);
     this.giftModelList = giftModelList;
-    //this.slideQuantity = slideQuantity;
+    this.slideQuantity = slideQuantity;
     notifyDataSetChanged();
   }
 
@@ -112,6 +112,8 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     ImageView imgMinus;
     @BindView(R.id.txtQuantity)
     TextView txtQuantity;
+    @BindView(R.id.txtGiftName)
+    TextView txtGiftName;
 
     public ViewHolder(@NonNull View itemView) {
       super(itemView);

@@ -211,11 +211,11 @@ public class GiftModel extends RealmObject implements Parcelable {
     this.productCode = productCode;
   }
 
-  public String getProductName() {
+  public String getGiftName() {
     return giftName;
   }
 
-  public void setProductName(String giftName) {
+  public void setGiftName(String giftName) {
     this.giftName = giftName;
   }
 
