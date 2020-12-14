@@ -2,6 +2,8 @@ package com.suffix.fieldforce.akg.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
@@ -10,7 +12,9 @@ import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +29,8 @@ import com.google.gson.Gson;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import com.suffix.fieldforce.R;
 import com.suffix.fieldforce.akg.adapter.CustomArrayAdapter;
+import com.suffix.fieldforce.akg.adapter.GiftListAdapter;
+import com.suffix.fieldforce.akg.adapter.GiftListAdapterInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
@@ -32,6 +38,7 @@ import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.Slider;
+import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.util.LocationUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
@@ -56,6 +63,9 @@ public class SlideCollectionActivity extends AppCompatActivity {
   @BindView(R.id.toolbar)
   Toolbar toolbar;
 
+  @BindView(R.id.recyclerView)
+  RecyclerView recyclerView;
+
   @BindView(R.id.toggleGroup)
   SingleSelectToggleGroup toggleGroup;
 
@@ -78,8 +88,10 @@ public class SlideCollectionActivity extends AppCompatActivity {
   private List<CustomerData> filteredCustomerList;
   private RealMDatabaseManager realMDatabaseManager;
   private CustomerData selectedCustomer;
-  AkgApiInterface apiInterface;
+  private AkgApiInterface apiInterface;
   private String basicAuthorization;
+  private GiftListAdapter giftListAdapter;
+  private List<GiftModel> giftModelList;
 
 
   @Override
@@ -94,13 +106,14 @@ public class SlideCollectionActivity extends AppCompatActivity {
     preferences = new FieldForcePreferences(this);
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse.class);
     customerDataList = new ArrayList<>();
+    giftModelList = new ArrayList<>();
     filteredCustomerList = new ArrayList<>();
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface.class);
 
     loginResponse = new Gson().fromJson(preferences.getLoginResponse(),
         AkgLoginResponse.class);
 
-    Log.d(TAG, "onCreate: "+loginResponse.getData().getPassword()+" "+ loginResponse.getData().getUserId());
+    Log.d(TAG, "onCreate: " + loginResponse.getData().getPassword() + " " + loginResponse.getData().getUserId());
 
     basicAuthorization = Credentials.basic(String.valueOf(loginResponse.getData().getUserId()),
         preferences.getPassword());
@@ -108,6 +121,46 @@ public class SlideCollectionActivity extends AppCompatActivity {
     getAllCustomer();
     setupToggleGroup();
 
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+    giftListAdapter = new GiftListAdapter(this, giftModelList, Integer.valueOf(txtQuantity.getEditText().getText().toString()), new GiftListAdapterInterface() {
+      @Override
+      public void onPlusClicked(int quantity) {
+
+      }
+
+      @Override
+      public void onMinusClicked(int quantity) {
+
+      }
+    });
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setAdapter(giftListAdapter);
+
+    getGifts();
+
+    txtQuantity.getEditText().addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        if (!TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
+          getGifts();
+        }
+      }
+    });
+  }
+
+  private void getGifts() {
+    giftModelList = new RealMDatabaseManager().prepareGiftModel();
+    giftListAdapter.setData(giftModelList, Integer.parseInt(txtQuantity.getEditText().getText().toString()));
   }
 
   private void setupToolbar() {
@@ -144,7 +197,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
   protected void onStart() {
     super.onStart();
 
-    btnSubmit.setOnClickListener(view-> {
+    btnSubmit.setOnClickListener(view -> {
 
       if (selectedCustomer == null) {
         Toast.makeText(this, getResources().getString(R.string.msg_customer_select_error), Toast.LENGTH_SHORT).show();
@@ -158,8 +211,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
               @Override
               public void onLocationUpdated(Location location) {
 
-                Log.d(TAG, "current location: "+location.getLatitude() +":"+ location.getLatitude());
-                Log.d(TAG, "customer location: "+selectedCustomer.getLat() +":"+ selectedCustomer.getLng());
+                Log.d(TAG, "current location: " + location.getLatitude() + ":" + location.getLatitude());
+                Log.d(TAG, "customer location: " + selectedCustomer.getLat() + ":" + selectedCustomer.getLng());
 
                 Double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
                     location.getLatitude(), location.getLongitude());
@@ -170,8 +223,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
                     distanceThreshold = Double.parseDouble(settings.getAttributeValue());
                   }
                 }
-                Log.d(TAG, "cur dis: "+ distance);
-                Log.d(TAG, "global distance:"+ distanceThreshold);
+                Log.d(TAG, "cur dis: " + distance);
+                Log.d(TAG, "global distance:" + distanceThreshold);
                 if (distance > distanceThreshold) {
                   Toast.makeText(SlideCollectionActivity.this, "আপনি কাস্টমার থেকে দূরে অবস্থান করছেন!",
                       Toast.LENGTH_SHORT).show();
@@ -182,20 +235,18 @@ public class SlideCollectionActivity extends AppCompatActivity {
               }
             });
       }
-      
+
     });
 
   }
 
   public void sendSliderInfo() {
 
-
     Slider slider = new Slider();
     slider.setCollectionDate(new Date().getTime());
     slider.setCustomerId(selectedCustomer.getId());
     slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
     slider.setSalesRepId(loginResponse.getData().getId());
-
 
     // collect slider
     Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
@@ -205,11 +256,12 @@ public class SlideCollectionActivity extends AppCompatActivity {
         if (response.isSuccessful()) {
           Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
 
-        }else{
-          Toast.makeText(SlideCollectionActivity.this, "Error:"+response.message(), Toast.LENGTH_SHORT).show();
+        } else {
+          Toast.makeText(SlideCollectionActivity.this, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
         }
         progressBar.setVisibility(View.GONE);
       }
+
       @Override
       public void onFailure(Call<ResponseBody> call, Throwable t) {
         Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();

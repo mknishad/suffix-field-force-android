@@ -39,9 +39,9 @@ public class GiftModel extends RealmObject implements Parcelable {
   @SerializedName("uom1")
   @Expose
   private String uom1;
-  @SerializedName("qty2")
+  @SerializedName("sliderQty")
   @Expose
-  private Integer qty2;
+  private Integer sliderQty;
   @SerializedName("uom2")
   @Expose
   private String uom2;
@@ -88,9 +88,9 @@ public class GiftModel extends RealmObject implements Parcelable {
     }
     uom1 = in.readString();
     if (in.readByte() == 0) {
-      qty2 = null;
+      sliderQty = null;
     } else {
-      qty2 = in.readInt();
+      sliderQty = in.readInt();
     }
     uom2 = in.readString();
     if (in.readByte() == 0) {
@@ -142,11 +142,11 @@ public class GiftModel extends RealmObject implements Parcelable {
       dest.writeInt(memoNo);
     }
     dest.writeString(uom1);
-    if (qty2 == null) {
+    if (sliderQty == null) {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(qty2);
+      dest.writeInt(sliderQty);
     }
     dest.writeString(uom2);
     if (inHandQty == null) {
@@ -259,12 +259,12 @@ public class GiftModel extends RealmObject implements Parcelable {
     this.uom1 = uom1;
   }
 
-  public Integer getQty2() {
-    return qty2;
+  public Integer getSliderQty() {
+    return sliderQty;
   }
 
-  public void setQty2(Integer qty2) {
-    this.qty2 = qty2;
+  public void setSliderQty(Integer sliderQty) {
+    this.sliderQty = sliderQty;
   }
 
   public String getUom2() {

@@ -33,10 +33,12 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
   private List<GiftModel> giftModelList = new ArrayList<>();
   private ProductCategoryListInterface productCategoryListInterface;
   private GiftListAdapterInterface giftListAdapterInterface;
+  private int slideQuantity;
 
-  public GiftListAdapter(Context context, List<GiftModel> giftModelList, GiftListAdapterInterface giftListAdapterInterface) {
+  public GiftListAdapter(Context context, List<GiftModel> giftModelList, int slideQuantity, GiftListAdapterInterface giftListAdapterInterface) {
     this.context = context;
     this.giftModelList = giftModelList;
+    this.slideQuantity = slideQuantity;
     this.giftListAdapterInterface = giftListAdapterInterface;
   }
 
@@ -57,7 +59,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
 
     String imageURL = BuildConfig.IMAGE_BASE_URL + model.getProductImage();
     Log.d("imageURL", imageURL);
-    holder.txtQuantity.setText(model.getOrderQuantity());
+    holder.txtQuantity.setText("0");
     holder.imgGift.setImageURI(Uri.parse(imageURL));
     holder.imgMinus.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -65,7 +67,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
         if(Integer.parseInt(holder.txtQuantity.getText().toString()) >0){
           holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString())-1));
           if(giftListAdapterInterface != null){
-            giftListAdapterInterface.onPlusClicked(Integer.parseInt(holder.txtQuantity.getText().toString()));
+            giftListAdapterInterface.onMinusClicked(model.getSliderQty());
           }
         }
       }
@@ -75,6 +77,15 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
       @Override
       public void onClick(View v) {
 
+        if(model.getSliderQty() <= slideQuantity){
+          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString())+1));
+          if(giftListAdapterInterface != null){
+            giftListAdapterInterface.onPlusClicked(model.getSliderQty());
+          }
+
+        }else {
+          Toast.makeText(context, "limit", Toast.LENGTH_SHORT).show();
+        }
       }
     });
 
@@ -85,8 +96,9 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     return giftModelList.size();
   }
 
-  public void setData(List<GiftModel> giftModelList) {
+  public void setData(List<GiftModel> giftModelList, int slideQuantity) {
     this.giftModelList = giftModelList;
+    //this.slideQuantity = slideQuantity;
     notifyDataSetChanged();
   }
 
@@ -97,7 +109,7 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     @BindView(R.id.imgPlus)
     ImageView imgPlus;
     @BindView(R.id.imgMinus)
-    TextView imgMinus;
+    ImageView imgMinus;
     @BindView(R.id.txtQuantity)
     TextView txtQuantity;
 

@@ -160,7 +160,7 @@ public class SyncManager {
           }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-              Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
+
               getAllGift(interfaceSync);
             }
           }, new Realm.Transaction.OnError() {
@@ -199,15 +199,14 @@ public class SyncManager {
                 bgRealm.copyToRealmOrUpdate(customerData);
               }
 
-              if(interfaceSync != null){
-                interfaceSync.onSuccess();
-              }
             }
           }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-              //Toast.makeText(context, "All Customer Synced", Toast.LENGTH_SHORT).show();
-              getAllCategory(interfaceSync);
+              if(interfaceSync != null){
+                interfaceSync.onSuccess();
+              }
+              Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
             }
           });
         } else {
