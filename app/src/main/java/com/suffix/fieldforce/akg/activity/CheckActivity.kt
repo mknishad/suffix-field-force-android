@@ -34,6 +34,7 @@ import com.suffix.fieldforce.akg.util.AkgPrintingService
 import com.suffix.fieldforce.akg.util.NetworkUtils
 import com.suffix.fieldforce.databinding.ActivityCheckBinding
 import com.suffix.fieldforce.preference.FieldForcePreferences
+import io.nlopez.smartlocation.SmartLocation
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
@@ -60,6 +61,7 @@ class CheckActivity : AppCompatActivity() {
   private lateinit var products: RealmResults<CartModel>
   private lateinit var invoiceProducts: RealmList<InvoiceProduct>
   private lateinit var invoiceRequest: InvoiceRequest
+  private lateinit var basicAuthorization: String
 
   private lateinit var progressDialog: ProgressDialog
   private lateinit var alertDialogBuilder: AlertDialog.Builder
@@ -88,6 +90,11 @@ class CheckActivity : AppCompatActivity() {
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)
     loginResponse = Gson().fromJson(preferences.getLoginResponse(), AkgLoginResponse::class.java)
     customerData = intent.getParcelableExtra(AkgConstants.CUSTOMER_INFO)!!
+
+    basicAuthorization = Credentials.basic(
+      loginResponse.data.userId.toString(),
+      preferences.getPassword()
+    )
 
     progressDialog = ProgressDialog(this)
     progressDialog.setMessage("Printing...")
@@ -142,7 +149,13 @@ class CheckActivity : AppCompatActivity() {
 
     //binding.txtTotalQuantity.text = quantity.toString()
     binding.txtTotalAmount.text = String.format(Locale.getDefault(), "%.2f", totalAmount)
-    binding.receivedAmountLayout.editText?.setText(String.format(Locale.getDefault(), "%.2f", totalAmount))
+    binding.receivedAmountLayout.editText?.setText(
+      String.format(
+        Locale.getDefault(),
+        "%.2f",
+        totalAmount
+      )
+    )
   }
 
   fun submit(view: View) {
@@ -152,8 +165,10 @@ class CheckActivity : AppCompatActivity() {
     }
 
     if (invoiceType.equals(AkgConstants.SALE, true)) {
-      createInvoice(AkgConstants.INVOICE_TYPE_NORMAL,
-        binding.receivedAmountLayout.editText?.text.toString().toDouble())
+      createInvoice(
+        AkgConstants.INVOICE_TYPE_NORMAL,
+        binding.receivedAmountLayout.editText?.text.toString().toDouble()
+      )
     } else if (invoiceType.equals(AkgConstants.DAMP, true)) {
       createInvoice(AkgConstants.INVOICE_TYPE_DAMP)
     }
@@ -182,16 +197,14 @@ class CheckActivity : AppCompatActivity() {
 
     invoiceDate = System.currentTimeMillis()
 
-    invoiceRequest = InvoiceRequest(invoiceType, customerData.id, invoiceDate,
+    invoiceRequest = InvoiceRequest(
+      invoiceType, customerData.id, invoiceDate,
       customerData.id.toString() + "_" + invoiceDate.toString(), invoiceProducts,
       loginResponse.data.id, totalAmount, customerData.customerName, customerData.address,
       receivedAmount
     )
 
-    val basicAuthorization = Credentials.basic(
-      loginResponse.data.userId.toString(),
-      preferences.getPassword()
-    )
+    visitStore()
 
     if (!NetworkUtils.isNetworkConnected(this)) {
       //TODO: save to database
@@ -233,6 +246,48 @@ class CheckActivity : AppCompatActivity() {
       })
     }
   }
+
+
+  private fun visitStore() {
+    SmartLocation.with(this).location()
+      .oneFix()
+      .start {
+        val storeVisitRequest = StoreVisitRequest()
+        storeVisitRequest.setConsumerId(customerData.id)
+        storeVisitRequest.setEntryTime(System.currentTimeMillis())
+        storeVisitRequest.setLat(it.latitude)
+        storeVisitRequest.setLng(it.longitude)
+        storeVisitRequest.setSalesRepId(loginResponse.data.id)
+        storeVisitRequest.setStatus("1")
+        if (!NetworkUtils.isNetworkConnected(this)) {
+          //TODO: save to database
+          storeVisitRequest.setSynced(false)
+          SyncManager(this).insertStoreVisit(storeVisitRequest, null)
+        } else {
+          val call = apiInterface.visitStore(basicAuthorization, storeVisitRequest)
+          call.enqueue(object : Callback<ResponseBody?> {
+            override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
+              if (response.isSuccessful) {
+                storeVisitRequest.setSynced(true)
+                SyncManager(this@CheckActivity).insertStoreVisit(storeVisitRequest, null)
+                //finish()
+              } else {
+                storeVisitRequest.setSynced(false)
+                SyncManager(this@CheckActivity).insertStoreVisit(storeVisitRequest, null)
+                //Toast.makeText(this@CheckActivity, response.message(), Toast.LENGTH_SHORT).show()
+              }
+            }
+
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+              storeVisitRequest.setSynced(false)
+              SyncManager(this@CheckActivity).insertStoreVisit(storeVisitRequest, null)
+              //Toast.makeText(this@CheckActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+          })
+        }
+      }
+  }
+
 
   fun printMemo() {
     if (ContextCompat.checkSelfPermission(
