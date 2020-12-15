@@ -34,12 +34,16 @@ import com.suffix.fieldforce.akg.adapter.GiftListAdapterInterface;
 import com.suffix.fieldforce.akg.api.AkgApiClient;
 import com.suffix.fieldforce.akg.api.AkgApiInterface;
 import com.suffix.fieldforce.akg.database.manager.RealMDatabaseManager;
+import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.Gift;
+import com.suffix.fieldforce.akg.model.GiftInvoiceRequest;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.Slider;
 import com.suffix.fieldforce.akg.model.product.GiftModel;
 import com.suffix.fieldforce.akg.util.LocationUtils;
+import com.suffix.fieldforce.akg.util.NetworkUtils;
 import com.suffix.fieldforce.preference.FieldForcePreferences;
 
 import java.util.ArrayList;
@@ -50,6 +54,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
+import io.realm.RealmList;
 import okhttp3.Credentials;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -127,7 +132,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
       @Override
       public void onPlusClicked(int position) {
         isInputChangedByUser = false;
-        if (giftModelList.get(position).getSliderQty() <= Integer.parseInt(txtQuantity.getEditText().getText().toString())){
+        if (giftModelList.get(position).getSliderQty() <= Integer.parseInt(txtQuantity.getEditText().getText().toString())) {
           txtQuantity.getEditText().setText(String.valueOf(Integer.parseInt(txtQuantity.getEditText().getText().toString()) - giftModelList.get(position).getSliderQty()));
           giftModelList.get(position).setProductQuantity(giftModelList.get(position).getProductQuantity() + 1);
           giftListAdapter.setData(giftModelList);
@@ -214,13 +219,11 @@ public class SlideCollectionActivity extends AppCompatActivity {
     }
   }
 
-
   @Override
   protected void onStart() {
     super.onStart();
 
     btnSubmit.setOnClickListener(view -> {
-
       if (selectedCustomer == null) {
         Toast.makeText(this, getResources().getString(R.string.msg_customer_select_error), Toast.LENGTH_SHORT).show();
       } else if (TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
@@ -236,7 +239,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
                 Log.d(TAG, "current location: " + location.getLatitude() + ":" + location.getLatitude());
                 Log.d(TAG, "customer location: " + selectedCustomer.getLat() + ":" + selectedCustomer.getLng());
 
-                Double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
+                double distance = LocationUtils.getDistance(selectedCustomer.getLat(), selectedCustomer.getLng(),
                     location.getLatitude(), location.getLongitude());
 
                 double distanceThreshold = 10.0;
@@ -257,9 +260,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
               }
             });
       }
-
     });
-
   }
 
   public void sendSliderInfo() {
@@ -270,27 +271,59 @@ public class SlideCollectionActivity extends AppCompatActivity {
     slider.setQuantity(Integer.valueOf(txtQuantity.getEditText().getText().toString()));
     slider.setSalesRepId(loginResponse.getData().getId());
 
-    // collect slider
-    Call<ResponseBody> call = apiInterface.collectSlider(basicAuthorization, slider);
-    call.enqueue(new Callback<ResponseBody>() {
-      @Override
-      public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-        if (response.isSuccessful()) {
-          Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+    RealmList<Gift> gifts = new RealmList<>();
+    for (GiftModel giftModel : giftModelList) {
+      if (giftModel.getProductQuantity() > 0) {
+        gifts.add(new Gift(giftModel.getProductId(), giftModel.getProductQuantity()));
+      }
+    }
 
-        } else {
-          Toast.makeText(SlideCollectionActivity.this, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
+    long currentTimeMillis = System.currentTimeMillis();
+
+    GiftInvoiceRequest giftInvoiceRequest = new GiftInvoiceRequest(
+        selectedCustomer.getId(),
+        currentTimeMillis,
+        selectedCustomer.getId() + "_" + currentTimeMillis,
+        gifts,
+        "gift",
+        loginResponse.getData().getId()
+    );
+
+    if (!NetworkUtils.isNetworkConnected(this)) {
+      //TODO: save to database
+      giftInvoiceRequest.setSynced(false);
+      new SyncManager(this).insertGiftInvoice(giftInvoiceRequest, null);
+      progressBar.setVisibility(View.GONE);
+      Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+      finish();
+    } else {
+      Call<ResponseBody> call = apiInterface.createGiftInvoice(basicAuthorization, giftInvoiceRequest);
+      call.enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+          if (response.isSuccessful()) {
+            giftInvoiceRequest.setSynced(true);
+            new SyncManager(SlideCollectionActivity.this).insertGiftInvoice(giftInvoiceRequest, null);
+            Toast.makeText(SlideCollectionActivity.this, getResources().getString(R.string.msg_slider_collect_success), Toast.LENGTH_SHORT).show();
+          } else {
+            giftInvoiceRequest.setSynced(false);
+            new SyncManager(SlideCollectionActivity.this).insertGiftInvoice(giftInvoiceRequest, null);
+            Toast.makeText(SlideCollectionActivity.this, "Error:" + response.message(), Toast.LENGTH_SHORT).show();
+          }
+          progressBar.setVisibility(View.GONE);
+          finish();
         }
-        progressBar.setVisibility(View.GONE);
-      }
 
-      @Override
-      public void onFailure(Call<ResponseBody> call, Throwable t) {
-        Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-        call.cancel();
-        progressBar.setVisibility(View.GONE);
-      }
-    });
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+          giftInvoiceRequest.setSynced(true);
+          new SyncManager(SlideCollectionActivity.this).insertGiftInvoice(giftInvoiceRequest, null);
+          Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+          call.cancel();
+          progressBar.setVisibility(View.GONE);
+        }
+      });
+    }
 
   }
 

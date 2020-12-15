@@ -180,12 +180,12 @@ public class VisitActivity extends AppCompatActivity {
             if (response.isSuccessful()) {
               storeVisitRequest.setSynced(true);
               new SyncManager(VisitActivity.this).insertStoreVisit(storeVisitRequest, null);
-              finish();
             } else {
               storeVisitRequest.setSynced(false);
               new SyncManager(VisitActivity.this).insertStoreVisit(storeVisitRequest, null);
               Toast.makeText(VisitActivity.this, response.message(), Toast.LENGTH_SHORT).show();
             }
+            finish();
           }
 
           @Override
