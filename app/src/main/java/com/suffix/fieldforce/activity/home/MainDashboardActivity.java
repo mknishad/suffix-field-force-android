@@ -301,29 +301,29 @@ public class MainDashboardActivity extends AppCompatActivity {
     }
 
     jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
+
     checkLocationPermission();
   }
 
   private void checkLocationPermission() {
-    /*if (ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) ==
-        PackageManager.PERMISSION_GRANTED) {
-      initLocationSettings();
-    } else {
-      ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-    }*/
+    Log.d(TAG, "checkLocationPermission: ");
 
     boolean hasForegroundLocationPermission = ActivityCompat.checkSelfPermission(this,
         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     if (hasForegroundLocationPermission) {
-      boolean hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
-          Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+      if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+        boolean hasBackgroundLocationPermission = ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-      if (hasBackgroundLocationPermission) {
-        initLocationSettings();
+        if (hasBackgroundLocationPermission) {
+          initLocationSettings();
+        } else {
+          ActivityCompat.requestPermissions(this,
+              new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
+        }
       } else {
-        ActivityCompat.requestPermissions(this,
-            new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PERMISSION_REQUEST_CODE);
+        initLocationSettings();
       }
     } else {
       ActivityCompat.requestPermissions(this,
@@ -376,13 +376,18 @@ public class MainDashboardActivity extends AppCompatActivity {
 
     switch (requestCode) {
       case PERMISSION_REQUEST_CODE:
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        Log.d(TAG, "onRequestPermissionsResult: grantResults.length = " + grantResults.length);
+        boolean granted = false;
+        for (int i = 0; i < grantResults.length; i++) {
+          granted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+        }
+        if (granted) {
           initLocationSettings();
         } else {
           checkLocationPermission();
         }
         break;
-      case SETTINGS_REQUEST_CODE:
+      /*case SETTINGS_REQUEST_CODE:
         if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
           if (preferences.getOnline()) {
             startBackgroundService();
@@ -397,7 +402,7 @@ public class MainDashboardActivity extends AppCompatActivity {
         } else {
           initLocationSettings();
         }
-        break;
+        break;*/
     }
   }
 
@@ -428,6 +433,7 @@ public class MainDashboardActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    SmartLocation.with(this).location().stop();
   }
 
   private void getDeviceLocation(LocationListener locationListener, String text) {

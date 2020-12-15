@@ -6,6 +6,7 @@ import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
 import com.suffix.fieldforce.akg.model.Distributor;
 import com.suffix.fieldforce.akg.model.GeoLocationRequest;
+import com.suffix.fieldforce.akg.model.GiftInvoiceRequest;
 import com.suffix.fieldforce.akg.model.InvoiceDetail;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.LoginRequest;
@@ -59,17 +60,10 @@ public interface AkgApiInterface {
   Call<Distributor> getDistributor(
       @Header("Authorization") String h1,
       @Path("salesRepId") int salesRepId
-
   );
 
   @GET("product/{salesRepId}")
   Call<ProductCategory> getAllProduct(
-      @Header("Authorization") String h1,
-      @Path("salesRepId") int salesRepId
-  );
-
-  @GET("gift/{salesRepId}")
-  Call<List<GiftModel>> getAllGifts(
       @Header("Authorization") String h1,
       @Path("salesRepId") int salesRepId
   );
@@ -88,8 +82,10 @@ public interface AkgApiInterface {
   );
 
   @POST("slider")
-  Call<ResponseBody> collectSlider(@Header("Authorization") String h1,
-                                   @Body Slider slider);
+  Call<ResponseBody> collectSlider(
+      @Header("Authorization") String h1,
+      @Body Slider slider
+  );
 
   @POST("visit-store")
   Call<ResponseBody> visitStore(
@@ -101,5 +97,17 @@ public interface AkgApiInterface {
   Call<ResponseBody> postGeoLocation(
       @Header("Authorization") String h1,
       @Body GeoLocationRequest geoLocationRequest
+  );
+
+  @GET("gift/{salesRepId}")
+  Call<List<GiftModel>> getAllGifts(
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
+  );
+
+  @POST("gift")
+  Call<ResponseBody> createGiftInvoice(
+      @Header("Authorization") String h1,
+      @Body GiftInvoiceRequest giftInvoiceRequest
   );
 }

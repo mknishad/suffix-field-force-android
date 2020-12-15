@@ -11,6 +11,7 @@ import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GiftInvoiceRequest;
 import com.suffix.fieldforce.akg.model.InvoiceProduct;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
@@ -138,7 +139,7 @@ public class SyncManager {
             public void execute(Realm bgRealm) {
 
               RealMProductCategory realMProductCategory = bgRealm.where(RealMProductCategory.class).findFirst();
-              if(realMProductCategory == null){
+              if (realMProductCategory == null) {
                 realMProductCategory = bgRealm.createObject(RealMProductCategory.class);
               }
               realMProductCategory.getCigrettee().deleteAllFromRealm();
@@ -203,7 +204,7 @@ public class SyncManager {
           }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-              if(interfaceSync != null){
+              if (interfaceSync != null) {
                 interfaceSync.onSuccess();
               }
               Toast.makeText(context, "ডাটা হালনাগাদ হয়েছে", Toast.LENGTH_SHORT).show();
@@ -317,7 +318,7 @@ public class SyncManager {
     });
   }
 
-  public void insertStoreVisit(StoreVisitRequest storeVisitRequest, RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface){
+  public void insertStoreVisit(StoreVisitRequest storeVisitRequest, RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface) {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
@@ -326,21 +327,21 @@ public class SyncManager {
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
-        if(storeVisitRequestInterface != null){
+        if (storeVisitRequestInterface != null) {
           storeVisitRequestInterface.onSuccess();
         }
       }
     }, new Realm.Transaction.OnError() {
       @Override
       public void onError(Throwable error) {
-        if(storeVisitRequestInterface != null){
+        if (storeVisitRequestInterface != null) {
           storeVisitRequestInterface.onError();
         }
       }
     });
   }
 
-  public void deleteAllStoreVisit(RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface){
+  public void deleteAllStoreVisit(RealmDatabaseManagerInterface.StoreVisitRequest storeVisitRequestInterface) {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
@@ -350,15 +351,63 @@ public class SyncManager {
     }, new Realm.Transaction.OnSuccess() {
       @Override
       public void onSuccess() {
-        if(storeVisitRequestInterface != null){
+        if (storeVisitRequestInterface != null) {
           storeVisitRequestInterface.onSuccess();
         }
       }
     }, new Realm.Transaction.OnError() {
       @Override
       public void onError(Throwable error) {
-        if(storeVisitRequestInterface != null){
+        if (storeVisitRequestInterface != null) {
           storeVisitRequestInterface.onError();
+        }
+      }
+    });
+  }
+
+  public void insertGiftInvoice(GiftInvoiceRequest giftInvoiceRequest,
+                                RealmDatabaseManagerInterface.GiftInvoiceRequest giftInterface) {
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        realm.copyToRealmOrUpdate(giftInvoiceRequest);
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if (giftInterface != null) {
+          giftInterface.onSuccess();
+        }
+      }
+    }, new Realm.Transaction.OnError() {
+      @Override
+      public void onError(Throwable error) {
+        if (giftInterface != null) {
+          giftInterface.onError();
+        }
+      }
+    });
+  }
+
+  public void deleteAllGiftInvoice(RealmDatabaseManagerInterface.GiftInvoiceRequest giftInterface) {
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        RealmResults<GiftInvoiceRequest> giftInvoiceRequests = realm.where(GiftInvoiceRequest.class).findAll();
+        giftInvoiceRequests.deleteAllFromRealm();
+      }
+    }, new Realm.Transaction.OnSuccess() {
+      @Override
+      public void onSuccess() {
+        if (giftInterface != null) {
+          giftInterface.onSuccess();
+        }
+      }
+    }, new Realm.Transaction.OnError() {
+      @Override
+      public void onError(Throwable error) {
+        if (giftInterface != null) {
+          giftInterface.onError();
         }
       }
     });

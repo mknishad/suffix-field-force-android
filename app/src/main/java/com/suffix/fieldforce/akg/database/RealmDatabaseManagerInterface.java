@@ -14,4 +14,8 @@ public interface RealmDatabaseManagerInterface {
     public void onSuccess();
     public void onError();
   }
+  public interface GiftInvoiceRequest{
+    public void onSuccess();
+    public void onError();
+  }
 }
