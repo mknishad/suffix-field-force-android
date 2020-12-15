@@ -33,6 +33,9 @@ public class GiftInvoiceRequest extends RealmObject {
 
   public boolean isSynced;
 
+  public GiftInvoiceRequest() {
+  }
+
   public GiftInvoiceRequest(int consumerId, long invoiceDate, String invoiceId, RealmList<Gift> gifts,
                             String invoiceType, int salesRepId) {
     this.consumerId = consumerId;
