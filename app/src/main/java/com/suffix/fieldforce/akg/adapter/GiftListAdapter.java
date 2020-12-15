@@ -30,12 +30,10 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
   private List<GiftModel> giftModelList = new ArrayList<>();
   private ProductCategoryListInterface productCategoryListInterface;
   private GiftListAdapterInterface giftListAdapterInterface;
-  private int slideQuantity;
 
-  public GiftListAdapter(Context context, List<GiftModel> giftModelList, int slideQuantity, GiftListAdapterInterface giftListAdapterInterface) {
+  public GiftListAdapter(Context context, List<GiftModel> giftModelList, GiftListAdapterInterface giftListAdapterInterface) {
     this.context = context;
     this.giftModelList = giftModelList;
-    this.slideQuantity = slideQuantity;
     this.giftListAdapterInterface = giftListAdapterInterface;
   }
 
@@ -54,37 +52,24 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     final GiftModel model = giftModelList.get(position);
 
-    String imageURL = BuildConfig.IMAGE_BASE_URL + model.getProductImage();
+    String imageURL = BuildConfig.IMAGE_BASE_URL + model.getImageFileName();
     Log.d("imageURL", imageURL);
-    holder.txtQuantity.setText("0");
+    holder.txtQuantity.setText(String.valueOf(model.getProductQuantity()));
     holder.txtGiftName.setText(model.getGiftName());
+    holder.txtSliderValue.setText(String.valueOf(model.getSliderQty()));
     holder.imgGift.setImageURI(Uri.parse(imageURL));
+
     holder.imgMinus.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (Integer.parseInt(holder.txtQuantity.getText().toString()) > 0) {
-          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString()) - 1));
-          if (giftListAdapterInterface != null) {
-            giftListAdapterInterface.onMinusClicked(model.getSliderQty());
-          }
-        }
+        giftListAdapterInterface.onMinusClicked(position);
       }
     });
 
     holder.imgPlus.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
-        Log.d("Adapter", "onClick: "+model.getSliderQty());
-        if (model.getSliderQty() <= slideQuantity) {
-          holder.txtQuantity.setText(String.valueOf(Integer.parseInt(holder.txtQuantity.getText().toString()) + 1));
-          if (giftListAdapterInterface != null) {
-            giftListAdapterInterface.onPlusClicked(model.getSliderQty());
-          }
-
-        } else {
-          Toast.makeText(context, "limit", Toast.LENGTH_SHORT).show();
-        }
+        giftListAdapterInterface.onPlusClicked(position);
       }
     });
 
@@ -95,10 +80,8 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     return giftModelList.size();
   }
 
-  public void setData(List<GiftModel> giftModelList, int slideQuantity) {
-    Log.d("Adapter", "slide: "+slideQuantity);
+  public void setData(List<GiftModel> giftModelList) {
     this.giftModelList = giftModelList;
-    this.slideQuantity = slideQuantity;
     notifyDataSetChanged();
   }
 
@@ -114,6 +97,8 @@ public class GiftListAdapter extends RecyclerView.Adapter<GiftListAdapter.ViewHo
     TextView txtQuantity;
     @BindView(R.id.txtGiftName)
     TextView txtGiftName;
+    @BindView(R.id.txtSliderValue)
+    TextView txtSliderValue;
 
     public ViewHolder(@NonNull View itemView) {
       super(itemView);

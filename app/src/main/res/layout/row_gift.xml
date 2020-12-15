@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/padding_10">
+    android:padding="@dimen/padding_10"
+    android:background="@drawable/shadow_row">
 
   <com.facebook.drawee.view.SimpleDraweeView
       android:id="@+id/imgGift"
-      android:layout_width="80dp"
-      android:layout_height="80dp"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
       app:placeholderImage="@drawable/round_blue"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0"/>
+
+  <TextView
+      android:id="@+id/txtSliderValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@+id/imgGift"
+      app:layout_constraintStart_toStartOf="@id/imgGift"
+      app:layout_constraintEnd_toEndOf="@id/imgGift"
+      app:layout_constraintBottom_toBottomOf="parent"
+      android:text="10"
+      android:textSize="10sp"
+      android:textColor="@android:color/white"
+      android:background="@drawable/border_orange"
+      android:paddingHorizontal="@dimen/layout_margin_10"
+      android:layout_marginTop="@dimen/layout_margin_5"
+      android:layout_marginBottom="@dimen/layout_margin_5"/>
 
   <TextView
       android:id="@+id/txtGiftName"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:text="Hellow"
-      app:layout_constraintStart_toEndOf="@id/imgGift"
-      app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginHorizontal="@dimen/layout_margin_10"
+      android:text="HellowHellowHellowHellowHellowHellowHellowHellowHellowHellowHellow"
+      android:textSize="14sp"
+      app:layout_constraintHorizontal_bias="0"
       app:layout_constraintBottom_toBottomOf="parent"
-      android:layout_marginStart="@dimen/layout_margin_10"
-      android:textSize="22sp"
-      android:textStyle="bold" />
+      app:layout_constraintEnd_toStartOf="@+id/imgMinus"
+      app:layout_constraintStart_toEndOf="@id/imgGift"
+      app:layout_constraintTop_toTopOf="parent" />
 
   <ImageView
       android:id="@+id/imgPlus"
-      android:layout_width="24dp"
-      android:layout_height="24dp"
-      android:background="@drawable/round_blue"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:background="@drawable/round_green_dark"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -51,9 +71,9 @@
 
   <ImageView
       android:id="@+id/imgMinus"
-      android:layout_width="24dp"
-      android:layout_height="24dp"
-      android:background="@drawable/round_blue"
+      android:layout_width="30dp"
+      android:layout_height="30dp"
+      android:background="@drawable/round_red"
       app:layout_constraintEnd_toStartOf="@id/txtQuantity"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"

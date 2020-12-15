@@ -93,6 +93,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
   private GiftListAdapter giftListAdapter;
   private List<GiftModel> giftModelList;
 
+  private boolean isInputChangedByUser = true;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -122,22 +124,40 @@ public class SlideCollectionActivity extends AppCompatActivity {
     setupToggleGroup();
 
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-    giftListAdapter = new GiftListAdapter(this, giftModelList, Integer.valueOf(txtQuantity.getEditText().getText().toString()), new GiftListAdapterInterface() {
+    giftListAdapter = new GiftListAdapter(this, giftModelList, new GiftListAdapterInterface() {
       @Override
-      public void onPlusClicked(int quantity) {
-
-        giftListAdapter.setData(giftModelList, Integer.parseInt(txtQuantity.getEditText().getText().toString()) - quantity);
+      public void onPlusClicked(int position) {
+        isInputChangedByUser = false;
+        if (giftModelList.get(position).getSliderQty() <= Integer.parseInt(txtQuantity.getEditText().getText().toString())){
+          txtQuantity.getEditText().setText(String.valueOf(Integer.parseInt(txtQuantity.getEditText().getText().toString()) - giftModelList.get(position).getSliderQty()));
+          giftModelList.get(position).setProductQuantity(giftModelList.get(position).getProductQuantity() + 1);
+          giftListAdapter.setData(giftModelList);
+        }
       }
 
       @Override
-      public void onMinusClicked(int quantity) {
+      public void onMinusClicked(int position) {
+        isInputChangedByUser = false;
+        if (giftModelList.get(position).getProductQuantity() <= 0) {
 
+        } else {
+          txtQuantity.getEditText().setText(String.valueOf(Integer.parseInt(txtQuantity.getEditText().getText().toString()) + giftModelList.get(position).getSliderQty()));
+          giftModelList.get(position).setProductQuantity(giftModelList.get(position).getProductQuantity() - 1);
+          giftListAdapter.setData(giftModelList);
+        }
       }
     });
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(giftListAdapter);
 
     getGifts();
+
+    txtQuantity.getEditText().setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        isInputChangedByUser = true;
+      }
+    });
 
     txtQuantity.getEditText().addTextChangedListener(new TextWatcher() {
       @Override
@@ -152,7 +172,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
       @Override
       public void afterTextChanged(Editable s) {
-        if (!TextUtils.isEmpty(txtQuantity.getEditText().getText())) {
+        if (!TextUtils.isEmpty(txtQuantity.getEditText().getText()) && isInputChangedByUser) {
           getGifts();
         }
       }
@@ -161,7 +181,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
   private void getGifts() {
     giftModelList = new RealMDatabaseManager().prepareGiftModel();
-    giftListAdapter.setData(giftModelList, Integer.parseInt(txtQuantity.getEditText().getText().toString()));
+    giftListAdapter.setData(giftModelList);
   }
 
   private void setupToolbar() {
