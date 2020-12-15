@@ -36,7 +36,7 @@ class TaskDetailsActivity : BaseActivity() {
     //hideSoftKeyboard()
     disableSoftInput()
 
-    taskId = intent.getStringExtra(Constants.TASK_ID)
+    taskId = intent.getStringExtra(Constants.TASK_ID).toString()
     viewModel.getTaskDetails(taskId)
   }
 

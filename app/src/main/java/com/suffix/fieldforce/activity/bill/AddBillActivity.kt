@@ -74,7 +74,7 @@ class AddBillActivity : BaseActivity() {
     checkBox = CheckBox(applicationContext)
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
-    taskId = intent.getStringExtra(Constants.TASK_ID)
+    taskId = intent.getStringExtra(Constants.TASK_ID).toString()
 
     setupToolbar()
     addSpinner()

@@ -39,8 +39,8 @@ class BillDetailsActivity : BaseActivity() {
   private fun init() {
     setupToolbar()
 
-    billId = intent.getStringExtra(Constants.BILL_ID)
-    billType = intent.getStringExtra(Constants.BILL_TYPE)
+    billId = intent.getStringExtra(Constants.BILL_ID).toString()
+    billType = intent.getStringExtra(Constants.BILL_TYPE).toString()
     viewModel.getBillDetails(billId, billType)
     adapter = BillApproveListAdapter()
     binding.recyclerView.adapter = adapter

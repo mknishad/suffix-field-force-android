@@ -10,11 +10,11 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android'
 
 android {
-  compileSdkVersion 29
+  compileSdkVersion 30
   defaultConfig {
     applicationId "com.suffix.fieldforce"
     minSdkVersion 21
-    targetSdkVersion 29
+    targetSdkVersion 30
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,16 +32,17 @@ android {
   buildTypes {
     release {
       signingConfig signingConfigs.config
-      minifyEnabled false
-      shrinkResources false
+      minifyEnabled true
+      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buildConfigField("String", "BASE_URL", "\"http://182.16.159.22:8632/FFMSAPI/api/\"")
+      buildConfigField("String", "BASE_URL", "\"http://salesapp.suffixit.com:8956/salesapi/api/v1/\"")
+      buildConfigField("String", "IMAGE_BASE_URL", "\"http://salesapp.suffixit.com:8956/salesapi\"")
 
       applicationVariants.all { variant ->
         def date = new Date();
-        def formattedDate = date.format('yyyy-MM-dd')
+        def formattedDate = date.format('dd-MM-yyyy')
         variant.outputs.all {
-          outputFileName = "FieldForce_${variant.buildType.name}_${defaultConfig.versionName}_${formattedDate}.apk"
+          outputFileName = "bikroy_${variant.buildType.name}_v${defaultConfig.versionCode}_${formattedDate}.apk"
         }
       }
     }

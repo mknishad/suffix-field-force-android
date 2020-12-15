@@ -37,7 +37,7 @@ class RequisitionDetailsActivity : AppCompatActivity() {
   private fun init() {
     setupToolbar()
     setupRecyclerView()
-    requisitionId = intent.getStringExtra(Constants.REQUISITION_ID)
+    requisitionId = intent.getStringExtra(Constants.REQUISITION_ID).toString()
     observeRequisitionDetails()
     observeMessage()
     viewModel.getRequisitionDetails(requisitionId)

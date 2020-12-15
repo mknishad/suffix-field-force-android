@@ -40,7 +40,7 @@ class TaskListActivity : BaseActivity() {
     //setupRecyclerView()
     observeTaskList()
 
-    taskType = intent.getStringExtra(Constants.TASK_TYPE)
+    taskType = intent.getStringExtra(Constants.TASK_TYPE).toString()
     viewModel.getTaskList(preferences.getUser().userId, taskType)
   }
 

@@ -84,7 +84,7 @@ class CheckActivity : AppCompatActivity() {
     setupToolbar()
     //setupTableView()
 
-    invoiceType = intent.getStringExtra(AkgConstants.INVOICE_TYPE)
+    invoiceType = intent.getStringExtra(AkgConstants.INVOICE_TYPE).toString()
     Log.d(TAG, "init: invoiceType = $invoiceType")
     preferences = FieldForcePreferences(this)
     apiInterface = AkgApiClient.getApiClient().create(AkgApiInterface::class.java)

@@ -74,7 +74,7 @@ class CreateRequisitionActivity : BaseActivity() {
     textInputLayouts1 = mutableListOf()
     textInputLayouts2 = mutableListOf()
     val b = intent.getBundleExtra(Constants.BUNDLE)
-    inventoryList = b.getParcelableArrayList<InventoryItem>(Constants.INVENTORY_LIST)!!
+    inventoryList = b?.getParcelableArrayList<InventoryItem>(Constants.INVENTORY_LIST)!!
 
     setupToolbar()
     addTaskIdLayout()
