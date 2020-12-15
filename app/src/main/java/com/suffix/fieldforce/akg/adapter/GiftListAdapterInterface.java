@@ -2,7 +2,7 @@ package com.suffix.fieldforce.akg.adapter;
 
 public interface GiftListAdapterInterface {
 
-  public void onPlusClicked(int quantity);
-  public void onMinusClicked(int quantity);
+  public void onPlusClicked(int position);
+  public void onMinusClicked(int position);
 
 }

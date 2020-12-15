@@ -10,89 +10,62 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class GiftModel extends RealmObject implements Parcelable {
-
   @PrimaryKey
   @SerializedName("id")
   @Expose
-  private Long id;
-  @SerializedName("productId")
-  @Expose
-  private Integer productId;
-  @SerializedName("productCode")
-  @Expose
-  private String productCode;
+  private Integer id;
   @SerializedName("giftName")
   @Expose
   private String giftName;
-  @SerializedName("productCatName")
-  @Expose
-  private String productCatName;
-  @SerializedName("imageFileName")
-  @Expose
-  private String imageFileName;
-  @SerializedName("sellingRate")
-  @Expose
-  private Double sellingRate;
-  @SerializedName("momNo")
-  @Expose
-  private Integer memoNo;
-  @SerializedName("uom1")
-  @Expose
-  private String uom1;
   @SerializedName("sliderQty")
   @Expose
   private Integer sliderQty;
-  @SerializedName("uom2")
+  @SerializedName("isMemo")
   @Expose
-  private String uom2;
+  private Integer isMemo;
+  @SerializedName("productId")
+  @Expose
+  private Integer productId;
+  @SerializedName("imageFileName")
+  @Expose
+  private String imageFileName;
   @SerializedName("inHandQty")
   @Expose
   private Integer inHandQty;
   @SerializedName("salesQty")
   @Expose
   private Integer salesQty;
-  @SerializedName("isMemo")
+  @SerializedName("momNo")
   @Expose
-  private Integer isMemo;
+  private Integer momNo;
+  private int productQuantity;
 
-  private String orderQuantity;
-
-  public GiftModel(){
-
-  };
+  public GiftModel() {
+  }
 
   protected GiftModel(Parcel in) {
     if (in.readByte() == 0) {
       id = null;
     } else {
-      id = in.readLong();
+      id = in.readInt();
+    }
+    giftName = in.readString();
+    if (in.readByte() == 0) {
+      sliderQty = null;
+    } else {
+      sliderQty = in.readInt();
+    }
+    if (in.readByte() == 0) {
+      isMemo = null;
+    } else {
+      isMemo = in.readInt();
     }
     if (in.readByte() == 0) {
       productId = null;
     } else {
       productId = in.readInt();
     }
-    productCode = in.readString();
-    giftName = in.readString();
-    productCatName = in.readString();
     imageFileName = in.readString();
-    if (in.readByte() == 0) {
-      sellingRate = null;
-    } else {
-      sellingRate = in.readDouble();
-    }
-    if (in.readByte() == 0) {
-      memoNo = null;
-    } else {
-      memoNo = in.readInt();
-    }
-    uom1 = in.readString();
-    if (in.readByte() == 0) {
-      sliderQty = null;
-    } else {
-      sliderQty = in.readInt();
-    }
-    uom2 = in.readString();
     if (in.readByte() == 0) {
       inHandQty = null;
     } else {
@@ -104,11 +77,15 @@ public class GiftModel extends RealmObject implements Parcelable {
       salesQty = in.readInt();
     }
     if (in.readByte() == 0) {
-      isMemo = null;
+      momNo = null;
     } else {
-      isMemo = in.readInt();
+      momNo = in.readInt();
     }
-    orderQuantity = in.readString();
+    if (in.readByte() == 0) {
+      productQuantity = 0;
+    } else {
+      productQuantity = in.readInt();
+    }
   }
 
   @Override
@@ -117,7 +94,20 @@ public class GiftModel extends RealmObject implements Parcelable {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeLong(id);
+      dest.writeInt(id);
+    }
+    dest.writeString(giftName);
+    if (sliderQty == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(sliderQty);
+    }
+    if (isMemo == null) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(isMemo);
     }
     if (productId == null) {
       dest.writeByte((byte) 0);
@@ -125,30 +115,7 @@ public class GiftModel extends RealmObject implements Parcelable {
       dest.writeByte((byte) 1);
       dest.writeInt(productId);
     }
-    dest.writeString(productCode);
-    dest.writeString(giftName);
-    dest.writeString(productCatName);
     dest.writeString(imageFileName);
-    if (sellingRate == null) {
-      dest.writeByte((byte) 0);
-    } else {
-      dest.writeByte((byte) 1);
-      dest.writeDouble(sellingRate);
-    }
-    if (memoNo == null) {
-      dest.writeByte((byte) 0);
-    } else {
-      dest.writeByte((byte) 1);
-      dest.writeInt(memoNo);
-    }
-    dest.writeString(uom1);
-    if (sliderQty == null) {
-      dest.writeByte((byte) 0);
-    } else {
-      dest.writeByte((byte) 1);
-      dest.writeInt(sliderQty);
-    }
-    dest.writeString(uom2);
     if (inHandQty == null) {
       dest.writeByte((byte) 0);
     } else {
@@ -161,13 +128,18 @@ public class GiftModel extends RealmObject implements Parcelable {
       dest.writeByte((byte) 1);
       dest.writeInt(salesQty);
     }
-    if (isMemo == null) {
+    if (momNo == null) {
       dest.writeByte((byte) 0);
     } else {
       dest.writeByte((byte) 1);
-      dest.writeInt(isMemo);
+      dest.writeInt(momNo);
     }
-    dest.writeString(orderQuantity);
+    if (productQuantity == 0) {
+      dest.writeByte((byte) 0);
+    } else {
+      dest.writeByte((byte) 1);
+      dest.writeInt(productQuantity);
+    }
   }
 
   @Override
@@ -187,28 +159,12 @@ public class GiftModel extends RealmObject implements Parcelable {
     }
   };
 
-  public Long getProductCatId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setProductCatId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Integer getProductId() {
-    return productId;
-  }
-
-  public void setProductId(Integer productId) {
-    this.productId = productId;
-  }
-
-  public String getProductCode() {
-    return productCode;
-  }
-
-  public void setProductCode(String productCode) {
-    this.productCode = productCode;
   }
 
   public String getGiftName() {
@@ -219,46 +175,6 @@ public class GiftModel extends RealmObject implements Parcelable {
     this.giftName = giftName;
   }
 
-  public String getProductCatName() {
-    return productCatName;
-  }
-
-  public void setProductCatName(String productCatName) {
-    this.productCatName = productCatName;
-  }
-
-  public String getProductImage() {
-    return imageFileName;
-  }
-
-  public void setProductImage(String imageFileName) {
-    this.imageFileName = imageFileName;
-  }
-
-  public Double getSellingRate() {
-    return sellingRate;
-  }
-
-  public void setSellingRate(Double sellingRate) {
-    this.sellingRate = sellingRate;
-  }
-
-  public Integer getQty1() {
-    return memoNo;
-  }
-
-  public void setQty1(Integer memoNo) {
-    this.memoNo = memoNo;
-  }
-
-  public String getUom1() {
-    return uom1;
-  }
-
-  public void setUom1(String uom1) {
-    this.uom1 = uom1;
-  }
-
   public Integer getSliderQty() {
     return sliderQty;
   }
@@ -267,12 +183,28 @@ public class GiftModel extends RealmObject implements Parcelable {
     this.sliderQty = sliderQty;
   }
 
-  public String getUom2() {
-    return uom2;
+  public Integer getIsMemo() {
+    return isMemo;
   }
 
-  public void setUom2(String uom2) {
-    this.uom2 = uom2;
+  public void setIsMemo(Integer isMemo) {
+    this.isMemo = isMemo;
+  }
+
+  public Integer getProductId() {
+    return productId;
+  }
+
+  public void setProductId(Integer productId) {
+    this.productId = productId;
+  }
+
+  public String getImageFileName() {
+    return imageFileName;
+  }
+
+  public void setImageFileName(String imageFileName) {
+    this.imageFileName = imageFileName;
   }
 
   public Integer getInHandQty() {
@@ -291,19 +223,23 @@ public class GiftModel extends RealmObject implements Parcelable {
     this.salesQty = salesQty;
   }
 
-  public Integer getTotalMemo() {
-    return isMemo;
+  public Integer getMomNo() {
+    return momNo;
   }
 
-  public void setTotalMemo(Integer isMemo) {
-    this.isMemo = isMemo;
+  public void setMomNo(Integer momNo) {
+    this.momNo = momNo;
   }
 
-  public String getOrderQuantity() {
-    return orderQuantity;
+  public int getProductQuantity() {
+    return productQuantity;
   }
 
-  public void setOrderQuantity(String orderQuantity) {
-    this.orderQuantity = orderQuantity;
+  public void setProductQuantity(int productQuantity) {
+    this.productQuantity = productQuantity;
+  }
+
+  public static Creator<GiftModel> getCREATOR() {
+    return CREATOR;
   }
 }
