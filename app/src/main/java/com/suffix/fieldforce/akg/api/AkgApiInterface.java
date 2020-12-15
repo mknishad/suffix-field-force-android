@@ -68,12 +68,6 @@ public interface AkgApiInterface {
       @Path("salesRepId") int salesRepId
   );
 
-  @GET("gift/{salesRepId}")
-  Call<List<GiftModel>> getAllGifts(
-      @Header("Authorization") String h1,
-      @Path("salesRepId") int salesRepId
-  );
-
   @GET("sr-customers/{srId}/{status}")
   Call<List<CustomerData>> getAllCustomer(
       @Header("Authorization") String h1,
@@ -103,6 +97,12 @@ public interface AkgApiInterface {
   Call<ResponseBody> postGeoLocation(
       @Header("Authorization") String h1,
       @Body GeoLocationRequest geoLocationRequest
+  );
+
+  @GET("gift/{salesRepId}")
+  Call<List<GiftModel>> getAllGifts(
+      @Header("Authorization") String h1,
+      @Path("salesRepId") int salesRepId
   );
 
   @POST("gift")

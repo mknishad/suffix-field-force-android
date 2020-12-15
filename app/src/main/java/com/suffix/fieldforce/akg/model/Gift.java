@@ -3,7 +3,9 @@ package com.suffix.fieldforce.akg.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Gift {
+import io.realm.RealmObject;
+
+public class Gift extends RealmObject {
 
   @SerializedName("giftId")
   @Expose

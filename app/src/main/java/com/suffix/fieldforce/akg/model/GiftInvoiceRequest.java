@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -22,7 +23,7 @@ public class GiftInvoiceRequest extends RealmObject {
   public String invoiceId;
   @SerializedName("invoiceProducts")
   @Expose
-  public List<Gift> gifts;
+  public RealmList<Gift> gifts;
   @SerializedName("invoiceType")
   @Expose
   public String invoiceType;
@@ -32,7 +33,7 @@ public class GiftInvoiceRequest extends RealmObject {
 
   public boolean isSynced;
 
-  public GiftInvoiceRequest(int consumerId, long invoiceDate, String invoiceId, List<Gift> gifts,
+  public GiftInvoiceRequest(int consumerId, long invoiceDate, String invoiceId, RealmList<Gift> gifts,
                             String invoiceType, int salesRepId) {
     this.consumerId = consumerId;
     this.invoiceDate = invoiceDate;
@@ -70,7 +71,7 @@ public class GiftInvoiceRequest extends RealmObject {
     return gifts;
   }
 
-  public void setGifts(List<Gift> gifts) {
+  public void setGifts(RealmList<Gift> gifts) {
     this.gifts = gifts;
   }
 
