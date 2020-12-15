@@ -95,7 +95,6 @@ public class SlideCollectionActivity extends AppCompatActivity {
 
   private boolean isInputChangedByUser = true;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -132,6 +131,8 @@ public class SlideCollectionActivity extends AppCompatActivity {
           txtQuantity.getEditText().setText(String.valueOf(Integer.parseInt(txtQuantity.getEditText().getText().toString()) - giftModelList.get(position).getSliderQty()));
           giftModelList.get(position).setProductQuantity(giftModelList.get(position).getProductQuantity() + 1);
           giftListAdapter.setData(giftModelList);
+        }else{
+          Toast.makeText(SlideCollectionActivity.this, "পর্যাপ্ত স্লাইড নেই", Toast.LENGTH_SHORT).show();
         }
       }
 
@@ -432,7 +433,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
     filteredCustomerList.clear();
     filteredCustomerList.add(new CustomerData(getResources().getString(R.string.customer_select)));
     filteredCustomerList.addAll(customerDataList);
-    spinnerAdapter = new CustomArrayAdapter(SlideCollectionActivity.this, R.layout.spinner_item, filteredCustomerList);
+    spinnerAdapter = new CustomArrayAdapter(SlideCollectionActivity.this, R.layout.spinner_item_no_back, filteredCustomerList);
     spinnerUsers.setAdapter(spinnerAdapter);
     spinnerUsers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override

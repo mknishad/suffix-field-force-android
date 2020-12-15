@@ -14,6 +14,9 @@ public class Gift extends RealmObject {
   @Expose
   private int giftQty;
 
+  public Gift() {
+  }
+
   public Gift(int giftId, int giftQty) {
     this.giftId = giftId;
     this.giftQty = giftQty;
