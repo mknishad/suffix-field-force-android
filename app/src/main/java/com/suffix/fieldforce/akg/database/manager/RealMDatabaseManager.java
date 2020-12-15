@@ -5,6 +5,7 @@ import android.util.Log;
 import com.suffix.fieldforce.akg.database.RealmDatabaseManagerInterface;
 import com.suffix.fieldforce.akg.database.model.RealMProductCategory;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GiftInvoiceRequest;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
 import com.suffix.fieldforce.akg.model.product.CartModel;
@@ -46,6 +47,11 @@ public class RealMDatabaseManager {
   public List<GiftModel> prepareGiftModel() {
     final RealmResults<GiftModel> giftModelRealmResults = realm.where(GiftModel.class).findAll();
     return realm.copyFromRealm(giftModelRealmResults);
+  }
+
+  public List<GiftInvoiceRequest> prepareGiftInvoices() {
+    final RealmResults<GiftInvoiceRequest> giftInvoiceRequests = realm.where(GiftInvoiceRequest.class).findAll();
+    return realm.copyFromRealm(giftInvoiceRequests);
   }
 
   public void clearStock() {
@@ -124,6 +130,18 @@ public class RealMDatabaseManager {
 
   public void deleteAllStoreVisit() {
     final RealmResults<StoreVisitRequest> results = realm.where(StoreVisitRequest.class).findAll();
+    if (results.size() > 0) {
+      realm.executeTransaction(new Realm.Transaction() {
+        @Override
+        public void execute(Realm realm) {
+          results.deleteAllFromRealm();
+        }
+      });
+    }
+  }
+
+  public void deleteAllGiftInvoice() {
+    final RealmResults<GiftInvoiceRequest> results = realm.where(GiftInvoiceRequest.class).findAll();
     if (results.size() > 0) {
       realm.executeTransaction(new Realm.Transaction() {
         @Override

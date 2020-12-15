@@ -60,6 +60,7 @@ import com.suffix.fieldforce.akg.database.manager.SyncManager;
 import com.suffix.fieldforce.akg.model.AkgLoginResponse;
 import com.suffix.fieldforce.akg.model.AttendenceRequest;
 import com.suffix.fieldforce.akg.model.CustomerData;
+import com.suffix.fieldforce.akg.model.GiftInvoiceRequest;
 import com.suffix.fieldforce.akg.model.GlobalSettings;
 import com.suffix.fieldforce.akg.model.InvoiceRequest;
 import com.suffix.fieldforce.akg.model.StoreVisitRequest;
@@ -234,6 +235,7 @@ public class MainDashboardActivity extends AppCompatActivity {
                 } else {
                   closeSales();
                   closeStoreVisit();
+                  closeGifts();
                   dialogInterface.dismiss();
                 }
               }
@@ -731,36 +733,6 @@ public class MainDashboardActivity extends AppCompatActivity {
     }
   }
 
-  private List<StoreVisitRequest> storeVisitList = new RealMDatabaseManager().prepareStoreVisits();
-
-  public void closeStoreVisit() {
-    if (storeVisitList.size() > 0) {
-      String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
-          preferences.getPassword());
-
-      StoreVisitRequest storeVisitRequest = storeVisitList.get(0);
-      Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
-      call.enqueue(new Callback<ResponseBody>() {
-        @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-          if (response.isSuccessful()) {
-            storeVisitList.remove(0);
-          }
-          if (storeVisitList.size() > 0) {
-            closeSales();
-          } else {
-            new RealMDatabaseManager().deleteAllStoreVisit();
-          }
-        }
-
-        @Override
-        public void onFailure(Call<ResponseBody> call, Throwable t) {
-          Log.e(TAG, "onFailure: ", t);
-        }
-      });
-    }
-  }
-
   private void syncFailedInvoices() {
     String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
         preferences.getPassword());
@@ -789,6 +761,66 @@ public class MainDashboardActivity extends AppCompatActivity {
         Log.e(TAG, "onFailure: ", t);
       }
     });
+  }
+
+  private List<StoreVisitRequest> storeVisitList = new RealMDatabaseManager().prepareStoreVisits();
+
+  public void closeStoreVisit() {
+    if (storeVisitList.size() > 0) {
+      String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
+          preferences.getPassword());
+
+      StoreVisitRequest storeVisitRequest = storeVisitList.get(0);
+      Call<ResponseBody> call = apiInterface.visitStore(basicAuthorization, storeVisitRequest);
+      call.enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+          if (response.isSuccessful()) {
+            storeVisitList.remove(0);
+          }
+          if (storeVisitList.size() > 0) {
+            closeStoreVisit();
+          } else {
+            new RealMDatabaseManager().deleteAllStoreVisit();
+          }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+          Log.e(TAG, "onFailure: ", t);
+        }
+      });
+    }
+  }
+
+  private List<GiftInvoiceRequest> giftInvoiceList = new RealMDatabaseManager().prepareGiftInvoices();
+
+  public void closeGifts() {
+    if (giftInvoiceList.size() > 0) {
+      String basicAuthorization = Credentials.basic(loginResponse.getData().getUserId(),
+          preferences.getPassword());
+
+      GiftInvoiceRequest giftInvoiceRequest = giftInvoiceList.get(0);
+      Call<ResponseBody> call = apiInterface.createGiftInvoice(basicAuthorization, giftInvoiceRequest);
+      call.enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+          if (response.isSuccessful()) {
+            giftInvoiceList.remove(0);
+          }
+          if (giftInvoiceList.size() > 0) {
+            closeGifts();
+          } else {
+            new RealMDatabaseManager().deleteAllStoreVisit();
+          }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+          Log.e(TAG, "onFailure: ", t);
+        }
+      });
+    }
   }
 
   private void showProgress() {
