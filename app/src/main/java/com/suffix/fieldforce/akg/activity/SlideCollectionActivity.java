@@ -321,6 +321,7 @@ public class SlideCollectionActivity extends AppCompatActivity {
           Toast.makeText(SlideCollectionActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
           call.cancel();
           progressBar.setVisibility(View.GONE);
+          finish();
         }
       });
     }
@@ -483,5 +484,4 @@ public class SlideCollectionActivity extends AppCompatActivity {
       }
     });
   }
-
 }
